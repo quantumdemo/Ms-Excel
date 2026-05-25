@@ -73,9 +73,18 @@ Push your code to a GitHub repository.
 ### 4. Configure Firebase Auth
 In the Firebase Console, go to **Authentication > Settings > Authorized Domains** and add your Vercel deployment URL (e.g., `learn-excel.vercel.app`).
 
-## Database Schema
+## Database Setup (Supabase)
 
-The Supabase schema can be found in `supabase/schema.sql`. Run this script in your Supabase SQL Editor to set up the necessary tables.
+To set up your database, you must manually run the schema script located in this project:
+
+1.  Open your [Supabase Dashboard](https://supabase.com/dashboard).
+2.  Select your project.
+3.  Click on the **SQL Editor** icon in the left sidebar (looks like `>_`).
+4.  Click **New query**.
+5.  Open the file `supabase/schema.sql` in this project and **copy all of its content**.
+6.  Paste the code into the Supabase SQL Editor.
+7.  Click the **Run** button at the bottom right.
+8.  You should see a message saying "Success: Query returned 0 rows". Your tables are now ready!
 
 ## License
 
