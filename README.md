@@ -45,11 +45,31 @@ LearnExcel is a premium, mobile-only interactive learning platform designed to t
 
 To deploy LearnExcel to Vercel, follow these steps:
 
-### 1. Prepare Your Environment
-Ensure you have accounts and projects set up for:
-- [Firebase](https://console.firebase.google.com/) (Enable Google Auth)
-- [Supabase](https://supabase.com/) (Run `supabase/schema.sql` in the SQL Editor)
-- [Upstash](https://upstash.com/) (Create a Redis database)
+### 1. Firebase Setup (Authentication)
+LearnExcel uses Firebase for Google Sign-In.
+1.  Go to the [Firebase Console](https://console.firebase.google.com/).
+2.  Click **Add project** and follow the steps.
+3.  In the left sidebar, click **Build > Authentication**.
+4.  Click **Get Started** and enable the **Google** sign-in method.
+5.  Go to **Project Settings** (gear icon) > **General**.
+6.  Under **Your apps**, click the `web` icon (`</>`) to register a new app.
+7.  Copy the values from the `firebaseConfig` object into your `.env.local` file:
+    - `apiKey` -> `NEXT_PUBLIC_FIREBASE_API_KEY`
+    - `authDomain` -> `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`
+    - `projectId` -> `NEXT_PUBLIC_FIREBASE_PROJECT_ID`
+    - `storageBucket` -> `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`
+    - `messagingSenderId` -> `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
+    - `appId` -> `NEXT_PUBLIC_FIREBASE_APP_ID`
+
+### 2. Upstash Setup (Rate Limiting)
+LearnExcel uses Upstash Redis for API protection.
+1.  Go to the [Upstash Console](https://console.upstash.com/).
+2.  Click **Create Database**.
+3.  Name it (e.g., `learn-excel-redis`) and select a region.
+4.  Once created, scroll down to the **REST API** section in the **Details** tab.
+5.  Copy the following values into your `.env.local`:
+    - `UPSTASH_REDIS_REST_URL`
+    - `UPSTASH_REDIS_REST_TOKEN`
 
 ### 2. Push to GitHub
 Push your code to a GitHub repository.
