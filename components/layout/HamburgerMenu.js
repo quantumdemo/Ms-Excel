@@ -13,9 +13,11 @@ const categories = [
   { id: 'lookup', title: 'Lookup & Reference', icon: '🔍' },
   { id: 'text', title: 'Text Functions', icon: '📝' },
   { id: 'dynamic', title: 'Dynamic Arrays', icon: '⚡' },
+  { id: 'financial', title: 'Financial', icon: '💰' },
+  { id: 'advanced', title: 'Advanced', icon: '🚀' },
 ];
 
-export default function HamburgerMenu({ isOpen, onClose }) {
+export default function HamburgerMenu({ isOpen, onClose, onSelectCategory }) {
   const { user, logout } = useAuthStore();
   const { xp } = useProgressStore();
   const currentLevel = Math.floor(xp / 500) + 1;
@@ -64,7 +66,7 @@ export default function HamburgerMenu({ isOpen, onClose }) {
               </div>
 
               <nav className="px-4 space-y-1">
-                 <MenuLink icon={<Home size={20} />} label="Home" active onClick={onClose} />
+                 <MenuLink icon={<Home size={20} />} label="Home" active onClick={() => { onSelectCategory(null); onClose(); }} />
                  <MenuLink icon={<Search size={20} />} label="Search Functions" onClick={onClose} />
                  <MenuLink icon={<Trophy size={20} />} label="Achievements" onClick={onClose} />
 
@@ -76,7 +78,7 @@ export default function HamburgerMenu({ isOpen, onClose }) {
                     <button
                       key={cat.id}
                       className="w-full flex items-center gap-4 px-4 py-3 hover:bg-white/5 rounded-xl transition-colors group active:scale-[0.98]"
-                      onClick={onClose}
+                      onClick={() => onSelectCategory(cat.id)}
                     >
                       <span className="text-xl">{cat.icon}</span>
                       <span className="flex-1 text-left font-medium text-slate-300 group-hover:text-white">{cat.title}</span>

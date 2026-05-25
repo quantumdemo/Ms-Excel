@@ -1,8 +1,12 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Home, BookOpen, Search, Trophy, Settings, LogOut, ChevronRight, Menu as MenuIcon, Flame, Zap, Play, CheckCircle2, Target, Award } from "lucide-react";
-import { useState } from "react";
+import {
+  X, Home, BookOpen, Search, Trophy, Settings, LogOut,
+  ChevronRight, Menu as MenuIcon, Flame, Zap, Play,
+  CheckCircle2, Target, Award
+} from "lucide-react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import HamburgerMenu from "@/components/layout/HamburgerMenu";
 import { excelLessons } from "@/data/lessons";
@@ -13,6 +17,7 @@ export default function HomeDashboard({ onSelectLesson }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('home');
   const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState(null);
 
   const { xp, completedLessons } = useProgressStore();
   const { user, logout } = useAuthStore();
@@ -21,11 +26,23 @@ export default function HomeDashboard({ onSelectLesson }) {
   const xpInLevel = xp % 500;
   const progressPercent = (xpInLevel / 500) * 100;
 
-  const filteredLessons = excelLessons.filter(lesson =>
-    lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    lesson.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    lesson.description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredLessons = useMemo(() => {
+    return excelLessons.filter(lesson => {
+      const matchesSearch =
+        lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        lesson.category.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const matchesCategory = !categoryFilter || lesson.category === categoryFilter;
+
+      return matchesSearch && matchesCategory;
+    });
+  }, [searchQuery, categoryFilter]);
+
+  const handleCategorySelect = (catId) => {
+    setCategoryFilter(catId);
+    setActiveTab('home'); // Go to home to see filtered results
+    setIsMenuOpen(false);
+  };
 
   return (
     <div className="pb-24 min-h-screen">
@@ -49,7 +66,11 @@ export default function HomeDashboard({ onSelectLesson }) {
         </div>
       </header>
 
-      <HamburgerMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+      <HamburgerMenu
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+        onSelectCategory={handleCategorySelect}
+      />
 
       <div className="px-6 pt-6">
         <AnimatePresence mode="wait">
@@ -74,7 +95,7 @@ export default function HomeDashboard({ onSelectLesson }) {
                        />
                     </div>
                     <div className="flex justify-between items-center text-white/80 text-xs font-medium">
-                       <span>Beginner</span>
+                       <span>{currentLevel > 5 ? 'Excel Wizard' : 'Beginner'}</span>
                        <span>{xpInLevel} / 500 XP</span>
                     </div>
                  </div>
@@ -83,11 +104,13 @@ export default function HomeDashboard({ onSelectLesson }) {
 
               <section className="mb-8">
                  <h3 className="text-lg font-bold mb-4 flex items-center justify-between">
-                    Continue Learning
-                    <button onClick={() => setActiveTab('search')} className="text-excel-green text-sm">View all</button>
+                    {categoryFilter ? `Lessons: ${categoryFilter}` : "Continue Learning"}
+                    {categoryFilter && (
+                      <button onClick={() => setCategoryFilter(null)} className="text-excel-green text-xs font-bold">Clear Filter</button>
+                    )}
                  </h3>
                  <div className="space-y-4">
-                    {excelLessons.slice(0, 3).map((lesson) => {
+                    {(categoryFilter ? filteredLessons : excelLessons.slice(0, 5)).map((lesson) => {
                       const isCompleted = completedLessons.includes(lesson.id);
                       return (
                         <div
@@ -99,7 +122,7 @@ export default function HomeDashboard({ onSelectLesson }) {
                              <div className="absolute top-0 left-0 w-1 h-full bg-excel-green" />
                            )}
                            <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center text-2xl">
-                              {lesson.category === 'basics' ? '🌱' : lesson.category === 'lookup' ? '🔍' : '📝'}
+                              {getCategoryEmoji(lesson.category)}
                            </div>
                            <div className="flex-1 min-w-0">
                               <h4 className="font-bold text-sm flex items-center gap-2 truncate">
@@ -167,7 +190,7 @@ export default function HomeDashboard({ onSelectLesson }) {
                         className="bg-card-dark border border-white/5 p-4 rounded-2xl flex items-center gap-4 active:scale-[0.98] transition-all"
                       >
                          <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center text-xl">
-                            {lesson.category === 'basics' ? '🌱' : lesson.category === 'lookup' ? '🔍' : '📝'}
+                            {getCategoryEmoji(lesson.category)}
                          </div>
                          <div className="flex-1">
                             <h4 className="font-bold text-sm flex items-center gap-2">
@@ -242,7 +265,7 @@ export default function HomeDashboard({ onSelectLesson }) {
       </div>
 
       <nav className="fixed bottom-0 inset-x-0 bg-bg-dark/80 backdrop-blur-xl border-t border-white/5 px-8 py-4 flex items-center justify-between z-40">
-         <NavItem icon={<Home size={22} />} active={activeTab === 'home'} onClick={() => setActiveTab('home')} />
+         <NavItem icon={<Home size={22} />} active={activeTab === 'home'} onClick={() => { setActiveTab('home'); setCategoryFilter(null); }} />
          <NavItem icon={<Search size={22} />} active={activeTab === 'search'} onClick={() => setActiveTab('search')} />
          <NavItem icon={<Award size={22} />} active={activeTab === 'achievements'} onClick={() => setActiveTab('achievements')} />
          <NavItem icon={<Settings size={22} />} active={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
@@ -283,4 +306,18 @@ function CheckIcon({ size, strokeWidth }) {
       <polyline points="20 6 9 17 4 12" />
     </svg>
   );
+}
+
+function getCategoryEmoji(cat) {
+  switch(cat) {
+    case 'basics': return '🌱';
+    case 'logical': return '🤔';
+    case 'lookup': return '🔍';
+    case 'text': return '📝';
+    case 'math': return '🔢';
+    case 'dynamic': return '⚡';
+    case 'financial': return '💰';
+    case 'advanced': return '🚀';
+    default: return '📊';
+  }
 }
