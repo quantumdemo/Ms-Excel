@@ -24,7 +24,13 @@ LearnExcel is a premium, mobile-only interactive learning platform designed to t
 ## Getting Started
 
 1. Clone the repository.
-2. Install dependencies:
+2. Locate the `.env.example` file in the root directory.
+3. Create a `.env.local` file by copying `.env.example`:
+   ```bash
+   cp .env.example .env.local
+   ```
+4. Fill in your credentials in `.env.local`.
+5. Install dependencies:
    ```bash
    npm install
    ```

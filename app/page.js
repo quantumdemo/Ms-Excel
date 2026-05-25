@@ -1,14 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { AnimatePresence } from "framer-motion";
 import { useAuthStore } from "@/hooks/useAuth";
 import { useProgressStore } from "@/hooks/useProgress";
 import SplashScreen from "@/components/common/SplashScreen";
 import Onboarding from "@/components/common/Onboarding";
 import AuthScreen from "@/components/common/AuthScreen";
-import HomeDashboard from "@/components/home/HomeDashboard";
-import LessonViewer from "@/components/lesson/LessonViewer";
+
+// Dynamic imports for heavy components
+const HomeDashboard = dynamic(() => import("@/components/home/HomeDashboard"), { ssr: false });
+const LessonViewer = dynamic(() => import("@/components/lesson/LessonViewer"), { ssr: false });
 
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
@@ -21,7 +24,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplash(false);
-      const hasSeenOnboarding = localStorage.getItem("hasSeenOnboarding");
+      const hasSeenOnboarding = typeof window !== "undefined" && localStorage.getItem("hasSeenOnboarding");
       if (!hasSeenOnboarding) {
         setShowOnboarding(true);
       }

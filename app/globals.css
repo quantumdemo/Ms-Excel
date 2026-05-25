@@ -1,15 +1,6 @@
-@import "tailwindcss";
-
-@theme {
-  --color-excel-green: #217346;
-  --color-excel-light: #2da061;
-  --color-excel-dark: #1a5c38;
-  --color-bg-dark: #0f1117;
-  --color-card-dark: #1c1f26;
-  --color-premium-glow: rgba(33, 115, 70, 0.3);
-
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #0f1117;
@@ -17,11 +8,9 @@
   --excel-green: #217346;
 }
 
-@layer base {
-  body {
-    @apply bg-bg-dark text-slate-50 antialiased overflow-x-hidden;
-    font-feature-settings: "cv11", "ss01";
-  }
+body {
+  @apply bg-[#0f1117] text-slate-50 antialiased overflow-x-hidden;
+  font-feature-settings: "cv11", "ss01";
 }
 
 .glass {
@@ -40,13 +29,11 @@
   box-shadow: 0 0 20px 2px rgba(33, 115, 70, 0.3);
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
