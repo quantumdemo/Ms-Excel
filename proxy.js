@@ -6,7 +6,7 @@ const redis = new Redis({
   token: process.env.UPSTASH_REDIS_REST_TOKEN || "",
 });
 
-export async function middleware(request) {
+export default async function proxy(request) {
   // Only rate limit API routes
   if (request.nextUrl.pathname.startsWith('/api')) {
     const ip = request.ip || '127.0.0.1';
@@ -26,7 +26,7 @@ export async function middleware(request) {
         );
       }
     } catch (err) {
-      console.error('Middleware rate limit error:', err);
+      console.error('Proxy rate limit error:', err);
     }
   }
 
