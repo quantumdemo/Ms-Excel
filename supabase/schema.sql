@@ -4,7 +4,8 @@ CREATE TABLE users (
   email TEXT UNIQUE,
   display_name TEXT,
   photo_url TEXT,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- Create progress table
@@ -31,4 +32,23 @@ CREATE TABLE achievements (
   user_id TEXT REFERENCES users(id) ON DELETE CASCADE,
   achievement_key TEXT NOT NULL,
   unlocked_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create feedback table
+CREATE TABLE feedback (
+  id BIGSERIAL PRIMARY KEY,
+  user_id TEXT REFERENCES users(id) ON DELETE SET NULL,
+  rating INTEGER,
+  category TEXT,
+  message TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create feature_votes table
+CREATE TABLE feature_votes (
+  id BIGSERIAL PRIMARY KEY,
+  user_id TEXT REFERENCES users(id) ON DELETE CASCADE,
+  feature_id TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(user_id, feature_id)
 );

@@ -106,6 +106,16 @@ To set up your database, you must manually run the schema script located in this
 7.  Click the **Run** button at the bottom right.
 8.  You should see a message saying "Success: Query returned 0 rows". Your tables are now ready!
 
+## Feature Documentation
+
+### Feedback & Roadmap
+All user feedback (ratings/reviews) and roadmap feature votes are stored in the `feedback` and `feature_votes` tables in Supabase. You can view these directly in the Supabase Table Editor to inform your product roadmap.
+
+### Donations
+Donation links are configurable via environment variables. If a link is not provided, the app will show a "Coming soon" alert.
+- **International**: Connects to your PayPal or Buy Me a Coffee profile.
+- **Local (Nigeria)**: Features a direct bank transfer card and integration for Paystack payment pages.
+
 ## License
 
 Created by Afeez Alimi.
