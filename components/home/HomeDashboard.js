@@ -4,13 +4,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   X, Home, BookOpen, Search, Trophy, Settings, LogOut,
   ChevronRight, Menu as MenuIcon, Flame, Zap, Play,
-  CheckCircle2, Target, Award, Search as SearchIcon
+  CheckCircle2, Target, Award, Search as SearchIcon,
+  HelpCircle as HelpCircleIcon, Heart
 } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import HamburgerMenu from "@/components/layout/HamburgerMenu";
+import Footer from "@/components/layout/Footer";
 import { excelLessons } from "@/data/lessons";
 import { functionCategories } from "@/data/lesson-system";
+import Link from "next/link";
 import { useProgressStore } from "@/hooks/useProgress";
 import { useAuthStore } from "@/hooks/useAuth";
 
@@ -197,6 +200,74 @@ export default function HomeDashboard({ onSelectLesson }) {
                     </motion.div>
                   ))}
                </div>
+            </motion.div>
+          )}
+
+          {activeTab === 'profile' && (
+            <motion.div
+               key="profile"
+               initial={{ opacity: 0, y: 10 }}
+               animate={{ opacity: 1, y: 0 }}
+               exit={{ opacity: 0, y: -10 }}
+               className="flex flex-col items-center"
+            >
+               <div className="relative mb-6">
+                  <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-excel-green/20 shadow-2xl">
+                     <img src={user?.photoURL || `https://ui-avatars.com/api/?name=${user?.displayName || 'User'}&background=217346&color=fff`} alt="Profile" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute -bottom-1 -right-1 bg-excel-green text-white p-1.5 rounded-full border-2 border-bg-dark">
+                     <Award size={14} />
+                  </div>
+               </div>
+
+               <h2 className="text-2xl font-bold mb-1">{user?.displayName || "Excel User"}</h2>
+               <p className="text-slate-500 text-sm mb-8">{user?.email}</p>
+
+               <div className="grid grid-cols-2 gap-4 w-full mb-8">
+                  <div className="bg-card-dark border border-white/5 p-4 rounded-2xl text-center">
+                     <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-1">Lessons Done</p>
+                     <p className="text-xl font-bold">{completedLessons.length}</p>
+                  </div>
+                  <div className="bg-card-dark border border-white/5 p-4 rounded-2xl text-center">
+                     <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-1">Total XP</p>
+                     <p className="text-xl font-bold">{xp}</p>
+                  </div>
+               </div>
+
+               <div className="w-full space-y-3">
+                  <Link href="/about" className="w-full bg-white/5 border border-white/5 p-4 rounded-2xl flex items-center justify-between group active:scale-[0.98]">
+                     <div className="flex items-center gap-3">
+                        <BookOpen size={20} className="text-slate-400 group-hover:text-white transition-colors" />
+                        <span className="font-medium text-slate-200">About LearnExcel</span>
+                     </div>
+                     <ChevronRight size={18} className="text-slate-700" />
+                  </Link>
+                  <Link href="/support" className="w-full bg-white/5 border border-white/5 p-4 rounded-2xl flex items-center justify-between group active:scale-[0.98]">
+                     <div className="flex items-center gap-3">
+                        <HelpCircleIcon size={20} className="text-slate-400 group-hover:text-white transition-colors" />
+                        <span className="font-medium text-slate-200">Support & FAQ</span>
+                     </div>
+                     <ChevronRight size={18} className="text-slate-700" />
+                  </Link>
+                  <Link href="/donate" className="w-full bg-white/5 border border-white/5 p-4 rounded-2xl flex items-center justify-between group active:scale-[0.98]">
+                     <div className="flex items-center gap-3">
+                        <Heart size={20} className="text-slate-400 group-hover:text-white transition-colors" />
+                        <span className="font-medium text-slate-200">Support the Project</span>
+                     </div>
+                     <ChevronRight size={18} className="text-slate-700" />
+                  </Link>
+
+                  <div className="pt-6">
+                    <button
+                      onClick={logout}
+                      className="w-full bg-red-500/10 border border-red-500/20 p-4 rounded-2xl flex items-center justify-center gap-3 text-red-500 font-bold active:scale-[0.98]"
+                    >
+                      <LogOut size={20} />
+                      Logout
+                    </button>
+                  </div>
+               </div>
+               <Footer />
             </motion.div>
           )}
         </AnimatePresence>
