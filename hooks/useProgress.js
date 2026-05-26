@@ -47,7 +47,7 @@ export const useProgressStore = create((set, get) => ({
           user_id: userId,
           xp: newXp,
           completed_lessons: newCompleted,
-          updated_at: new Date()
+          updated_at: new Date().toISOString()
         });
 
       // Also record in lesson_completion table
