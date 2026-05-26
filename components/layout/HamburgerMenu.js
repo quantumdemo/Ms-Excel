@@ -1,20 +1,24 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Home, BookOpen, Search, Trophy, Settings, LogOut, ChevronRight } from "lucide-react";
+import {
+  X, Home, BookOpen, Search, Trophy, Settings, LogOut,
+  ChevronRight, Layout, BrainCircuit, Calculator, Type,
+  Zap, Landmark, Rocket, Calendar
+} from "lucide-react";
 import Image from "next/image";
 import { useAuthStore } from "@/hooks/useAuth";
 import { useProgressStore } from "@/hooks/useProgress";
 
 const categories = [
-  { id: 'basics', title: 'Basics', icon: '🌱' },
-  { id: 'logical', title: 'Logical Functions', icon: '🤔' },
-  { id: 'math', title: 'Math & Stats', icon: '🔢' },
-  { id: 'lookup', title: 'Lookup & Reference', icon: '🔍' },
-  { id: 'text', title: 'Text Functions', icon: '📝' },
-  { id: 'dynamic', title: 'Dynamic Arrays', icon: '⚡' },
-  { id: 'financial', title: 'Financial', icon: '💰' },
-  { id: 'advanced', title: 'Advanced', icon: '🚀' },
+  { id: 'foundations', title: 'Basics', icon: Layout },
+  { id: 'logical', title: 'Logical Functions', icon: BrainCircuit },
+  { id: 'math', title: 'Math & Stats', icon: Calculator },
+  { id: 'lookup', title: 'Lookup & Reference', icon: Search },
+  { id: 'text', title: 'Text Functions', icon: Type },
+  { id: 'dynamic-array', title: 'Dynamic Arrays', icon: Zap },
+  { id: 'financial', title: 'Financial', icon: Landmark },
+  { id: 'date-time', title: 'Date & Time', icon: Calendar },
 ];
 
 export default function HamburgerMenu({ isOpen, onClose, onSelectCategory }) {
@@ -80,7 +84,9 @@ export default function HamburgerMenu({ isOpen, onClose, onSelectCategory }) {
                       className="w-full flex items-center gap-4 px-4 py-3 hover:bg-white/5 rounded-xl transition-colors group active:scale-[0.98]"
                       onClick={() => onSelectCategory(cat.id)}
                     >
-                      <span className="text-xl">{cat.icon}</span>
+                      <span className="text-slate-500 group-hover:text-excel-green">
+                         <cat.icon size={20} />
+                      </span>
                       <span className="flex-1 text-left font-medium text-slate-300 group-hover:text-white">{cat.title}</span>
                       <ChevronRight size={16} className="text-slate-600 group-hover:translate-x-1 transition-transform" />
                     </button>
