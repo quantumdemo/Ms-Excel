@@ -1,7 +1,7 @@
 "use client";
 
 import InfoPageLayout from "@/components/layout/InfoPageLayout";
-import { Coffee, Heart, Globe, CreditCard, Banknote, Sparkles } from "lucide-react";
+import { Coffee, Heart, Globe, CreditCard, Banknote, Sparkles, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 const DONATION_LINKS = {
@@ -70,7 +70,7 @@ export default function DonatePage() {
               <div className="space-y-4 relative z-10">
                  <DonationButton
                    onClick={() => openLink(DONATION_LINKS.paystack)}
-                   icon={<span>🇳🇬</span>}
+                   icon={<CreditCard size={20} className="text-green-400" />}
                    label="Paystack Instant"
                    sub="Debit Card / USSD / Transfer"
                  />

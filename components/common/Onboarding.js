@@ -2,29 +2,29 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, ArrowRight } from "lucide-react";
+import { ChevronRight, ArrowRight, BarChart3, FlaskConical, Rocket, GraduationCap } from "lucide-react";
 import Image from "next/image";
 
 const slides = [
   {
     title: "Learn Excel interactively",
     description: "Master functions through hands-on practice, not just watching videos.",
-    icon: "📊"
+    icon: BarChart3
   },
   {
     title: "Practice real formulas",
     description: "Use our built-in spreadsheet engine to solve real-world business cases.",
-    icon: "🧪"
+    icon: FlaskConical
   },
   {
     title: "Master all functions",
     description: "From basic SUM to advanced LAMBDA and Power Query.",
-    icon: "🚀"
+    icon: Rocket
   },
   {
     title: "Become professional",
     description: "Track your progress, earn badges, and level up your career.",
-    icon: "🎓"
+    icon: GraduationCap
   }
 ];
 
@@ -60,7 +60,12 @@ export default function Onboarding({ onComplete }) {
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="flex flex-col items-center text-center"
           >
-            <div className="text-7xl mb-8">{slides[current].icon}</div>
+            <div className="mb-8 text-excel-green bg-excel-green/10 p-8 rounded-[2.5rem] shadow-2xl">
+               {(() => {
+                 const Icon = slides[current].icon;
+                 return <Icon size={80} strokeWidth={1.5} />;
+               })()}
+            </div>
             <h2 className="text-3xl font-bold mb-4 leading-tight">
               {slides[current].title}
             </h2>

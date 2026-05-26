@@ -5,7 +5,7 @@ import {
   X, Home, BookOpen, Search, Trophy, Settings, LogOut,
   ChevronRight, Menu as MenuIcon, Flame, Zap, Play,
   CheckCircle2, Target, Award, Search as SearchIcon,
-  HelpCircle as HelpCircleIcon, Heart
+  HelpCircle as HelpCircleIcon, Heart, Layout
 } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
@@ -139,8 +139,8 @@ export default function HomeDashboard({ onSelectLesson }) {
                           onClick={() => onSelectLesson(lesson)}
                           className="bg-card-dark border border-white/5 p-5 rounded-3xl flex items-center gap-5 relative overflow-hidden group shadow-lg"
                         >
-                           <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-3xl group-active:scale-110 transition-transform">
-                              {getCategoryEmoji(lesson.category)}
+                           <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center group-active:scale-110 transition-transform text-slate-400 group-hover:text-excel-green">
+                              <CategoryIcon category={lesson.category} size={28} />
                            </div>
                            <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 mb-1">
@@ -190,8 +190,8 @@ export default function HomeDashboard({ onSelectLesson }) {
                       onClick={() => onSelectLesson(lesson)}
                       className="bg-card-dark border border-white/5 p-5 rounded-3xl flex items-center gap-5 active:bg-white/5 transition-all shadow-sm"
                     >
-                       <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-xl flex-shrink-0">
-                          {getCategoryEmoji(lesson.category)}
+                       <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center flex-shrink-0 text-slate-500">
+                          <CategoryIcon category={lesson.category} size={24} />
                        </div>
                        <div className="flex-1">
                           <h4 className="font-bold text-base text-slate-200">{lesson.title}</h4>
@@ -311,7 +311,9 @@ function CheckIcon({ size, strokeWidth }) {
   );
 }
 
-function getCategoryEmoji(cat) {
-  const category = functionCategories.find(c => c.id === cat);
-  return category ? category.icon : '📊';
+function CategoryIcon({ category, size = 20 }) {
+  const cat = functionCategories.find(c => c.id === category);
+  if (!cat || !cat.icon) return <Layout size={size} />;
+  const Icon = cat.icon;
+  return <Icon size={size} />;
 }
