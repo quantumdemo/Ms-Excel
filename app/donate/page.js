@@ -8,7 +8,8 @@ const DONATION_LINKS = {
   coffee: process.env.NEXT_PUBLIC_DONATE_COFFEE || "#",
   paypal: process.env.NEXT_PUBLIC_DONATE_PAYPAL || "#",
   paystack: process.env.NEXT_PUBLIC_DONATE_PAYSTACK || "#",
-  opay: "7032749455" // Sample account or handled via Paystack
+  bankAccount: process.env.NEXT_PUBLIC_BANK_ACCOUNT || "7032749455",
+  bankName: process.env.NEXT_PUBLIC_BANK_NAME || "Opay / Moniepoint"
 };
 
 export default function DonatePage() {
@@ -77,12 +78,18 @@ export default function DonatePage() {
                     <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">Bank Transfer</p>
                     <div className="flex justify-between items-center">
                        <div>
-                          <p className="text-white font-black text-sm">7032749455</p>
-                          <p className="text-[10px] text-slate-500 font-bold uppercase">Opay / Moniepoint</p>
+                          <p className="text-white font-black text-sm">{DONATION_LINKS.bankAccount}</p>
+                          <p className="text-[10px] text-slate-500 font-bold uppercase">{DONATION_LINKS.bankName}</p>
                        </div>
-                       <div className="px-3 py-1 bg-excel-green/10 text-excel-green rounded-lg text-[10px] font-black uppercase">
+                       <button
+                         onClick={() => {
+                            navigator.clipboard.writeText(DONATION_LINKS.bankAccount);
+                            alert("Account number copied!");
+                         }}
+                         className="px-3 py-1 bg-excel-green/10 text-excel-green rounded-lg text-[10px] font-black uppercase active:scale-95 transition-all"
+                       >
                           Copy
-                       </div>
+                       </button>
                     </div>
                  </div>
               </div>

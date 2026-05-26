@@ -114,7 +114,7 @@ All user feedback (ratings/reviews) and roadmap feature votes are stored in the 
 ### Donations
 Donation links are configurable via environment variables. If a link is not provided, the app will show a "Coming soon" alert.
 - **International**: Connects to your PayPal or Buy Me a Coffee profile.
-- **Local (Nigeria)**: Features a direct bank transfer card and integration for Paystack payment pages.
+- **Local (Nigeria)**: Features a "Copy Account Number" card for direct transfers and integration for Paystack payment pages.
 
 ## License
 
