@@ -23,7 +23,7 @@ export const useAuthStore = create((set) => ({
         email: firebaseUser.email,
         display_name: firebaseUser.displayName,
         photo_url: firebaseUser.photoURL,
-        updated_at: new Date()
+        updated_at: new Date().toISOString()
       });
 
       // Ensure a progress record exists for the user
@@ -48,6 +48,11 @@ export const useAuthStore = create((set) => ({
 
   login: async () => {
     set({ loading: true, error: null });
+    if (!auth || !googleProvider) {
+      const errorMsg = "Authentication is not properly initialized. Check your environment variables.";
+      set({ error: errorMsg, loading: false });
+      throw new Error(errorMsg);
+    }
     try {
       const result = await signInWithPopup(auth, googleProvider);
       await useAuthStore.getState().syncToSupabase(result.user);
@@ -70,6 +75,7 @@ export const useAuthStore = create((set) => ({
   },
 
   init: () => {
+    if (!auth) return () => {};
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         await useAuthStore.getState().syncToSupabase(user);

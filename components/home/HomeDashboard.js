@@ -13,6 +13,7 @@ import HamburgerMenu from "@/components/layout/HamburgerMenu";
 import Footer from "@/components/layout/Footer";
 import { excelLessons } from "@/data/lessons";
 import { functionCategories } from "@/data/lesson-system";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useProgressStore } from "@/hooks/useProgress";
 import { useAuthStore } from "@/hooks/useAuth";
