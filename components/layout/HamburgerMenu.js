@@ -21,7 +21,7 @@ const categories = [
   { id: 'date-time', title: 'Date & Time', icon: Calendar },
 ];
 
-export default function HamburgerMenu({ isOpen, onClose, onSelectCategory }) {
+export default function HamburgerMenu({ isOpen, onClose, onSelectCategory, setActiveTab }) {
   const { user, logout } = useAuthStore();
   const { xp } = useProgressStore();
   const currentLevel = Math.floor(xp / 500) + 1;
@@ -70,9 +70,9 @@ export default function HamburgerMenu({ isOpen, onClose, onSelectCategory }) {
               </div>
 
               <nav className="px-4 space-y-1">
-                 <MenuLink icon={<Home size={20} />} label="Home" active onClick={() => { onSelectCategory(null); onClose(); }} />
-                 <MenuLink icon={<Search size={20} />} label="Search Functions" onClick={onClose} />
-                 <MenuLink icon={<Trophy size={20} />} label="Achievements" onClick={onClose} />
+                 <MenuLink icon={<Home size={20} />} label="Home" active onClick={() => { setActiveTab('home'); onSelectCategory(null); onClose(); }} />
+                 <MenuLink icon={<Search size={20} />} label="Search Functions" onClick={() => { setActiveTab('search'); onClose(); }} />
+                 <MenuLink icon={<Trophy size={20} />} label="Achievements" onClick={() => { setActiveTab('achievements'); onClose(); }} />
 
                  <div className="pt-6 pb-2 px-4">
                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Learning Roadmap</p>
@@ -98,7 +98,7 @@ export default function HamburgerMenu({ isOpen, onClose, onSelectCategory }) {
             </div>
 
             <div className="p-6 border-t border-white/5">
-              <button onClick={onClose} className="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors active:scale-[0.98]">
+              <button onClick={() => { setActiveTab('profile'); onClose(); }} className="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors active:scale-[0.98]">
                  <Settings size={20} />
                  <span className="font-medium">Settings</span>
               </button>

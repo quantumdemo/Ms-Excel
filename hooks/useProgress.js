@@ -1,7 +1,10 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { supabase } from '@/lib/supabase';
 
-export const useProgressStore = create((set, get) => ({
+export const useProgressStore = create(
+  persist(
+    (set, get) => ({
   xp: 0,
   streak: 0,
   completedLessons: [],
@@ -61,5 +64,10 @@ export const useProgressStore = create((set, get) => ({
     } catch (err) {
       console.error("Error saving progress:", err);
     }
-  }
-}));
+  },
+    }),
+    {
+      name: 'excel-progress-storage',
+    }
+  )
+);
