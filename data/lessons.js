@@ -89,8 +89,8 @@ const foundationLessons = [
       "Nested IFs allow you to check for multiple conditions at once."
     ],
     miniChallenge: {
-      question: "Write a formula that returns 'Adult' if age in A2 is 18 or more, otherwise 'Minor'.",
-      expectedAnswer: "=IF(A2>=18,'Adult','Minor')"
+      question: "Write a formula that returns \"Adult\" if age in A2 is 18 or more, otherwise \"Minor\".",
+      expectedAnswer: "=IF(A2>=18,\"Adult\",\"Minor\")"
     },
     practice: {
       instructions: "In cell C2, write a formula to show \"PASS\" if the score in B2 is 50 or above, otherwise \"FAIL\".",
@@ -152,7 +152,8 @@ const averageLesson = {
     }
   ],
   commonMistakes: [
-    { title: "Zeros vs Blanks", desc: "AVERAGE includes cells with 0 but ignores empty cells. This can change your result!" }
+    { title: "Zeros vs Blanks", desc: "AVERAGE includes cells with 0 in the calculation but skips empty cells. If a student missed a test, leave it blank; don't type 0 unless they actually scored zero." },
+    { title: "Text in Range", desc: "AVERAGE ignores cells containing text or logical values (TRUE/FALSE)." }
   ],
   proTips: [
     "To ignore zeros, you might need the AVERAGEIF function.",
@@ -201,7 +202,8 @@ const countLesson = {
     }
   ],
   commonMistakes: [
-    { title: "Counting Text", desc: "COUNT only counts numbers. To count text or anything else, use COUNTA." }
+    { title: "Counting Text", desc: "COUNT only counts numbers. If you try to count names or \"Yes/No\" answers, it will return 0. Use COUNTA for text." },
+    { title: "Numbers as Text", desc: "If a number is formatted as text, COUNT might ignore it." }
   ],
   proTips: [
     "Numbers, dates, and times are all counted by COUNT.",
@@ -252,16 +254,18 @@ const vlookupLesson = {
     }
   ],
   commonMistakes: [
-    { title: "Search Column", desc: "The lookup_value MUST be in the very first column of your table_array." },
-    { title: "Static Columns", desc: "If you add columns to your table, VLOOKUP might break because the index number doesn't change." }
+    { title: "Search Column", desc: "The lookup value MUST be in the very first column of your table range. Excel cannot look to the left with VLOOKUP." },
+    { title: "Static Columns", desc: "If you insert a new column in your table, VLOOKUP will still use the old index number and return wrong data." },
+    { title: "#N/A Error", desc: "This happens if the value you are looking for doesn't exist in the first column." }
   ],
   proTips: [
-    "Always use FALSE for range_lookup when searching for specific items (like IDs or Names).",
-    "XLOOKUP is the modern, more powerful replacement for VLOOKUP."
+    "Always use FALSE for the last argument when you need an exact match (like searching for an ID or Name).",
+    "Use Absolute References ($A$2:$C$10) for the table range if you plan to copy the formula down to other cells.",
+    "XLOOKUP is a newer and better alternative if your version of Excel supports it."
   ],
   miniChallenge: {
-    question: "Lookup 'Product1' in range A1:B10 and get the price from column 2 (Exact match).",
-    expectedAnswer: "=VLOOKUP('Product1', A1:B10, 2, FALSE)"
+    question: "Lookup \"Product1\" in range A1:B10 and get the price from column 2 (Exact match).",
+    expectedAnswer: "=VLOOKUP(\"Product1\", A1:B10, 2, FALSE)"
   },
   practice: {
     instructions: "In cell E2, find the Price of the product named in D2 using VLOOKUP from the table in A2:B4.",
@@ -269,6 +273,152 @@ const vlookupLesson = {
     targetCell: [1, 4],
     expectedFormula: "VLOOKUP(D2,A2:B4,2,FALSE)",
     expectedValue: 3
+  }
+};
+
+const concatLesson = {
+  id: "concat",
+  title: "CONCAT Function",
+  category: "text",
+  difficulty: "Beginner",
+  xp: 100,
+  introduction: {
+    title: "What is the CONCAT Function?",
+    description: "CONCAT combines text from multiple cells or ranges into one single cell. It is the modern version of the CONCATENATE function.",
+    concept: "Think of it as 'gluing' pieces of text together. For example, joining a First Name and Last Name into a Full Name."
+  },
+  syntax: "=CONCAT(text1, [text2], ...)",
+  syntaxBreakdown: [
+    { arg: "text1", desc: "The first item to join. Can be text in quotes, a cell reference, or a range." },
+    { arg: "text2", desc: "Optional. Additional items to join to the first one." }
+  ],
+  realWorldExamples: [
+    {
+      title: "Creating Full Names",
+      table: {
+        headers: ["First", "Last", "Formula", "Full Name"],
+        rows: [
+          ["John", "Smith", "=CONCAT(A2, \" \", B2)", "John Smith"]
+        ]
+      },
+      explanation: "We join the first name, a space in quotes, and the last name."
+    }
+  ],
+  commonMistakes: [
+    { title: "Missing Spaces", desc: "CONCAT doesn't add spaces automatically. You must add them yourself using \" \"." }
+  ],
+  proTips: [
+    "You can select a whole range like A1:E1 to join everything in those cells at once.",
+    "Use the '&' symbol as a shortcut for joining text: =A1 & \" \" & B1."
+  ],
+  miniChallenge: {
+    question: "Join the text in A1 and B1 with a hyphen (-) in between.",
+    expectedAnswer: "=CONCAT(A1, \"-\", B1)"
+  },
+  practice: {
+    instructions: "In cell C2, join the First Name in A2 and Last Name in B2 with a space between them.",
+    initialData: [["First", "Last", "Full Name"], ["Afeez", "Alimi", ""]],
+    targetCell: [1, 2],
+    expectedFormula: "CONCAT(A2,\" \",B2)",
+    expectedValue: "Afeez Alimi"
+  }
+};
+
+const iferrorLesson = {
+  id: "iferror",
+  title: "IFERROR Function",
+  category: "logical",
+  difficulty: "Intermediate",
+  xp: 200,
+  introduction: {
+    title: "What is the IFERROR Function?",
+    description: "IFERROR is a safety net for your formulas. It catches errors like #VALUE!, #DIV/0!, and #REF! and shows a cleaner result instead.",
+    concept: "If your formula works, you see the result. If it crashes or has an error, you see the backup text or value you chose."
+  },
+  syntax: "=IFERROR(value, value_if_error)",
+  syntaxBreakdown: [
+    { arg: "value", desc: "The formula or cell you want to check for errors." },
+    { arg: "value_if_error", desc: "What to show if an error is found (e.g., \"Error in data\", 0, or blank \"\")." }
+  ],
+  realWorldExamples: [
+    {
+      title: "Safe Division",
+      table: {
+        headers: ["Total", "Count", "Formula", "Result"],
+        rows: [
+          ["100", "0", "=IFERROR(A2/B2, 0)", "0"],
+          ["100", "5", "=IFERROR(A3/B3, 0)", "20"]
+        ]
+      },
+      explanation: "Dividing by zero usually causes a #DIV/0! error. IFERROR replaces it with 0 to keep your sheet tidy."
+    }
+  ],
+  commonMistakes: [
+    { title: "Hiding real bugs", desc: "Don't use IFERROR to hide errors you should actually fix. Only use it when an error is expected (like division by zero)." }
+  ],
+  proTips: [
+    "Use IFERROR to keep your charts from breaking when data is missing.",
+    "Combined with VLOOKUP, it handles missing search items perfectly."
+  ],
+  miniChallenge: {
+    question: "Write a formula to divide A1 by B1 safely. If there is an error, show \"Check Input\".",
+    expectedAnswer: "=IFERROR(A1/B1, \"Check Input\")"
+  },
+  practice: {
+    instructions: "In cell C2, use IFERROR to calculate B2/A2. If it results in an error, show 0.",
+    initialData: [["A", "B", "Safe Div"], [0, 10, ""]],
+    targetCell: [1, 2],
+    expectedFormula: "IFERROR(B2/A2, 0)",
+    expectedValue: 0
+  }
+};
+
+const ifnaLesson = {
+  id: "ifna",
+  title: "IFNA Function",
+  category: "logical",
+  difficulty: "Intermediate",
+  xp: 250,
+  introduction: {
+    title: "What is the IFNA Function?",
+    description: "The IFNA function lets you handle #N/A errors without getting messy errors all over your sheet. It is especially useful with lookup functions like VLOOKUP or XLOOKUP.",
+    concept: "It checks a value or formula, and if the result is #N/A, it returns whatever you specify instead. If it’s not #N/A, it returns the original result."
+  },
+  syntax: "=IFNA(value, value_if_na)",
+  syntaxBreakdown: [
+    { arg: "value", desc: "The formula or cell you want to check. Usually a VLOOKUP or MATCH." },
+    { arg: "value_if_na", desc: "What to show if the result is #N/A. Can be text, 0, or blank \"\"." }
+  ],
+  realWorldExamples: [
+    {
+      title: "Cleaner Lookup Reports",
+      table: {
+        headers: ["Search ID", "VLOOKUP Result", "IFNA Formula", "Final Display"],
+        rows: [
+          ["105", "#N/A", "=IFNA(B2, \"Not Found\")", "Not Found"],
+          ["101", "John Doe", "=IFNA(B3, \"Not Found\")", "John Doe"]
+        ]
+      },
+      explanation: "IFNA replaces the ugly #N/A error with a friendly 'Not Found' message."
+    }
+  ],
+  commonMistakes: [
+    { title: "Using for all errors", desc: "IFNA ONLY catches #N/A errors. If you have a #DIV/0! or #VALUE! error, IFNA will not hide it. Use IFERROR for those." }
+  ],
+  proTips: [
+    "IFNA is faster and more precise than IFERROR when you only care about missing lookup values.",
+    "Use it to keep your SUM or AVERAGE calculations from breaking due to missing data."
+  ],
+  miniChallenge: {
+    question: "Write a formula to check cell A2. If it is #N/A, show 0. Otherwise show A2.",
+    expectedAnswer: "=IFNA(A2, 0)"
+  },
+  practice: {
+    instructions: "In cell C2, wrap the value from B2 with IFNA to show \"Item Missing\" if B2 is #N/A.",
+    initialData: [["ID", "Lookup", "Clean Result"], ["A10", "#N/A", ""]],
+    targetCell: [1, 2],
+    expectedFormula: "IFNA(B2,\"Item Missing\")",
+    expectedValue: "Item Missing"
   }
 };
 
@@ -302,8 +452,8 @@ const sumLesson = {
     }
   ],
   commonMistakes: [
-    { title: "Circular Reference", desc: "Don't include the cell where the formula is written in the SUM range." },
-    { title: "Non-Numeric Data", desc: "SUM ignores text, so ensure your numbers are formatted correctly." }
+    { title: "Circular Reference", desc: "Don't include the cell where you are writing the formula in the SUM range. This creates a never-ending loop." },
+    { title: "Non-Numeric Data", desc: "SUM ignores text. If your numbers are stored as text, Excel won't add them. Look for the little green triangle in the corner of your cells!" }
   ],
   proTips: [
     "Use Alt + = (Windows) or Cmd + Shift + T (Mac) to quickly AutoSum a range.",
@@ -328,8 +478,11 @@ export const excelLessons = [
   averageLesson,
   countLesson,
   vlookupLesson,
+  ifnaLesson,
+  iferrorLesson,
+  concatLesson,
   ...allFunctions
-    .filter(f => !["SUM", "AVERAGE", "COUNT", "VLOOKUP", "IF"].includes(f.n))
+    .filter(f => !["SUM", "AVERAGE", "COUNT", "VLOOKUP", "IF", "IFNA", "IFERROR", "CONCAT"].includes(f.n))
     .map(f => createPlaceholderLesson(f.n.toLowerCase(), f.n, f.c))
 ];
 
