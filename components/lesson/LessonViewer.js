@@ -116,9 +116,9 @@ export default function LessonViewer({ lesson, onBack }) {
               <hr className="border-white/5 mb-12" />
 
               <section className="mb-12">
-                 <h2 className="text-xl font-bold mb-8 text-white">Real-World Examples</h2>
+                 <h2 className="text-xl font-bold mb-8 text-white">Detailed Examples</h2>
                  <div className="space-y-10">
-                    {lesson.realWorldExamples?.map((ex, i) => (
+                    {lesson.detailedExamples?.map((ex, i) => (
                       <div key={i} className="space-y-6">
                          <h3 className="font-bold text-slate-300 flex items-center gap-2">
                             <span className="w-2 h-2 bg-excel-green rounded-full" />
@@ -145,7 +145,20 @@ export default function LessonViewer({ lesson, onBack }) {
                                </tbody>
                             </table>
                          </div>
-                         <p className="text-sm text-slate-500 italic px-2">{ex.explanation}</p>
+                         {ex.stepByStep && (
+                           <div className="space-y-3 px-2">
+                             <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">How it works</p>
+                             <ul className="space-y-2">
+                               {ex.stepByStep.map((step, k) => (
+                                 <li key={k} className="text-sm text-slate-400 flex gap-3">
+                                   <span className="text-excel-green font-bold">{k + 1}.</span>
+                                   {step}
+                                 </li>
+                               ))}
+                             </ul>
+                           </div>
+                         )}
+                         {ex.explanation && <p className="text-sm text-slate-500 italic px-2">{ex.explanation}</p>}
                       </div>
                     ))}
                  </div>

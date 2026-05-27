@@ -32,7 +32,7 @@ export const createPlaceholderLesson = (id, name, category) => ({
     { arg: "range_or_value", desc: "The primary data or cell range that the function will process." },
     { arg: "additional_options", desc: "Optional settings to refine the behavior and output of the function." }
   ],
-  realWorldExamples: [
+  detailedExamples: [
     {
       title: `Analyzing Data with ${name}`,
       table: {
