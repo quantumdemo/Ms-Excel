@@ -22,11 +22,38 @@ export const createPlaceholderLesson = (id, name, category) => ({
   category,
   difficulty: "Beginner",
   xp: 50,
-  description: `Master the ${name} function. It is a vital part of the ${category} toolset in Microsoft Excel.`,
-  syntax: `=${name}(...)`,
-  examples: [
-    { description: `Basic use of ${name}`, formula: `=${name}(...)` }
+  introduction: {
+    title: `What is the ${name} Function?`,
+    description: `Master the ${name} function. It is a vital part of the ${category} toolset in Microsoft Excel. This function helps you perform complex tasks automatically.`,
+    concept: `The ${name} function is designed to process data in your spreadsheet efficiently.`
+  },
+  syntax: `=${name}(argument1, [argument2], ...)`,
+  syntaxBreakdown: [
+    { arg: "argument1", desc: "The first required piece of information for the function." },
+    { arg: "argument2", desc: "An optional piece of information to further refine the result." }
   ],
+  realWorldExamples: [
+    {
+      title: "General Usage",
+      table: {
+        headers: ["Data A", "Data B", "Formula", "Result"],
+        rows: [
+          ["Val 1", "Val 2", `=${name}(...)`, "Output"]
+        ]
+      },
+      explanation: `By using ${name}, Excel automatically calculates the output based on your input data.`
+    }
+  ],
+  commonMistakes: [
+    { title: "Incorrect Range", desc: "Make sure you select the correct cells for your calculation." }
+  ],
+  proTips: [
+    `You can use ${name} with other functions to create even more powerful formulas.`
+  ],
+  miniChallenge: {
+    question: `Write a formula using ${name} to process the data in cells A2 and B2.`,
+    expectedAnswer: `=${name}(A2,B2)`
+  },
   practice: {
     instructions: `Apply the ${name} function to solve the challenge below.`,
     initialData: [["Value A", "Value B", "Result"], [10, 20, ""]],
