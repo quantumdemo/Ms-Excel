@@ -18,6 +18,10 @@ export default function Home() {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState(null);
 
+  // Dashboard UI State (lifted for persistence when returning from Lesson)
+  const [activeTab, setActiveTab] = useState('home');
+  const [categoryFilter, setCategoryFilter] = useState(null);
+
   const { user, loading, init } = useAuthStore();
   const { fetchProgress } = useProgressStore();
 
@@ -77,6 +81,10 @@ export default function Home() {
             <HomeDashboard
               key="dashboard"
               onSelectLesson={(lesson) => setSelectedLesson(lesson)}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              categoryFilter={categoryFilter}
+              setCategoryFilter={setCategoryFilter}
             />
           )}
        </AnimatePresence>

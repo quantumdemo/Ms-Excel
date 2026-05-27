@@ -18,11 +18,9 @@ import Link from "next/link";
 import { useProgressStore } from "@/hooks/useProgress";
 import { useAuthStore } from "@/hooks/useAuth";
 
-export default function HomeDashboard({ onSelectLesson }) {
+export default function HomeDashboard({ onSelectLesson, activeTab, setActiveTab, categoryFilter, setCategoryFilter }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('home');
   const [searchQuery, setSearchQuery] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState(null);
 
   const { xp, completedLessons } = useProgressStore();
   const { user, logout } = useAuthStore();
