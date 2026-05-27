@@ -34,14 +34,15 @@ export const createPlaceholderLesson = (id, name, category) => ({
   ],
   realWorldExamples: [
     {
-      title: "Common Scenario",
+      title: "Practical Usage",
       table: {
-        headers: ["Input Data", "Formula", "Result"],
+        headers: ["Data Column", "Formula", "Result"],
         rows: [
-          ["Sample Value", `=${name}(...)`, "Output"]
+          ["100", `=${name}(A2)`, "Calculated"],
+          ["250", `=${name}(A3)`, "Calculated"]
         ]
       },
-      explanation: `Excel uses ${name} to turn your raw data into useful information.`
+      explanation: `The ${name} function takes your data and automatically processes it to give you the desired result.`
     }
   ],
   commonMistakes: [

@@ -51,6 +51,67 @@ const foundationLessons = [
     }
   },
   {
+    id: "cell-referencing",
+    title: "Cell Referencing",
+    category: "foundations",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "What is Cell Referencing?",
+      description: "Cell referencing means using a cell's address (like A1) in a formula instead of typing actual values directly. This makes your work dynamic!",
+      concept: "Instead of writing =50+20, you write =A1+B1. If you change the numbers in A1 or B1 later, the result updates automatically."
+    },
+    syntax: "A1, $A$1, $A1, A$1",
+    syntaxBreakdown: [
+      { arg: "Relative (A1)", desc: "The default. Changes automatically when you copy the formula to other cells." },
+      { arg: "Absolute ($A$1)", desc: "The 'Lock'. Does NOT change when copied. Used for constant values like Tax Rates." },
+      { arg: "Mixed ($A1 or A$1)", desc: "Locks only the Column ($A) or only the Row ($1)." }
+    ],
+    realWorldExamples: [
+      {
+        title: "Relative: Totaling Rows",
+        table: {
+          headers: ["A", "B", "C (Formula)", "Result"],
+          rows: [
+            ["10", "20", "=A1+B1", "30"],
+            ["15", "30", "Copy Down -> =A2+B2", "45"]
+          ]
+        },
+        explanation: "Excel automatically adjusts the row numbers as you copy the formula down."
+      },
+      {
+        title: "Absolute: Tax Calculation",
+        table: {
+          headers: ["Price", "Tax Rate (Fixed)", "Formula", "Total"],
+          rows: [
+            ["100", "5% ($B$1)", "=A2*$B$1", "5"],
+            ["200", "5% ($B$1)", "=A3*$B$1", "10"]
+          ]
+        },
+        explanation: "By using $B$1, the tax rate stays locked even when you calculate for different prices."
+      }
+    ],
+    commonMistakes: [
+      { title: "Forgetting $ Signs", desc: "If you don't lock a cell that should stay constant, your calculations will break when copied." },
+      { title: "Locking Everything", desc: "Only use Absolute references when a value MUST stay fixed. Over-locking makes formulas hard to reuse." }
+    ],
+    proTips: [
+      "Press F4 (or Fn+F4) while editing a formula to quickly switch between Relative, Absolute, and Mixed styles.",
+      "Mastering referencing is the 'Secret Sauce' to becoming an Excel expert."
+    ],
+    miniChallenge: {
+      question: "You have prices in Column A and a VAT rate in cell B1. How do you write a formula to multiply A2 by B1 while keeping B1 fixed?",
+      expectedAnswer: "=A2*$B$1"
+    },
+    practice: {
+      instructions: "In cell B2, reference the value in A2 using a relative reference.",
+      initialData: [["Value", "Reference"], [100, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "A2",
+      expectedValue: 100
+    }
+  },
+  {
     id: "if",
     title: "IF Function",
     category: "logical",
