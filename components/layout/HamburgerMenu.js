@@ -85,7 +85,10 @@ export default function HamburgerMenu({ isOpen, onClose, onSelectCategory }) {
                       onClick={() => onSelectCategory(cat.id)}
                     >
                       <span className="text-slate-500 group-hover:text-excel-green">
-                         <cat.icon size={20} />
+                         {(() => {
+                           const Icon = cat.icon;
+                           return <Icon size={20} />;
+                         })()}
                       </span>
                       <span className="flex-1 text-left font-medium text-slate-300 group-hover:text-white">{cat.title}</span>
                       <ChevronRight size={16} className="text-slate-600 group-hover:translate-x-1 transition-transform" />
