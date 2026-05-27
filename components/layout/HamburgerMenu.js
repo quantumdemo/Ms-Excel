@@ -21,7 +21,7 @@ const categories = [
   { id: 'date-time', title: 'Date & Time', icon: Calendar },
 ];
 
-export default function HamburgerMenu({ isOpen, onClose, onSelectCategory, setActiveTab }) {
+export default function HamburgerMenu({ isOpen, onClose, onSelectCategory, setActiveTab, activeTab }) {
   const { user, logout } = useAuthStore();
   const { xp } = useProgressStore();
   const currentLevel = Math.floor(xp / 500) + 1;
@@ -70,9 +70,9 @@ export default function HamburgerMenu({ isOpen, onClose, onSelectCategory, setAc
               </div>
 
               <nav className="px-4 space-y-1">
-                 <MenuLink icon={<Home size={20} />} label="Home" active onClick={() => { setActiveTab('home'); onSelectCategory(null); onClose(); }} />
-                 <MenuLink icon={<Search size={20} />} label="Search Functions" onClick={() => { setActiveTab('search'); onClose(); }} />
-                 <MenuLink icon={<Trophy size={20} />} label="Achievements" onClick={() => { setActiveTab('achievements'); onClose(); }} />
+                 <MenuLink icon={<Home size={20} />} label="Home" active={activeTab === 'home'} onClick={() => { setActiveTab('home'); onSelectCategory(null); onClose(); }} />
+                 <MenuLink icon={<Search size={20} />} label="Search Functions" active={activeTab === 'search'} onClick={() => { setActiveTab('search'); onClose(); }} />
+                 <MenuLink icon={<Trophy size={20} />} label="Achievements" active={activeTab === 'achievements'} onClick={() => { setActiveTab('achievements'); onClose(); }} />
 
                  <div className="pt-6 pb-2 px-4">
                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Learning Roadmap</p>
@@ -97,11 +97,13 @@ export default function HamburgerMenu({ isOpen, onClose, onSelectCategory, setAc
               </nav>
             </div>
 
-            <div className="p-6 border-t border-white/5">
-              <button onClick={() => { setActiveTab('profile'); onClose(); }} className="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors active:scale-[0.98]">
-                 <Settings size={20} />
-                 <span className="font-medium">Settings</span>
-              </button>
+            <div className="p-6 border-t border-white/5 space-y-1">
+              <MenuLink
+                icon={<Settings size={20} />}
+                label="Settings"
+                active={activeTab === 'profile'}
+                onClick={() => { setActiveTab('profile'); onClose(); }}
+              />
               <button
                 onClick={() => { logout(); onClose(); }}
                 className="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:text-red-300 transition-colors active:scale-[0.98]"

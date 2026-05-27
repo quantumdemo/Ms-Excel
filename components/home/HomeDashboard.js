@@ -84,6 +84,7 @@ export default function HomeDashboard({ onSelectLesson }) {
         onClose={() => setIsMenuOpen(false)}
         onSelectCategory={handleCategorySelect}
         setActiveTab={setActiveTab}
+        activeTab={activeTab}
       />
 
       <div className="px-6 pt-6">
