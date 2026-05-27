@@ -23,26 +23,26 @@ export const createPlaceholderLesson = (id, name, category) => ({
   difficulty: "Beginner",
   xp: 50,
   introduction: {
-    title: `What is the ${name} Function?`,
-    description: `Master the ${name} function. It is a vital part of the ${category} tools. This function helps you save time by performing tasks automatically.`,
-    concept: `Like all functions, ${name} takes some information (arguments), processes it, and gives you a result.`
+    title: `Mastering the ${name} function`,
+    description: `The ${name} function is a powerful tool in your Excel toolkit, specifically designed for ${category} tasks. It allows you to process data and extract meaningful insights with minimal effort.`,
+    concept: `This function works by taking specific inputs, known as arguments, and returning a computed result based on the logic of ${name}.`
   },
-  syntax: `=${name}(argument1, [argument2], ...)`,
+  syntax: `=${name}(range_or_value, [additional_options])`,
   syntaxBreakdown: [
-    { arg: "argument1", desc: "The first required piece of information Excel needs to run this function." },
-    { arg: "argument2", desc: "Optional. Extra information you can provide to change how the function works." }
+    { arg: "range_or_value", desc: "The primary data or cell range that the function will process." },
+    { arg: "additional_options", desc: "Optional settings to refine the behavior and output of the function." }
   ],
   realWorldExamples: [
     {
-      title: "Practical Usage",
+      title: `Analyzing Data with ${name}`,
       table: {
-        headers: ["Data Column", "Formula", "Result"],
+        headers: ["Source Data", "Formula Applied", "Output"],
         rows: [
-          ["100", `=${name}(A2)`, "Calculated"],
-          ["250", `=${name}(A3)`, "Calculated"]
+          ["Sample Value 1", `=${name}(A2)`, "Result 1"],
+          ["Sample Value 2", `=${name}(A3)`, "Result 2"]
         ]
       },
-      explanation: `The ${name} function takes your data and automatically processes it to give you the desired result.`
+      explanation: `By applying ${name} to your dataset, Excel automates the calculation, ensuring accuracy and consistency across your report.`
     }
   ],
   commonMistakes: [

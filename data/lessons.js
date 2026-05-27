@@ -43,7 +43,7 @@ const foundationLessons = [
       expectedAnswer: "C5"
     },
     practice: {
-      instructions: "Identify the cell address. Click on cell B2 and type 'LearnExcel'.",
+      instructions: "Identify the cell address. Click on cell B2 and type \"LearnExcel\".",
       initialData: [["A1", "B1"], ["A2", ""]],
       targetCell: [1, 1],
       expectedFormula: "LearnExcel",
@@ -64,7 +64,7 @@ const foundationLessons = [
     syntax: "A1, $A$1, $A1, A$1",
     syntaxBreakdown: [
       { arg: "Relative (A1)", desc: "The default. Changes automatically when you copy the formula to other cells." },
-      { arg: "Absolute ($A$1)", desc: "The 'Lock'. Does NOT change when copied. Used for constant values like Tax Rates." },
+      { arg: "Absolute ($A$1)", desc: "The \"Lock\". Does NOT change when copied. Used for constant values like Tax Rates." },
       { arg: "Mixed ($A1 or A$1)", desc: "Locks only the Column ($A) or only the Row ($1)." }
     ],
     realWorldExamples: [
@@ -97,7 +97,7 @@ const foundationLessons = [
     ],
     proTips: [
       "Press F4 (or Fn+F4) while editing a formula to quickly switch between Relative, Absolute, and Mixed styles.",
-      "Mastering referencing is the 'Secret Sauce' to becoming an Excel expert."
+      "Mastering referencing is the \"Secret Sauce\" to becoming an Excel expert."
     ],
     miniChallenge: {
       question: "You have prices in Column A and a VAT rate in cell B1. How do you write a formula to multiply A2 by B1 while keeping B1 fixed?",
@@ -142,7 +142,7 @@ const foundationLessons = [
       }
     ],
     commonMistakes: [
-      { title: "Missing Quotes", desc: "Always put text results inside quotation marks like 'PASS'." },
+      { title: "Missing Quotes", desc: "Always put text results inside quotation marks like \"PASS\"." },
       { title: "Missing Commas", desc: "Arguments must be separated by commas." }
     ],
     proTips: [
@@ -311,7 +311,7 @@ const vlookupLesson = {
           ["102", "Bob", "HR", "Alice"]
         ]
       },
-      explanation: "VLOOKUP finds ID 101 and returns 'Alice' from the 2nd column."
+      explanation: "VLOOKUP finds ID 101 and returns \"Alice\" from the 2nd column."
     }
   ],
   commonMistakes: [
@@ -337,6 +337,199 @@ const vlookupLesson = {
   }
 };
 
+const andLesson = {
+  id: "and",
+  title: "AND Function",
+  category: "logical",
+  difficulty: "Beginner",
+  xp: 100,
+  introduction: {
+    title: "What is the AND Function?",
+    description: "The AND function checks multiple conditions at once. It only returns TRUE if ALL the conditions you provide are met.",
+    concept: "Think of it like a checklist. If you need a student to have a score > 50 AND attendance > 80% to pass, AND will tell you if they did both."
+  },
+  syntax: "=AND(logical1, [logical2], ...)",
+  syntaxBreakdown: [
+    { arg: "logical1", desc: "The first condition you want to test (e.g., A2 > 10)." },
+    { arg: "logical2", desc: "Optional. Additional conditions you want to check." }
+  ],
+  realWorldExamples: [
+    {
+      title: "Job Eligibility",
+      table: {
+        headers: ["Experience", "Degree", "AND Formula", "Eligible?"],
+        rows: [
+          ["5 Years", "Yes", "=AND(A2>=3, B2=\"Yes\")", "TRUE"],
+          ["2 Years", "Yes", "=AND(A3>=3, B3=\"Yes\")", "FALSE"]
+        ]
+      },
+      explanation: "The second row returns FALSE because only one of the two conditions was met."
+    }
+  ],
+  commonMistakes: [
+    { title: "Single Condition", desc: "Using AND for just one condition is unnecessary. Just use the comparison directly (e.g., A1 > 10)." }
+  ],
+  proTips: [
+    "AND is almost always used inside an IF function to create powerful logic.",
+    "It can handle up to 255 separate conditions!"
+  ],
+  miniChallenge: {
+    question: "Write a formula to check if A2 is greater than 10 and B2 is less than 5.",
+    expectedAnswer: "=AND(A2>10, B2<5)"
+  },
+  practice: {
+    instructions: "In cell C2, check if B2 is greater than 50 AND A2 is \"Yes\".",
+    initialData: [["Approved", "Score", "Result"], ["Yes", 75, ""]],
+    targetCell: [1, 2],
+    expectedFormula: "AND(A2=\"Yes\",B2>50)",
+    expectedValue: true
+  }
+};
+
+const orLesson = {
+  id: "or",
+  title: "OR Function",
+  category: "logical",
+  difficulty: "Beginner",
+  xp: 100,
+  introduction: {
+    title: "What is the OR Function?",
+    description: "The OR function returns TRUE if ANY of the conditions you provide are met. It only returns FALSE if none of them are TRUE.",
+    concept: "It's like a \"one-or-more\" check. If a customer gets a discount if they are a \"Member\" OR if they \"Spend > $100\", OR will find them."
+  },
+  syntax: "=OR(logical1, [logical2], ...)",
+  syntaxBreakdown: [
+    { arg: "logical1", desc: "The first condition to test." },
+    { arg: "logical2", desc: "Optional. Additional conditions." }
+  ],
+  realWorldExamples: [
+    {
+      title: "Weekend Check",
+      table: {
+        headers: ["Day", "Formula", "Is Weekend?"],
+        rows: [
+          ["Saturday", "=OR(A2=\"Saturday\", A2=\"Sunday\")", "TRUE"],
+          ["Monday", "=OR(A3=\"Saturday\", A3=\"Sunday\")", "FALSE"]
+        ]
+      },
+      explanation: "Since \"Saturday\" matches one of our choices, the result is TRUE."
+    }
+  ],
+  commonMistakes: [
+    { title: "Confusing AND/OR", desc: "Remember: AND needs ALL to be true; OR only needs ONE to be true." }
+  ],
+  proTips: [
+    "Like AND, the OR function is best used inside an IF statement.",
+    "Use OR when you have multiple valid paths to a single result."
+  ],
+  miniChallenge: {
+    question: "Check if cell A2 is either \"Red\" or \"Blue\".",
+    expectedAnswer: "=OR(A2=\"Red\", A2=\"Blue\")"
+  },
+  practice: {
+    instructions: "In cell C2, check if B2 is greater than 100 OR A2 is \"VIP\".",
+    initialData: [["Status", "Amount", "Check"], ["VIP", 50, ""]],
+    targetCell: [1, 2],
+    expectedFormula: "OR(A2=\"VIP\",B2>100)",
+    expectedValue: true
+  }
+};
+
+const lenLesson = {
+  id: "len",
+  title: "LEN Function",
+  category: "text",
+  difficulty: "Beginner",
+  xp: 100,
+  introduction: {
+    title: "What is the LEN Function?",
+    description: "The LEN function counts the number of characters in a cell, including letters, numbers, spaces, and punctuation.",
+    concept: "Think of it as a character counter. If you have a limit on how long a text should be (like a password or ID), LEN helps you check it."
+  },
+  syntax: "=LEN(text)",
+  syntaxBreakdown: [
+    { arg: "text", desc: "The cell or text you want to measure." }
+  ],
+  realWorldExamples: [
+    {
+      title: "Password Strength",
+      table: {
+        headers: ["Password", "LEN Formula", "Length"],
+        rows: [
+          ["Excel123", "=LEN(A2)", "8"],
+          ["Abc", "=LEN(A3)", "3"]
+        ]
+      },
+      explanation: "LEN accurately counts every single symbol in the cell."
+    }
+  ],
+  commonMistakes: [
+    { title: "Invisible Spaces", desc: "LEN counts spaces too! If your text looks short but LEN gives a high number, check for trailing spaces." }
+  ],
+  proTips: [
+    "LEN is very useful when combined with LEFT, RIGHT, or MID to extract parts of text.",
+    "It also counts numbers, even if they aren't formatted as text."
+  ],
+  miniChallenge: {
+    question: "How would you count the characters in cell B5?",
+    expectedAnswer: "=LEN(B5)"
+  },
+  practice: {
+    instructions: "In cell B2, use LEN to find the length of the string in A2.",
+    initialData: [["Input", "Length"], ["LearnExcel", ""]],
+    targetCell: [1, 1],
+    expectedFormula: "LEN(A2)",
+    expectedValue: 10
+  }
+};
+
+const trimLesson = {
+  id: "trim",
+  title: "TRIM Function",
+  category: "text",
+  difficulty: "Beginner",
+  xp: 150,
+  introduction: {
+    title: "What is the TRIM Function?",
+    description: "The TRIM function removes all extra spaces from a text, leaving only single spaces between words.",
+    concept: "Use this to clean up messy data. Often, data imported from other systems has hidden spaces at the start or end that break formulas like VLOOKUP."
+  },
+  syntax: "=TRIM(text)",
+  syntaxBreakdown: [
+    { arg: "text", desc: "The messy text you want to clean up." }
+  ],
+  realWorldExamples: [
+    {
+      title: "Data Cleaning",
+      table: {
+        headers: ["Dirty Text", "TRIM Formula", "Clean Result"],
+        rows: [
+          ["  John Doe  ", "=TRIM(A2)", "John Doe"]
+        ]
+      },
+      explanation: "TRIM deletes the spaces at the start and end but keeps the one between \"John\" and \"Doe\"."
+    }
+  ],
+  commonMistakes: [
+    { title: "Inner Spaces", desc: "TRIM will NOT remove a single space between words. It only removes extra (double/triple) spaces or leading/trailing ones." }
+  ],
+  proTips: [
+    "Always wrap your VLOOKUP lookup_value in TRIM if you suspect your data is messy.",
+    "TRIM is a lifesaver for professional data analysts."
+  ],
+  miniChallenge: {
+    question: "Clean the text in cell A2 which has extra spaces.",
+    expectedAnswer: "=TRIM(A2)"
+  },
+  practice: {
+    instructions: "In cell B2, use TRIM to clean the text in A2.",
+    initialData: [["Messy", "Clean"], ["  Excel  ", ""]],
+    targetCell: [1, 1],
+    expectedFormula: "TRIM(A2)",
+    expectedValue: "Excel"
+  }
+};
+
 const concatLesson = {
   id: "concat",
   title: "CONCAT Function",
@@ -346,7 +539,7 @@ const concatLesson = {
   introduction: {
     title: "What is the CONCAT Function?",
     description: "CONCAT combines text from multiple cells or ranges into one single cell. It is the modern version of the CONCATENATE function.",
-    concept: "Think of it as 'gluing' pieces of text together. For example, joining a First Name and Last Name into a Full Name."
+    concept: "Think of it as \"gluing\" pieces of text together. For example, joining a First Name and Last Name into a Full Name."
   },
   syntax: "=CONCAT(text1, [text2], ...)",
   syntaxBreakdown: [
@@ -382,6 +575,154 @@ const concatLesson = {
     targetCell: [1, 2],
     expectedFormula: "CONCAT(A2,\" \",B2)",
     expectedValue: "Afeez Alimi"
+  }
+};
+
+const sumifLesson = {
+  id: "sumif",
+  title: "SUMIF Function",
+  category: "math",
+  difficulty: "Intermediate",
+  xp: 250,
+  introduction: {
+    title: "What is the SUMIF Function?",
+    description: "SUMIF adds up numbers in a range that meet a specific condition (criteria). It's like combining SUM and IF.",
+    concept: "Use this when you don't want the total of everything, but only for a specific category—like 'Total Sales for Region North' or 'Total Expenses for Food'."
+  },
+  syntax: "=SUMIF(range, criteria, [sum_range])",
+  syntaxBreakdown: [
+    { arg: "range", desc: "The cells you want to check against the criteria (e.g., a list of Category names)." },
+    { arg: "criteria", desc: "The condition that must be met (e.g., \"Food\" or \">100\")." },
+    { arg: "sum_range", desc: "Optional. The actual cells to add. If omitted, Excel adds the cells in the first 'range'." }
+  ],
+  realWorldExamples: [
+    {
+      title: "Department Spending",
+      table: {
+        headers: ["Dept", "Cost", "Criteria", "Result"],
+        rows: [
+          ["Sales", "500", "Sales", "=SUMIF(A2:A4, \"Sales\", B2:B4)"],
+          ["HR", "300", "", "800"],
+          ["Sales", "300", "", ""]
+        ]
+      },
+      explanation: "Excel looks for \"Sales\" in column A and adds the corresponding values (500 + 300)."
+    }
+  ],
+  commonMistakes: [
+    { title: "Range Mismatch", desc: "The 'range' and 'sum_range' must be the same size. If one has 10 cells, the other must too." }
+  ],
+  proTips: [
+    "You can use wildcards like \"*\" to match partial text (e.g., \"*East*\" matches \"NorthEast\").",
+    "For multiple conditions, use SUMIFS."
+  ],
+  miniChallenge: {
+    question: "Sum values in B2:B10 where the category in A2:A10 is \"Revenue\".",
+    expectedAnswer: "=SUMIF(A2:A10, \"Revenue\", B2:B10)"
+  },
+  practice: {
+    instructions: "In cell D2, calculate the total cost for \"Fruit\" in the range A2:B4.",
+    initialData: [["Type", "Cost", "", "Total Fruit"], ["Fruit", 10, "", ""], ["Meat", 50, "", ""], ["Fruit", 25, "", ""]],
+    targetCell: [1, 3],
+    expectedFormula: "SUMIF(A2:A4,\"Fruit\",B2:B4)",
+    expectedValue: 35
+  }
+};
+
+const maxLesson = {
+  id: "max",
+  title: "MAX Function",
+  category: "statistical",
+  difficulty: "Beginner",
+  xp: 100,
+  introduction: {
+    title: "What is the MAX Function?",
+    description: "The MAX function finds the largest (highest) number in a range of cells.",
+    concept: "Use this to quickly identify the top performer, the highest price, or the latest date in a long list of data."
+  },
+  syntax: "=MAX(number1, [number2], ...)",
+  syntaxBreakdown: [
+    { arg: "number1", desc: "The first number or range you want to check." },
+    { arg: "number2", desc: "Optional. More numbers or ranges." }
+  ],
+  realWorldExamples: [
+    {
+      title: "Finding Top Sales",
+      table: {
+        headers: ["Rep", "Sales", "Formula", "Result"],
+        rows: [
+          ["Alice", "5000", "=MAX(B2:B4)", "9000"],
+          ["Bob", "9000", "", ""],
+          ["Charlie", "4000", "", ""]
+        ]
+      },
+      explanation: "Excel scans the list and pulls out the biggest value (9,000)."
+    }
+  ],
+  commonMistakes: [
+    { title: "Non-Numeric", desc: "MAX ignores text and empty cells. If your range has no numbers, it returns 0." }
+  ],
+  proTips: [
+    "MAX is great for setting limits, like ensuring a calculated value doesn't drop below a certain floor."
+  ],
+  miniChallenge: {
+    question: "Find the highest value in cells C1 through C50.",
+    expectedAnswer: "=MAX(C1:C50)"
+  },
+  practice: {
+    instructions: "In cell B5, find the maximum value from B2, B3, and B4.",
+    initialData: [["Item", "Value"], ["A", 100], ["B", 500], ["C", 250], ["Max", ""]],
+    targetCell: [4, 1],
+    expectedFormula: "MAX(B2:B4)",
+    expectedValue: 500
+  }
+};
+
+const minLesson = {
+  id: "min",
+  title: "MIN Function",
+  category: "statistical",
+  difficulty: "Beginner",
+  xp: 100,
+  introduction: {
+    title: "What is the MIN Function?",
+    description: "The MIN function finds the smallest (lowest) number in a range of cells.",
+    concept: "Think of it as the opposite of MAX. It's perfect for finding the cheapest price, the lowest score, or the earliest date."
+  },
+  syntax: "=MIN(number1, [number2], ...)",
+  syntaxBreakdown: [
+    { arg: "number1", desc: "The first range or number to check." },
+    { arg: "number2", desc: "Optional. More ranges or numbers." }
+  ],
+  realWorldExamples: [
+    {
+      title: "Lowest Price",
+      table: {
+        headers: ["Store", "Price", "Formula", "Result"],
+        rows: [
+          ["Shop A", "25", "=MIN(B2:B3)", "19"],
+          ["Shop B", "19", "", ""]
+        ]
+      },
+      explanation: "Excel identifies that 19 is the smallest number in the list."
+    }
+  ],
+  commonMistakes: [
+    { title: "Zeros", desc: "MIN counts 0 as a value. If a cell is 0, MIN will likely pick it as the lowest!" }
+  ],
+  proTips: [
+    "Use MIN to find the earliest deadline in a project schedule."
+  ],
+  miniChallenge: {
+    question: "Find the lowest number in Column A.",
+    expectedAnswer: "=MIN(A:A)"
+  },
+  practice: {
+    instructions: "In cell B5, find the minimum value from B2, B3, and B4.",
+    initialData: [["Item", "Cost"], ["A", 15], ["B", 8], ["C", 22], ["Min", ""]],
+    targetCell: [4, 1],
+    expectedFormula: "MIN(B2:B4)",
+    expectedValue: 8
   }
 };
 
@@ -460,7 +801,7 @@ const ifnaLesson = {
           ["101", "John Doe", "=IFNA(B3, \"Not Found\")", "John Doe"]
         ]
       },
-      explanation: "IFNA replaces the ugly #N/A error with a friendly 'Not Found' message."
+      explanation: "IFNA replaces the ugly #N/A error with a friendly \"Not Found\" message."
     }
   ],
   commonMistakes: [
@@ -480,6 +821,198 @@ const ifnaLesson = {
     targetCell: [1, 2],
     expectedFormula: "IFNA(B2,\"Item Missing\")",
     expectedValue: "Item Missing"
+  }
+};
+
+const countaLesson = {
+  id: "counta",
+  title: "COUNTA Function",
+  category: "statistical",
+  difficulty: "Beginner",
+  xp: 150,
+  introduction: {
+    title: "What is the COUNTA Function?",
+    description: "The COUNTA function counts all cells that are NOT empty. It counts text, numbers, dates, and even errors.",
+    concept: "While the regular COUNT only counts numbers, COUNTA counts \"anything\" except empty space. Use this to count names, products, or attendance."
+  },
+  syntax: "=COUNTA(value1, [value2], ...)",
+  syntaxBreakdown: [
+    { arg: "value1", desc: "The range or cell you want to check for content." },
+    { arg: "value2", desc: "Optional. More ranges to include in the count." }
+  ],
+  realWorldExamples: [
+    {
+      title: "Attendance List",
+      table: {
+        headers: ["Student", "Attended?", "Formula", "Count"],
+        rows: [
+          ["John", "Yes", "=COUNTA(B2:B3)", "2"],
+          ["Mary", "Yes", "", ""]
+        ]
+      },
+      explanation: "Since both cells have text, COUNTA returns 2."
+    }
+  ],
+  commonMistakes: [
+    { title: "Invisible Characters", desc: "If a cell looks empty but has a space in it, COUNTA will count it! Use TRIM to fix this." }
+  ],
+  proTips: [
+    "COUNTA is the most versatile counting function for lists of names or categories.",
+    "If you want to count only the empty cells, use COUNTBLANK."
+  ],
+  miniChallenge: {
+    question: "Count all non-empty cells in the range A1:A10.",
+    expectedAnswer: "=COUNTA(A1:A10)"
+  },
+  practice: {
+    instructions: "In cell B6, count how many students have a status in cells B2 through B5.",
+    initialData: [["Student", "Status"], ["John", "Paid"], ["Mary", ""], ["Afeez", "Paid"], ["Kuda", "Pending"], ["Total", ""]],
+    targetCell: [5, 1],
+    expectedFormula: "COUNTA(B2:B5)",
+    expectedValue: 3
+  }
+};
+
+const leftLesson = {
+  id: "left",
+  title: "LEFT Function",
+  category: "text",
+  difficulty: "Beginner",
+  xp: 100,
+  introduction: {
+    title: "What is the LEFT Function?",
+    description: "The LEFT function extracts a specific number of characters from the start (left side) of a text string.",
+    concept: "Use this when you only need the first few letters or numbers from a cell, like getting an Area Code from a phone number or a First Initial from a name."
+  },
+  syntax: "=LEFT(text, [num_chars])",
+  syntaxBreakdown: [
+    { arg: "text", desc: "The cell or text you want to extract from." },
+    { arg: "num_chars", desc: "Optional. How many characters you want to pull. If left blank, it defaults to 1." }
+  ],
+  realWorldExamples: [
+    {
+      title: "Extracting First Name Initial",
+      table: {
+        headers: ["Full Name", "LEFT Formula", "Initial"],
+        rows: [
+          ["Afeez Alimi", "=LEFT(A2, 1)", "A"]
+        ]
+      },
+      explanation: "We tell Excel to look at the name and grab just the 1st character from the left."
+    }
+  ],
+  commonMistakes: [
+    { title: "Counting Spaces", desc: "LEFT counts spaces as characters. If your result is empty, you might be grabbing a leading space." }
+  ],
+  proTips: [
+    "Combine LEFT with FIND to extract everything before a specific character like a space or comma.",
+    "Great for processing standardized IDs or serial numbers."
+  ],
+  miniChallenge: {
+    question: "Extract the first 3 characters from cell A2.",
+    expectedAnswer: "=LEFT(A2, 3)"
+  },
+  practice: {
+    instructions: "In cell B2, extract the first 4 characters of the text in A2.",
+    initialData: [["Text", "Result"], ["EXCEL-2024", ""]],
+    targetCell: [1, 1],
+    expectedFormula: "LEFT(A2,4)",
+    expectedValue: "EXCE"
+  }
+};
+
+const rightLesson = {
+  id: "right",
+  title: "RIGHT Function",
+  category: "text",
+  difficulty: "Beginner",
+  xp: 100,
+  introduction: {
+    title: "What is the RIGHT Function?",
+    description: "The RIGHT function extracts a specific number of characters from the end (right side) of a text string.",
+    concept: "This is the opposite of LEFT. It's perfect for grabbing the last digits of a credit card, the year from a date string, or a file extension."
+  },
+  syntax: "=RIGHT(text, [num_chars])",
+  syntaxBreakdown: [
+    { arg: "text", desc: "The text or cell reference to pull from." },
+    { arg: "num_chars", desc: "Optional. How many characters to pull from the end. Defaults to 1." }
+  ],
+  realWorldExamples: [
+    {
+      title: "Getting Year from String",
+      table: {
+        headers: ["Date Label", "RIGHT Formula", "Year"],
+        rows: [
+          ["ID-2023", "=RIGHT(A2, 4)", "2023"]
+        ]
+      },
+      explanation: "Excel counts 4 characters starting from the very end of the text."
+    }
+  ],
+  commonMistakes: [
+    { title: "Trailing Spaces", desc: "If there are invisible spaces after your text, RIGHT will grab those instead of the letters you want! Use TRIM first." }
+  ],
+  proTips: [
+    "Use =RIGHT(A1, LEN(A1)-5) to extract everything except the first 5 characters."
+  ],
+  miniChallenge: {
+    question: "Extract the last 2 characters from cell B2.",
+    expectedAnswer: "=RIGHT(B2, 2)"
+  },
+  practice: {
+    instructions: "In cell B2, extract the last 2 characters of the serial number in A2.",
+    initialData: [["Serial", "End"], ["SKU-99", ""]],
+    targetCell: [1, 1],
+    expectedFormula: "RIGHT(A2,2)",
+    expectedValue: "99"
+  }
+};
+
+const midLesson = {
+  id: "mid",
+  title: "MID Function",
+  category: "text",
+  difficulty: "Intermediate",
+  xp: 200,
+  introduction: {
+    title: "What is the MID Function?",
+    description: "The MID function extracts a specific number of characters from the middle of a text string, starting at any position you choose.",
+    concept: "Unlike LEFT and RIGHT which start at the edges, MID lets you jump to the 3rd or 10th letter and start grabbing text from there."
+  },
+  syntax: "=MID(text, start_num, num_chars)",
+  syntaxBreakdown: [
+    { arg: "text", desc: "The source text." },
+    { arg: "start_num", desc: "The position of the first character you want to extract (e.g., 2 for the second letter)." },
+    { arg: "num_chars", desc: "How many characters to extract from that starting point." }
+  ],
+  realWorldExamples: [
+    {
+      title: "Extracting Middle ID",
+      table: {
+        headers: ["Full SKU", "MID Formula", "Code"],
+        rows: [
+          ["AB-123-XY", "=MID(A2, 4, 3)", "123"]
+        ]
+      },
+      explanation: "We start at the 4th character (\"1\") and extract 3 characters total."
+    }
+  ],
+  commonMistakes: [
+    { title: "Wrong Start Number", desc: "If your start_num is less than 1, Excel returns an error. If it's longer than the text, it returns blank." }
+  ],
+  proTips: [
+    "MID is the most powerful extraction tool when your data has a consistent internal structure."
+  ],
+  miniChallenge: {
+    question: "Extract 2 characters from cell A1, starting at the 3rd character.",
+    expectedAnswer: "=MID(A1, 3, 2)"
+  },
+  practice: {
+    instructions: "In cell B2, extract 3 characters from A2 starting at position 3.",
+    initialData: [["Code", "Extract"], ["XX-VIP-01", ""]],
+    targetCell: [1, 1],
+    expectedFormula: "MID(A2,4,3)",
+    expectedValue: "VIP"
   }
 };
 
@@ -536,14 +1069,25 @@ const sumLesson = {
 export const excelLessons = [
   ...foundationLessons,
   sumLesson,
+  sumifLesson,
   averageLesson,
   countLesson,
+  countaLesson,
+  maxLesson,
+  minLesson,
   vlookupLesson,
   ifnaLesson,
   iferrorLesson,
+  andLesson,
+  orLesson,
   concatLesson,
+  lenLesson,
+  trimLesson,
+  leftLesson,
+  rightLesson,
+  midLesson,
   ...allFunctions
-    .filter(f => !["SUM", "AVERAGE", "COUNT", "VLOOKUP", "IF", "IFNA", "IFERROR", "CONCAT"].includes(f.n))
+    .filter(f => !["SUM", "SUMIF", "AVERAGE", "COUNT", "COUNTA", "MAX", "MIN", "VLOOKUP", "IF", "IFNA", "IFERROR", "AND", "OR", "CONCAT", "LEN", "TRIM", "LEFT", "RIGHT", "MID"].includes(f.n))
     .map(f => createPlaceholderLesson(f.n.toLowerCase(), f.n, f.c))
 ];
 
