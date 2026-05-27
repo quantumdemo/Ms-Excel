@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, Info, HelpCircle, ArrowRight, Check } from "lucide-react";
+import { ChevronLeft, Info, HelpCircle, ArrowRight, Check, Sparkles, Zap } from "lucide-react";
 import CustomSpreadsheet from "@/components/spreadsheet/CustomSpreadsheet";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/hooks/useAuth";
@@ -70,37 +70,144 @@ export default function LessonViewer({ lesson, onBack }) {
               <div className="bg-excel-green/10 text-excel-green text-[10px] font-bold px-2 py-1 rounded inline-block mb-4 uppercase tracking-wider">
                 {lesson.category}
               </div>
-              <h1 className="text-3xl font-bold mb-4 leading-tight">{lesson.title}</h1>
-              <p className="text-slate-400 leading-relaxed mb-8 text-lg">
-                {lesson.description}
-              </p>
+              <h1 className="text-4xl font-black mb-6 leading-tight">{lesson.title}</h1>
 
-              <div className="bg-card-dark border border-white/5 rounded-[2rem] p-6 mb-8 shadow-xl">
-                <h3 className="text-sm font-bold text-slate-300 mb-4 flex items-center gap-2">
-                  <Info size={18} className="text-excel-green" />
-                  Proper Syntax
-                </h3>
-                <code className="block bg-black/40 p-4 rounded-xl text-excel-light font-mono text-sm overflow-x-auto whitespace-nowrap no-scrollbar border border-white/5">
-                  {lesson.syntax}
-                </code>
-              </div>
+              <section className="mb-12">
+                 <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-white">
+                    <HelpCircle className="text-excel-green" size={20} />
+                    {lesson.introduction.title}
+                 </h2>
+                 <p className="text-slate-400 leading-relaxed text-lg mb-6">
+                    {lesson.introduction.description}
+                 </p>
+                 <div className="p-5 bg-excel-green/5 border border-excel-green/20 rounded-3xl">
+                    <p className="text-slate-200 font-medium italic">
+                       {lesson.introduction.concept}
+                    </p>
+                 </div>
+              </section>
 
-              <div className="space-y-8">
-                <h3 className="font-bold text-xl">Real-World Examples</h3>
-                {lesson.examples?.map((ex, i) => (
-                  <div key={i} className="bg-white/5 p-5 rounded-2xl border border-white/5">
-                    <p className="text-sm text-slate-400 mb-3">{ex.description}</p>
-                    <code className="text-excel-light font-mono text-base">{ex.formula}</code>
-                  </div>
-                ))}
-              </div>
+              <hr className="border-white/5 mb-12" />
+
+              <section className="mb-12">
+                 <h2 className="text-xl font-bold mb-6 text-white">Syntax</h2>
+                 <div className="bg-black/40 p-6 rounded-3xl border border-white/5 mb-8">
+                    <code className="text-excel-light font-mono text-lg block break-all">
+                       {lesson.syntax}
+                    </code>
+                 </div>
+
+                 <div className="space-y-6">
+                    <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] px-2">Syntax Breakdown</h3>
+                    {lesson.syntaxBreakdown?.map((item, i) => (
+                      <div key={i} className="flex gap-4 p-4 bg-white/5 rounded-2xl border border-white/5">
+                         <div className="w-8 h-8 bg-excel-green/10 rounded-lg flex items-center justify-center font-bold text-excel-green text-xs flex-shrink-0">
+                            {i + 1}
+                         </div>
+                         <div>
+                            <p className="font-bold text-slate-200 mb-1">{item.arg}</p>
+                            <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+                         </div>
+                      </div>
+                    ))}
+                 </div>
+              </section>
+
+              <hr className="border-white/5 mb-12" />
+
+              <section className="mb-12">
+                 <h2 className="text-xl font-bold mb-8 text-white">Real-World Examples</h2>
+                 <div className="space-y-10">
+                    {lesson.realWorldExamples?.map((ex, i) => (
+                      <div key={i} className="space-y-6">
+                         <h3 className="font-bold text-slate-300 flex items-center gap-2">
+                            <span className="w-2 h-2 bg-excel-green rounded-full" />
+                            {ex.title}
+                         </h3>
+
+                         <div className="overflow-x-auto rounded-2xl border border-white/5 bg-black/20">
+                            <table className="w-full text-left text-xs border-collapse">
+                               <thead>
+                                  <tr className="bg-white/5">
+                                     {ex.table.headers.map((h, j) => (
+                                       <th key={j} className="p-3 font-bold text-slate-400 border-b border-white/5 uppercase tracking-wider">{h}</th>
+                                     ))}
+                                  </tr>
+                               </thead>
+                               <tbody>
+                                  {ex.table.rows.map((row, j) => (
+                                    <tr key={j}>
+                                       {row.map((cell, k) => (
+                                         <td key={k} className="p-3 border-b border-white/5 text-slate-300 font-mono">{cell}</td>
+                                       ))}
+                                    </tr>
+                                  ))}
+                               </tbody>
+                            </table>
+                         </div>
+                         <p className="text-sm text-slate-500 italic px-2">{ex.explanation}</p>
+                      </div>
+                    ))}
+                 </div>
+              </section>
+
+              <hr className="border-white/5 mb-12" />
+
+              <section className="mb-12">
+                 <h2 className="text-xl font-bold mb-6 text-white flex items-center gap-2">
+                    <Sparkles className="text-orange-400" size={20} />
+                    Common Mistakes
+                 </h2>
+                 <div className="space-y-4">
+                    {lesson.commonMistakes?.map((m, i) => (
+                      <div key={i} className="p-6 bg-red-500/5 border border-red-500/10 rounded-3xl">
+                         <p className="font-bold text-red-400 mb-2">{m.title}</p>
+                         <p className="text-sm text-slate-500 leading-relaxed">{m.desc}</p>
+                      </div>
+                    ))}
+                 </div>
+              </section>
+
+              <section className="mb-12">
+                 <h2 className="text-xl font-bold mb-6 text-white flex items-center gap-2">
+                    <Zap className="text-excel-green" size={20} />
+                    Pro Tips
+                 </h2>
+                 <ul className="space-y-4">
+                    {lesson.proTips?.map((tip, i) => (
+                      <li key={i} className="flex gap-4">
+                         <div className="w-1.5 h-1.5 bg-excel-green rounded-full mt-2.5 flex-shrink-0" />
+                         <p className="text-slate-400 text-base leading-relaxed">{tip}</p>
+                      </li>
+                    ))}
+                 </ul>
+              </section>
+
+              <hr className="border-white/5 mb-12" />
+
+              <section className="mb-12 p-8 bg-gradient-to-br from-excel-green/20 to-transparent border border-excel-green/20 rounded-[2.5rem]">
+                 <h2 className="text-2xl font-black mb-4 text-white">Mini Challenge</h2>
+                 <p className="text-slate-300 mb-8 leading-relaxed">
+                    {lesson.miniChallenge.question}
+                 </p>
+
+                 <div className="group">
+                    <p className="text-[10px] font-black text-excel-green uppercase tracking-widest mb-3 opacity-50 group-hover:opacity-100 transition-opacity">Expected Answer</p>
+                    <code className="block bg-black/40 p-4 rounded-xl text-excel-light font-mono text-sm blur-md hover:blur-none transition-all duration-500 select-none">
+                       {lesson.miniChallenge.expectedAnswer}
+                    </code>
+                 </div>
+              </section>
 
               <button
-                onClick={() => setCurrentStep('practice')}
-                className="w-full mt-12 bg-excel-green hover:bg-excel-light text-white font-bold py-5 rounded-[2rem] flex items-center justify-center gap-2 shadow-2xl shadow-excel-green/20 transition-all active:scale-95"
+                onClick={() => {
+                  setCurrentStep('practice');
+                  window.scrollTo(0, 0);
+                }}
+                className="w-full mt-6 bg-white text-black font-black py-6 rounded-[2.5rem] flex items-center justify-center gap-4 transition-all active:scale-95 shadow-[0_20px_40px_rgba(255,255,255,0.1)]"
               >
-                Go to Practice
-                <ArrowRight size={20} />
+                Go to Lab Practice
+                <ArrowRight size={24} />
               </button>
             </motion.div>
           )}
