@@ -314,6 +314,10 @@ export const dateTimeLessons = [
         ]
       }
     ],
+    commonMistakes: [
+      { mistake: "Inputting text.", fix: "If you point DAY at a cell containing 'May 20', it might fail if Excel doesn't recognize it as a date. Ensure the input is a valid Excel date (serial number)." },
+      { mistake: "Wrong range.", fix: "DAY only accepts a single date. You cannot use it on a range like A2:A10." }
+    ],
     relatedFunctions: ["MONTH", "YEAR", "DATE"],
     practice: {
       instructions: "In cell B2, extract the day number from the date in A2.",
@@ -361,6 +365,9 @@ export const dateTimeLessons = [
         ]
       }
     ],
+    commonMistakes: [
+      { mistake: "Confusion with text months.", fix: "MONTH returns a number (1-12). If you want the text 'January', you need the TEXT function: =TEXT(A2, \"mmmm\")." }
+    ],
     relatedFunctions: ["DAY", "YEAR", "DATE"],
     practice: {
       instructions: "In cell B2, extract the month number from the date in A2.",
@@ -407,6 +414,9 @@ export const dateTimeLessons = [
           "It returns 2024 as a number."
         ]
       }
+    ],
+    commonMistakes: [
+      { mistake: "Two-digit year confusion.", fix: "Always use 4-digit years. If you point YEAR at a cell with '24', Excel might interpret it as the year 1924 depending on your system settings." }
     ],
     relatedFunctions: ["DAY", "MONTH", "DATE"],
     practice: {

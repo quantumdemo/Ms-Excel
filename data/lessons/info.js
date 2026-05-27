@@ -423,6 +423,10 @@ export const infoLessons = [
         }
       }
     ],
+    commonMistakes: [
+      { mistake: "Non-numeric input.", fix: "Pointing ISODD at a cell containing text will result in a #VALUE! error. Ensure the cell contains a number." },
+      { mistake: "Confusion with decimals.", fix: "ISODD truncates decimals. =ISODD(1.9) returns TRUE because it only looks at the integer 1. Don't use it if you need precise decimal parity." }
+    ],
     relatedFunctions: ["ISEVEN", "MOD"],
     miniChallenge: {
       question: "What does =ISODD(3.7) return?",

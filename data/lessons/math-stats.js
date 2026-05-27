@@ -1119,6 +1119,10 @@ export const mathStatsLessons = [
         ]
       }
     ],
+    commonMistakes: [
+      { mistake: "Confusion with Average.", fix: "MEDIAN is the middle value, not the mean. If you have 1, 2, 100, MEDIAN is 2, while AVERAGE is 34.3." },
+      { mistake: "Non-numeric data.", fix: "MEDIAN ignores text and blanks, but if the entire range is non-numeric, it returns #NUM!." }
+    ],
     relatedFunctions: ["AVERAGE", "MODE", "MAX", "MIN"],
     practice: {
       instructions: "In cell B2, find the median of the values in A2:A6.",
@@ -1174,6 +1178,10 @@ export const mathStatsLessons = [
         ]
       }
     ],
+    commonMistakes: [
+      { mistake: "Negative digits.", fix: "Using a negative number for num_digits rounds to the left of the decimal. =ROUNDUP(123, -1) results in 130." },
+      { mistake: "Rounding toward zero.", fix: "ROUNDUP always rounds AWAY from zero. For negative numbers, -1.1 becomes -2." }
+    ],
     relatedFunctions: ["ROUND", "ROUNDDOWN", "CEILING", "INT"],
     miniChallenge: {
       question: "Round up 12.01 to the nearest whole number.",
@@ -1207,6 +1215,9 @@ export const mathStatsLessons = [
       "Rounding down currency for conservative budget estimates."
     ],
     syntax: "=ROUNDDOWN(number, num_digits)",
+    commonMistakes: [
+      { mistake: "Thinking it rounds to nearest.", fix: "ROUNDDOWN ignores standard 0.5 rules and always goes toward zero. 1.9 becomes 1." }
+    ],
     practice: {
       instructions: "In cell B2, round down 10.9 to 0 decimal places.",
       initialData: [["Val", "Down"], [10.9, ""]],
@@ -1230,6 +1241,9 @@ export const mathStatsLessons = [
     whyItExists: "Essential for working with dates and times (since dates are integers and times are decimals).",
     whenToUse: "Use INT to extract the date from a NOW() timestamp.",
     syntax: "=INT(number)",
+    commonMistakes: [
+      { mistake: "Handling negative numbers.", fix: "INT rounds DOWN to the nearest integer. For -5.1, INT returns -6, not -5. Use TRUNC if you just want to remove decimals." }
+    ],
     proTips: [
       "Use =NOW()-INT(NOW()) to get just the time from a timestamp."
     ],
@@ -1265,6 +1279,10 @@ export const mathStatsLessons = [
       formula: "=MOD(500, 12)"
     },
     syntax: "=MOD(number, divisor)",
+    commonMistakes: [
+      { mistake: "Division by zero.", fix: "If the divisor is 0, MOD returns a #DIV/0! error. Ensure your divisor is never zero." },
+      { mistake: "Negative results.", fix: "In Excel, MOD returns a result with the same sign as the divisor. This can be confusing when doing math with negative numbers." }
+    ],
     proTips: [
       "Use =MOD(ROW(), 2) = 0 in conditional formatting to highlight every other row."
     ],
@@ -1288,6 +1306,9 @@ export const mathStatsLessons = [
       concept: "Like SUM, but for multiplication. =PRODUCT(A1:A5) is the same as =A1*A2*A3*A4*A5."
     },
     syntax: "=PRODUCT(number1, [number2], ...)",
+    commonMistakes: [
+      { mistake: "Empty cells vs Zeros.", fix: "PRODUCT ignores empty cells, but it multiplies by 0 if a cell contains a zero, making the whole result 0. Be careful with 'placeholder' zeros." }
+    ],
     practice: {
       instructions: "In cell B2, multiply the numbers in A2:A3.",
       initialData: [["Nums", "Prod"], [5, ""], [10, ""]],
@@ -1308,6 +1329,9 @@ export const mathStatsLessons = [
       concept: "What number multiplied by itself equals this number? SQRT(16) is 4."
     },
     syntax: "=SQRT(number)",
+    commonMistakes: [
+      { mistake: "Negative numbers.", fix: "SQRT cannot handle negative numbers and will return a #NUM! error. Use ABS first if you need the root of a negative's magnitude: =SQRT(ABS(A1))." }
+    ],
     practice: {
       instructions: "In cell B2, find the square root of A2.",
       initialData: [["Val", "Root"], [25, ""]],

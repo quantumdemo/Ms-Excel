@@ -172,6 +172,10 @@ export const financialLessons = [
       { arg: "pmt", desc: "The payment made each period. 0 if only a lump sum at the end." },
       { arg: "fv", desc: "Optional. The future value you want to receive." }
     ],
+    commonMistakes: [
+      { mistake: "Sign convention.", fix: "If the result should be 'money you get', ensure your PMT or FV inputs are negative (money you give up). Excel follows cash flow direction." },
+      { mistake: "Unit mismatch.", fix: "Ensure rate and nper use the same periods. If nper is in months, your annual rate must be divided by 12." }
+    ],
     relatedFunctions: ["FV", "PMT", "NPV"],
     practice: {
       instructions: "In cell B4, use PV to find the current worth of receiving $10,000 (B1) in 5 years (B3) at a 5% interest rate (B2).",

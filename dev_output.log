@@ -29,3 +29,11 @@
  ○ Compiling /feedback ...
  ✓ Compiled /feedback in 1626ms (1752 modules)
  GET /feedback 200 in 2151ms
+ ✓ Compiled in 6.3s (1736 modules)
+ ✓ Compiled in 1233ms (1736 modules)
+ ✓ Compiled in 2.7s (1736 modules)
+ ✓ Compiled in 532ms (1736 modules)
+ GET / 200 in 579ms
+ ○ Compiling /feedback ...
+ ✓ Compiled /feedback in 1171ms (914 modules)
+ GET /feedback 200 in 1678ms
