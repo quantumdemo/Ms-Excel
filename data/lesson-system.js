@@ -24,35 +24,37 @@ export const createPlaceholderLesson = (id, name, category) => ({
   xp: 50,
   introduction: {
     title: `What is the ${name} Function?`,
-    description: `Master the ${name} function. It is a vital part of the ${category} toolset in Microsoft Excel. This function helps you perform complex tasks automatically.`,
-    concept: `The ${name} function is designed to process data in your spreadsheet efficiently.`
+    description: `Master the ${name} function. It is a vital part of the ${category} tools. This function helps you save time by performing tasks automatically.`,
+    concept: `Like all functions, ${name} takes some information (arguments), processes it, and gives you a result.`
   },
   syntax: `=${name}(argument1, [argument2], ...)`,
   syntaxBreakdown: [
-    { arg: "argument1", desc: "The first required piece of information for the function." },
-    { arg: "argument2", desc: "An optional piece of information to further refine the result." }
+    { arg: "argument1", desc: "The first required piece of information Excel needs to run this function." },
+    { arg: "argument2", desc: "Optional. Extra information you can provide to change how the function works." }
   ],
   realWorldExamples: [
     {
-      title: "General Usage",
+      title: "Common Scenario",
       table: {
-        headers: ["Data A", "Data B", "Formula", "Result"],
+        headers: ["Input Data", "Formula", "Result"],
         rows: [
-          ["Val 1", "Val 2", `=${name}(...)`, "Output"]
+          ["Sample Value", `=${name}(...)`, "Output"]
         ]
       },
-      explanation: `By using ${name}, Excel automatically calculates the output based on your input data.`
+      explanation: `Excel uses ${name} to turn your raw data into useful information.`
     }
   ],
   commonMistakes: [
-    { title: "Incorrect Range", desc: "Make sure you select the correct cells for your calculation." }
+    { title: "Wrong Syntax", desc: `Ensure you use the correct number of commas and parentheses for ${name}.` },
+    { title: "Data Type", desc: "Check if the function expects text, numbers, or logical values." }
   ],
   proTips: [
-    `You can use ${name} with other functions to create even more powerful formulas.`
+    `Mastering ${name} is a great step toward becoming an Excel professional.`,
+    "You can find this function in the Formulas tab of the Excel ribbon."
   ],
   miniChallenge: {
-    question: `Write a formula using ${name} to process the data in cells A2 and B2.`,
-    expectedAnswer: `=${name}(A2,B2)`
+    question: `Write a formula using ${name} to calculate a result from cell A2.`,
+    expectedAnswer: `=${name}(A2)`
   },
   practice: {
     instructions: `Apply the ${name} function to solve the challenge below.`,
