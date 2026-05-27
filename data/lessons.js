@@ -152,7 +152,8 @@ const averageLesson = {
     }
   ],
   commonMistakes: [
-    { title: "Zeros vs Blanks", desc: "AVERAGE includes cells with 0 but ignores empty cells. This can change your result!" }
+    { title: "Zeros vs Blanks", desc: "AVERAGE includes cells with 0 in the calculation but skips empty cells. If a student missed a test, leave it blank; don't type 0 unless they actually scored zero." },
+    { title: "Text in Range", desc: "AVERAGE ignores cells containing text or logical values (TRUE/FALSE)." }
   ],
   proTips: [
     "To ignore zeros, you might need the AVERAGEIF function.",
@@ -201,7 +202,8 @@ const countLesson = {
     }
   ],
   commonMistakes: [
-    { title: "Counting Text", desc: "COUNT only counts numbers. To count text or anything else, use COUNTA." }
+    { title: "Counting Text", desc: "COUNT only counts numbers. If you try to count names or \"Yes/No\" answers, it will return 0. Use COUNTA for text." },
+    { title: "Numbers as Text", desc: "If a number is formatted as text, COUNT might ignore it." }
   ],
   proTips: [
     "Numbers, dates, and times are all counted by COUNT.",
@@ -252,12 +254,14 @@ const vlookupLesson = {
     }
   ],
   commonMistakes: [
-    { title: "Search Column", desc: "The lookup_value MUST be in the very first column of your table_array." },
-    { title: "Static Columns", desc: "If you add columns to your table, VLOOKUP might break because the index number doesn't change." }
+    { title: "Search Column", desc: "The lookup value MUST be in the very first column of your table range. Excel cannot look to the left with VLOOKUP." },
+    { title: "Static Columns", desc: "If you insert a new column in your table, VLOOKUP will still use the old index number and return wrong data." },
+    { title: "#N/A Error", desc: "This happens if the value you are looking for doesn't exist in the first column." }
   ],
   proTips: [
-    "Always use FALSE for range_lookup when searching for specific items (like IDs or Names).",
-    "XLOOKUP is the modern, more powerful replacement for VLOOKUP."
+    "Always use FALSE for the last argument when you need an exact match (like searching for an ID or Name).",
+    "Use Absolute References ($A$2:$C$10) for the table range if you plan to copy the formula down to other cells.",
+    "XLOOKUP is a newer and better alternative if your version of Excel supports it."
   ],
   miniChallenge: {
     question: "Lookup 'Product1' in range A1:B10 and get the price from column 2 (Exact match).",
@@ -302,8 +306,8 @@ const sumLesson = {
     }
   ],
   commonMistakes: [
-    { title: "Circular Reference", desc: "Don't include the cell where the formula is written in the SUM range." },
-    { title: "Non-Numeric Data", desc: "SUM ignores text, so ensure your numbers are formatted correctly." }
+    { title: "Circular Reference", desc: "Don't include the cell where you are writing the formula in the SUM range. This creates a never-ending loop." },
+    { title: "Non-Numeric Data", desc: "SUM ignores text. If your numbers are stored as text, Excel won't add them. Look for the little green triangle in the corner of your cells!" }
   ],
   proTips: [
     "Use Alt + = (Windows) or Cmd + Shift + T (Mac) to quickly AutoSum a range.",
