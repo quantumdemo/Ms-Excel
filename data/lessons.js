@@ -73,8 +73,8 @@ const foundationLessons = [
         table: {
           headers: ["Student", "Score", "Formula", "Result"],
           rows: [
-            ["John", "72", "=IF(B2>=50, 'PASS', 'FAIL')", "PASS"],
-            ["Mary", "40", "=IF(B3>=50, 'PASS', 'FAIL')", "FAIL"]
+          ["John", "72", "=IF(B2>=50, \"PASS\", \"FAIL\")", "PASS"],
+          ["Mary", "40", "=IF(B3>=50, \"PASS\", \"FAIL\")", "FAIL"]
           ]
         },
         explanation: "Excel checks the score and automatically assigns a Pass or Fail status."
@@ -93,10 +93,10 @@ const foundationLessons = [
       expectedAnswer: "=IF(A2>=18,'Adult','Minor')"
     },
     practice: {
-      instructions: "In cell C2, write a formula to show 'PASS' if the score in B2 is 50 or above, otherwise 'FAIL'.",
+      instructions: "In cell C2, write a formula to show \"PASS\" if the score in B2 is 50 or above, otherwise \"FAIL\".",
       initialData: [["Student", "Score", "Result"], ["Alice", 75, ""]],
       targetCell: [1, 2],
-      expectedFormula: "IF(B2>=50,'PASS','FAIL')",
+      expectedFormula: "IF(B2>=50,\"PASS\",\"FAIL\")",
       expectedValue: "PASS"
     }
   }
@@ -264,7 +264,7 @@ const vlookupLesson = {
     expectedAnswer: "=VLOOKUP('Product1', A1:B10, 2, FALSE)"
   },
   practice: {
-    instructions: "In cell E2, find the Price of 'Banana' using VLOOKUP from the table in A2:B4.",
+    instructions: "In cell E2, find the Price of the product named in D2 using VLOOKUP from the table in A2:B4.",
     initialData: [["Product", "Price", "", "Search", "Result"], ["Apple", 5, "", "Banana", ""], ["Banana", 3, "", "", ""], ["Mango", 4, "", "", ""]],
     targetCell: [1, 4],
     expectedFormula: "VLOOKUP(D2,A2:B4,2,FALSE)",
@@ -314,7 +314,7 @@ const sumLesson = {
     expectedAnswer: "=SUM(A1:A10)"
   },
   practice: {
-    instructions: "In cell B4, use the SUM function to calculate the total of values in B1, B2, and B3.",
+    instructions: "In cell B5, use the SUM function to calculate the total of values in B2, B3, and B4.",
     initialData: [["Item", "Cost"], ["Rent", 1200], ["Food", 400], ["Travel", 200], ["Total", ""]],
     targetCell: [4, 1],
     expectedFormula: "SUM(B2:B4)",
