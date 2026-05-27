@@ -85,6 +85,7 @@ export default function HomeDashboard({ onSelectLesson }) {
         onSelectCategory={handleCategorySelect}
         setActiveTab={setActiveTab}
         activeTab={activeTab}
+        categoryFilter={categoryFilter}
       />
 
       <div className="px-6 pt-6">
@@ -206,6 +207,29 @@ export default function HomeDashboard({ onSelectLesson }) {
             </motion.div>
           )}
 
+          {activeTab === 'achievements' && (
+            <motion.div
+               key="achievements"
+               initial={{ opacity: 0, y: 10 }}
+               animate={{ opacity: 1, y: 0 }}
+               exit={{ opacity: 0, y: -10 }}
+               className="flex flex-col items-center"
+            >
+               <div className="w-24 h-24 bg-excel-green/10 rounded-full flex items-center justify-center mb-6 border-2 border-excel-green/20">
+                  <Trophy size={48} className="text-excel-green" />
+               </div>
+               <h2 className="text-3xl font-black mb-2">Your Trophies</h2>
+               <p className="text-slate-500 mb-10">Keep learning to unlock more!</p>
+
+               <div className="grid grid-cols-2 gap-4 w-full">
+                  <AchievementCard icon={<Target />} label="First Lesson" description="Complete 1 lesson" completed={completedLessons.length >= 1} />
+                  <AchievementCard icon={<Zap />} label="XP Booster" description="Earn 1,000 XP" completed={xp >= 1000} />
+                  <AchievementCard icon={<Flame />} label="Hot Streak" description="3 Day Streak" completed={false} />
+                  <AchievementCard icon={<Award />} label="Master" description="All basics done" completed={completedLessons.length >= 10} />
+               </div>
+            </motion.div>
+          )}
+
           {activeTab === 'profile' && (
             <motion.div
                key="profile"
@@ -310,6 +334,25 @@ function CheckIcon({ size, strokeWidth }) {
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
       <polyline points="20 6 9 17 4 12" />
     </svg>
+  );
+}
+
+function AchievementCard({ icon, label, description, completed }) {
+  const Icon = icon.type;
+  return (
+    <div className={cn(
+      "p-5 rounded-3xl border text-center transition-all",
+      completed ? "bg-excel-green/5 border-excel-green/20" : "bg-white/5 border-white/5 opacity-50 grayscale"
+    )}>
+       <div className={cn(
+         "w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3",
+         completed ? "bg-excel-green text-white" : "bg-white/10 text-slate-500"
+       )}>
+          <Icon size={24} />
+       </div>
+       <p className="font-bold text-sm text-slate-100 mb-1">{label}</p>
+       <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">{description}</p>
+    </div>
   );
 }
 

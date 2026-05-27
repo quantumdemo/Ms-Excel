@@ -21,7 +21,7 @@ const categories = [
   { id: 'date-time', title: 'Date & Time', icon: Calendar },
 ];
 
-export default function HamburgerMenu({ isOpen, onClose, onSelectCategory, setActiveTab, activeTab }) {
+export default function HamburgerMenu({ isOpen, onClose, onSelectCategory, setActiveTab, activeTab, categoryFilter }) {
   const { user, logout } = useAuthStore();
   const { xp } = useProgressStore();
   const currentLevel = Math.floor(xp / 500) + 1;
@@ -70,29 +70,41 @@ export default function HamburgerMenu({ isOpen, onClose, onSelectCategory, setAc
               </div>
 
               <nav className="px-4 space-y-1">
-                 <MenuLink icon={<Home size={20} />} label="Home" active={activeTab === 'home'} onClick={() => { setActiveTab('home'); onSelectCategory(null); onClose(); }} />
-                 <MenuLink icon={<Search size={20} />} label="Search Functions" active={activeTab === 'search'} onClick={() => { setActiveTab('search'); onClose(); }} />
-                 <MenuLink icon={<Trophy size={20} />} label="Achievements" active={activeTab === 'achievements'} onClick={() => { setActiveTab('achievements'); onClose(); }} />
+                 <MenuLink
+                   icon={<Home size={20} />}
+                   label="Home"
+                   active={activeTab === 'home'}
+                   onClick={() => { setActiveTab('home'); onSelectCategory(null); onClose(); }}
+                 />
+                 <MenuLink
+                   icon={<Search size={20} />}
+                   label="Search Functions"
+                   active={activeTab === 'search'}
+                   onClick={() => { setActiveTab('search'); onClose(); }}
+                 />
+                 <MenuLink
+                   icon={<Trophy size={20} />}
+                   label="Achievements"
+                   active={activeTab === 'achievements'}
+                   onClick={() => { setActiveTab('achievements'); onClose(); }}
+                 />
 
                  <div className="pt-6 pb-2 px-4">
                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Learning Roadmap</p>
                  </div>
 
                  {categories.map((cat) => (
-                    <button
+                    <MenuLink
                       key={cat.id}
-                      className="w-full flex items-center gap-4 px-4 py-3 hover:bg-white/5 rounded-xl transition-colors group active:scale-[0.98]"
+                      icon={(() => {
+                        const Icon = cat.icon;
+                        return <Icon size={20} />;
+                      })()}
+                      label={cat.title}
+                      active={categoryFilter === cat.id}
                       onClick={() => onSelectCategory(cat.id)}
-                    >
-                      <span className="text-slate-500 group-hover:text-excel-green">
-                         {(() => {
-                           const Icon = cat.icon;
-                           return <Icon size={20} />;
-                         })()}
-                      </span>
-                      <span className="flex-1 text-left font-medium text-slate-300 group-hover:text-white">{cat.title}</span>
-                      <ChevronRight size={16} className="text-slate-600 group-hover:translate-x-1 transition-transform" />
-                    </button>
+                      showChevron
+                    />
                  ))}
               </nav>
             </div>
@@ -119,16 +131,21 @@ export default function HamburgerMenu({ isOpen, onClose, onSelectCategory, setAc
   );
 }
 
-function MenuLink({ icon, label, active, onClick }) {
+function MenuLink({ icon, label, active, onClick, showChevron }) {
   return (
     <button
       onClick={onClick}
-      className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all active:scale-[0.98] ${
+      className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all active:scale-[0.98] group ${
         active ? "bg-excel-green/10 text-excel-green font-bold border border-excel-green/20 shadow-sm shadow-excel-green/5" : "text-slate-400 hover:bg-white/5"
       }`}
     >
-      {icon}
-      <span>{label}</span>
+      <div className={active ? "text-excel-green" : "text-slate-500 group-hover:text-excel-green transition-colors"}>
+        {icon}
+      </div>
+      <span className="flex-1 text-left">{label}</span>
+      {showChevron && (
+        <ChevronRight size={16} className={`${active ? "text-excel-green" : "text-slate-600"} group-hover:translate-x-1 transition-transform`} />
+      )}
     </button>
   );
 }
