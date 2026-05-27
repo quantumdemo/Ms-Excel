@@ -1,11 +1,12 @@
 "use client";
 
 import InfoPageLayout from "@/components/layout/InfoPageLayout";
-import { Star, MessageCircle, Zap, Vote, Loader2 } from "lucide-react";
+import { Star, MessageCircle, Zap, Vote, Loader2, Frown, Meh, Smile, Star as StarIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { useAuthStore } from "@/hooks/useAuth";
+import { cn } from "@/lib/utils";
 
 const roadmapFeatures = [
   { id: 'ai-tutor', name: "AI Formula Tutor" },
@@ -87,23 +88,25 @@ export default function FeedbackPage() {
 
           <div className="flex justify-between max-w-xs mx-auto mb-8">
             {[
-              { v: 1, e: '😞', l: 'Poor' },
-              { v: 2, e: '😐', l: 'Average' },
-              { v: 3, e: '🙂', l: 'Good' },
-              { v: 4, e: '🤩', l: 'Excellent' }
+              { v: 1, icon: Frown, color: "text-red-400", l: 'Poor' },
+              { v: 2, icon: Meh, color: "text-orange-400", l: 'Average' },
+              { v: 3, icon: Smile, color: "text-blue-400", l: 'Good' },
+              { v: 4, icon: StarIcon, color: "text-excel-green", l: 'Excellent' }
             ].map((i) => (
               <button
                 key={i.v}
                 onClick={() => setStarRating(i.v)}
                 className="flex flex-col items-center gap-2 transition-all active:scale-90"
               >
-                <span className={cn(
-                  "text-4xl transition-all",
-                  rating === i.v ? "scale-125 grayscale-0" : "grayscale opacity-40 hover:opacity-100"
-                )}>{i.e}</span>
+                <div className={cn(
+                  "w-12 h-12 rounded-2xl flex items-center justify-center transition-all border",
+                  rating === i.v ? `bg-white/10 border-white/20 scale-110 ${i.color}` : "bg-white/5 border-transparent opacity-40 grayscale hover:opacity-100"
+                )}>
+                  <i.icon size={28} />
+                </div>
                 <span className={cn(
                   "text-[10px] font-black uppercase tracking-widest",
-                  rating === i.v ? "text-excel-green" : "text-slate-600"
+                  rating === i.v ? i.color : "text-slate-600"
                 )}>{i.l}</span>
               </button>
             ))}

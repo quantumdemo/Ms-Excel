@@ -1,0 +1,31 @@
+
+> learn-excel@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.1.12
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.2:3000
+
+ ✓ Starting...
+> [PWA] PWA support is disabled
+> [PWA] PWA support is disabled
+ ✓ Ready in 2.3s
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 923ms (104 modules)
+[Upstash Redis] The 'url' property is missing or undefined in your Redis config.
+[Upstash Redis] The 'token' property is missing or undefined in your Redis config.
+ ○ Compiling / ...
+ ✓ Compiled / in 10.1s (1755 modules)
+ HEAD / 200 in 10915ms
+ ✓ Compiled in 1116ms (839 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (107kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ GET / 200 in 126ms
+ ⚠ The "images.domains" configuration is deprecated. Please use "images.remotePatterns" configuration instead.
+ GET / 200 in 31ms
+ GET / 200 in 31ms
+ GET / 200 in 51ms
+ GET / 200 in 28ms
+ GET / 200 in 38ms
+ ○ Compiling /feedback ...
+ ✓ Compiled /feedback in 1626ms (1752 modules)
+ GET /feedback 200 in 2151ms
