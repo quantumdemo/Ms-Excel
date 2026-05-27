@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import { supabase } from '@/lib/supabase';
 
 export const useProgressStore = create(
@@ -20,10 +20,13 @@ export const useProgressStore = create(
         .single();
 
       if (data) {
+        const { xp, completedLessons } = get();
+        // Sync local with server: use server data but ensure local data isn't lost
+        // (assuming server is source of truth but local might be ahead during offline/sync)
         set({
-          xp: data.xp,
-          streak: data.streak,
-          completedLessons: data.completed_lessons || []
+          xp: Math.max(xp, data.xp),
+          streak: Math.max(0, data.streak),
+          completedLessons: Array.from(new Set([...completedLessons, ...(data.completed_lessons || [])]))
         });
       }
     } catch (err) {
@@ -68,6 +71,7 @@ export const useProgressStore = create(
     }),
     {
       name: 'excel-progress-storage',
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );
