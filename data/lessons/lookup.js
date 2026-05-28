@@ -32,7 +32,7 @@ export const lookupLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Product Pricing",
+        title: "Example: Product Pricing",
         table: {
           headers: ["ID", "Product", "Price", "VLOOKUP Result"],
           rows: [
@@ -109,7 +109,7 @@ export const lookupLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Safe Pricing",
+        title: "Example: Safe Pricing",
         table: {
           headers: ["Item", "Stock", "Price", "XLOOKUP Result"],
           rows: [
@@ -183,7 +183,7 @@ export const lookupLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Basic Grid Lookup",
+        title: "Example: Basic Grid Lookup",
         table: {
           headers: ["", "Col 1", "Col 2"],
           rows: [
@@ -255,7 +255,7 @@ export const lookupLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Finding Position",
+        title: "Example: Finding Position",
         table: {
           headers: ["Item", "Formula", "Position"],
           rows: [
@@ -327,7 +327,7 @@ export const lookupLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: High Sale Extraction",
+        title: "Example: High Sale Extraction",
         table: {
           headers: ["Rep", "Sales", "Formula", "High Sales List"],
           rows: [

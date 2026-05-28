@@ -16,59 +16,92 @@ export const functionCategories = [
   { id: 'dynamic-array', name: 'Dynamic Arrays', icon: Zap, color: '#f97316' },
 ];
 
-export const createPlaceholderLesson = (id, name, category) => ({
-  id,
-  title: `${name} Function`,
-  category,
-  difficulty: "Beginner",
-  xp: 50,
-  introduction: {
-    title: `Mastering the ${name} function`,
-    description: `The ${name} function is a powerful tool in your Excel toolkit, specifically designed for ${category} tasks. It allows you to process data and extract meaningful insights with minimal effort.`,
-    concept: `This function works by taking specific inputs, known as arguments, and returning a computed result based on the logic of ${name}.`
+const categoryMetadata = {
+  logical: {
+    useCase: "automated decision making",
+    exampleHeader: ["Condition", "Value If True", "Result"],
+    exampleRow: ["=10>5", "Success", "YES"]
   },
-  syntax: `=${name}(range_or_value, [additional_options])`,
-  syntaxBreakdown: [
-    { arg: "range_or_value", desc: "The primary data or cell range that the function will process." },
-    { arg: "additional_options", desc: "Optional settings to refine the behavior and output of the function." }
-  ],
-  detailedExamples: [
-    {
-      title: `Business Analysis with ${name}`,
-      table: {
-        headers: ["Region", "Monthly Revenue", "Analysis"],
-        rows: [
-          ["North", 12500, `=${name}(B2)`],
-          ["South", 18300, `=${name}(B3)`]
-        ]
-      },
-      explanation: `In this scenario, we use the ${name} function to process regional revenue data, allowing for automated and scalable data analysis.`
-    }
-  ],
-  commonMistakes: [
-    { title: "Wrong Syntax", desc: `Ensure you use the correct number of commas and parentheses for ${name}.` },
-    { title: "Data Type", desc: "Check if the function expects text, numbers, or logical values." }
-  ],
-  proTips: [
-    `Mastering ${name} is a great step toward becoming an Excel professional.`,
-    "You can find this function in the Formulas tab of the Excel ribbon."
-  ],
-  miniChallenge: {
-    question: `Write a formula using ${name} to calculate a result from cell A2.`,
-    expectedAnswer: `=${name}(A2)`
+  text: {
+    useCase: "cleaning and manipulating string data",
+    exampleHeader: ["Input String", "Logic", "Transformed"],
+    exampleRow: ["Excel Pro", "Extract", "Pro"]
   },
-  practice: {
-    instructions: `Calculate the ${name} result for the dataset provided in cell C2.`,
-    initialData: [["Category", "Sales", "Result"], ["Products", 1500, ""], ["Services", 2400, ""]],
-    targetCell: [1, 2],
-    expectedFormula: `${name}(B2)`,
-    expectedValue: "VALID"
+  math: {
+    useCase: "complex numerical computations",
+    exampleHeader: ["Value A", "Value B", "Calculated"],
+    exampleRow: [150, 25, "Result"]
   },
-  sandboxData: [
-    ["Project ID", "Budget", "Actual Spend", "Variance"],
-    ["P-001", 5000, 4800, "=B2-C2"],
-    ["P-002", 7500, 8100, "=B3-C3"],
-    ["P-003", 2000, 2000, "=B4-C4"],
-    ["P-004", 12000, 11500, "=B5-C5"]
-  ]
-});
+  lookup: {
+    useCase: "retrieving data from specific ranges",
+    exampleHeader: ["ID", "Lookup Table", "Result"],
+    exampleRow: ["E-101", "Database", "Match"]
+  },
+  financial: {
+    useCase: "investment and loan analysis",
+    exampleHeader: ["Principal", "Rate", "Payment"],
+    exampleRow: [5000, "5%", 250]
+  }
+};
+
+export const createPlaceholderLesson = (id, name, category) => {
+  const meta = categoryMetadata[category] || {
+    useCase: "efficient data processing",
+    exampleHeader: ["Input A", "Input B", "Output"],
+    exampleRow: [100, 200, "Analyzed"]
+  };
+
+  return {
+    id,
+    title: `${name} Function`,
+    category,
+    difficulty: "Beginner",
+    xp: 50,
+    introduction: {
+      title: `The Purpose of ${name}`,
+      description: `The ${name} function is essential for ${meta.useCase}. It transforms raw spreadsheet data into meaningful insights by applying specific logical rules.`,
+      concept: `By providing ${name} with the required arguments, you can automate repetitive tasks and ensure mathematical precision in your reports.`
+    },
+    syntax: `=${name}(argument1, [argument2], ...)`,
+    syntaxBreakdown: [
+      { arg: "argument1", desc: "The primary range or value that the function evaluates." },
+      { arg: "argument2", desc: "Optional additional parameters to refine the output." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example",
+        table: {
+          headers: meta.exampleHeader,
+          rows: [
+            [meta.exampleRow[0], meta.exampleRow[1], `=${name}(A2)`],
+            ["Sample Data", "Secondary Data", `=${name}(A3)`]
+          ]
+        },
+        explanation: `In this reporting scenario, ${name} processes the input cells to generate a standardized result, which updates automatically if the source data changes.`
+      }
+    ],
+    commonMistakes: [
+      { title: "Incomplete Arguments", desc: `Ensure all required parameters for ${name} are provided to avoid #N/A or #VALUE errors.` }
+    ],
+    proTips: [
+      `Use ${name} in combination with other functions to build more powerful nested formulas.`
+    ],
+    miniChallenge: {
+      question: `Apply the ${name} function to the value in cell A2 to get an automated result.`,
+      expectedAnswer: `=${name}(A2)`
+    },
+    practice: {
+      instructions: `Use the ${name} function in cell C2 to analyze the data in column B.`,
+      initialData: [["Category", "Data Point", "Result"], ["Item 1", 10, ""], ["Item 2", 20, ""]],
+      targetCell: [1, 2],
+      expectedFormula: `${name}(B2)`,
+      expectedValue: "VALID"
+    },
+    sandboxData: [
+      ["Dataset", "Value 1", "Value 2", "Analysis"],
+      ["Test Alpha", 100, 50, `=${name}(B2, C2)`],
+      ["Test Beta", 200, 150, `=${name}(B3, C3)`],
+      ["Test Gamma", 300, 250, `=${name}(B4, C4)`]
+    ]
+  };
+};

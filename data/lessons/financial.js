@@ -33,7 +33,7 @@ export const financialLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Monthly Car Loan",
+        title: "Example: Monthly Car Loan",
         table: {
           headers: ["Loan Amount", "Annual Rate", "Years", "Monthly Payment"],
           rows: [
@@ -107,7 +107,7 @@ export const financialLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Basic Savings",
+        title: "Example: Basic Savings",
         table: {
           headers: ["Monthly Save", "Rate", "Years", "Future Total"],
           rows: [
