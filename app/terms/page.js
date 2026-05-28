@@ -31,7 +31,7 @@ export default function TermsPage() {
         <section>
           <h2 className="text-xl font-bold text-white mb-3">Intellectual Property</h2>
           <p className="text-slate-400 leading-relaxed">
-            All content, including lesson text, interactive spreadsheets, custom UI designs, and animations, belong exclusively to LearnExcel and Afeez Alimi.
+            All content, including lesson text, interactive spreadsheets, custom UI designs, and animations, belong exclusively to LearnExcel.
           </p>
         </section>
 

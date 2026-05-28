@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { QRCodeSVG } from "qrcode.react";
 
 export default function MobileGatekeeper({ children }) {
   const [isMobile, setIsMobile] = useState(true);
@@ -60,14 +61,25 @@ export default function MobileGatekeeper({ children }) {
 
           <div className="flex flex-col items-center gap-6">
             <p className="text-xs font-black text-slate-500 uppercase tracking-[0.4em]">Scan to open instantly</p>
-            <div className="p-4 bg-white rounded-3xl shadow-2xl premium-glow">
-              <div className="w-48 h-48 bg-slate-100 flex flex-col items-center justify-center border-2 border-dashed border-slate-300 rounded-2xl relative overflow-hidden">
-                 <div className="absolute inset-0 bg-gradient-to-br from-excel-green/10 to-transparent" />
-                 <span className="text-slate-400 text-xs font-bold relative z-10">QR CODE</span>
-                 <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-full h-0.5 bg-excel-green/20 animate-[scan_2s_infinite]" />
-                 </div>
+            <div className="p-6 bg-white rounded-[2.5rem] shadow-2xl premium-glow relative group">
+              <div className="absolute inset-0 bg-excel-green/5 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="relative bg-white p-2 rounded-2xl">
+                <QRCodeSVG
+                  value="https://learn-excel-zeta.vercel.app"
+                  size={180}
+                  level="H"
+                  includeMargin={false}
+                  imageSettings={{
+                    src: "/logo.png",
+                    x: undefined,
+                    y: undefined,
+                    height: 40,
+                    width: 40,
+                    excavate: true,
+                  }}
+                />
               </div>
+              <div className="absolute inset-0 pointer-events-none border-2 border-excel-green/10 rounded-[2.5rem]" />
             </div>
 
             <motion.div
@@ -81,7 +93,7 @@ export default function MobileGatekeeper({ children }) {
             </motion.div>
           </div>
 
-          <p className="mt-16 text-slate-500 font-bold tracking-widest text-xs">A PREMIUM PLATFORM BY AFEEZ ALIMI</p>
+          <p className="mt-16 text-slate-500 font-bold tracking-widest text-xs uppercase">A Premium Interactive Learning Platform</p>
         </motion.div>
       </div>
     );
