@@ -249,6 +249,21 @@ export default function LessonViewer({ lesson, onBack }) {
                 onCellChange={handleCellChange}
               />
 
+              {lesson.sandboxData && (
+                <div className="mt-12 pt-12 border-t border-white/5">
+                  <div className="mb-6">
+                    <h4 className="text-white font-bold text-lg mb-2">Experimental Sandbox</h4>
+                    <p className="text-slate-500 text-sm leading-relaxed">
+                      This is your free-practice zone. Try different formulas using the data below or add your own!
+                    </p>
+                  </div>
+                  <CustomSpreadsheet
+                    isSandbox={true}
+                    initialData={lesson.sandboxData}
+                  />
+                </div>
+              )}
+
               <div className="mt-8 space-y-4">
                  <div className={cn(
                    "p-5 rounded-[2rem] border-2 transition-all duration-500",

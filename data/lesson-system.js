@@ -63,5 +63,12 @@ export const createPlaceholderLesson = (id, name, category) => ({
     targetCell: [1, 2],
     expectedFormula: `${name}(A2,B2)`,
     expectedValue: "VALID"
-  }
+  },
+  sandboxData: [
+    ["Items", "Value A", "Value B"],
+    ["Data 1", 10, 50],
+    ["Data 2", 20, 60],
+    ["Data 3", 30, 70],
+    ["Data 4", 40, 80]
+  ]
 });
