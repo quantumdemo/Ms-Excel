@@ -1,0 +1,27 @@
+
+> learn-excel@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use, trying 3001 instead.
+   ▲ Next.js 15.1.12
+   - Local:        http://localhost:3001
+   - Network:      http://192.168.0.2:3001
+
+ ✓ Starting...
+> [PWA] PWA support is disabled
+> [PWA] PWA support is disabled
+ ✓ Ready in 8s
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 985ms (104 modules)
+[Upstash Redis] The 'url' property is missing or undefined in your Redis config.
+[Upstash Redis] The 'token' property is missing or undefined in your Redis config.
+ ○ Compiling / ...
+ ✓ Compiled / in 9.9s (1743 modules)
+ GET / 200 in 11322ms
+ ✓ Compiled in 1610ms (842 modules)
+ GET / 200 in 208ms
+ ⚠ The "images.domains" configuration is deprecated. Please use "images.remotePatterns" configuration instead.
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (107kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ GET / 200 in 48ms
+ GET / 200 in 34ms
+ ✓ Compiled in 1668ms (1745 modules)
