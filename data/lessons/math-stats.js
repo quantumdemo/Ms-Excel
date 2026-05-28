@@ -48,8 +48,8 @@ export const mathStatsLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Circular References.", fix: "Don't write the SUM formula in a cell that is part of the sum range (e.g., writing =SUM(A1:A10) in cell A5)." },
-      { mistake: "Numbers stored as text.", fix: "Excel ignores text. If a cell has a 'green triangle' error, convert it to a number so SUM can see it." }
+      { title: "Circular References.", desc: "Don't write the SUM formula in a cell that is part of the sum range (e.g., writing =SUM(A1:A10) in cell A5)." },
+      { title: "Numbers stored as text.", desc: "Excel ignores text. If a cell has a 'green triangle' error, convert it to a number so SUM can see it." }
     ],
     limitations: "SUM only performs addition. It cannot directly handle conditions (use SUMIF for that) or complex criteria.",
     bestPractices: [
@@ -122,8 +122,8 @@ export const mathStatsLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Zeros vs Blanks.", fix: "AVERAGE includes cells with 0 in the math. If a student missed a test, leave it blank (ignored) instead of typing 0 (included, lowers the average)." },
-      { mistake: "Including the total.", fix: "Ensure your range doesn't accidentally include a 'Total' row at the bottom, as this will double the average!" }
+      { title: "Zeros vs Blanks.", desc: "AVERAGE includes cells with 0 in the math. If a student missed a test, leave it blank (ignored) instead of typing 0 (included, lowers the average)." },
+      { title: "Including the total.", desc: "Ensure your range doesn't accidentally include a 'Total' row at the bottom, as this will double the average!" }
     ],
     limitations: "AVERAGE is sensitive to 'outliers' (extremely high or low numbers). If one person earns $1 million and everyone else earns $10, the 'Average' will look very high and be misleading.",
     bestPractices: [
@@ -196,7 +196,7 @@ export const mathStatsLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Text numbers.", fix: "If MAX returns 0 or ignores a high number, that number might be 'Text'. Convert it to a real number." }
+      { title: "Text numbers.", desc: "If MAX returns 0 or ignores a high number, that number might be 'Text'. Convert it to a real number." }
     ],
     limitations: "MAX only gives you the number. If you want to know *who* had that number (e.g., the name of the top salesman), you need to combine it with XLOOKUP or INDEX/MATCH.",
     bestPractices: [
@@ -266,7 +266,7 @@ export const mathStatsLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Zeros in the data.", fix: "MIN will return 0 if a cell in your range contains 0. If you want to find the lowest *non-zero* number, you'll need the MINIFS function." }
+      { title: "Zeros in the data.", desc: "MIN will return 0 if a cell in your range contains 0. If you want to find the lowest *non-zero* number, you'll need the MINIFS function." }
     ],
     limitations: "Like MAX, MIN ignores text. If your range is all text, MIN will return 0.",
     bestPractices: [
@@ -337,7 +337,7 @@ export const mathStatsLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Trying to count text.", fix: "If you use COUNT on a list of names, the result will be 0. Use COUNTA instead." }
+      { title: "Trying to count text.", desc: "If you use COUNT on a list of names, the result will be 0. Use COUNTA instead." }
     ],
     limitations: "COUNT strictly only looks for numbers. It will ignore 'TRUE' or 'FALSE' unless they are typed directly into the formula.",
     bestPractices: [
@@ -410,8 +410,8 @@ export const mathStatsLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Mismatched range sizes.", fix: "Your 'range' and 'sum_range' MUST be the same height/width (e.g., A2:A10 and B2:B10). If they don't match, you'll get inaccurate results." },
-      { mistake: "Forgetting quotes.", fix: "Text criteria like \"Fruit\" or logic like \">50\" must be in double quotes." }
+      { title: "Mismatched range sizes.", desc: "Your 'range' and 'sum_range' MUST be the same height/width (e.g., A2:A10 and B2:B10). If they don't match, you'll get inaccurate results." },
+      { title: "Forgetting quotes.", desc: "Text criteria like \"Fruit\" or logic like \">50\" must be in double quotes." }
     ],
     limitations: "SUMIF only handles ONE condition. If you need to sum based on multiple criteria (e.g., Region = 'North' AND Category = 'Fruit'), you must use SUMIFS.",
     bestPractices: [
@@ -485,8 +485,8 @@ export const mathStatsLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Wrong Order.", fix: "In SUMIF, the sum_range is at the end. In SUMIFS, the sum_range is at the START. Don't mix them up!" },
-      { mistake: "Different range sizes.", fix: "All ranges (sum_range and all criteria_ranges) must have the exact same number of rows and columns." }
+      { title: "Wrong Order.", desc: "In SUMIF, the sum_range is at the end. In SUMIFS, the sum_range is at the START. Don't mix them up!" },
+      { title: "Different range sizes.", desc: "All ranges (sum_range and all criteria_ranges) must have the exact same number of rows and columns." }
     ],
     limitations: "SUMIFS uses 'AND' logic (all conditions must be true). If you need 'OR' logic (this OR that), you'll need to add two SUMIFS together.",
     bestPractices: [
@@ -559,7 +559,7 @@ export const mathStatsLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Quotes in logic.", fix: "Logical criteria like \">70\" or \"<>0\" must be wrapped in double quotes." }
+      { title: "Quotes in logic.", desc: "Logical criteria like \">70\" or \"<>0\" must be wrapped in double quotes." }
     ],
     limitations: "COUNTIF only handles one condition. Use COUNTIFS for multiple conditions.",
     bestPractices: [
@@ -633,7 +633,7 @@ export const mathStatsLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Uneven range sizes.", fix: "Every range in COUNTIFS must have the same number of rows and columns." }
+      { title: "Uneven range sizes.", desc: "Every range in COUNTIFS must have the same number of rows and columns." }
     ],
     limitations: "Like SUMIFS, it uses AND logic. For OR logic, add multiple COUNTIFS together.",
     bestPractices: [
@@ -702,7 +702,7 @@ export const mathStatsLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Rounding vs Formatting.", fix: "Changing the 'Decimal' button on the Home tab only *hides* the digits. The math still uses the long number. ROUND actually *changes* the number." }
+      { title: "Rounding vs Formatting.", desc: "Changing the 'Decimal' button on the Home tab only *hides* the digits. The math still uses the long number. ROUND actually *changes* the number." }
     ],
     limitations: "ROUND always uses 0.5 as the cutoff. If you always want to go up (like for tax) or always down (like for inventory), use ROUNDUP or ROUNDDOWN.",
     bestPractices: [
@@ -773,7 +773,7 @@ export const mathStatsLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Hidden spaces.", fix: "If COUNTA gives a higher number than expected, some 'blank' cells might contain invisible spaces. Use LEN to find them." }
+      { title: "Hidden spaces.", desc: "If COUNTA gives a higher number than expected, some 'blank' cells might contain invisible spaces. Use LEN to find them." }
     ],
     limitations: "COUNTA will count cells that look blank but contain formulas that result in an empty string (\"\").",
     bestPractices: [
@@ -842,7 +842,7 @@ export const mathStatsLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Using for formatting.", fix: "If you just want to *hide* the minus sign but keep the negative math, use custom number formatting. ABS actually changes the underlying value to positive." }
+      { title: "Using for formatting.", desc: "If you just want to *hide* the minus sign but keep the negative math, use custom number formatting. ABS actually changes the underlying value to positive." }
     ],
     limitations: "ABS only works on numbers. If you provide text, it will return a #VALUE! error.",
     bestPractices: [
@@ -913,7 +913,7 @@ export const mathStatsLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "#DIV/0! error.", fix: "This happens if no cells meet your criteria. Ensure your criteria matches your data exactly." }
+      { title: "#DIV/0! error.", desc: "This happens if no cells meet your criteria. Ensure your criteria matches your data exactly." }
     ],
     limitations: "Handles only one condition. For multiple conditions, use AVERAGEIFS.",
     bestPractices: [
@@ -984,7 +984,7 @@ export const mathStatsLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Wrong range order.", fix: "Remember that the average_range comes FIRST, just like in SUMIFS." }
+      { title: "Wrong range order.", desc: "Remember that the average_range comes FIRST, just like in SUMIFS." }
     ],
     limitations: "All ranges must be the same size. If even one is different, you'll get a #VALUE! error.",
     bestPractices: [
@@ -1053,7 +1053,7 @@ export const mathStatsLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Array size mismatch.", fix: "If Array 1 has 5 rows and Array 2 has 6 rows, you will get a #VALUE! error. Ranges must be identical in size." }
+      { title: "Array size mismatch.", desc: "If Array 1 has 5 rows and Array 2 has 6 rows, you will get a #VALUE! error. Ranges must be identical in size." }
     ],
     limitations: "SUMPRODUCT treats non-numeric entries (like text) as zero.",
     bestPractices: [
@@ -1120,10 +1120,14 @@ export const mathStatsLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Confusion with Average.", fix: "MEDIAN is the middle value, not the mean. If you have 1, 2, 100, MEDIAN is 2, while AVERAGE is 34.3." },
-      { mistake: "Non-numeric data.", fix: "MEDIAN ignores text and blanks, but if the entire range is non-numeric, it returns #NUM!." }
+      { title: "Confusion with Average.", desc: "MEDIAN is the middle value, not the mean. If you have 1, 2, 100, MEDIAN is 2, while AVERAGE is 34.3." },
+      { title: "Non-numeric data.", desc: "MEDIAN ignores text and blanks, but if the entire range is non-numeric, it returns #NUM!." }
     ],
     relatedFunctions: ["AVERAGE", "MODE", "MAX", "MIN"],
+    miniChallenge: {
+      question: "Find the middle value of range A1:A5.",
+      expectedAnswer: "=MEDIAN(A1:A5)"
+    },
     practice: {
       instructions: "In cell B2, find the median of the values in A2:A6.",
       initialData: [["Value", "Median"], [10, ""], [50, ""], [20, ""], [30, ""], [40, ""]],
@@ -1179,8 +1183,8 @@ export const mathStatsLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Negative digits.", fix: "Using a negative number for num_digits rounds to the left of the decimal. =ROUNDUP(123, -1) results in 130." },
-      { mistake: "Rounding toward zero.", fix: "ROUNDUP always rounds AWAY from zero. For negative numbers, -1.1 becomes -2." }
+      { title: "Negative digits.", desc: "Using a negative number for num_digits rounds to the left of the decimal. =ROUNDUP(123, -1) results in 130." },
+      { title: "Rounding toward zero.", desc: "ROUNDUP always rounds AWAY from zero. For negative numbers, -1.1 becomes -2." }
     ],
     relatedFunctions: ["ROUND", "ROUNDDOWN", "CEILING", "INT"],
     miniChallenge: {
@@ -1216,8 +1220,12 @@ export const mathStatsLessons = [
     ],
     syntax: "=ROUNDDOWN(number, num_digits)",
     commonMistakes: [
-      { mistake: "Thinking it rounds to nearest.", fix: "ROUNDDOWN ignores standard 0.5 rules and always goes toward zero. 1.9 becomes 1." }
+      { title: "Thinking it rounds to nearest.", desc: "ROUNDDOWN ignores standard 0.5 rules and always goes toward zero. 1.9 becomes 1." }
     ],
+    miniChallenge: {
+      question: "Round 1.99 down to zero decimal places.",
+      expectedAnswer: "=ROUNDDOWN(1.99, 0)"
+    },
     practice: {
       instructions: "In cell B2, round down 10.9 to 0 decimal places.",
       initialData: [["Val", "Down"], [10.9, ""]],
@@ -1242,8 +1250,12 @@ export const mathStatsLessons = [
     whenToUse: "Use INT to extract the date from a NOW() timestamp.",
     syntax: "=INT(number)",
     commonMistakes: [
-      { mistake: "Handling negative numbers.", fix: "INT rounds DOWN to the nearest integer. For -5.1, INT returns -6, not -5. Use TRUNC if you just want to remove decimals." }
+      { title: "Handling negative numbers.", desc: "INT rounds DOWN to the nearest integer. For -5.1, INT returns -6, not -5. Use TRUNC if you just want to remove decimals." }
     ],
+    miniChallenge: {
+      question: "Convert 5.7 to the nearest lower integer.",
+      expectedAnswer: "=INT(5.7)"
+    },
     proTips: [
       "Use =NOW()-INT(NOW()) to get just the time from a timestamp."
     ],
@@ -1280,9 +1292,13 @@ export const mathStatsLessons = [
     },
     syntax: "=MOD(number, divisor)",
     commonMistakes: [
-      { mistake: "Division by zero.", fix: "If the divisor is 0, MOD returns a #DIV/0! error. Ensure your divisor is never zero." },
-      { mistake: "Negative results.", fix: "In Excel, MOD returns a result with the same sign as the divisor. This can be confusing when doing math with negative numbers." }
+      { title: "Division by zero.", desc: "If the divisor is 0, MOD returns a #DIV/0! error. Ensure your divisor is never zero." },
+      { title: "Negative results.", desc: "In Excel, MOD returns a result with the same sign as the divisor. This can be confusing when doing math with negative numbers." }
     ],
+    miniChallenge: {
+      question: "Find the remainder of 10 divided by 3.",
+      expectedAnswer: "=MOD(10, 3)"
+    },
     proTips: [
       "Use =MOD(ROW(), 2) = 0 in conditional formatting to highlight every other row."
     ],
@@ -1307,8 +1323,12 @@ export const mathStatsLessons = [
     },
     syntax: "=PRODUCT(number1, [number2], ...)",
     commonMistakes: [
-      { mistake: "Empty cells vs Zeros.", fix: "PRODUCT ignores empty cells, but it multiplies by 0 if a cell contains a zero, making the whole result 0. Be careful with 'placeholder' zeros." }
+      { title: "Empty cells vs Zeros.", desc: "PRODUCT ignores empty cells, but it multiplies by 0 if a cell contains a zero, making the whole result 0. Be careful with 'placeholder' zeros." }
     ],
+    miniChallenge: {
+      question: "Multiply cells A1 and A2.",
+      expectedAnswer: "=PRODUCT(A1, A2)"
+    },
     practice: {
       instructions: "In cell B2, multiply the numbers in A2:A3.",
       initialData: [["Nums", "Prod"], [5, ""], [10, ""]],
@@ -1330,8 +1350,12 @@ export const mathStatsLessons = [
     },
     syntax: "=SQRT(number)",
     commonMistakes: [
-      { mistake: "Negative numbers.", fix: "SQRT cannot handle negative numbers and will return a #NUM! error. Use ABS first if you need the root of a negative's magnitude: =SQRT(ABS(A1))." }
+      { title: "Negative numbers.", desc: "SQRT cannot handle negative numbers and will return a #NUM! error. Use ABS first if you need the root of a negative's magnitude: =SQRT(ABS(A1))." }
     ],
+    miniChallenge: {
+      question: "Find the square root of 64.",
+      expectedAnswer: "=SQRT(64)"
+    },
     practice: {
       instructions: "In cell B2, find the square root of A2.",
       initialData: [["Val", "Root"], [25, ""]],

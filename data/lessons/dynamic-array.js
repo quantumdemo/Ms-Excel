@@ -50,7 +50,7 @@ export const dynamicArrayLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "The #SPILL! Error.", fix: "This happens if there is already data in the cells where UNIQUE wants to put its results. Clear the area and the list will appear." }
+      { title: "The #SPILL! Error.", desc: "This happens if there is already data in the cells where UNIQUE wants to put its results. Clear the area and the list will appear." }
     ],
     limitations: "Only available in modern Excel (Office 365 and Excel 2021+). If you share the file with someone on Excel 2016, they will see an error.",
     bestPractices: [
@@ -124,7 +124,7 @@ export const dynamicArrayLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "#SPILL! error.", fix: "Clear any data that is blocking the cells below the formula." }
+      { title: "#SPILL! error.", desc: "Clear any data that is blocking the cells below the formula." }
     ],
     limitations: "Only available in modern Excel (365/2021+).",
     bestPractices: [

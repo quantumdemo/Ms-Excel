@@ -48,8 +48,8 @@ export const logicalLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Missing quotes for text.", fix: "Always wrap text results in double quotes, e.g., \"PASS\", not PASS." },
-      { mistake: "Forgetting the second comma.", fix: "Even if you want the cell to be blank on FALSE, use a comma and empty quotes: =IF(A1>10, \"High\", \"\")." }
+      { title: "Missing quotes for text.", desc: "Always wrap text results in double quotes, e.g., \"PASS\", not PASS." },
+      { title: "Forgetting the second comma.", desc: "Even if you want the cell to be blank on FALSE, use a comma and empty quotes: =IF(A1>10, \"High\", \"\")." }
     ],
     limitations: "A single IF function can only handle one test and two outcomes. If you have 3+ outcomes, you need to 'Nest' your IF functions or use the IFS function.",
     bestPractices: [
@@ -119,8 +119,8 @@ export const logicalLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Using for just one check.", fix: "If you only have one condition, don't use AND. Just write =A1>10." },
-      { mistake: "Expected text output.", fix: "AND only returns TRUE or FALSE. To show 'Yes' or 'No', wrap it in an IF: =IF(AND(...), \"Yes\", \"No\")." }
+      { title: "Using for just one check.", desc: "If you only have one condition, don't use AND. Just write =A1>10." },
+      { title: "Expected text output.", desc: "AND only returns TRUE or FALSE. To show 'Yes' or 'No', wrap it in an IF: =IF(AND(...), \"Yes\", \"No\")." }
     ],
     limitations: "AND doesn't tell you WHICH condition failed, only that at least one did.",
     bestPractices: [
@@ -190,7 +190,7 @@ export const logicalLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Confusing with AND.", fix: "Remember: AND needs ALL to be true. OR only needs ONE." }
+      { title: "Confusing with AND.", desc: "Remember: AND needs ALL to be true. OR only needs ONE." }
     ],
     limitations: "OR can be too broad. Make sure you don't accidentally return TRUE for data you didn't mean to include.",
     bestPractices: [
@@ -260,7 +260,7 @@ export const logicalLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Hiding real bugs.", fix: "Don't use IFERROR to hide a mistake in your logic. Only use it to handle expected data issues." }
+      { title: "Hiding real bugs.", desc: "Don't use IFERROR to hide a mistake in your logic. Only use it to handle expected data issues." }
     ],
     limitations: "IFERROR catches ALL errors. If you only want to catch #N/A (missing data), use IFNA instead.",
     bestPractices: [
@@ -330,7 +330,7 @@ export const logicalLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Expecting it to catch math errors.", fix: "If you divide by zero, IFNA will still show #DIV/0!. Use IFERROR for math issues." }
+      { title: "Expecting it to catch math errors.", desc: "If you divide by zero, IFNA will still show #DIV/0!. Use IFERROR for math issues." }
     ],
     limitations: "Only works for #N/A. Does not work for any other error type.",
     bestPractices: [
@@ -401,7 +401,7 @@ export const logicalLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "No conditions are TRUE.", fix: "If none of your tests match, IFS returns #N/A. Always add a final catch-all condition by using TRUE as the last test: =IFS(..., TRUE, \"Default Result\")." }
+      { title: "No conditions are TRUE.", desc: "If none of your tests match, IFS returns #N/A. Always add a final catch-all condition by using TRUE as the last test: =IFS(..., TRUE, \"Default Result\")." }
     ],
     limitations: "Only available in Office 365 and Excel 2019 or later. It also stops at the first TRUE match, so the order of your conditions matters greatly!",
     bestPractices: [
@@ -471,7 +471,7 @@ export const logicalLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Using with complex text logic.", fix: "Usually, you can just use the 'not equal to' operator (<>). Instead of =NOT(A1=10), just write =A1<>10. It is easier to read!" }
+      { title: "Using with complex text logic.", desc: "Usually, you can just use the 'not equal to' operator (<>). Instead of =NOT(A1=10), just write =A1<>10. It is easier to read!" }
     ],
     limitations: "NOT can only handle one argument at a time.",
     bestPractices: [
@@ -540,7 +540,7 @@ export const logicalLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Thinking it means 'just one'.", fix: "If you have 3 conditions and all 3 are TRUE, XOR returns TRUE (because 3 is odd). It's 'Odd number is true', not just 'Only one is true'." }
+      { title: "Thinking it means 'just one'.", desc: "If you have 3 conditions and all 3 are TRUE, XOR returns TRUE (because 3 is odd). It's 'Odd number is true', not just 'Only one is true'." }
     ],
     limitations: "XOR is rarely used in basic spreadsheets and can be confusing to read for others.",
     bestPractices: [
@@ -612,7 +612,7 @@ export const logicalLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Trying to use comparisons (> or <).", fix: "SWITCH only does 'equal to'. If you need to check if A1 > 10, use the IFS function instead." }
+      { title: "Trying to use comparisons (> or <).", desc: "SWITCH only does 'equal to'. If you need to check if A1 > 10, use the IFS function instead." }
     ],
     limitations: "Cannot handle ranges or 'greater than/less than' logic. Exact matches only.",
     bestPractices: [
@@ -679,7 +679,7 @@ export const logicalLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Typing as text.", fix: "If you type \"TRUE\" in quotes, Excel treats it as a word. TRUE (no quotes) is a logical value. Most formulas need the logical value." }
+      { title: "Typing as text.", desc: "If you type \"TRUE\" in quotes, Excel treats it as a word. TRUE (no quotes) is a logical value. Most formulas need the logical value." }
     ],
     limitations: "Returns only one value.",
     bestPractices: [
@@ -738,7 +738,7 @@ export const logicalLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Typing \"FALSE\" in quotes.", fix: "Use FALSE without quotes to ensure Excel treats it as a logical value, not text." }
+      { title: "Typing \"FALSE\" in quotes.", desc: "Use FALSE without quotes to ensure Excel treats it as a logical value, not text." }
     ],
     proTips: [
       "Just type FALSE directly into your formulas to save time."
@@ -804,7 +804,7 @@ export const logicalLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Wrong final argument.", fix: "The last argument MUST be a calculation, not a name-value pair. You can't end a LET function with a definition." }
+      { title: "Wrong final argument.", desc: "The last argument MUST be a calculation, not a name-value pair. You can't end a LET function with a definition." }
     ],
     limitations: "Only available in Office 365 and Excel 2021+.",
     bestPractices: [
@@ -873,7 +873,7 @@ export const logicalLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Trying to use it without the call.", fix: "If you just type =LAMBDA(...) in a cell, Excel will return a #CALC! error. You must either call it immediately (with parentheses at the end) or name it in the Name Manager." }
+      { title: "Trying to use it without the call.", desc: "If you just type =LAMBDA(...) in a cell, Excel will return a #CALC! error. You must either call it immediately (with parentheses at the end) or name it in the Name Manager." }
     ],
     limitations: "Only available in Office 365 and Excel 2021+.",
     bestPractices: [

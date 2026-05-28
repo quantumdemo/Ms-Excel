@@ -39,7 +39,7 @@ export const foundationLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Mixing Rows/Cols", fix: "Always name the Column letter first, then the Row number (A1, not 1A)." }
+      { title: "Mixing Rows/Cols", desc: "Always name the Column letter first, then the Row number (A1, not 1A)." }
     ],
     proTips: [
       "Excel is used in almost every professional industry from finance to healthcare.",
@@ -107,8 +107,8 @@ export const foundationLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Forgetting $ Signs", fix: "If you don't lock a cell that should stay constant, your calculations will 'slide' and break when copied." },
-      { mistake: "Locking Everything", fix: "Only use Absolute references when a value MUST stay fixed. Over-locking makes formulas impossible to copy/fill." }
+      { title: "Forgetting $ Signs", desc: "If you don't lock a cell that should stay constant, your calculations will 'slide' and break when copied." },
+      { title: "Locking Everything", desc: "Only use Absolute references when a value MUST stay fixed. Over-locking makes formulas impossible to copy/fill." }
     ],
     proTips: [
       "Press F4 (or Fn+F4) while editing a formula to quickly cycle between A1 -> $A$1 -> A$1 -> $A1.",

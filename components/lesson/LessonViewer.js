@@ -75,16 +75,18 @@ export default function LessonViewer({ lesson, onBack }) {
               <section className="mb-12">
                  <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-white">
                     <HelpCircle className="text-excel-green" size={20} />
-                    {lesson.introduction.title}
+                    {lesson.introduction?.title}
                  </h2>
                  <p className="text-slate-400 leading-relaxed text-lg mb-6">
-                    {lesson.introduction.description}
+                    {lesson.introduction?.description}
                  </p>
-                 <div className="p-5 bg-excel-green/5 border border-excel-green/20 rounded-3xl">
-                    <p className="text-slate-200 font-medium italic">
-                       {lesson.introduction.concept}
-                    </p>
-                 </div>
+                 {lesson.introduction?.concept && (
+                   <div className="p-5 bg-excel-green/5 border border-excel-green/20 rounded-3xl">
+                      <p className="text-slate-200 font-medium italic">
+                         {lesson.introduction.concept}
+                      </p>
+                   </div>
+                 )}
               </section>
 
               <hr className="border-white/5 mb-12" />
@@ -196,21 +198,24 @@ export default function LessonViewer({ lesson, onBack }) {
                  </ul>
               </section>
 
-              <hr className="border-white/5 mb-12" />
+              {lesson.miniChallenge && (
+                <>
+                  <hr className="border-white/5 mb-12" />
+                  <section className="mb-12 p-8 bg-gradient-to-br from-excel-green/20 to-transparent border border-excel-green/20 rounded-[2.5rem]">
+                    <h2 className="text-2xl font-black mb-4 text-white">Mini Challenge</h2>
+                    <p className="text-slate-300 mb-8 leading-relaxed">
+                        {lesson.miniChallenge.question}
+                    </p>
 
-              <section className="mb-12 p-8 bg-gradient-to-br from-excel-green/20 to-transparent border border-excel-green/20 rounded-[2.5rem]">
-                 <h2 className="text-2xl font-black mb-4 text-white">Mini Challenge</h2>
-                 <p className="text-slate-300 mb-8 leading-relaxed">
-                    {lesson.miniChallenge.question}
-                 </p>
-
-                 <div className="group">
-                    <p className="text-[10px] font-black text-excel-green uppercase tracking-widest mb-3 opacity-50 group-hover:opacity-100 transition-opacity">Expected Answer</p>
-                    <code className="block bg-black/40 p-4 rounded-xl text-excel-light font-mono text-sm blur-md hover:blur-none transition-all duration-500 select-none">
-                       {lesson.miniChallenge.expectedAnswer}
-                    </code>
-                 </div>
-              </section>
+                    <div className="group">
+                        <p className="text-[10px] font-black text-excel-green uppercase tracking-widest mb-3 opacity-50 group-hover:opacity-100 transition-opacity">Expected Answer</p>
+                        <code className="block bg-black/40 p-4 rounded-xl text-excel-light font-mono text-sm blur-md hover:blur-none transition-all duration-500 select-none">
+                          {lesson.miniChallenge.expectedAnswer}
+                        </code>
+                    </div>
+                  </section>
+                </>
+              )}
 
               <button
                 onClick={() => {

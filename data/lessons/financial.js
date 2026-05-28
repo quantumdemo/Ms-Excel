@@ -49,8 +49,8 @@ export const financialLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Mixing Units.", fix: "If payments are monthly, your rate MUST be monthly (rate/12) and your nper MUST be monthly (years*12)." },
-      { mistake: "Forgetting the negative sign.", fix: "Excel shows PMT results as negative numbers. To see it as positive, put a minus sign before the function: =-PMT(...)." }
+      { title: "Mixing Units.", desc: "If payments are monthly, your rate MUST be monthly (rate/12) and your nper MUST be monthly (years*12)." },
+      { title: "Forgetting the negative sign.", desc: "Excel shows PMT results as negative numbers. To see it as positive, put a minus sign before the function: =-PMT(...)." }
     ],
     limitations: "PMT assumes the interest rate and payment amounts never change during the life of the loan.",
     bestPractices: [
@@ -122,8 +122,8 @@ export const financialLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Mixing Units.", fix: "Ensure rate and nper both use the same time period (usually monthly)." },
-      { mistake: "Sign convention.", fix: "If money is leaving your pocket (saving), use a negative sign for the PMT and PV arguments." }
+      { title: "Mixing Units.", desc: "Ensure rate and nper both use the same time period (usually monthly)." },
+      { title: "Sign convention.", desc: "If money is leaving your pocket (saving), use a negative sign for the PMT and PV arguments." }
     ],
     proTips: [
       "If you aren't making monthly payments but just have a starting amount, set PMT to 0 and use PV."
@@ -173,10 +173,14 @@ export const financialLessons = [
       { arg: "fv", desc: "Optional. The future value you want to receive." }
     ],
     commonMistakes: [
-      { mistake: "Sign convention.", fix: "If the result should be 'money you get', ensure your PMT or FV inputs are negative (money you give up). Excel follows cash flow direction." },
-      { mistake: "Unit mismatch.", fix: "Ensure rate and nper use the same periods. If nper is in months, your annual rate must be divided by 12." }
+      { title: "Sign convention.", desc: "If the result should be 'money you get', ensure your PMT or FV inputs are negative (money you give up). Excel follows cash flow direction." },
+      { title: "Unit mismatch.", desc: "Ensure rate and nper use the same periods. If nper is in months, your annual rate must be divided by 12." }
     ],
     relatedFunctions: ["FV", "PMT", "NPV"],
+    miniChallenge: {
+      question: "Which function calculates the present value (today's worth) of a future lump sum?",
+      expectedAnswer: "=PV()"
+    },
     practice: {
       instructions: "In cell B4, use PV to find the current worth of receiving $10,000 (B1) in 5 years (B3) at a 5% interest rate (B2).",
       initialData: [["Goal", 10000], ["Rate", "5%"], ["Years", 5], ["PV", ""]],
