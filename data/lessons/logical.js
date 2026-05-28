@@ -31,7 +31,7 @@ export const logicalLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Sales Commission",
+        title: "Example: Sales Commission",
         table: {
           headers: ["Sales Rep", "Sales Amount", "Formula", "Commission"],
           rows: [
@@ -110,7 +110,7 @@ export const logicalLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Hiring Filter",
+        title: "Example: Hiring Filter",
         table: {
           headers: ["Degree?", "Experience", "AND Formula", "Shortlist?"],
           rows: [
@@ -187,7 +187,7 @@ export const logicalLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Weekend Finder",
+        title: "Example: Weekend Finder",
         table: {
           headers: ["Day", "Formula", "Is Weekend?"],
           rows: [
@@ -257,7 +257,7 @@ export const logicalLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Safe Division",
+        title: "Example: Safe Division",
         table: {
           headers: ["Total", "Count", "Formula", "Result"],
           rows: [
@@ -327,7 +327,7 @@ export const logicalLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Search Cleanup",
+        title: "Example: Search Cleanup",
         table: {
           headers: ["Input ID", "Result", "Formula", "Final"],
           rows: [
@@ -399,7 +399,7 @@ export const logicalLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Grade Scale",
+        title: "Example: Grade Scale",
         table: {
           headers: ["Score", "Formula", "Grade"],
           rows: [
@@ -468,7 +468,7 @@ export const logicalLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Payment Status",
+        title: "Example: Payment Status",
         table: {
           headers: ["Status", "Formula", "Needs Attention?"],
           rows: [
@@ -801,7 +801,7 @@ export const logicalLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Avoiding Redundancy",
+        title: "Example: Avoiding Redundancy",
         table: {
           headers: ["Input", "Standard Formula (Messy)", "LET Formula (Clean)"],
           rows: [
@@ -871,7 +871,7 @@ export const logicalLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: The 'Invoker' Syntax",
+        title: "Example: The 'Invoker' Syntax",
         table: {
           headers: ["Method", "Formula", "Result"],
           rows: [

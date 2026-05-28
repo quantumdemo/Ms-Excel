@@ -31,7 +31,7 @@ export const dynamicArrayLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Distinct Product List",
+        title: "Example: Distinct Product List",
         table: {
           headers: ["Orders", "UNIQUE Formula", "Result List"],
           rows: [
@@ -106,7 +106,7 @@ export const dynamicArrayLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Alphabetical Names",
+        title: "Example: Alphabetical Names",
         table: {
           headers: ["Names", "Formula", "Sorted"],
           rows: [

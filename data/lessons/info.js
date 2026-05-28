@@ -28,7 +28,7 @@ export const infoLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: The 'Ghost' Space",
+        title: "Example: The 'Ghost' Space",
         table: {
           headers: ["Cell Content", "Formula", "Result", "Reason"],
           rows: [
@@ -98,7 +98,7 @@ export const infoLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Dates and Text",
+        title: "Example: Dates and Text",
         table: {
           headers: ["Value", "Formula", "Result", "Reason"],
           rows: [
@@ -167,7 +167,7 @@ export const infoLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Text vs Numbers",
+        title: "Example: Text vs Numbers",
         table: {
           headers: ["Value", "Formula", "Result", "Reason"],
           rows: [
@@ -231,7 +231,7 @@ export const infoLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Catching Any Error",
+        title: "Example: Catching Any Error",
         table: {
           headers: ["Problem", "Error Type", "Formula", "Result"],
           rows: [
@@ -299,7 +299,7 @@ export const infoLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Precision Checking",
+        title: "Example: Precision Checking",
         table: {
           headers: ["Value", "ISNA Result", "ISERROR Result", "Reason"],
           rows: [
@@ -362,7 +362,7 @@ export const infoLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Numbers and Decimals",
+        title: "Example: Numbers and Decimals",
         table: {
           headers: ["Value", "Formula", "Result", "Reason"],
           rows: [

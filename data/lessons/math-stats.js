@@ -179,7 +179,7 @@ export const mathStatsLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Top Sales",
+        title: "Example: Top Sales",
         table: {
           headers: ["Rep", "Sales", "Formula", "Result"],
           rows: [
@@ -249,7 +249,7 @@ export const mathStatsLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Vendor Quotes",
+        title: "Example: Vendor Quotes",
         table: {
           headers: ["Vendor", "Quote", "Formula", "Lowest"],
           rows: [
@@ -319,7 +319,7 @@ export const mathStatsLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Grading",
+        title: "Example: Grading",
         table: {
           headers: ["Student", "Grade", "Formula", "Count"],
           rows: [
@@ -392,7 +392,7 @@ export const mathStatsLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Category Summing",
+        title: "Example: Category Summing",
         table: {
           headers: ["Category", "Sales", "Formula", "Result"],
           rows: [
@@ -467,7 +467,7 @@ export const mathStatsLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Multi-Filter Sales",
+        title: "Example: Multi-Filter Sales",
         table: {
           headers: ["Name", "Region", "Sales", "Formula", "Result"],
           rows: [
@@ -541,7 +541,7 @@ export const mathStatsLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Pass/Fail Tally",
+        title: "Example: Pass/Fail Tally",
         table: {
           headers: ["Score", "Formula", "Count > 70"],
           rows: [
@@ -615,7 +615,7 @@ export const mathStatsLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Specific Inventory",
+        title: "Example: Specific Inventory",
         table: {
           headers: ["Item", "Color", "In Stock", "Formula", "Result"],
           rows: [
@@ -686,7 +686,7 @@ export const mathStatsLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Currency Rounding",
+        title: "Example: Currency Rounding",
         table: {
           headers: ["Raw", "Digits", "Formula", "Result"],
           rows: [
@@ -755,7 +755,7 @@ export const mathStatsLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Name Tally",
+        title: "Example: Name Tally",
         table: {
           headers: ["Name", "Formula", "Result"],
           rows: [
@@ -826,7 +826,7 @@ export const mathStatsLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Variance Analysis",
+        title: "Example: Variance Analysis",
         table: {
           headers: ["Budget", "Actual", "Formula", "Diff"],
           rows: [
@@ -896,7 +896,7 @@ export const mathStatsLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Category Averages",
+        title: "Example: Category Averages",
         table: {
           headers: ["Category", "Price", "Formula", "Result"],
           rows: [
@@ -967,7 +967,7 @@ export const mathStatsLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Multi-Filter Average",
+        title: "Example: Multi-Filter Average",
         table: {
           headers: ["Type", "Color", "Price", "Formula", "Result"],
           rows: [
@@ -1037,7 +1037,7 @@ export const mathStatsLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Total Revenue",
+        title: "Example: Total Revenue",
         table: {
           headers: ["Qty", "Price", "Formula", "Result"],
           rows: [
@@ -1105,7 +1105,7 @@ export const mathStatsLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Median vs Average",
+        title: "Example: Median vs Average",
         table: {
           headers: ["Values", "Average", "Median"],
           rows: [
@@ -1167,7 +1167,7 @@ export const mathStatsLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Inventory",
+        title: "Example: Inventory",
         table: {
           headers: ["Required", "Formula", "Order"],
           rows: [
@@ -1362,6 +1362,174 @@ export const mathStatsLessons = [
       targetCell: [1, 1],
       expectedFormula: "SQRT(A2)",
       expectedValue: 5
+    }
+  },
+  {
+    id: "sumsq",
+    title: "Sum of Squares: SUMSQ",
+    category: "math",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Squaring and Totaling: SUMSQ",
+      description: "The SUMSQ function squares each of its arguments and then returns the sum of those squares.",
+      concept: "Instead of writing =(A1^2)+(A2^2), you use =SUMSQ(A1:A2). It's mathematically efficient and commonly used in statistical calculations like variance or standard deviation."
+    },
+    internalLogic: "Excel takes each number in the range, multiplies it by itself (squares it), and then adds all those individual results together.",
+    whyItExists: "Summing squares is a fundamental step in many statistical and engineering formulas. SUMSQ provides a single-function shortcut for this multi-step process.",
+    whenToUse: "Use SUMSQ when calculating the magnitude of vectors, or in any formula where you need to sum squared values.",
+    realWorldUseCases: [
+      "Calculating the sum of squared deviations in statistics.",
+      "Finding the squared length of a vector in physics.",
+      "Financial modeling involving variance analysis."
+    ],
+    syntax: "=SUMSQ(number1, [number2], ...)",
+    syntaxBreakdown: [
+      { arg: "number1", desc: "The first number, cell, or range to square and sum." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Basic Squares",
+        table: {
+          headers: ["Val 1", "Val 2", "Formula", "Result"],
+          rows: [
+            ["3", "4", "=SUMSQ(A2:B2)", "25"]
+          ]
+        },
+        stepByStep: [
+          "Excel squares 3 (3*3 = 9).",
+          "Excel squares 4 (4*4 = 16).",
+          "It adds 9 + 16 = 25."
+        ]
+      }
+    ],
+    relatedFunctions: ["SUM", "SQRT", "SUMPRODUCT"],
+    miniChallenge: {
+      question: "Find the sum of squares for 3 and 4.",
+      expectedAnswer: "=SUMSQ(3, 4)"
+    },
+    practice: {
+      instructions: "In cell B2, calculate the sum of squares for A2 and A3.",
+      initialData: [["Value", "Result"], [3, ""], [4, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "SUMSQ(A2:A3)",
+      expectedValue: 25
+    },
+    sandboxData: [
+      ["Data 1", "Data 2", "Sum of Squares"],
+      [3, 4, "=SUMSQ(A2:B2)"],
+      [5, 12, "=SUMSQ(A3:B3)"],
+      [8, 15, "=SUMSQ(A4:B4)"]
+    ]
+  },
+  {
+    id: "sumxmy2",
+    title: "Difference Squared: SUMXMY2",
+    category: "math",
+    difficulty: "Advanced",
+    xp: 400,
+    introduction: {
+      title: "The Statistical Variance Tool: SUMXMY2",
+      description: "SUMXMY2 takes two sets of numbers, subtracts the second from the first, squares the results, and then sums them all up.",
+      concept: "The name stands for: Sum of (X Minus Y) squared. It's a key tool in error analysis and comparing how close two datasets are to each other."
+    },
+    internalLogic: "Excel pairs up the numbers in the two arrays. For each pair (x, y), it calculates (x-y)^2. Finally, it sums all those individual squared differences.",
+    whyItExists: "This calculation is the heart of finding the 'Sum of Squared Errors' (SSE), which tells scientists and analysts how much two sets of data vary from each other.",
+    whenToUse: "Use this when comparing 'Actual' vs 'Forecast' data to see the total magnitude of the errors.",
+    realWorldUseCases: [
+      "Calculating prediction error in weather forecasting.",
+      "Measuring the accuracy of a business sales forecast.",
+      "Analyzing the difference between two experimental results."
+    ],
+    businessExample: {
+      scenario: "You have 'Actual Sales' in Column A and 'Forecast Sales' in Column B. You want to see the total squared error to measure forecasting accuracy.",
+      formula: "=SUMXMY2(A2:A10, B2:B10)"
+    },
+    syntax: "=SUMXMY2(array_x, array_y)",
+    syntaxBreakdown: [
+      { arg: "array_x", desc: "The first range or array of values." },
+      { arg: "array_y", desc: "The second range or array of values. Must be the same size as array_x." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Error Calculation",
+        table: {
+          headers: ["Actual (X)", "Forecast (Y)", "Formula", "Result"],
+          rows: [
+            ["10", "8", "=SUMXMY2(A2, B2)", "4"],
+            ["15", "12", "=SUMXMY2(A2:A3, B2:B3)", "13"]
+          ]
+        },
+        stepByStep: [
+          "Excel calculates (10-8)^2 = 4.",
+          "Excel calculates (15-12)^2 = 9.",
+          "It sums 4 + 9 = 13."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Array size mismatch.", desc: "If Array X has 5 items and Array Y has 6 items, SUMXMY2 will return a #N/A error. The ranges must be identical in size." }
+    ],
+    limitations: "Text or empty cells in the ranges are treated as zero, which might skew your results.",
+    relatedFunctions: ["SUMX2MY2", "SUMX2PY2", "SUMPRODUCT"],
+    miniChallenge: {
+      question: "Which function calculates the sum of squares of differences between two ranges?",
+      expectedAnswer: "=SUMXMY2()"
+    },
+    practice: {
+      instructions: "In cell C2, use SUMXMY2 to compare Actuals (A2:A3) and Forecasts (B2:B3).",
+      initialData: [["Actual", "Forecast", "Total Error"], [10, 8, ""], [15, 12, ""]],
+      targetCell: [1, 2],
+      expectedFormula: "SUMXMY2(A2:A3,B2:B3)",
+      expectedValue: 13
+    },
+    sandboxData: [
+      ["Actual (X)", "Forecast (Y)", "Squared Diff"],
+      [10, 8, "=SUMXMY2(A2, B2)"],
+      [15, 12, "=SUMXMY2(A3, B3)"],
+      ["Total SSE", "", "=SUMXMY2(A2:A3, B2:B3)"]
+    ]
+  },
+  {
+    id: "sumx2my2",
+    title: "Difference of Squares: SUMX2MY2",
+    category: "math",
+    difficulty: "Advanced",
+    xp: 400,
+    introduction: {
+      title: "Squared Differences: SUMX2MY2",
+      description: "This function squares the numbers in two arrays separately, subtracts the squared Y from the squared X, and sums the results.",
+      concept: "Sum of (X squared Minus Y squared). It's a specialized tool for advanced algebraic and statistical modeling."
+    },
+    internalLogic: "For each pair (x, y), it calculates (x^2 - y^2) and then sums those results.",
+    syntax: "=SUMX2MY2(array_x, array_y)",
+    practice: {
+      instructions: "In cell C2, use SUMX2MY2 on A2:A3 and B2:B3.",
+      initialData: [["X", "Y", "Result"], [4, 3, ""], [5, 4, ""]],
+      targetCell: [1, 2],
+      expectedFormula: "SUMX2MY2(A2:A3,B2:B3)",
+      expectedValue: 16
+    }
+  },
+  {
+    id: "sumx2py2",
+    title: "Sum of Sum of Squares: SUMX2PY2",
+    category: "math",
+    difficulty: "Advanced",
+    xp: 400,
+    introduction: {
+      title: "Totaling Squares: SUMX2PY2",
+      description: "This function squares the numbers in two arrays and then sums all of those squares together.",
+      concept: "Sum of (X squared Plus Y squared). It is used for finding the total energy or magnitude across two datasets."
+    },
+    internalLogic: "For each pair (x, y), it calculates (x^2 + y^2) and then sums those results.",
+    syntax: "=SUMX2PY2(array_x, array_y)",
+    practice: {
+      instructions: "In cell C2, use SUMX2PY2 on A2:A3 and B2:B3.",
+      initialData: [["X", "Y", "Result"], [3, 4, ""], [1, 2, ""]],
+      targetCell: [1, 2],
+      expectedFormula: "SUMX2PY2(A2:A3,B2:B3)",
+      expectedValue: 30
     }
   }
 ];

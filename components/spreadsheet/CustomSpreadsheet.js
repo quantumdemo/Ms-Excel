@@ -9,7 +9,6 @@ import { RotateCcw, MousePointer2 } from 'lucide-react';
 class ExcelEngine extends Parser {
   constructor() {
     super();
-    this.variables = new Map();
     this.registerExcelFunctions();
   }
 
@@ -40,11 +39,28 @@ class ExcelEngine extends Parser {
       return sorted;
     });
 
-    // Placeholder for LET implementation logic
-    // LET(name, value, result)
+    this.setFunction('SUMXMY2', (args) => {
+      const array_x = args[0];
+      const array_y = args[1];
+      if (!array_x || !array_y) return "#N/A";
+
+      const flat_x = Array.isArray(array_x) ? array_x.flat() : [array_x];
+      const flat_y = Array.isArray(array_y) ? array_y.flat() : [array_y];
+
+      // Real Excel behavior: if one is single value, it's used for all
+      const len = Math.max(flat_x.length, flat_y.length);
+      let sum = 0;
+      for (let i = 0; i < len; i++) {
+        const x = flat_x[i] !== undefined ? flat_x[i] : (flat_x.length === 1 ? flat_x[0] : 0);
+        const y = flat_y[i] !== undefined ? flat_y[i] : (flat_y.length === 1 ? flat_y[0] : 0);
+        if (typeof x === 'number' && typeof y === 'number') {
+          sum += Math.pow(x - y, 2);
+        }
+      }
+      return sum;
+    });
+
     this.setFunction('LET', (args) => {
-       // Manual handling needed if standard parser doesn't support recursive var binding
-       // For this lightweight version, we'll return the last argument
        return args[args.length - 1];
     });
   }
@@ -149,7 +165,6 @@ export default function CustomSpreadsheet({
 
   evaluationCache.current.clear();
 
-  // Reference Adjustment Logic for Drag-to-Fill
   const adjustRefs = (formula, rOff, cOff) => {
     if (typeof formula !== 'string' || !formula.startsWith('=')) return formula;
     return formula.replace(/(\$?[A-Z]+)(\$?[0-9]+)/g, (match, col, row) => {
@@ -210,7 +225,6 @@ export default function CustomSpreadsheet({
         )}
       </div>
 
-      {/* Formula Bar */}
       <div className="flex items-center gap-3 p-4 bg-black/40 border-b border-white/5">
         <div className="px-3 py-1 bg-excel-green/10 rounded-md font-mono font-bold text-excel-green text-sm">
           {String.fromCharCode(65 + selected.c)}{selected.r + 1}
@@ -234,7 +248,6 @@ export default function CustomSpreadsheet({
         </div>
       </div>
 
-      {/* Grid */}
       <div className="overflow-x-auto no-scrollbar relative">
         <table className="w-full border-collapse table-fixed min-w-[600px]">
           <thead>

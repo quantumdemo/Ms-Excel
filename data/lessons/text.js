@@ -30,7 +30,7 @@ export const textLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: First Initial",
+        title: "Example: First Initial",
         table: {
           headers: ["Name", "Formula", "Initial"],
           rows: [
@@ -98,7 +98,7 @@ export const textLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Year Extractor",
+        title: "Example: Year Extractor",
         table: {
           headers: ["Label", "Formula", "Year"],
           rows: [
@@ -162,7 +162,7 @@ export const textLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Employee Email Generator",
+        title: "Example: Employee Email Generator",
         table: {
           headers: ["Username", "Domain", "Formula", "Result"],
           rows: [
@@ -233,7 +233,7 @@ export const textLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Basic Counting",
+        title: "Example: Basic Counting",
         table: {
           headers: ["Text", "Formula", "Result"],
           rows: [
@@ -301,7 +301,7 @@ export const textLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Space Removal",
+        title: "Example: Space Removal",
         table: {
           headers: ["Dirty Text", "Formula", "Clean Result"],
           rows: [
@@ -372,7 +372,7 @@ export const textLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: SKU Decoding",
+        title: "Example: SKU Decoding",
         table: {
           headers: ["Full SKU", "Formula", "Category"],
           rows: [
@@ -440,7 +440,7 @@ export const textLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Case Correction",
+        title: "Example: Case Correction",
         table: {
           headers: ["Input", "Formula", "Output"],
           rows: [
@@ -507,7 +507,7 @@ export const textLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Standardizing",
+        title: "Example: Standardizing",
         table: {
           headers: ["Mixed", "Formula", "Lower"],
           rows: [
@@ -574,7 +574,7 @@ export const textLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Name Fixing",
+        title: "Example: Name Fixing",
         table: {
           headers: ["Messy Name", "Formula", "Proper Name"],
           rows: [
@@ -645,7 +645,7 @@ export const textLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Address Builder",
+        title: "Example: Address Builder",
         table: {
           headers: ["Street", "City", "Zip", "Formula", "Result"],
           rows: [
@@ -718,7 +718,7 @@ export const textLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Removing Dashes",
+        title: "Example: Removing Dashes",
         table: {
           headers: ["Phone", "Formula", "Result"],
           rows: [
@@ -787,7 +787,7 @@ export const textLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Space Locator",
+        title: "Example: Space Locator",
         table: {
           headers: ["Text", "Formula", "Result"],
           rows: [
@@ -856,7 +856,7 @@ export const textLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Wildcard Search",
+        title: "Example: Wildcard Search",
         table: {
           headers: ["Text", "Formula", "Result"],
           rows: [

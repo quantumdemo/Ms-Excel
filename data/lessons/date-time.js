@@ -98,7 +98,7 @@ export const dateTimeLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Timestamping",
+        title: "Example: Timestamping",
         table: {
           headers: ["Event", "Formula", "Result"],
           rows: [
@@ -167,7 +167,7 @@ export const dateTimeLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Calculating Age",
+        title: "Example: Calculating Age",
         table: {
           headers: ["Birth Date", "Today", "Formula", "Age"],
           rows: [
@@ -238,7 +238,7 @@ export const dateTimeLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Basic Assembly",
+        title: "Example: Basic Assembly",
         table: {
           headers: ["Year", "Month", "Day", "Formula", "Result"],
           rows: [
@@ -300,7 +300,7 @@ export const dateTimeLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Day Extraction",
+        title: "Example: Day Extraction",
         table: {
           headers: ["Date", "Formula", "Result"],
           rows: [
@@ -356,7 +356,7 @@ export const dateTimeLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Month Number",
+        title: "Example: Month Number",
         table: {
           headers: ["Date", "Formula", "Result"],
           rows: [
@@ -410,7 +410,7 @@ export const dateTimeLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Year Extraction",
+        title: "Example: Year Extraction",
         table: {
           headers: ["Date", "Formula", "Result"],
           rows: [
@@ -471,7 +471,7 @@ export const dateTimeLessons = [
     ],
     detailedExamples: [
       {
-        title: "Example 1: Simple Workdays",
+        title: "Example: Simple Workdays",
         table: {
           headers: ["Start", "End", "Formula", "Workdays"],
           rows: [
