@@ -118,4 +118,4 @@ Donation links are configurable via environment variables. If a link is not prov
 
 ## License
 
-Created by Afeez Alimi.
+Created for LearnExcel.
