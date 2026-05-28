@@ -49,9 +49,9 @@ export const lookupLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Search column not on the left.", fix: "The 'lookup_value' must be in the VERY FIRST column of the table range you select. VLOOKUP cannot look to its left." },
-      { mistake: "Wrong column index.", fix: "If your table has 3 columns and you ask for column 5, VLOOKUP will crash with a #REF! error." },
-      { mistake: "Forgetting FALSE.", fix: "Always use FALSE for the last argument unless you are dealing with tax brackets. Without it, VLOOKUP might give you the wrong data." }
+      { title: "Search column not on the left.", desc: "The 'lookup_value' must be in the VERY FIRST column of the table range you select. VLOOKUP cannot look to its left." },
+      { title: "Wrong column index.", desc: "If your table has 3 columns and you ask for column 5, VLOOKUP will crash with a #REF! error." },
+      { title: "Forgetting FALSE.", desc: "Always use FALSE for the last argument unless you are dealing with tax brackets. Without it, VLOOKUP might give you the wrong data." }
     ],
     limitations: "VLOOKUP can only search from left to right. It also 'breaks' if you insert new columns into your table because the index numbers shift. Use XLOOKUP or INDEX/MATCH to overcome these.",
     bestPractices: [
@@ -126,7 +126,7 @@ export const lookupLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Array size mismatch.", fix: "Your 'lookup_array' and 'return_array' must be the exact same size (e.g., both 10 rows long)." }
+      { title: "Array size mismatch.", desc: "Your 'lookup_array' and 'return_array' must be the exact same size (e.g., both 10 rows long)." }
     ],
     limitations: "Only available in Office 365 and Excel 2021 or later.",
     bestPractices: [
@@ -201,7 +201,7 @@ export const lookupLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Counting from the whole sheet.", fix: "Row and column numbers are relative to your SELECTED range, not the whole spreadsheet. Row 1 of your range might actually be Row 10 of the sheet." }
+      { title: "Counting from the whole sheet.", desc: "Row and column numbers are relative to your SELECTED range, not the whole spreadsheet. Row 1 of your range might actually be Row 10 of the sheet." }
     ],
     limitations: "INDEX alone isn't very 'smart'—it doesn't search for text. It only goes where you tell it to go.",
     bestPractices: [
@@ -273,7 +273,7 @@ export const lookupLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Forgetting the 0.", fix: "If you leave out the 0 in match_type, Excel assumes it's 1 (approximate) and might give you the wrong row number if your list isn't sorted." }
+      { title: "Forgetting the 0.", desc: "If you leave out the 0 in match_type, Excel assumes it's 1 (approximate) and might give you the wrong row number if your list isn't sorted." }
     ],
     limitations: "MATCH only works on a single row or column. It cannot search a 2D block of cells.",
     bestPractices: [
@@ -345,8 +345,8 @@ export const lookupLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "#SPILL! error.", fix: "Ensure the cells below and to the right of your formula are empty so the data has room to appear." },
-      { mistake: "Criteria range mismatch.", fix: "Your 'include' range must be the same number of rows as your 'array'." }
+      { title: "#SPILL! error.", desc: "Ensure the cells below and to the right of your formula are empty so the data has room to appear." },
+      { title: "Criteria range mismatch.", desc: "Your 'include' range must be the same number of rows as your 'array'." }
     ],
     limitations: "Only available in Office 365 and Excel 2021+. It does not format the results (you have to apply currency/date formatting yourself).",
     bestPractices: [

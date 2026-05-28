@@ -45,7 +45,7 @@ export const textLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Grabbing hidden spaces.", fix: "If your data has a space at the start, LEFT might return a blank. Always wrap your text in TRIM first: =LEFT(TRIM(A2), 1)." }
+      { title: "Grabbing hidden spaces.", desc: "If your data has a space at the start, LEFT might return a blank. Always wrap your text in TRIM first: =LEFT(TRIM(A2), 1)." }
     ],
     limitations: "LEFT cannot jump over characters. It always starts from the very first letter.",
     bestPractices: [
@@ -113,7 +113,7 @@ export const textLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Trailing spaces.", fix: "If there is a hidden space at the end of your data, RIGHT will count that space as a character! Use TRIM first." }
+      { title: "Trailing spaces.", desc: "If there is a hidden space at the end of your data, RIGHT will count that space as a character! Use TRIM first." }
     ],
     proTips: [
       "Use =RIGHT(A1, LEN(A1)-5) to remove the first 5 characters and keep everything else."
@@ -178,8 +178,8 @@ export const textLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Forgetting spaces.", fix: "CONCAT doesn't add spaces. You must add them manually using \" \", e.g., =CONCAT(A2, \" \", B2)." },
-      { mistake: "Numbers formatted as text.", fix: "If joining numbers to create a code, ensure the result doesn't break other math formulas." }
+      { title: "Forgetting spaces.", desc: "CONCAT doesn't add spaces. You must add them manually using \" \", e.g., =CONCAT(A2, \" \", B2)." },
+      { title: "Numbers formatted as text.", desc: "If joining numbers to create a code, ensure the result doesn't break other math formulas." }
     ],
     limitations: "While CONCAT can join ranges, it doesn't allow you to specify a separator (like a comma) between every item in that range easily. For that, use TEXTJOIN.",
     bestPractices: [
@@ -249,7 +249,7 @@ export const textLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Counting invisible spaces.", fix: "If LEN gives a higher number than expected, use TRIM to remove hidden spaces: =LEN(TRIM(A2))." }
+      { title: "Counting invisible spaces.", desc: "If LEN gives a higher number than expected, use TRIM to remove hidden spaces: =LEN(TRIM(A2))." }
     ],
     limitations: "LEN counts spaces. It also counts formatting symbols if they are actually part of the text, but it does NOT count cell formatting (like currency symbols added via the Home tab).",
     bestPractices: [
@@ -317,7 +317,7 @@ export const textLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Trying to remove ALL spaces.", fix: "TRIM keeps single spaces between words. If you want to remove every single space (like in a phone number), use the SUBSTITUTE function instead." }
+      { title: "Trying to remove ALL spaces.", desc: "TRIM keeps single spaces between words. If you want to remove every single space (like in a phone number), use the SUBSTITUTE function instead." }
     ],
     limitations: "TRIM only handles the standard space character (ASCII 32). It will not remove non-breaking spaces often found in web data (ASCII 160).",
     bestPractices: [
@@ -387,8 +387,8 @@ export const textLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Incorrect start position.", fix: "Count manually or use the FIND function to find the exact starting position of your data." },
-      { mistake: "Num_chars too long.", fix: "If you ask for 100 characters but only 5 remain, MID just returns the 5. It won't crash, but your logic might be off." }
+      { title: "Incorrect start position.", desc: "Count manually or use the FIND function to find the exact starting position of your data." },
+      { title: "Num_chars too long.", desc: "If you ask for 100 characters but only 5 remain, MID just returns the 5. It won't crash, but your logic might be off." }
     ],
     limitations: "MID returns text. If you extract a number (like '123') and want to use it in math, wrap it in the VALUE function: =VALUE(MID(...)).",
     bestPractices: [
@@ -456,7 +456,7 @@ export const textLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Expecting numbers to change.", fix: "UPPER only affects letters. Numbers and punctuation will remain exactly the same." }
+      { title: "Expecting numbers to change.", desc: "UPPER only affects letters. Numbers and punctuation will remain exactly the same." }
     ],
     limitations: "It converts everything. If you only want to capitalize the first letter, use PROPER instead.",
     bestPractices: [
@@ -523,7 +523,7 @@ export const textLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Using for formal names.", fix: "LOWER will make 'John Doe' look like 'john doe'. Use PROPER instead for names." }
+      { title: "Using for formal names.", desc: "LOWER will make 'John Doe' look like 'john doe'. Use PROPER instead for names." }
     ],
     bestPractices: [
       "Always use LOWER for data that will be used in URLs or Email addresses."
@@ -591,7 +591,7 @@ export const textLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Acronyms.", fix: "PROPER will turn 'NASA' into 'Nasa'. If you have acronyms, you'll have to fix those manually or use a different formula." }
+      { title: "Acronyms.", desc: "PROPER will turn 'NASA' into 'Nasa'. If you have acronyms, you'll have to fix those manually or use a different formula." }
     ],
     limitations: "PROPER capitalizes *every* word. Small words like 'of' or 'the' will also be capitalized ('The King Of England').",
     bestPractices: [
@@ -663,7 +663,7 @@ export const textLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Forgetting the second argument.", fix: "You MUST tell Excel whether to ignore empty cells (TRUE) or not (FALSE). If you skip it, the formula will error." }
+      { title: "Forgetting the second argument.", desc: "You MUST tell Excel whether to ignore empty cells (TRUE) or not (FALSE). If you skip it, the formula will error." }
     ],
     limitations: "Only available in Office 365 and Excel 2019+.",
     bestPractices: [
@@ -733,7 +733,7 @@ export const textLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Case sensitivity.", fix: "SUBSTITUTE is case-sensitive. If you try to replace \"apple\" in \"Apple Pie\", nothing will happen. Match the case exactly." }
+      { title: "Case sensitivity.", desc: "SUBSTITUTE is case-sensitive. If you try to replace \"apple\" in \"Apple Pie\", nothing will happen. Match the case exactly." }
     ],
     limitations: "It only replaces exact text. It cannot use wildcards. For that, you might need REPLACE or a combination of other functions.",
     bestPractices: [
@@ -802,8 +802,8 @@ export const textLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Case mismatch.", fix: "FIND is case-sensitive. =FIND(\"e\", \"Excel\") will return 4, not 1. Use SEARCH if you don't care about case." },
-      { mistake: "Text not found.", fix: "If the text isn't found, FIND returns a #VALUE! error. Wrap it in IFERROR to handle this." }
+      { title: "Case mismatch.", desc: "FIND is case-sensitive. =FIND(\"e\", \"Excel\") will return 4, not 1. Use SEARCH if you don't care about case." },
+      { title: "Text not found.", desc: "If the text isn't found, FIND returns a #VALUE! error. Wrap it in IFERROR to handle this." }
     ],
     limitations: "Does not support wildcards (* or ?).",
     bestPractices: [
@@ -871,7 +871,7 @@ export const textLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Using for exact case checks.", fix: "If you specifically need to find a capital 'A' and ignore small 'a', you MUST use FIND." }
+      { title: "Using for exact case checks.", desc: "If you specifically need to find a capital 'A' and ignore small 'a', you MUST use FIND." }
     ],
     proTips: [
       "Use =ISNUMBER(SEARCH(\"keyword\", A1)) to create a simple TRUE/FALSE check if a cell contains a specific word."

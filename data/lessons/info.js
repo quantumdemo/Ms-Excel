@@ -47,7 +47,7 @@ export const infoLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Expecting TRUE for empty strings.", fix: "If a formula returns \"\", ISBLANK returns FALSE. Use A1=\"\" instead to catch both truly empty cells and empty-looking formulas." }
+      { title: "Expecting TRUE for empty strings.", desc: "If a formula returns \"\", ISBLANK returns FALSE. Use A1=\"\" instead to catch both truly empty cells and empty-looking formulas." }
     ],
     limitations: "It cannot check a range of cells at once (like ISBLANK(A1:A10)). It only checks the first cell or returns an array in newer Excel versions.",
     bestPractices: [
@@ -116,7 +116,7 @@ export const infoLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Confusing text-numbers.", fix: "If a number is aligned to the left, it's probably text. ISNUMBER will return FALSE. Use VALUE(A1) to convert it back to a number." }
+      { title: "Confusing text-numbers.", desc: "If a number is aligned to the left, it's probably text. ISNUMBER will return FALSE. Use VALUE(A1) to convert it back to a number." }
     ],
     limitations: "Returns TRUE for dates, which can be confusing if you only want 'actual' numbers.",
     bestPractices: [
@@ -184,7 +184,7 @@ export const infoLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Blanks are not text.", fix: "ISBLANK(A1) is TRUE for empty cells, but ISTEXT(A1) is FALSE. Empty is its own type." }
+      { title: "Blanks are not text.", desc: "ISBLANK(A1) is TRUE for empty cells, but ISTEXT(A1) is FALSE. Empty is its own type." }
     ],
     proTips: [
       "Use ISTEXT to find those annoying 'Numbers stored as text' that are breaking your SUM formulas."
@@ -248,7 +248,7 @@ export const infoLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Using ISERROR instead of ISERR.", fix: "If you want to catch all errors EXCEPT #N/A, use ISERR. ISERROR catches everything." }
+      { title: "Using ISERROR instead of ISERR.", desc: "If you want to catch all errors EXCEPT #N/A, use ISERR. ISERROR catches everything." }
     ],
     limitations: "It doesn't tell you WHICH error occurred, just that there is one.",
     bestPractices: [
@@ -315,7 +315,7 @@ export const infoLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Trying to catch #REF! errors.", fix: "ISNA will ignore #REF!. Use ISERROR if you want to catch both." }
+      { title: "Trying to catch #REF! errors.", desc: "ISNA will ignore #REF!. Use ISERROR if you want to catch both." }
     ],
     bestPractices: [
       "Use IFNA for simple replacements, and IF(ISNA(...)) for more complex logical paths."
@@ -379,7 +379,7 @@ export const infoLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Using on text.", fix: "ISEVEN will return #VALUE! if you point it at a cell containing text. Use ISNUMBER first if your data is messy." }
+      { title: "Using on text.", desc: "ISEVEN will return #VALUE! if you point it at a cell containing text. Use ISNUMBER first if your data is messy." }
     ],
     proTips: [
       "In Conditional Formatting, use =ISEVEN(ROW()) to color every second row automatically."
@@ -424,8 +424,8 @@ export const infoLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Non-numeric input.", fix: "Pointing ISODD at a cell containing text will result in a #VALUE! error. Ensure the cell contains a number." },
-      { mistake: "Confusion with decimals.", fix: "ISODD truncates decimals. =ISODD(1.9) returns TRUE because it only looks at the integer 1. Don't use it if you need precise decimal parity." }
+      { title: "Non-numeric input.", desc: "Pointing ISODD at a cell containing text will result in a #VALUE! error. Ensure the cell contains a number." },
+      { title: "Confusion with decimals.", desc: "ISODD truncates decimals. =ISODD(1.9) returns TRUE because it only looks at the integer 1. Don't use it if you need precise decimal parity." }
     ],
     relatedFunctions: ["ISEVEN", "MOD"],
     miniChallenge: {

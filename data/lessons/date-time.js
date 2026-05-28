@@ -44,7 +44,7 @@ export const dateTimeLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Forgetting parentheses.", fix: "Writing =TODAY will result in a #NAME? error. Always write =TODAY()." }
+      { title: "Forgetting parentheses.", desc: "Writing =TODAY will result in a #NAME? error. Always write =TODAY()." }
     ],
     limitations: "TODAY only provides the date, not the time. If you need the exact time as well, use the NOW function.",
     bestPractices: [
@@ -113,7 +113,7 @@ export const dateTimeLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Expecting it to tick like a clock.", fix: "NOW() only updates when the sheet is opened or changed. It doesn't update every second on its own." }
+      { title: "Expecting it to tick like a clock.", desc: "NOW() only updates when the sheet is opened or changed. It doesn't update every second on its own." }
     ],
     limitations: "Like TODAY, NOW is volatile and can cause performance issues in massive workbooks if used thousands of times.",
     bestPractices: [
@@ -182,8 +182,8 @@ export const dateTimeLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Putting the dates in the wrong order.", fix: "The start_date MUST be earlier than the end_date, or you will get a #NUM! error." },
-      { mistake: "Typing DATEDIFF (with two Fs).", fix: "The function name only has one F: DATEDIF." }
+      { title: "Putting the dates in the wrong order.", desc: "The start_date MUST be earlier than the end_date, or you will get a #NUM! error." },
+      { title: "Typing DATEDIFF (with two Fs).", desc: "The function name only has one F: DATEDIF." }
     ],
     limitations: "Because it's a 'hidden' function, Excel won't provide tooltips or help while you type it. You have to remember the syntax.",
     bestPractices: [
@@ -253,7 +253,7 @@ export const dateTimeLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Wrong Argument Order.", fix: "In many countries, we write Day/Month/Year. In Excel, the function MUST be (Year, Month, Day)." }
+      { title: "Wrong Argument Order.", desc: "In many countries, we write Day/Month/Year. In Excel, the function MUST be (Year, Month, Day)." }
     ],
     limitations: "DATE cannot handle years before 1900 (Excel's calendar limit).",
     bestPractices: [
@@ -315,10 +315,14 @@ export const dateTimeLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Inputting text.", fix: "If you point DAY at a cell containing 'May 20', it might fail if Excel doesn't recognize it as a date. Ensure the input is a valid Excel date (serial number)." },
-      { mistake: "Wrong range.", fix: "DAY only accepts a single date. You cannot use it on a range like A2:A10." }
+      { title: "Inputting text.", desc: "If you point DAY at a cell containing 'May 20', it might fail if Excel doesn't recognize it as a date. Ensure the input is a valid Excel date (serial number)." },
+      { title: "Wrong range.", desc: "DAY only accepts a single date. You cannot use it on a range like A2:A10." }
     ],
     relatedFunctions: ["MONTH", "YEAR", "DATE"],
+    miniChallenge: {
+      question: "Extract the day of the month from a date in A1.",
+      expectedAnswer: "=DAY(A1)"
+    },
     practice: {
       instructions: "In cell B2, extract the day number from the date in A2.",
       initialData: [["Date", "Day"], ["05/20/2024", ""]],
@@ -366,9 +370,13 @@ export const dateTimeLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Confusion with text months.", fix: "MONTH returns a number (1-12). If you want the text 'January', you need the TEXT function: =TEXT(A2, \"mmmm\")." }
+      { title: "Confusion with text months.", desc: "MONTH returns a number (1-12). If you want the text 'January', you need the TEXT function: =TEXT(A2, \"mmmm\")." }
     ],
     relatedFunctions: ["DAY", "YEAR", "DATE"],
+    miniChallenge: {
+      question: "Extract the month number from a date in A1.",
+      expectedAnswer: "=MONTH(A1)"
+    },
     practice: {
       instructions: "In cell B2, extract the month number from the date in A2.",
       initialData: [["Date", "Month"], ["05/20/2024", ""]],
@@ -416,9 +424,13 @@ export const dateTimeLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Two-digit year confusion.", fix: "Always use 4-digit years. If you point YEAR at a cell with '24', Excel might interpret it as the year 1924 depending on your system settings." }
+      { title: "Two-digit year confusion.", desc: "Always use 4-digit years. If you point YEAR at a cell with '24', Excel might interpret it as the year 1924 depending on your system settings." }
     ],
     relatedFunctions: ["DAY", "MONTH", "DATE"],
+    miniChallenge: {
+      question: "Extract the 4-digit year from a date in A1.",
+      expectedAnswer: "=YEAR(A1)"
+    },
     practice: {
       instructions: "In cell B2, extract the year from the date in A2.",
       initialData: [["Date", "Year"], ["05/20/2024", ""]],
@@ -476,7 +488,7 @@ export const dateTimeLessons = [
       }
     ],
     commonMistakes: [
-      { mistake: "Dates in wrong order.", fix: "If the end_date is before the start_date, the result will be a negative number." }
+      { title: "Dates in wrong order.", desc: "If the end_date is before the start_date, the result will be a negative number." }
     ],
     limitations: "NETWORKDAYS assumes Saturday and Sunday are the weekend. If your company works weekends or has different off-days (like Friday/Saturday), use the NETWORKDAYS.INTL function instead.",
     bestPractices: [
