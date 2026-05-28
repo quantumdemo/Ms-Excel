@@ -34,14 +34,6 @@ export default function SplashScreen() {
         LearnExcel
       </motion.h1>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8, duration: 0.5 }}
-        className="mt-4 text-slate-500 text-sm font-medium tracking-widest uppercase"
-      >
-        by Afeez Alimi
-      </motion.p>
 
       <motion.div
         className="absolute bottom-12 w-12 h-1 bg-white/10 rounded-full overflow-hidden"

@@ -16,9 +16,6 @@ export default function Footer() {
       <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">
         LearnExcel © {new Date().getFullYear()}
       </p>
-      <p className="text-slate-600 text-[10px] mt-2 font-medium">
-        Built with ❤️ by Afeez Alimi
-      </p>
     </footer>
   );
 }
