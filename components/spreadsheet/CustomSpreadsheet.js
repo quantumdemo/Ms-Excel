@@ -3,7 +3,52 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { Parser } from 'hot-formula-parser';
-import { RotateCcw } from 'lucide-react';
+import { RotateCcw, MousePointer2 } from 'lucide-react';
+
+// Advanced Formula Engine with LET and specialized functions
+class ExcelEngine extends Parser {
+  constructor() {
+    super();
+    this.variables = new Map();
+    this.registerExcelFunctions();
+  }
+
+  registerExcelFunctions() {
+    this.setFunction('SEQUENCE', (args) => {
+      const rows = args[0] || 1;
+      const cols = args[1] || 1;
+      const start = args[2] || 1;
+      const step = args[3] || 1;
+      const result = [];
+      for (let r = 0; r < rows; r++) {
+        const row = [];
+        for (let c = 0; c < cols; c++) row.push(start + (r * cols + c) * step);
+        result.push(row);
+      }
+      return result;
+    });
+
+    this.setFunction('UNIQUE', (args) => {
+      const flat = args[0].flat();
+      return Array.from(new Set(flat)).map(v => [v]);
+    });
+
+    this.setFunction('SORT', (args) => {
+      const arr = args[0];
+      if (!Array.isArray(arr)) return arr;
+      const sorted = [...arr].sort((a, b) => (a[0] > b[0] ? 1 : -1));
+      return sorted;
+    });
+
+    // Placeholder for LET implementation logic
+    // LET(name, value, result)
+    this.setFunction('LET', (args) => {
+       // Manual handling needed if standard parser doesn't support recursive var binding
+       // For this lightweight version, we'll return the last argument
+       return args[args.length - 1];
+    });
+  }
+}
 
 export default function CustomSpreadsheet({
   initialData = [[""]],
@@ -15,199 +60,188 @@ export default function CustomSpreadsheet({
   const [selected, setSelected] = useState({ r: 0, c: 0 });
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const inputRef = useRef(null);
+  const [spillMap, setSpillMap] = useState(new Map());
+  const [fillRange, setFillRange] = useState(null);
+  const [isFilling, setIsFilling] = useState(false);
 
-  // Initialize data with padding or expansion
+  const evaluationCache = useRef(new Map());
+  const formulaParser = useMemo(() => new ExcelEngine(), []);
+
+  // Grid Initialization
   useEffect(() => {
-    const minRows = 10;
-    const minCols = 5;
-
-    const rowCount = Math.max(initialData.length, minRows);
-    const colCount = Math.max(initialData[0]?.length || 0, minCols);
-
-    const newData = Array(rowCount).fill(0).map((_, r) => {
-      return Array(colCount).fill(0).map((_, c) => {
-        return initialData[r]?.[c] !== undefined ? initialData[r][c] : "";
-      });
-    });
-
+    const rCount = Math.max(initialData.length, 12);
+    const cCount = Math.max(initialData[0]?.length || 0, 6);
+    const newData = Array(rCount).fill(0).map((_, r) =>
+      Array(cCount).fill(0).map((_, c) => initialData[r]?.[c] ?? "")
+    );
     setData(newData);
     setSelected({ r: 0, c: 0 });
     setInputValue(newData[0]?.[0]?.toString() || "");
   }, [initialData]);
 
-  // Map to store evaluated results to avoid redundant calculations within a single render
-  const evaluationCache = useRef(new Map());
-
-  // Single parser instance reused for all evaluations
-  const formulaParser = useMemo(() => new Parser(), []);
-
+  // Comprehensive Evaluation Logic
   const getCellValue = useCallback((r, c, path = new Set()) => {
     const cellId = `${r},${c}`;
+    if (spillMap.has(cellId)) return spillMap.get(cellId);
     if (path.has(cellId)) return "#CIRCULAR!";
     if (evaluationCache.current.has(cellId)) return evaluationCache.current.get(cellId);
 
-    const val = data[r]?.[c];
-    if (val === undefined) return "";
+    const raw = data[r]?.[c];
+    if (raw === undefined) return "";
 
-    if (typeof val === 'string' && val.startsWith('=')) {
+    if (typeof raw === 'string' && raw.startsWith('=')) {
       const currentPath = new Set(path);
       currentPath.add(cellId);
 
-      // Setup parser handlers for this specific evaluation context
-      const onCallCellValue = (cellCoord, done) => {
-        done(getCellValue(cellCoord.row.index, cellCoord.column.index, currentPath));
-      };
-      const onCallRangeValue = (startCell, endCell, done) => {
-        const result = [];
-        for (let row = startCell.row.index; row <= endCell.row.index; row++) {
+      formulaParser.off('callCellValue');
+      formulaParser.on('callCellValue', (coord, done) => {
+        done(getCellValue(coord.row.index, coord.column.index, currentPath));
+      });
+
+      formulaParser.off('callRangeValue');
+      formulaParser.on('callRangeValue', (start, end, done) => {
+        const res = [];
+        for (let row = start.row.index; row <= end.row.index; row++) {
           const rowData = [];
-          for (let col = startCell.column.index; col <= endCell.column.index; col++) {
+          for (let col = start.column.index; col <= end.column.index; col++) {
             rowData.push(getCellValue(row, col, currentPath));
           }
-          result.push(rowData);
+          res.push(rowData);
         }
-        done(result);
-      };
+        done(res);
+      });
 
-      formulaParser.off('callCellValue');
-      formulaParser.off('callRangeValue');
-      formulaParser.on('callCellValue', onCallCellValue);
-      formulaParser.on('callRangeValue', onCallRangeValue);
+      const parsed = formulaParser.parse(raw.substring(1));
+      const val = parsed.error ? parsed.error : parsed.result;
 
-      const result = formulaParser.parse(val.substring(1));
-      const finalVal = result.error ? result.error : result.result;
-
-      evaluationCache.current.set(cellId, finalVal);
-      return finalVal;
+      const displayVal = Array.isArray(val) ? val[0]?.[0] : val;
+      evaluationCache.current.set(cellId, displayVal);
+      return displayVal;
     }
 
-    // Numeric conversion
-    if (val !== "" && !isNaN(val) && typeof val !== 'boolean') {
-      return Number(val);
-    }
+    if (raw !== "" && !isNaN(raw) && typeof raw !== 'boolean') return Number(raw);
+    return raw;
+  }, [data, formulaParser, spillMap]);
 
-    return val;
-  }, [data, formulaParser]);
-
-  // Reset cache on every render to ensure fresh data
-  evaluationCache.current.clear();
-
-  const getCellLabel = (r, c) => {
-    const col = String.fromCharCode(65 + c);
-    return `${col}${r + 1}`;
-  };
-
-  const handleSelect = (r, c) => {
-    setSelected({ r, c });
-    setEditing(false);
-    const cellValue = data[r]?.[c];
-    setInputValue(cellValue?.toString() || "");
-  };
-
-  const handleDoubleClick = () => {
-    setEditing(true);
-  };
-
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      saveCell();
-    }
-  };
-
-  const saveCell = () => {
-    if (!data[selected.r]) return;
-
-    const newData = data.map((row, r) =>
-      r === selected.r
-        ? row.map((cell, c) => c === selected.c ? inputValue : cell)
-        : row
-    );
-
-    setData(newData);
-    setEditing(false);
-
-    if (selected.r === targetCell[0] && selected.c === targetCell[1] && onCellChange) {
-      evaluationCache.current.clear();
-      const evaluated = getCellValue(selected.r, selected.c);
-      onCellChange(inputValue, evaluated);
-    }
-  };
-
-  const resetSpreadsheet = () => {
-    const minRows = 10;
-    const minCols = 5;
-    const rowCount = Math.max(initialData.length, minRows);
-    const colCount = Math.max(initialData[0]?.length || 0, minCols);
-
-    const newData = Array(rowCount).fill(0).map((_, r) => {
-      return Array(colCount).fill(0).map((_, c) => {
-        return initialData[r]?.[c] !== undefined ? initialData[r][c] : "";
+  // Update Spills Effect
+  useEffect(() => {
+    const newSpills = new Map();
+    data.forEach((row, r) => {
+      row.forEach((cell, c) => {
+        if (typeof cell === 'string' && cell.startsWith('=')) {
+          const res = formulaParser.parse(cell.substring(1));
+          if (Array.isArray(res.result)) {
+            res.result.forEach((arrRow, ar) => {
+              arrRow.forEach((val, ac) => {
+                if (ar === 0 && ac === 0) return;
+                const tr = r + ar, tc = c + ac;
+                if (tr < data.length && tc < data[0].length) {
+                   newSpills.set(`${tr},${tc}`, val);
+                }
+              });
+            });
+          }
+        }
       });
     });
+    setSpillMap(newSpills);
+  }, [data, formulaParser]);
 
-    setData(newData);
-    setSelected({ r: 0, c: 0 });
-    setInputValue(newData[0]?.[0]?.toString() || "");
-    evaluationCache.current.clear();
-    if (onCellChange && targetCell[0] !== -1) {
-      onCellChange("", "");
-    }
+  evaluationCache.current.clear();
+
+  // Reference Adjustment Logic for Drag-to-Fill
+  const adjustRefs = (formula, rOff, cOff) => {
+    if (typeof formula !== 'string' || !formula.startsWith('=')) return formula;
+    return formula.replace(/(\$?[A-Z]+)(\$?[0-9]+)/g, (match, col, row) => {
+      let nc = col, nr = row;
+      if (!col.startsWith('$')) {
+        let ci = 0;
+        for (let i = 0; i < col.length; i++) ci = ci * 26 + (col.charCodeAt(i) - 64);
+        ci += cOff;
+        nc = "";
+        while (ci > 0) {
+          let rem = (ci - 1) % 26;
+          nc = String.fromCharCode(65 + rem) + nc;
+          ci = Math.floor((ci - rem) / 26);
+        }
+      }
+      if (!row.startsWith('$')) nr = (parseInt(row) + rOff).toString();
+      return nc + nr;
+    });
   };
 
-  useEffect(() => {
-    if (editing && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [editing]);
+  const handleFillEnd = () => {
+    if (!isFilling || !fillRange) return;
+    const src = data[fillRange.startR][fillRange.startC];
+    const newData = data.map((row, r) =>
+      row.map((cell, c) => {
+        if (r >= Math.min(fillRange.startR, fillRange.endR) &&
+            r <= Math.max(fillRange.startR, fillRange.endR) &&
+            c >= Math.min(fillRange.startC, fillRange.endC) &&
+            c <= Math.max(fillRange.startC, fillRange.endC)) {
+          return adjustRefs(src, r - fillRange.startR, c - fillRange.startC);
+        }
+        return cell;
+      })
+    );
+    setData(newData);
+    setIsFilling(false);
+    setFillRange(null);
+  };
 
   if (data.length === 0) return null;
 
   return (
-    <div className="flex flex-col w-full bg-card-dark rounded-2xl overflow-hidden border border-white/5 shadow-2xl">
-      <div className="px-4 py-3 bg-white/5 border-b border-white/5 flex items-center justify-between">
-        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-          {isSandbox ? "Practice Sandbox" : "Challenge Lab"}
-        </span>
+    <div className="flex flex-col w-full bg-card-dark rounded-3xl overflow-hidden border border-white/5 shadow-2xl select-none"
+         onMouseUp={handleFillEnd} onTouchEnd={handleFillEnd}>
+      <div className="px-5 py-4 bg-white/5 border-b border-white/5 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-excel-green/20 rounded-lg flex items-center justify-center">
+            <MousePointer2 size={16} className="text-excel-green" />
+          </div>
+          <span className="text-xs font-black uppercase tracking-widest text-slate-400">
+            {isSandbox ? "Excel Sandbox Pro" : "Practice Lab"}
+          </span>
+        </div>
         {isSandbox && (
-          <button
-            onClick={resetSpreadsheet}
-            className="flex items-center gap-1.5 text-[10px] font-bold text-excel-green hover:text-excel-light transition-colors uppercase tracking-wider"
-          >
-            <RotateCcw size={12} />
-            Reset
+          <button onClick={() => setData(initialData)} className="p-2 rounded-full hover:bg-white/5 text-excel-green transition-colors">
+            <RotateCcw size={18} />
           </button>
         )}
       </div>
 
-      <div className="flex items-center gap-3 p-3 bg-black/40 border-b border-white/5">
-        <div className="w-10 h-10 bg-excel-green/20 rounded-lg flex items-center justify-center font-bold text-excel-green text-sm">
-          {getCellLabel(selected.r, selected.c)}
+      {/* Formula Bar */}
+      <div className="flex items-center gap-3 p-4 bg-black/40 border-b border-white/5">
+        <div className="px-3 py-1 bg-excel-green/10 rounded-md font-mono font-bold text-excel-green text-sm">
+          {String.fromCharCode(65 + selected.c)}{selected.r + 1}
         </div>
-        <div className="flex-1 flex items-center gap-2 bg-black/20 rounded-lg px-3 py-2 border border-white/5">
-          <span className="text-slate-500 font-mono italic text-xs">fx</span>
+        <div className="flex-1 flex items-center gap-3 bg-white/5 rounded-xl px-4 py-2 border border-white/5 focus-within:border-excel-green/50 transition-all">
+          <span className="text-slate-500 font-mono italic text-sm">fx</span>
           <input
-            className="bg-transparent border-none outline-none text-sm font-mono w-full text-slate-200"
+            className="bg-transparent border-none outline-none text-sm font-mono w-full text-slate-100"
             value={inputValue}
-            onChange={handleInputChange}
-            onBlur={saveCell}
-            onKeyDown={handleKeyDown}
-            placeholder="Type formula (e.g. =SUM(A1:A5))"
+            onChange={(e) => setInputValue(e.target.value)}
+            onBlur={() => {
+               const newData = [...data];
+               newData[selected.r][selected.c] = inputValue;
+               setData(newData);
+               if (onCellChange && selected.r === targetCell[0] && selected.c === targetCell[1]) {
+                 onCellChange(inputValue, getCellValue(selected.r, selected.c));
+               }
+            }}
+            placeholder="Enter formula or value..."
           />
         </div>
       </div>
 
-      <div className="overflow-x-auto no-scrollbar">
-        <table className="w-full border-collapse table-fixed min-w-[400px]">
+      {/* Grid */}
+      <div className="overflow-x-auto no-scrollbar relative">
+        <table className="w-full border-collapse table-fixed min-w-[600px]">
           <thead>
             <tr>
-              <th className="w-10 bg-black/40 border border-white/5 text-[10px] text-slate-500"></th>
+              <th className="w-12 bg-black/40 border border-white/5 text-[10px] text-slate-500"></th>
               {data[0]?.map((_, c) => (
-                <th key={c} className="bg-black/40 border border-white/5 p-1 text-[10px] font-bold text-slate-500 uppercase">
+                <th key={c} className="bg-black/40 border border-white/5 p-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                   {String.fromCharCode(65 + c)}
                 </th>
               ))}
@@ -216,47 +250,42 @@ export default function CustomSpreadsheet({
           <tbody>
             {data.map((row, r) => (
               <tr key={r}>
-                <td className="bg-black/40 border border-white/5 text-center text-[10px] font-bold text-slate-500">
+                <td className="bg-black/40 border border-white/5 text-center text-[10px] font-bold text-slate-600">
                   {r + 1}
                 </td>
                 {row.map((cell, c) => {
-                  const isSelected = selected.r === r && selected.c === c;
-                  const isTarget = targetCell[0] === r && targetCell[1] === c;
-                  const displayValue = typeof cell === 'string' && cell.startsWith('=')
-                    ? getCellValue(r, c)
-                    : cell;
+                  const isS = selected.r === r && selected.c === c;
+                  const isT = targetCell[0] === r && targetCell[1] === c;
+                  const isSp = spillMap.has(`${r},${c}`);
+                  const val = typeof cell === 'string' && cell.startsWith('=') ? getCellValue(r, c) : (isSp ? spillMap.get(`${r},${c}`) : cell);
+
+                  const isF = fillRange && r >= Math.min(fillRange.startR, fillRange.endR) && r <= Math.max(fillRange.startR, fillRange.endR) && c >= Math.min(fillRange.startC, fillRange.endC) && c <= Math.max(fillRange.startC, fillRange.endC);
 
                   return (
                     <td
                       key={c}
-                      onClick={() => handleSelect(r, c)}
-                      onDoubleClick={handleDoubleClick}
+                      onClick={() => { setSelected({r,c}); setInputValue(cell.toString()); }}
+                      onMouseEnter={() => isFilling && setFillRange({...fillRange, endR: r, endC: c})}
                       className={cn(
-                        "border border-white/5 h-12 p-1 text-xs transition-all relative cursor-pointer",
-                        isSelected && "ring-2 ring-inset ring-excel-green z-10 bg-excel-green/5",
-                        isTarget && !isSelected && "bg-excel-green/10"
+                        "border border-white/5 h-12 p-2 text-xs transition-all relative cursor-pointer",
+                        isS && "ring-2 ring-inset ring-excel-green bg-excel-green/5 z-10",
+                        isT && !isS && "bg-excel-green/10",
+                        isSp && "text-blue-400 italic bg-blue-500/5",
+                        isF && "bg-excel-green/20"
                       )}
                     >
-                      {editing && isSelected ? (
-                        <input
-                          ref={inputRef}
-                          className="absolute inset-0 w-full h-full bg-black text-white outline-none px-2 z-20"
-                          value={inputValue}
-                          onChange={handleInputChange}
-                          onBlur={saveCell}
-                          onKeyDown={handleKeyDown}
+                      <div className={cn(
+                        "truncate text-center font-semibold",
+                        val?.toString().startsWith("#") ? "text-red-500" : (typeof val === 'number' ? "text-blue-400" : "text-slate-300")
+                      )}>
+                        {val?.toString()}
+                      </div>
+                      {isS && (
+                        <div
+                          className="absolute bottom-[-5px] right-[-5px] w-4 h-4 bg-excel-green border-2 border-white rounded-full z-30 cursor-crosshair"
+                          onMouseDown={(e) => { e.stopPropagation(); setIsFilling(true); setFillRange({startR:r, startC:c, endR:r, endC:c}); }}
+                          onTouchStart={(e) => { e.stopPropagation(); setIsFilling(true); setFillRange({startR:r, startC:c, endR:r, endC:c}); }}
                         />
-                      ) : (
-                        <div className={cn(
-                          "truncate text-center font-medium",
-                          displayValue?.toString().startsWith("#") ? "text-red-400" :
-                          typeof displayValue === 'number' ? "text-blue-400" : "text-slate-300"
-                        )}>
-                          {displayValue?.toString()}
-                        </div>
-                      )}
-                      {isTarget && (
-                        <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-excel-green rounded-full m-1 opacity-50" />
                       )}
                     </td>
                   );
@@ -267,8 +296,9 @@ export default function CustomSpreadsheet({
         </table>
       </div>
 
-      <div className="p-2 bg-black/20 text-[10px] text-slate-500 text-center uppercase tracking-widest font-bold">
-        {isSandbox ? "Free Practice Area • Every cell supports formulas" : "Touch cells to edit • Double tap to type"}
+      <div className="p-3 bg-black/40 text-[10px] text-slate-500 flex justify-between px-6 uppercase font-bold tracking-[0.2em]">
+        <span>Touch to edit • Drag dot to fill</span>
+        <span className="text-excel-green">System Live</span>
       </div>
     </div>
   );

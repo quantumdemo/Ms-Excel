@@ -34,15 +34,15 @@ export const createPlaceholderLesson = (id, name, category) => ({
   ],
   detailedExamples: [
     {
-      title: `Analyzing Data with ${name}`,
+      title: `Business Analysis with ${name}`,
       table: {
-        headers: ["Source Data", "Formula Applied", "Output"],
+        headers: ["Region", "Monthly Revenue", "Analysis"],
         rows: [
-          ["Sample Value 1", `=${name}(A2)`, "Result 1"],
-          ["Sample Value 2", `=${name}(A3)`, "Result 2"]
+          ["North", 12500, `=${name}(B2)`],
+          ["South", 18300, `=${name}(B3)`]
         ]
       },
-      explanation: `By applying ${name} to your dataset, Excel automates the calculation, ensuring accuracy and consistency across your report.`
+      explanation: `In this scenario, we use the ${name} function to process regional revenue data, allowing for automated and scalable data analysis.`
     }
   ],
   commonMistakes: [
@@ -58,17 +58,17 @@ export const createPlaceholderLesson = (id, name, category) => ({
     expectedAnswer: `=${name}(A2)`
   },
   practice: {
-    instructions: `Apply the ${name} function to solve the challenge below.`,
-    initialData: [["Value A", "Value B", "Result"], [10, 20, ""]],
+    instructions: `Calculate the ${name} result for the dataset provided in cell C2.`,
+    initialData: [["Category", "Sales", "Result"], ["Products", 1500, ""], ["Services", 2400, ""]],
     targetCell: [1, 2],
-    expectedFormula: `${name}(A2,B2)`,
+    expectedFormula: `${name}(B2)`,
     expectedValue: "VALID"
   },
   sandboxData: [
-    ["Items", "Value A", "Value B"],
-    ["Data 1", 10, 50],
-    ["Data 2", 20, 60],
-    ["Data 3", 30, 70],
-    ["Data 4", 40, 80]
+    ["Project ID", "Budget", "Actual Spend", "Variance"],
+    ["P-001", 5000, 4800, "=B2-C2"],
+    ["P-002", 7500, 8100, "=B3-C3"],
+    ["P-003", 2000, 2000, "=B4-C4"],
+    ["P-004", 12000, 11500, "=B5-C5"]
   ]
 });
