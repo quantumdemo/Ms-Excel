@@ -73,7 +73,7 @@ export default function Home() {
        <AnimatePresence mode="wait">
           {selectedLesson ? (
             <LessonViewer
-              key="viewer"
+              key={selectedLesson.id}
               lesson={selectedLesson}
               onBack={() => setSelectedLesson(null)}
             />

@@ -1502,7 +1502,35 @@ export const mathStatsLessons = [
       concept: "Sum of (X squared Minus Y squared). It's a specialized tool for advanced algebraic and statistical modeling."
     },
     internalLogic: "For each pair (x, y), it calculates (x^2 - y^2) and then sums those results.",
+    whyItExists: "It simplifies the calculation of variance differences in statistical models and is useful in certain physics equations involving energy levels.",
+    whenToUse: "Use this when you need the sum of the differences of individual squares, often seen in regression analysis.",
     syntax: "=SUMX2MY2(array_x, array_y)",
+    syntaxBreakdown: [
+      { arg: "array_x", desc: "The first range or array of numbers." },
+      { arg: "array_y", desc: "The second range or array of numbers." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Basic Algebra",
+        table: {
+          headers: ["X", "Y", "Formula", "Result"],
+          rows: [
+            ["4", "3", "=SUMX2MY2(A2, B2)", "7"]
+          ]
+        },
+        stepByStep: [
+          "Excel squares 4 (16).",
+          "Excel squares 3 (9).",
+          "It subtracts 9 from 16 (7).",
+          "If ranges are used, it repeats this for each pair and sums them."
+        ]
+      }
+    ],
+    relatedFunctions: ["SUMXMY2", "SUMX2PY2"],
+    miniChallenge: {
+      question: "What is the result of SUMX2MY2 on {3} and {2}?",
+      expectedAnswer: "5"
+    },
     practice: {
       instructions: "In cell C2, use SUMX2MY2 on A2:A3 and B2:B3.",
       initialData: [["X", "Y", "Result"], [4, 3, ""], [5, 4, ""]],
@@ -1523,7 +1551,35 @@ export const mathStatsLessons = [
       concept: "Sum of (X squared Plus Y squared). It is used for finding the total energy or magnitude across two datasets."
     },
     internalLogic: "For each pair (x, y), it calculates (x^2 + y^2) and then sums those results.",
+    whyItExists: "Commonly used in geometry and physics for calculating the sum of squared distances or total energy across multiple components.",
+    whenToUse: "Use this to calculate aggregate squared magnitudes between two datasets.",
     syntax: "=SUMX2PY2(array_x, array_y)",
+    syntaxBreakdown: [
+      { arg: "array_x", desc: "The first range or array of numbers." },
+      { arg: "array_y", desc: "The second range or array of numbers." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Aggregated Squares",
+        table: {
+          headers: ["X", "Y", "Formula", "Result"],
+          rows: [
+            ["3", "4", "=SUMX2PY2(A2, B2)", "25"]
+          ]
+        },
+        stepByStep: [
+          "Excel squares 3 (9).",
+          "Excel squares 4 (16).",
+          "It adds 9 + 16 = 25.",
+          "It sums these results across all pairs in the ranges."
+        ]
+      }
+    ],
+    relatedFunctions: ["SUMXMY2", "SUMX2MY2", "SUMSQ"],
+    miniChallenge: {
+      question: "What is the result of SUMX2PY2 on {1} and {2}?",
+      expectedAnswer: "5"
+    },
     practice: {
       instructions: "In cell C2, use SUMX2PY2 on A2:A3 and B2:B3.",
       initialData: [["X", "Y", "Result"], [3, 4, ""], [1, 2, ""]],
