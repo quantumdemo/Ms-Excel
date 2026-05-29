@@ -18,18 +18,7 @@ const statNames = ["AVEDEV", "AVERAGEA", "BETA.DIST", "BETA.INV", "BINOM.DIST", 
 const financialNames = ["ACCRINT", "ACCRINTM", "AMORDEGRC", "AMORLINC", "COUPDAYBS", "COUPDAYS", "COUPDAYSNC", "COUPNCD", "COUPNUM", "COUPPCD", "CUMIPMT", "CUMPRINC", "DB", "DDB", "DISC", "DOLLARDE", "DOLLARFR", "DURATION", "EFFECT", "FV", "FVSCHEDULE", "INTRATE", "IPMT", "IRR", "ISPMT", "MDURATION", "MIRR", "NOMINAL", "NPER", "NPV", "ODDFPRICE", "ODDFYIELD", "ODDLPRICE", "ODDLYIELD", "PDURATION", "PPMT", "PRICE", "PRICEDISC", "PRICEMAT", "PV", "RATE", "RECEIVED", "RRI", "SLN", "SYD", "TBILLEQ", "TBILLPRICE", "TBILLYIELD", "VDB", "XIRR", "XNPV", "YIELD", "YIELDDISC", "YIELDMAT"];
 const infoNames = ["CELL", "ERROR.TYPE", "INFO", "ISFORMULA", "ISLOGICAL", "ISNONTEXT", "ISOMITTED", "ISREF", "N", "NA", "SHEET", "SHEETS", "TYPE"];
 
-const placeholders = [
-  ...logicalNames.map(n => createPlaceholderLesson(n.toLowerCase(), n, 'logical')),
-  ...textNames.map(n => createPlaceholderLesson(n.toLowerCase(), n, 'text')),
-  ...dateNames.map(n => createPlaceholderLesson(n.toLowerCase(), n, 'date-time')),
-  ...lookupNames.map(n => createPlaceholderLesson(n.toLowerCase(), n, 'lookup')),
-  ...mathNames.map(n => createPlaceholderLesson(n.toLowerCase(), n, 'math')),
-  ...statNames.map(n => createPlaceholderLesson(n.toLowerCase(), n, 'statistical')),
-  ...financialNames.map(n => createPlaceholderLesson(n.toLowerCase(), n, 'financial')),
-  ...infoNames.map(n => createPlaceholderLesson(n.toLowerCase(), n, 'info')),
-];
-
-export const excelLessons = [
+const implementedLessons = [
   ...foundationLessons,
   ...logicalLessons,
   ...lookupLessons,
@@ -39,6 +28,23 @@ export const excelLessons = [
   ...financialLessons,
   ...dynamicArrayLessons,
   ...infoLessons,
+];
+
+const implementedIds = new Set(implementedLessons.map(l => l.id));
+
+const placeholders = [
+  ...logicalNames.map(n => createPlaceholderLesson(n.toLowerCase(), n, 'logical')),
+  ...textNames.map(n => createPlaceholderLesson(n.toLowerCase(), n, 'text')),
+  ...dateNames.map(n => createPlaceholderLesson(n.toLowerCase(), n, 'date-time')),
+  ...lookupNames.map(n => createPlaceholderLesson(n.toLowerCase(), n, 'lookup')),
+  ...mathNames.map(n => createPlaceholderLesson(n.toLowerCase(), n, 'math')),
+  ...statNames.map(n => createPlaceholderLesson(n.toLowerCase(), n, 'statistical')),
+  ...financialNames.map(n => createPlaceholderLesson(n.toLowerCase(), n, 'financial')),
+  ...infoNames.map(n => createPlaceholderLesson(n.toLowerCase(), n, 'info')),
+].filter(p => !implementedIds.has(p.id));
+
+export const excelLessons = [
+  ...implementedLessons,
   ...placeholders
 ];
 
