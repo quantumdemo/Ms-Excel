@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, Info, HelpCircle, ArrowRight, Check, Sparkles, Zap } from "lucide-react";
 import CustomSpreadsheet from "@/components/spreadsheet/CustomSpreadsheet";
@@ -139,7 +139,18 @@ export default function LessonViewer({ lesson, onBack }) {
                          <div className="overflow-x-auto rounded-2xl border border-white/5 bg-black/20">
                             <table className="w-full text-left text-xs border-collapse">
                                <thead>
+                                  {/* Excel Column Labels */}
+                                  <tr className="bg-black/40">
+                                     <th className="w-10 border-b border-r border-white/5"></th>
+                                     {ex.table.headers.map((_, j) => (
+                                       <th key={j} className="p-2 text-center font-bold text-slate-500 border-b border-r border-white/10 last:border-r-0">
+                                          {String.fromCharCode(65 + j)}
+                                       </th>
+                                     ))}
+                                  </tr>
+                                  {/* Row 1: Headers */}
                                   <tr className="bg-white/5">
+                                     <td className="w-10 text-center font-bold text-slate-600 border-b border-r border-white/10 text-[10px]">1</td>
                                      {ex.table.headers.map((h, j) => (
                                        <th key={j} className="p-3 font-bold text-slate-400 border-b border-white/5 uppercase tracking-wider">{h}</th>
                                      ))}
@@ -148,6 +159,8 @@ export default function LessonViewer({ lesson, onBack }) {
                                <tbody>
                                   {ex.table.rows.map((row, j) => (
                                     <tr key={j}>
+                                       {/* Row numbers starting from 2 */}
+                                       <td className="w-10 text-center font-bold text-slate-600 bg-black/20 border-b border-r border-white/10 text-[10px]">{j + 2}</td>
                                        {row.map((cell, k) => (
                                          <td key={k} className="p-3 border-b border-white/5 text-slate-300 font-mono">{cell}</td>
                                        ))}
