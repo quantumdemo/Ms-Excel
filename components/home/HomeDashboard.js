@@ -124,7 +124,7 @@ export default function HomeDashboard({ onSelectLesson, activeTab, setActiveTab,
               <section className="mb-10">
                  <div className="flex items-center justify-between mb-6">
                     <h3 className="text-xl font-black">
-                       {categoryFilter ? `Category: ${categoryFilter.toUpperCase()}` : "Quick Start"}
+                       {categoryFilter ? `Category: ${categoryFilter.toUpperCase()}` : (searchQuery ? "Search Results" : "Quick Start")}
                     </h3>
                     {categoryFilter && (
                       <button onClick={() => setCategoryFilter(null)} className="text-excel-green text-xs font-black underline">Show All</button>

@@ -18,6 +18,15 @@ export default function LessonViewer({ lesson, onBack }) {
   const { user } = useAuthStore();
   const { completeLesson } = useProgressStore();
 
+  // Robust State Reset when lesson changes
+  useEffect(() => {
+    setCurrentStep('theory');
+    setUserInput("");
+    setEvaluatedResult(null);
+    setIsCorrect(false);
+    setShowHint(false);
+  }, [lesson.id]);
+
   const handleCellChange = (raw, evaluated) => {
     setUserInput(raw);
     setEvaluatedResult(evaluated);

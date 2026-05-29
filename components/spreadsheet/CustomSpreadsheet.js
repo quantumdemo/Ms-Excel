@@ -93,6 +93,8 @@ export default function CustomSpreadsheet({
     setData(newData);
     setSelected({ r: 0, c: 0 });
     setInputValue(newData[0]?.[0]?.toString() || "");
+    setFillRange(null);
+    setIsFilling(false);
   }, [initialData]);
 
   // Comprehensive Evaluation Logic
