@@ -771,14 +771,14 @@ export const logicalLessons = [
   },
   {
     id: "let",
-    title: "Variable Mastery: LET",
+    title: "Optimize Your Formulas: LET Function",
     category: "logical",
     difficulty: "Advanced",
     xp: 500,
     introduction: {
-      title: "Naming Your Logic: LET",
-      description: "The LET function allows you to assign names to calculation results. This means you can store intermediate values (variables) inside a formula, making it faster and much easier to read.",
-      concept: "Think of it like writing a recipe. Instead of saying 'Mix the stuff you got from the whisking of the eggs and sugar', you say 'Let X = whisked eggs and sugar. Now mix X...'. It's cleaner and more professional."
+      title: "Optimize Your Formulas: LET Function",
+      description: "The LET function makes your formulas faster and easier to read by letting you assign names to calculation results. Instead of writing the same expression over and over, you give it a name once and reuse it.",
+      concept: "Think of it like labelling a box: you store a value or calculation in a named variable, then refer to that name whenever you need the contents. No more repeating the same long expression multiple times in one formula."
     },
     internalLogic: "Excel evaluates each name-value pair once and stores the result in temporary memory. It then uses that stored result whenever the name is mentioned in the final calculation. This prevents Excel from having to calculate the same thing twice.",
     whyItExists: "Complex formulas often repeat the same math (e.g., repeating a long VLOOKUP several times). This makes the formula slow and impossible to debug. LET solves this by calculating it once and giving it a name.",
@@ -793,31 +793,36 @@ export const logicalLessons = [
       scenario: "You want a calculate a total price with tax, but you only want to show the result if the price is valid. You name the 'Price' calculation to avoid repeating it.",
       formula: "=LET(Price, A2*B2, IF(Price>0, Price*1.15, 0))"
     },
-    syntax: "=LET(name1, name_value1, [name2, name_value2], ..., calculation)",
+    syntax: "=LET(name1, value1, [name2, value2, ...], calculation)",
     syntaxBreakdown: [
-      { arg: "name1", desc: "The name you want to give to your variable (e.g., 'Sales')." },
-      { arg: "name_value1", desc: "The calculation or value to assign to that name." },
-      { arg: "calculation", desc: "The final math that uses the names you defined. This must always be the LAST argument." }
+      { arg: "name1", desc: "The variable name you assign (no quotes needed)." },
+      { arg: "value1", desc: "The value or calculation stored in that name." },
+      { arg: "name2, value2", desc: "Optional additional variable pairs." },
+      { arg: "calculation", desc: "The final expression that uses the named variables to produce a result." }
     ],
     detailedExamples: [
       {
-        title: "Example: Avoiding Redundancy",
+        title: "Example: Tiered Bonus Calculation",
         table: {
-          headers: ["Input", "Standard Formula (Messy)", "LET Formula (Clean)"],
+          headers: ["Employee", "Revenue", "Formula", "Bonus"],
           rows: [
-            ["10", "=IF(SUM(A1:A10)>100, SUM(A1:A10)*0.1, 0)", "=LET(Total, SUM(A1:A10), IF(Total>100, Total*0.1, 0))"]
+            ["Alice", "65,000", "=LET(rev, B2, threshold, 50000, lower, MIN(rev, threshold), upper, MAX(0, rev-threshold), lower*0.05 + upper*0.08)", "3,700"],
+            ["Ben", "40,000", "=LET(rev, B3, threshold, 50000, lower, MIN(rev, threshold), upper, MAX(0, rev-threshold), lower*0.05 + upper*0.08)", "2,000"]
           ]
         },
         stepByStep: [
-          "Excel calculates SUM(A1:A10) and names it 'Total'.",
-          "It then checks if 'Total' is > 100.",
-          "If TRUE, it returns 'Total' * 0.1.",
-          "It only did the SUM once, making it faster!"
+          "rev stores the revenue value from column B.",
+          "threshold stores 50,000.",
+          "lower calculates the portion of revenue at or below the threshold.",
+          "upper calculates any revenue above the threshold.",
+          "The final calculation applies 5% to the lower portion and 8% to the upper portion."
         ]
       }
     ],
     commonMistakes: [
-      { title: "Wrong final argument.", desc: "The last argument MUST be a calculation, not a name-value pair. You can't end a LET function with a definition." }
+      { title: "Forgetting the final calculation.", desc: "The last argument must be the expression that returns the result." },
+      { title: "Using the same variable name twice.", desc: "Each name must be unique within the LET function." },
+      { title: "Putting quotes around variable names.", desc: "Unlike text strings, variable names in LET are unquoted." }
     ],
     limitations: "Only available in Office 365 and Excel 2021+.",
     bestPractices: [
@@ -825,7 +830,8 @@ export const logicalLessons = [
       "Indent your LET formulas (Alt+Enter) to make the name-value pairs clearly visible."
     ],
     proTips: [
-      "LET is the best way to avoid the 'Mega-Formula' nightmare. If a formula is more than 2 lines long, use LET."
+      "Use LET to store intermediate results from complex lookups or calculations you reference multiple times.",
+      "Pair LET with LAMBDA to create highly efficient, readable custom functions."
     ],
     relatedFunctions: ["LAMBDA", "IF", "IFS"],
     miniChallenge: {
@@ -842,14 +848,14 @@ export const logicalLessons = [
   },
   {
     id: "lambda",
-    title: "Custom Functions: LAMBDA",
+    title: "Build Your Own Functions: LAMBDA Function",
     category: "logical",
     difficulty: "Advanced",
     xp: 600,
     introduction: {
-      title: "Build Your Own Functions: LAMBDA",
-      description: "The LAMBDA function allows you to create your own custom, reusable functions without using VBA or programming. You can define the parameters and the logic, then give it a name to use across your workbook.",
-      concept: "Think of LAMBDA as a 'Function Factory'. If you find yourself writing the same complex formula over and over, you can 'package' it into a LAMBDA, name it 'MyCoolCalc', and then just use =MyCoolCalc(A1) instead."
+      title: "Build Your Own Functions: LAMBDA Function",
+      description: "The LAMBDA function lets you create custom, reusable functions without any coding or VBA. You define the parameters and the calculation, then give it a name in the Name Manager to use it anywhere in your workbook.",
+      concept: "Think of it like building your own Excel tool: you decide what inputs it takes, what it does with them, and what it returns. Once saved, you call it just like SUM or VLOOKUP."
     },
     internalLogic: "LAMBDA creates a local scope where the 'parameter' names are bound to the values passed in when the function is called. It then executes the 'calculation' using those bound values.",
     whyItExists: "For decades, if you wanted a custom function in Excel, you had to learn VBA (coding). LAMBDA brings that power directly into the formula bar, making Excel fully programmable.",
@@ -864,29 +870,47 @@ export const logicalLessons = [
       scenario: "You want a custom function called 'GET_PROFIT' that subtracts Costs from Sales and subtracts 10% tax.",
       formula: "=LAMBDA(sales, costs, (sales-costs)*0.9)"
     },
-    syntax: "=LAMBDA([parameter1, parameter2, ...], calculation)",
+    syntax: "=LAMBDA(parameter1, [parameter2, ...], calculation)",
     syntaxBreakdown: [
-      { arg: "parameter", desc: "The names you want to give to your inputs (e.g., 'radius')." },
-      { arg: "calculation", desc: "The formula to execute using those parameters. Always the last argument." }
+      { arg: "parameter1", desc: "An input name for the first argument your function will accept." },
+      { arg: "parameter2", desc: "Optional additional parameters." },
+      { arg: "calculation", desc: "The expression that uses the parameters to produce the result." }
     ],
     detailedExamples: [
       {
-        title: "Example: The 'Invoker' Syntax",
+        title: "Example: Custom Markup Calculator",
         table: {
-          headers: ["Method", "Formula", "Result"],
+          headers: ["Product", "Cost", "Margin", "Formula", "Selling Price"],
           rows: [
-            ["Immediate Call", "=LAMBDA(x, x*2)(10)", "20"]
+            ["Widget A", "50", "20%", "=MARKUP(B2, C2)", "60.00"],
+            ["Widget B", "120", "15%", "=MARKUP(B3, C3)", "138.00"],
+            ["Widget C", "80", "25%", "=MARKUP(B4, C4)", "100.00"]
           ]
         },
         stepByStep: [
-          "Excel defines a function that takes one input 'x' and doubles it.",
-          "The (10) at the end immediately 'calls' that function with the value 10.",
-          "Result: 20."
+          "The LAMBDA accepts two parameters: cost and margin.",
+          "It calculates cost * (1 + margin).",
+          "Once saved as 'MARKUP' in Name Manager, you use it like any built-in function."
+        ]
+      },
+      {
+        title: "Direct Cell LAMBDA (Without Name Manager)",
+        table: {
+          headers: ["Product", "Cost", "Margin", "Formula", "Selling Price"],
+          rows: [
+            ["Widget A", "50", "20%", "=LAMBDA(c, m, c*(1+m))(B2, C2)", "60.00"]
+          ]
+        },
+        stepByStep: [
+          "You can use LAMBDA directly in a cell by adding parentheses with arguments at the end.",
+          "In this case, (B2, C2) are passed as the 'c' and 'm' parameters."
         ]
       }
     ],
     commonMistakes: [
-      { title: "Trying to use it without the call.", desc: "If you just type =LAMBDA(...) in a cell, Excel will return a #CALC! error. You must either call it immediately (with parentheses at the end) or name it in the Name Manager." }
+      { title: "Forgetting to save it in Name Manager.", desc: "A bare LAMBDA in a cell returns #CALC!. Either name it or append arguments immediately." },
+      { title: "Mismatched parameters and arguments.", desc: "The number of arguments you pass must match the number of parameters defined." },
+      { title: "Using cell references inside the Name Manager definition.", desc: "Use only the parameter names; all values should come through the arguments." }
     ],
     limitations: "Only available in Office 365 and Excel 2021+.",
     bestPractices: [
@@ -894,7 +918,8 @@ export const logicalLessons = [
       "Name your parameters clearly so others know what to input."
     ],
     proTips: [
-      "Combine LAMBDA with helper functions like MAP, SCAN, or REDUCE for incredible 'Big Data' processing power."
+      "Combine LAMBDA with LET inside the definition to handle complex, multi-step logic in a clean way.",
+      "Build a library of LAMBDAs for common business calculations like tax, commission, or unit conversions, then share them across workbooks."
     ],
     relatedFunctions: ["LET", "MAP", "REDUCE", "SCAN"],
     miniChallenge: {
