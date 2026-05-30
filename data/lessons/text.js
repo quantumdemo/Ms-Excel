@@ -1,5 +1,552 @@
 export const textLessons = [
   {
+    id: "arraytotext",
+    title: "Convert an Array to a Text String: ARRAYTOTEXT Function",
+    category: "text",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Convert an Array to a Text String: ARRAYTOTEXT Function",
+      description: "The ARRAYTOTEXT function converts an array or range into a text string. You can choose a concise format (comma-separated) or a strict format (wraps in braces, showing rows and columns).",
+      concept: "Think of it as printing an array: either quickly for readability, or strictly to show the exact structure."
+    },
+    syntax: "=ARRAYTOTEXT(array, [format])",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The array or range to convert." },
+      { arg: "format", desc: "Optional. 0 = concise (default), 1 = strict." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Quick Summary of a Range",
+        table: {
+          headers: ["Color", "Size"],
+          rows: [
+            ["Red", "Big"],
+            ["Blue", "Small"]
+          ]
+        },
+        stepByStep: [
+          "Concise format (=ARRAYTOTEXT(A2:B3, 0)) scans row by row and separates with commas: 'Red, Big, Blue, Small'.",
+          "Strict format (=ARRAYTOTEXT(A2:B3, 1)) wraps in braces: '{\"Red\",\"Big\";\"Blue\",\"Small\"}'."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Concise default.", desc: "Forgetting the format argument defaults to concise, which may lose structural information." },
+      { title: "TEXTJOIN confusion.", desc: "ARRAYTOTEXT is for displaying array structure; TEXTJOIN is for merging data with custom separators." }
+    ],
+    proTips: [
+      "Use strict format for debugging dynamic array outputs.",
+      "Combine with other text functions to inspect internal array contents."
+    ],
+    relatedFunctions: ["TEXTJOIN", "CONCAT"],
+    miniChallenge: {
+      question: "Which format code (0 or 1) shows array braces and semicolons?",
+      expectedAnswer: "1"
+    },
+    practice: {
+      instructions: "In cell C1, convert range A1:B1 to a concise text string.",
+      initialData: [["A", "B"], ["", ""]],
+      targetCell: [0, 2],
+      expectedFormula: "ARRAYTOTEXT(A1:B1,0)",
+      expectedValue: "A, B"
+    }
+  },
+  {
+    id: "asc",
+    title: "Convert Full-Width to Half-Width Characters: ASC Function",
+    category: "text",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Convert Full-Width to Half-Width Characters: ASC Function",
+      description: "The ASC function converts full-width (double-byte) characters to half-width (single-byte) characters. Used mainly for J/C/K language text normalization.",
+      concept: "Think of it as normalising text width: wide 'ＡＢＣ' becomes narrow 'ABC'."
+    },
+    syntax: "=ASC(text)",
+    syntaxBreakdown: [
+      { arg: "text", desc: "The text containing full-width characters to convert." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Normalising Text",
+        table: {
+          headers: ["Input (Full-Width)", "Formula", "Output (Half-Width)"],
+          rows: [
+            ["ＡＢＣ１２３", "=ASC(A2)", "ABC123"],
+            ["ｈｅｌｌｏ", "=ASC(A3)", "hello"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Ideographs.", desc: "Many CJK ideographs have no half-width equivalent and are unchanged." },
+      { title: "DBCS confusion.", desc: "DBCS does the reverse (half-width to full-width)." }
+    ],
+    proTips: [
+      "Use ASC when cleaning imported data from systems using full-width characters."
+    ],
+    relatedFunctions: ["DBCS", "CLEAN"],
+    miniChallenge: {
+      question: "What does =ASC(\"Ａ\") return?",
+      expectedAnswer: "A"
+    },
+    practice: {
+      instructions: "In cell B2, convert the full-width text in A2 to half-width.",
+      initialData: [["Wide", "Narrow"], ["ＡＢＣ", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "ASC(A2)",
+      expectedValue: "ABC"
+    }
+  },
+  {
+    id: "bahttext",
+    title: "Convert Number to Thai Baht Text: BAHTTEXT Function",
+    category: "text",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Convert Number to Thai Baht Text: BAHTTEXT Function",
+      description: "The BAHTTEXT function converts a number into Thai text with the word 'Baht' appended, following Thai currency conventions.",
+      concept: "Think of it as a localised number-to-words converter: 123 becomes 'หนึ่งร้อยยี่สิบสามบาทถ้วน'."
+    },
+    syntax: "=BAHTTEXT(number)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The number to convert. Can be a value, cell reference, or formula." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Thai Invoice Amount",
+        table: {
+          headers: ["Amount", "Formula", "Thai Text"],
+          rows: [
+            ["500", "=BAHTTEXT(500)", "ห้าร้อยบาทถ้วน"],
+            ["0.75", "=BAHTTEXT(0.75)", "เจ็ดสิบห้าสตางค์"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Thai-specific.", desc: "There is no equivalent English number-to-words function in standard Excel." }
+    ],
+    proTips: [
+      "BAHTTEXT respects regional settings; ensure Thai language support is installed."
+    ],
+    relatedFunctions: ["TEXT", "DOLLAR"],
+    miniChallenge: {
+      question: "What word is appended for exactly zero decimals in BAHTTEXT?",
+      expectedAnswer: "ถ้วน"
+    },
+    practice: {
+      instructions: "In cell B2, convert the number 500 to Thai Baht text.",
+      initialData: [["Num", "Thai"], [500, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "BAHTTEXT(A2)",
+      expectedValue: "ห้าร้อยบาทถ้วน"
+    }
+  },
+  {
+    id: "char",
+    title: "Convert a Number to a Character: CHAR Function",
+    category: "text",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Convert a Number to a Character: CHAR Function",
+      description: "The CHAR function returns the character specified by a numeric code (1-255).",
+      concept: "Think of it as a code translator: give it a number, get back a symbol, letter, or special character."
+    },
+    syntax: "=CHAR(number)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "A number from 1 to 255 representing the character code." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Symbols and Breaks",
+        table: {
+          headers: ["Code", "Formula", "Character"],
+          rows: [
+            ["10", "=CHAR(10)", "(line break)"],
+            ["65", "=CHAR(65)", "A"],
+            ["149", "=CHAR(149)", "•"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Code limits.", desc: "Using codes outside 1-255 returns #VALUE!. For Unicode, use UNICHAR." },
+      { title: "Wrap Text.", desc: "Forgetting to enable 'Wrap Text' when using CHAR(10) for line breaks." }
+    ],
+    proTips: [
+      "Use =CHAR(ROW()+64) to generate letters A, B, C dynamically.",
+      "CHAR(10) is essential for multi-line labels in formulas."
+    ],
+    relatedFunctions: ["CODE", "UNICHAR", "UNICODE"],
+    miniChallenge: {
+      question: "What character code is used for a line break in Windows?",
+      expectedAnswer: "10"
+    },
+    practice: {
+      instructions: "In cell B2, get the character for code 65.",
+      initialData: [["Code", "Char"], [65, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "CHAR(A2)",
+      expectedValue: "A"
+    }
+  },
+  {
+    id: "clean",
+    title: "Remove Non-Printable Characters: CLEAN Function",
+    category: "text",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Remove Non-Printable Characters: CLEAN Function",
+      description: "The CLEAN function removes the first 32 non-printable characters (codes 0-31) from text. These characters often cause display issues or formula errors in imported data.",
+      concept: "Think of it as a decontaminator: it scrubs out invisible junk characters that shouldn't be there."
+    },
+    syntax: "=CLEAN(text)",
+    syntaxBreakdown: [
+      { arg: "text", desc: "The text string to clean. Can be a cell reference or literal text." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Cleaning Imported Data",
+        table: {
+          headers: ["Imported Text", "Formula", "Cleaned Text"],
+          rows: [
+            ["Sales[tab]Report", "=CLEAN(A2)", "SalesReport"],
+            ["Data" + " " + "Break", "=CLEAN(A3)", "DataBreak"]
+          ]
+        },
+        stepByStep: [
+          "CLEAN identifies characters with ASCII codes 0-31.",
+          "It removes them, leaving only printable characters.",
+          "Note: It also removes line breaks (code 10)."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Above code 31.", desc: "CLEAN does not remove non-printable characters with codes above 31 (like CHAR(160))." },
+      { title: "Trim confusion.", desc: "CLEAN doesn't remove leading/trailing spaces — use TRIM for that." }
+    ],
+    proTips: [
+      "Combine: =TRIM(CLEAN(SUBSTITUTE(A1, CHAR(160), \" \"))) to handle non-breaking spaces too.",
+      "Use as a first step when troubleshooting VLOOKUP failures on imported data."
+    ],
+    relatedFunctions: ["TRIM", "SUBSTITUTE", "REPLACE"],
+    miniChallenge: {
+      question: "Which character codes does CLEAN remove?",
+      expectedAnswer: "0-31"
+    },
+    practice: {
+      instructions: "In cell B2, clean the text in A2 by removing non-printable characters.",
+      initialData: [["Messy", "Clean"], ["Data" + String.fromCharCode(7), ""]],
+      targetCell: [1, 1],
+      expectedFormula: "CLEAN(A2)",
+      expectedValue: "Data"
+    }
+  },
+  {
+    id: "code",
+    title: "Get the Numeric Code of a Character: CODE Function",
+    category: "text",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Get the Numeric Code of a Character: CODE Function",
+      description: "The CODE function returns the numeric ANSI code for the first character in a text string. It's the inverse of CHAR.",
+      concept: "Think of it as asking: 'What's the secret number behind this character?'"
+    },
+    syntax: "=CODE(text)",
+    syntaxBreakdown: [
+      { arg: "text", desc: "The text string. Only the first character's code is returned." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Auditing Characters",
+        table: {
+          headers: ["Text", "Formula", "Code", "Character"],
+          rows: [
+            ["A", "=CODE(\"A\")", "65", "Uppercase A"],
+            ["a", "=CODE(\"a\")", "97", "Lowercase a"],
+            ["(space)", "=CODE(\" \")", "32", "Space"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "First char only.", desc: "CODE only returns the first character's code, not the whole string." },
+      { title: "Unicode.", desc: "For characters beyond 255, use UNICODE instead of CODE." }
+    ],
+    proTips: [
+      "Use CODE to identify invisible characters causing formula errors.",
+      "Difference between UPPER and LOWER codes is always 32."
+    ],
+    relatedFunctions: ["CHAR", "UNICODE", "UNICHAR"],
+    miniChallenge: {
+      question: "What is =CODE(\"A\")?",
+      expectedAnswer: "65"
+    },
+    practice: {
+      instructions: "In cell B2, get the code for the character in A2.",
+      initialData: [["Char", "Code"], ["A", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "CODE(A2)",
+      expectedValue: 65
+    }
+  },
+  {
+    id: "concatenate",
+    title: "Join Text Strings Together: CONCATENATE Function",
+    category: "text",
+    difficulty: "Beginner",
+    xp: 100,
+    introduction: {
+      title: "Join Text Strings Together: CONCATENATE Function",
+      description: "The CONCATENATE function joins multiple text strings into one. It's the classic version of CONCAT.",
+      concept: "Think of it as glue: take several pieces of text and stick them end to end."
+    },
+    syntax: "=CONCATENATE(text1, [text2], ...)",
+    syntaxBreakdown: [
+      { arg: "text1", desc: "The first text item (required)." },
+      { arg: "text2", desc: "Optional additional items (up to 255)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Building Full Names",
+        table: {
+          headers: ["First", "Last", "Formula", "Full Name"],
+          rows: [
+            ["John", "Smith", "=CONCATENATE(A2, \" \", B2)", "John Smith"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Manual spaces.", desc: "CONCATENATE doesn't insert spaces automatically; you must add \" \"." },
+      { title: "Range joining.", desc: "CONCATENATE does not accept ranges. Use CONCAT or TEXTJOIN instead." }
+    ],
+    proTips: [
+      "The & operator is often faster to type than CONCATENATE.",
+      "Use TEXT function inside to preserve number formatting."
+    ],
+    relatedFunctions: ["CONCAT", "TEXTJOIN"],
+    miniChallenge: {
+      question: "Can CONCATENATE join a range like A1:A10?",
+      expectedAnswer: "No"
+    },
+    practice: {
+      instructions: "In cell C2, join A2 and B2 with a hyphen \"-\" between them.",
+      initialData: [["Part 1", "Part 2", "Joined"], ["A", "1", ""]],
+      targetCell: [1, 2],
+      expectedFormula: "CONCATENATE(A2,\"-\",B2)",
+      expectedValue: "A-1"
+    }
+  },
+  {
+    id: "dbcs",
+    title: "Convert Half-Width to Full-Width Characters: DBCS Function",
+    category: "text",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Convert Half-Width to Full-Width Characters: DBCS Function",
+      description: "The DBCS function converts half-width (single-byte) characters to full-width (double-byte) characters. It's the inverse of ASC.",
+      concept: "Think of it as widening text: narrow 'ABC123' becomes wide 'ＡＢＣ１２３'."
+    },
+    syntax: "=DBCS(text)",
+    syntaxBreakdown: [
+      { arg: "text", desc: "The text containing half-width characters to widen." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Formatting Names",
+        table: {
+          headers: ["Input (Half-Width)", "Formula", "Output (Full-Width)"],
+          rows: [
+            ["ABC123", "=DBCS(A2)", "ＡＢＣ１２３"],
+            ["hello", "=DBCS(A3)", "ｈｅｌｌｏ"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "ASC confusion.", desc: "DBCS widens, ASC narrows. They are opposites." }
+    ],
+    proTips: [
+      "Useful when preparing data for systems that expect full-width formatting in Asian languages."
+    ],
+    relatedFunctions: ["ASC"],
+    miniChallenge: {
+      question: "What is the inverse function of DBCS?",
+      expectedAnswer: "ASC"
+    },
+    practice: {
+      instructions: "In cell B2, convert the text in A2 to full-width.",
+      initialData: [["Narrow", "Wide"], ["ABC", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "DBCS(A2)",
+      expectedValue: "ＡＢＣ"
+    }
+  },
+  {
+    id: "dollar",
+    title: "Convert Number to Currency Text: DOLLAR Function",
+    category: "text",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Convert Number to Currency Text: DOLLAR Function",
+      description: "The DOLLAR function converts a number to text using currency format. The currency symbol applied depends on your system's regional settings.",
+      concept: "Think of it as TEXT with a currency sign built in: it formats and converts to text in one step."
+    },
+    syntax: "=DOLLAR(number, [decimals])",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The number to format." },
+      { arg: "decimals", desc: "Optional. Number of decimal places (default 2)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Formatting Invoice Amounts",
+        table: {
+          headers: ["Amount", "Formula", "Result (US locale)"],
+          rows: [
+            ["1234.5", "=DOLLAR(1234.5)", "$1,234.50"],
+            ["-99.99", "=DOLLAR(-99.99)", "($99.99)"]
+          ]
+        }
+      },
+      {
+        title: "Decimal Variations",
+        table: {
+          headers: ["Number", "Decimals", "Formula", "Result"],
+          rows: [
+            ["5678.9", "1", "=DOLLAR(5678.9, 1)", "$5,678.9"],
+            ["5678.9", "-2", "=DOLLAR(5678.9, -2)", "$5,700"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Result is text.", desc: "You cannot SUM DOLLAR outputs directly without converting back." },
+      { title: "Locale dependent.", desc: "The currency symbol depends on the system settings of the computer opening the file." }
+    ],
+    proTips: [
+      "Use DOLLAR when embedding currency values within text strings.",
+      "For more control, use TEXT with a custom format string."
+    ],
+    relatedFunctions: ["FIXED", "TEXT", "VALUE"],
+    miniChallenge: {
+      question: "What is the default number of decimal places for DOLLAR?",
+      expectedAnswer: "2"
+    },
+    practice: {
+      instructions: "In cell B2, convert the amount in A2 to currency text with 0 decimal places.",
+      initialData: [["Amount", "Currency"], [1234.5, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "DOLLAR(A2,0)",
+      expectedValue: "$1,235"
+    }
+  },
+  {
+    id: "exact",
+    title: "Case-Sensitive Comparison: EXACT Function",
+    category: "text",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Case-Sensitive Comparison: EXACT Function",
+      description: "The EXACT function compares two text strings and returns TRUE if they are identical, including case.",
+      concept: "Think of it as a strict inspector: 'Are these two strings exactly the same, character for character?'"
+    },
+    syntax: "=EXACT(text1, text2)",
+    syntaxBreakdown: [
+      { arg: "text1", desc: "The first text string." },
+      { arg: "text2", desc: "The second text string." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Validating IDs",
+        table: {
+          headers: ["Stored ID", "Entered ID", "Formula", "Match?"],
+          rows: [
+            ["ABC123", "ABC123", "=EXACT(A2, B2)", "TRUE"],
+            ["ABC123", "abc123", "=EXACT(A3, B3)", "FALSE"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Spaces.", desc: "EXACT does not ignore leading/trailing spaces." },
+      { title: "Unnecessary use.", desc: "Use EXACT only when case-sensitivity matters. For normal checks, use the = operator." }
+    ],
+    proTips: [
+      "Use EXACT with Data Validation to enforce case-sensitive entry.",
+      "Combine with IF for case-sensitive lookups."
+    ],
+    relatedFunctions: ["FIND", "SEARCH"],
+    miniChallenge: {
+      question: "Does EXACT(\"A\", \"a\") return TRUE or FALSE?",
+      expectedAnswer: "FALSE"
+    },
+    practice: {
+      instructions: "In cell C2, check if A2 and B2 are exactly identical.",
+      initialData: [["Str1", "Str2", "Exact?"], ["Apple", "apple", ""]],
+      targetCell: [1, 2],
+      expectedFormula: "EXACT(A2,B2)",
+      expectedValue: false
+    }
+  },
+  {
+    id: "fixed",
+    title: "Format Number as Fixed-Decimal Text: FIXED Function",
+    category: "text",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Format Number as Fixed-Decimal Text: FIXED Function",
+      description: "The FIXED function rounds a number to a specified number of decimal places and returns it as text with thousands separators.",
+      concept: "Think of it as number-to-text formatting without the dollar sign: clean, comma-separated, fixed decimals."
+    },
+    syntax: "=FIXED(number, [decimals], [no_commas])",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The number to format." },
+      { arg: "decimals", desc: "Optional. Number of decimal places (default 2)." },
+      { arg: "no_commas", desc: "Optional. TRUE = suppress thousands separator; FALSE/omitted = include commas." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Formatting Figures",
+        table: {
+          headers: ["Value", "Decimals", "Commas?", "Formula", "Result"],
+          rows: [
+            ["1234.567", "1", "Yes", "=FIXED(1234.567, 1, FALSE)", "1,234.6"],
+            ["1234.567", "2", "No", "=FIXED(1234.567, 2, TRUE)", "1234.57"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Text output.", desc: "The result is text and cannot be used in calculations without conversion." }
+    ],
+    proTips: [
+      "Use FIXED to standardize the appearance of numbers in text-heavy reports."
+    ],
+    relatedFunctions: ["TEXT", "DOLLAR", "ROUND"],
+    miniChallenge: {
+      question: "Which argument prevents the use of thousands-separator commas in FIXED?",
+      expectedAnswer: "no_commas"
+    },
+    practice: {
+      instructions: "In cell B2, format A2 with 1 decimal place and no commas.",
+      initialData: [["Num", "Fixed"], [1234.56, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "FIXED(A2,1,TRUE)",
+      expectedValue: "1234.6"
+    }
+  },
+  {
     id: "left",
     title: "LEFT Function",
     category: "text",
@@ -887,6 +1434,489 @@ export const textLessons = [
       targetCell: [1, 1],
       expectedFormula: "SEARCH(\"excel\",A2)",
       expectedValue: 7
+    }
+  },
+  {
+    id: "replace",
+    title: "Replace Text by Position: REPLACE Function",
+    category: "text",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Replace Text by Position: REPLACE Function",
+      description: "The REPLACE function swaps a specific portion of a text string with different text, based on the starting position and number of characters you specify.",
+      concept: "Think of it as a precise swap: 'Go to character 5, take out 3 letters, and put this new word in their place.'"
+    },
+    syntax: "=REPLACE(old_text, start_num, num_chars, new_text)",
+    syntaxBreakdown: [
+      { arg: "old_text", desc: "The text string in which you want to replace characters." },
+      { arg: "start_num", desc: "The position of the first character you want to replace." },
+      { arg: "num_chars", desc: "The number of characters you want to remove." },
+      { arg: "new_text", desc: "The new text that will replace the removed characters." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Masking Data",
+        table: {
+          headers: ["Input", "Formula", "Output"],
+          rows: [
+            ["12345678", "=REPLACE(A2, 1, 4, \"****\")", "****5678"],
+            ["2023-ID", "=REPLACE(A3, 1, 4, \"2024\")", "2024-ID"]
+          ]
+        },
+        stepByStep: [
+          "Excel starts at character 1.",
+          "It removes 4 characters ('1234').",
+          "It inserts '****' at that position.",
+          "Result: ****5678."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Substitution vs Replace.", desc: "Use REPLACE when you know the POSITION (e.g. character 5). Use SUBSTITUTE when you know the actual TEXT (e.g. replace 'Apple')." }
+    ],
+    proTips: [
+      "Use REPLACE with 0 for num_chars to insert text at a position without removing anything."
+    ],
+    relatedFunctions: ["SUBSTITUTE", "MID", "LEFT", "RIGHT"],
+    miniChallenge: {
+      question: "In =REPLACE(\"12345\", 1, 2, \"AB\"), what is the result?",
+      expectedAnswer: "AB345"
+    },
+    practice: {
+      instructions: "In cell B2, replace the first 2 characters of A2 with \"ID\".",
+      initialData: [["Old", "New"], ["00-99", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "REPLACE(A2,1,2,\"ID\")",
+      expectedValue: "ID-99"
+    }
+  },
+  {
+    id: "rept",
+    title: "Repeat Text: REPT Function",
+    category: "text",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Repeat Text: REPT Function",
+      description: "The REPT function repeats a text string a specified number of times.",
+      concept: "Think of it as a stamp: tell it what to say and how many times to press it down."
+    },
+    syntax: "=REPT(text, number_times)",
+    syntaxBreakdown: [
+      { arg: "text", desc: "The text you want to repeat." },
+      { arg: "number_times", desc: "The number of times to repeat it. Must be a positive number." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Simple In-Cell Charts",
+        table: {
+          headers: ["Score", "Formula", "Bar Chart"],
+          rows: [
+            ["5", "=REPT(\"|\", A2)", "|||||"],
+            ["3", "=REPT(\"|\", A3)", "|||"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Result length.", desc: "If the repeated string exceeds 32,767 characters, REPT returns #VALUE!." },
+      { title: "Zero repeats.", desc: "If number_times is 0, REPT returns \"\" (empty text)." }
+    ],
+    proTips: [
+      "Combine REPT with a specific font (like Playbill or Stencil) to create easy in-cell progress bars."
+    ],
+    relatedFunctions: ["CONCAT", "TEXTJOIN"],
+    miniChallenge: {
+      question: "What is =REPT(\"*\", 3)?",
+      expectedAnswer: "***"
+    },
+    practice: {
+      instructions: "In cell B2, repeat the string in A2 5 times.",
+      initialData: [["Char", "Repeated"], ["*", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "REPT(A2,5)",
+      expectedValue: "*****"
+    }
+  },
+  {
+    id: "t",
+    title: "Check for Text: T Function",
+    category: "text",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Check for Text: T Function",
+      description: "The T function returns the text referred to by a value. If the value is text, T returns the text; otherwise, it returns an empty string (\"\").",
+      concept: "Think of it as a text-only filter: 'If this is a word, show it. If it's a number or anything else, hide it.'"
+    },
+    syntax: "=T(value)",
+    syntaxBreakdown: [
+      { arg: "value", desc: "The value or cell you want to check." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Filtering Text from Numbers",
+        table: {
+          headers: ["Input", "Formula", "Result"],
+          rows: [
+            ["Apple", "=T(A2)", "Apple"],
+            ["123", "=T(A3)", ""],
+            ["TRUE", "=T(A4)", ""]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Unexpected empty cells.", desc: "Remember that T returns an empty string for numbers, which might look like data is missing." }
+    ],
+    proTips: [
+      "Use T to ensure that a function expecting text doesn't crash if it's accidentally given a number."
+    ],
+    relatedFunctions: ["ISTEXT", "N", "VALUE"],
+    miniChallenge: {
+      question: "What does =T(100) return?",
+      expectedAnswer: "\"\""
+    },
+    practice: {
+      instructions: "In cell B2, use the T function to check the value in A2.",
+      initialData: [["Value", "Text Only"], ["Excel", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "T(A2)",
+      expectedValue: "Excel"
+    }
+  },
+  {
+    id: "text",
+    title: "Format Value as Text: TEXT Function",
+    category: "text",
+    difficulty: "Intermediate",
+    xp: 300,
+    introduction: {
+      title: "Format Value as Text: TEXT Function",
+      description: "The TEXT function converts a numeric value to text and applies a custom format that you specify using format codes.",
+      concept: "Think of it as 'Number Formatting' inside a formula. It allows you to keep your dates and currencies looking correct even when you join them with other text."
+    },
+    syntax: "=TEXT(value, format_text)",
+    syntaxBreakdown: [
+      { arg: "value", desc: "The number, date, or formula result you want to format." },
+      { arg: "format_text", desc: "The format code in double quotes (e.g., \"dd/mm/yyyy\" or \"$#,##0\")." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Date Formatting",
+        table: {
+          headers: ["Date", "Formula", "Result"],
+          rows: [
+            ["01/01/2024", "=TEXT(A2, \"mmmm\")", "January"],
+            ["01/01/2024", "=TEXT(A3, \"ddd\")", "Mon"]
+          ]
+        }
+      },
+      {
+        title: "Example: Combining Text and Numbers",
+        table: {
+          headers: ["Sales", "Formula", "Message"],
+          rows: [
+            ["5000", "=\"Total: \" & TEXT(A2, \"$#,##0\")", "Total: $5,000"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Result is text.", desc: "Once converted, you cannot use the result in math calculations directly." },
+      { title: "Missing quotes.", desc: "The format code MUST be inside double quotes." }
+    ],
+    proTips: [
+      "Use \"00000\" to force leading zeros on zip codes or ID numbers.",
+      "Use \"h:mm AM/PM\" to format time in a readable string."
+    ],
+    relatedFunctions: ["VALUE", "FIXED", "DOLLAR"],
+    miniChallenge: {
+      question: "What format code shows the full month name?",
+      expectedAnswer: "mmmm"
+    },
+    practice: {
+      instructions: "In cell B2, format the number in A2 as currency using \"$#,##0\".",
+      initialData: [["Num", "Formatted"], [1234, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "TEXT(A2,\"$#,##0\")",
+      expectedValue: "$1,234"
+    }
+  },
+  {
+    id: "textafter",
+    title: "Extract Text After Delimiter: TEXTAFTER Function",
+    category: "text",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Extract Text After Delimiter: TEXTAFTER Function",
+      description: "The TEXTAFTER function returns text that occurs after a given character or string (delimiter).",
+      concept: "Think of it as a smarter, modern version of RIGHT combined with FIND. You just say 'give me everything after the dash'."
+    },
+    syntax: "=TEXTAFTER(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+    syntaxBreakdown: [
+      { arg: "text", desc: "The source text." },
+      { arg: "delimiter", desc: "The character or string to look for." },
+      { arg: "instance_num", desc: "Optional. Which occurrence of the delimiter to use (default 1)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Domain Extractor",
+        table: {
+          headers: ["Email", "Formula", "Domain"],
+          rows: [
+            ["john@company.com", "=TEXTAFTER(A2, \"@\")", "company.com"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Delimiter not found.", desc: "Returns #N/A if the delimiter isn't present, unless [if_not_found] is specified." }
+    ],
+    proTips: [
+      "Use a negative instance_num to start searching from the end of the string."
+    ],
+    relatedFunctions: ["TEXTBEFORE", "TEXTSPLIT", "RIGHT"],
+    miniChallenge: {
+      question: "In =TEXTAFTER(\"A-B-C\", \"-\", 2), what is the result?",
+      expectedAnswer: "C"
+    },
+    practice: {
+      instructions: "In cell B2, extract everything after the hyphen \"-\" in A2.",
+      initialData: [["Code", "Suffix"], ["SKU-99", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "TEXTAFTER(A2,\"-\")",
+      expectedValue: "99"
+    }
+  },
+  {
+    id: "textbefore",
+    title: "Extract Text Before Delimiter: TEXTBEFORE Function",
+    category: "text",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Extract Text Before Delimiter: TEXTBEFORE Function",
+      description: "The TEXTBEFORE function returns text that occurs before a given character or string (delimiter).",
+      concept: "Think of it as a smarter, modern version of LEFT combined with FIND. You just say 'give me everything before the dash'."
+    },
+    syntax: "=TEXTBEFORE(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+    syntaxBreakdown: [
+      { arg: "text", desc: "The source text." },
+      { arg: "delimiter", desc: "The character or string to look for." },
+      { arg: "instance_num", desc: "Optional. Which occurrence of the delimiter to use (default 1)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Username Extractor",
+        table: {
+          headers: ["Email", "Formula", "Username"],
+          rows: [
+            ["john@company.com", "=TEXTBEFORE(A2, \"@\")", "john"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Delimiter not found.", desc: "Returns #N/A if the delimiter isn't present, unless [if_not_found] is specified." }
+    ],
+    proTips: [
+      "Use a negative instance_num to start searching from the end of the string."
+    ],
+    relatedFunctions: ["TEXTAFTER", "TEXTSPLIT", "LEFT"],
+    miniChallenge: {
+      question: "In =TEXTBEFORE(\"A-B-C\", \"-\", 2), what is the result?",
+      expectedAnswer: "A-B"
+    },
+    practice: {
+      instructions: "In cell B2, extract everything before the hyphen \"-\" in A2.",
+      initialData: [["Code", "Prefix"], ["SKU-99", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "TEXTBEFORE(A2,\"-\")",
+      expectedValue: "SKU"
+    }
+  },
+  {
+    id: "textsplit",
+    title: "Split Text into Rows or Columns: TEXTSPLIT Function",
+    category: "text",
+    difficulty: "Advanced",
+    xp: 400,
+    introduction: {
+      title: "Split Text into Rows or Columns: TEXTSPLIT Function",
+      description: "The TEXTSPLIT function splits a text string into multiple cells using a delimiter.",
+      concept: "Think of it as 'Text to Columns' in formula form: take a list and turn it into a grid."
+    },
+    syntax: "=TEXTSPLIT(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+    syntaxBreakdown: [
+      { arg: "text", desc: "The source text to split." },
+      { arg: "col_delimiter", desc: "The character that separates your columns." },
+      { arg: "row_delimiter", desc: "Optional. The character that separates your rows." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Splitting a List",
+        table: {
+          headers: ["Input", "Formula", "Result"],
+          rows: [
+            ["Red,Blue,Green", "=TEXTSPLIT(A2, \",\")", "Red | Blue | Green"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Spill area.", desc: "Ensure there's enough empty space for the results to spill into." }
+    ],
+    proTips: [
+      "You can split by multiple delimiters at once by using an array like {\",\",\";\"}."
+    ],
+    relatedFunctions: ["TEXTJOIN", "TEXTBEFORE", "TEXTAFTER"],
+    miniChallenge: {
+      question: "Which argument defines the column separator in TEXTSPLIT?",
+      expectedAnswer: "col_delimiter"
+    },
+    practice: {
+      instructions: "In cell B2, split the text in A2 using a comma \",\" as the column delimiter.",
+      initialData: [["List", "Split"], ["A,B,C", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "TEXTSPLIT(A2,\",\")",
+      expectedValue: "A"
+    }
+  },
+  {
+    id: "unichar",
+    title: "Convert Number to Unicode Character: UNICHAR Function",
+    category: "text",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Convert Number to Unicode Character: UNICHAR Function",
+      description: "The UNICHAR function returns the Unicode character that is referenced by the given numeric value.",
+      concept: "Think of it as a supercharged CHAR: it can reach thousands of symbols, emojis, and characters from every language."
+    },
+    syntax: "=UNICHAR(number)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The Unicode number for the character." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Symbols",
+        table: {
+          headers: ["Code", "Formula", "Symbol"],
+          rows: [
+            ["9733", "=UNICHAR(9733)", "★"],
+            ["128512", "=UNICHAR(128512)", "😀"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Invalid codes.", desc: "Using a code that doesn't exist returns #VALUE!." }
+    ],
+    proTips: [
+      "Use UNICHAR to add professional icons or emojis directly into your dashboard formulas."
+    ],
+    relatedFunctions: ["UNICODE", "CHAR", "CODE"],
+    miniChallenge: {
+      question: "Which function supports larger character codes: CHAR or UNICHAR?",
+      expectedAnswer: "UNICHAR"
+    },
+    practice: {
+      instructions: "In cell B2, get the Unicode character for code 9733 (Star).",
+      initialData: [["Code", "Symbol"], [9733, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "UNICHAR(A2)",
+      expectedValue: "★"
+    }
+  },
+  {
+    id: "unicode",
+    title: "Get Unicode Numeric Value: UNICODE Function",
+    category: "text",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Get Unicode Numeric Value: UNICODE Function",
+      description: "The UNICODE function returns the numeric code (code point) for the first character of the text.",
+      concept: "The inverse of UNICHAR: give it a symbol, and it tells you its Unicode number."
+    },
+    syntax: "=UNICODE(text)",
+    syntaxBreakdown: [
+      { arg: "text", desc: "The text string containing the character." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Audit Symbols",
+        table: {
+          headers: ["Symbol", "Formula", "Code"],
+          rows: [
+            ["★", "=UNICODE(A2)", "9733"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "First char only.", desc: "Like CODE, UNICODE only looks at the very first character." }
+    ],
+    relatedFunctions: ["UNICHAR", "CODE", "CHAR"],
+    miniChallenge: {
+      question: "What is the inverse of UNICODE?",
+      expectedAnswer: "UNICHAR"
+    },
+    practice: {
+      instructions: "In cell B2, get the Unicode value for the character in A2.",
+      initialData: [["Symbol", "Code"], ["★", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "UNICODE(A2)",
+      expectedValue: 9733
+    }
+  },
+  {
+    id: "value",
+    title: "Convert Text to Number: VALUE Function",
+    category: "text",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Convert Text to Number: VALUE Function",
+      description: "The VALUE function converts a text string that represents a number into a real numeric value.",
+      concept: "Think of it as a converter: 'This looks like a number, but Excel thinks it's text. Make it a real number so I can add it up.'"
+    },
+    syntax: "=VALUE(text)",
+    syntaxBreakdown: [
+      { arg: "text", desc: "The text in quotes or a cell reference containing text to be converted." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Fixing Imported Data",
+        table: {
+          headers: ["Text", "Formula", "Number"],
+          rows: [
+            ["$1,000", "=VALUE(A2)", "1000"],
+            ["16:45", "=VALUE(A3)", "0.6979"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Unrecognized format.", desc: "If the text doesn't look like a number, date, or time, VALUE returns #VALUE!." }
+    ],
+    proTips: [
+      "Excel usually converts text to numbers automatically in math, but using VALUE is safer and more explicit."
+    ],
+    relatedFunctions: ["TEXT", "NUMBERVALUE", "T"],
+    miniChallenge: {
+      question: "What is =VALUE(\"100\") + 50?",
+      expectedAnswer: "150"
+    },
+    practice: {
+      instructions: "In cell B2, convert the text number in A2 to a real number.",
+      initialData: [["Text", "Num"], ["123", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "VALUE(A2)",
+      expectedValue: 123
     }
   }
 ];

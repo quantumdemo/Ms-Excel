@@ -10,7 +10,7 @@ import { infoLessons } from './lessons/info';
 import { createPlaceholderLesson } from './lesson-system';
 
 const logicalNames = [];
-const textNames = ["ARRAYTOTEXT", "ASC", "BAHTTEXT", "CHAR", "CLEAN", "CODE", "CONCATENATE", "DBCS", "DOLLAR", "EXACT", "FIXED", "REPLACE", "REPT", "T", "TEXT", "TEXTAFTER", "TEXTBEFORE", "TEXTSPLIT", "UNICHAR", "UNICODE", "VALUE"];
+const textNames = [];
 const dateNames = ["DATEVALUE", "DAYS", "DAYS360", "EDATE", "EOMONTH", "HOUR", "ISOWEEKNUM", "MINUTE", "NETWORKDAYS.INTL", "SECOND", "TIME", "TIMEVALUE", "WEEKDAY", "WEEKNUM", "WORKDAY", "WORKDAY.INTL", "YEARFRAC"];
 const lookupNames = [];
 const mathNames = [];
