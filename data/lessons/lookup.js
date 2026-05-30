@@ -1,5 +1,1592 @@
 export const lookupLessons = [
   {
+    id: "address",
+    title: "Build a Cell Reference as Text: ADDRESS Function",
+    category: "lookup",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Build a Cell Reference as Text: ADDRESS Function",
+      description: "The ADDRESS function returns a cell address as a text string, based on a given row and column number. You can control the reference type (absolute, relative, mixed) and optionally include the sheet name.",
+      concept: "Think of it as a cell reference factory: feed it coordinates, and it tells you the address like 'Sheet1!$B$5'."
+    },
+    syntax: "=ADDRESS(row_num, column_num, [abs_num], [a1], [sheet_text])",
+    syntaxBreakdown: [
+      { arg: "row_num", desc: "The row number." },
+      { arg: "column_num", desc: "The column number." },
+      { arg: "abs_num", desc: "Optional. 1=absolute (default), 2=row absolute/col relative, 3=row relative/col absolute, 4=relative." },
+      { arg: "a1", desc: "Optional. TRUE for A1 style (default), FALSE for R1C1 style." },
+      { arg: "sheet_text", desc: "Optional. Sheet name to prepend, in quotes." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Finding a Cell Reference Dynamically",
+        table: {
+          headers: ["Metric", "Value"],
+          rows: [
+            ["Max Value Row", "12"],
+            ["Max Value Column", "3"],
+            ["Address", "=ADDRESS(12, 3, 1, TRUE, \"Sales\")"]
+          ]
+        },
+        stepByStep: [
+          "Row 12, column 3 (column C).",
+          "abs_num = 1 gives absolute reference ($C$12).",
+          "A1 style returns 'C$12' with sheet 'Sales' prepended: 'Sales!$C$12'."
+        ]
+      },
+      {
+        title: "Reference Type Variations (Row 5, Col 2)",
+        table: {
+          headers: ["abs_num", "Formula", "Result"],
+          rows: [
+            ["1", "=ADDRESS(5, 2, 1)", "$B$5"],
+            ["2", "=ADDRESS(5, 2, 2)", "B$5"],
+            ["3", "=ADDRESS(5, 2, 3)", "$B5"],
+            ["4", "=ADDRESS(5, 2, 4)", "B5"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Column_num as letter.", desc: "Column_num must be a number, not a letter. Use 2 for column B, not \"B\"." },
+      { title: "Text result.", desc: "ADDRESS returns text, not a usable reference. To use it in calculations, wrap it with INDIRECT." }
+    ],
+    proTips: [
+      "ADDRESS pairs powerfully with MATCH to create dynamic range references.",
+      "Use with INDIRECT for flexible lookups: =INDIRECT(ADDRESS(row, col))."
+    ],
+    relatedFunctions: ["INDIRECT", "MATCH", "ROW", "COLUMN"],
+    miniChallenge: {
+      question: "What does =ADDRESS(1, 1) return?",
+      expectedAnswer: "$A$1"
+    },
+    practice: {
+      instructions: "In cell B2, use ADDRESS to get the absolute reference for row 5, column 3.",
+      initialData: [["Row", "Col", "Result"], [5, 3, ""]],
+      targetCell: [1, 2],
+      expectedFormula: "ADDRESS(5,3)",
+      expectedValue: "$C$5"
+    }
+  },
+  {
+    id: "areas",
+    title: "Count Areas in a Reference: AREAS Function",
+    category: "lookup",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Count Areas in a Reference: AREAS Function",
+      description: "The AREAS function returns the number of separate ranges (areas) in a reference. An area is a contiguous block of cells; multiple areas are separated by commas within parentheses.",
+      concept: "Think of it as counting the distinct pieces of a non-contiguous selection."
+    },
+    syntax: "=AREAS(reference)",
+    syntaxBreakdown: [
+      { arg: "reference", desc: "A reference to a cell or range. Can include multiple areas." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Validating Multi-Range Input",
+        table: {
+          headers: ["Reference", "Formula", "Result"],
+          rows: [
+            ["(A1:A10)", "=AREAS((A1:A10))", "1"],
+            ["(A1:A10, C1:C10)", "=AREAS((A1:A10, C1:C10))", "2"],
+            ["(A1:A10, C1:C10, E1:E10)", "=AREAS((A1:A10, C1:C10, E1:E10))", "3"]
+          ]
+        }
+      },
+      {
+        title: "Practical Use: Checking a Named Range",
+        table: {
+          headers: ["Named Range", "Refers To", "Formula", "Result"],
+          rows: [
+            ["SalesData", "=Sheet1!$A$1:$B$50", "=AREAS(SalesData)", "1"],
+            ["MultiRegions", "=(Sheet1!$A$1:$A$10, Sheet1!$C$1:$C$10)", "=AREAS(MultiRegions)", "2"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Missing parentheses.", desc: "Forgetting the outer parentheses when passing multiple ranges. Use =AREAS((A1:A10, C1:C10))." },
+      { title: "Counting cells.", desc: "AREAS counts separate blocks, not individual cells." }
+    ],
+    proTips: [
+      "AREAS is useful for validating user-defined named ranges.",
+      "In VBA, use AREAS to check if a range parameter is a single area or a union of areas."
+    ],
+    relatedFunctions: ["COLUMNS", "ROWS", "INDEX"],
+    miniChallenge: {
+      question: "How many areas are in =AREAS((A1:B2, D4:E5))?",
+      expectedAnswer: "2"
+    },
+    practice: {
+      instructions: "In cell A1, use AREAS to count the areas in the reference (B2:B5, D2:D5).",
+      initialData: [[""]],
+      targetCell: [0, 0],
+      expectedFormula: "AREAS((B2:B5,D2:D5))",
+      expectedValue: 2
+    }
+  },
+  {
+    id: "choose",
+    title: "Select from a List by Index: CHOOSE Function",
+    category: "lookup",
+    difficulty: "Beginner",
+    xp: 200,
+    introduction: {
+      title: "Select from a List by Index: CHOOSE Function",
+      description: "The CHOOSE function returns a value from a list based on a position number (index). You provide the index and a list of options; CHOOSE picks the one at that position.",
+      concept: "Think of it like a switch or a vending machine: press button 3, get item 3."
+    },
+    syntax: "=CHOOSE(index_num, value1, [value2], ...)",
+    syntaxBreakdown: [
+      { arg: "index_num", desc: "A number specifying which value to return (1 for first, 2 for second, etc.)." },
+      { arg: "value1", desc: "The first possible return value." },
+      { arg: "value2", desc: "Optional additional values (up to 254)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Fiscal Quarter Labels",
+        table: {
+          headers: ["Month", "Quarter Number", "Formula", "Quarter Label"],
+          rows: [
+            ["Jan", "1", "=CHOOSE(B2, \"Q1\", \"Q2\", \"Q3\", \"Q4\")", "Q1"],
+            ["May", "2", "=CHOOSE(B3, \"Q1\", \"Q2\", \"Q3\", \"Q4\")", "Q2"],
+            ["Sep", "3", "=CHOOSE(B4, \"Q1\", \"Q2\", \"Q3\", \"Q4\")", "Q3"]
+          ]
+        }
+      },
+      {
+        title: "Day of Week with CHOOSE",
+        table: {
+          headers: ["Weekday Number", "Formula", "Result"],
+          rows: [
+            ["1", "=CHOOSE(1, \"Sun\", \"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", \"Sat\")", "Sun"],
+            ["5", "=CHOOSE(5, \"Sun\", \"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", \"Sat\")", "Thu"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Out of range index.", desc: "Index_num less than 1 or greater than the number of values returns #VALUE!." },
+      { title: "Lookup table alternative.", desc: "Using CHOOSE when a lookup table would be more maintainable for large lists." }
+    ],
+    proTips: [
+      "CHOOSE can return ranges, not just values, making it useful inside SUM or VLOOKUP.",
+      "Combine with WEEKDAY or MONTH to convert numeric date parts to text labels."
+    ],
+    relatedFunctions: ["SWITCH", "VLOOKUP", "INDEX"],
+    miniChallenge: {
+      question: "What is =CHOOSE(2, \"Yes\", \"No\", \"Maybe\")?",
+      expectedAnswer: "No"
+    },
+    practice: {
+      instructions: "In cell C2, use CHOOSE to return \"Pass\" if B2 is 1, and \"Fail\" if B2 is 2.",
+      initialData: [["Name", "Code", "Result"], ["Alice", 1, ""]],
+      targetCell: [1, 2],
+      expectedFormula: "CHOOSE(B2,\"Pass\",\"Fail\")",
+      expectedValue: "Pass"
+    }
+  },
+  {
+    id: "choosecols",
+    title: "Choose Columns from an Array: CHOOSECOLS Function",
+    category: "lookup",
+    difficulty: "Intermediate",
+    xp: 350,
+    introduction: {
+      title: "Choose Columns from an Array: CHOOSECOLS Function",
+      description: "The CHOOSECOLS function returns specific columns from an array or range, in any order. It's a dynamic array function that lets you rearrange, duplicate, or subset columns.",
+      concept: "Think of it as a column picker: point at a table, then say 'give me columns 3, 1, and 2 in that order.'"
+    },
+    syntax: "=CHOOSECOLS(array, col_num1, [col_num2], ...)",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The source array or range." },
+      { arg: "col_num1", desc: "The first column number to extract. Can be negative to count from the end." },
+      { arg: "col_num2", desc: "Optional additional column numbers." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Rearranging a Report",
+        table: {
+          headers: ["ID", "Name", "Dept", "Salary"],
+          rows: [
+            ["101", "Alice", "Sales", "55,000"],
+            ["102", "Ben", "Marketing", "62,000"],
+            ["(Result Col 2)", "(Result Col 4)", "(Result Col 1)", "=CHOOSECOLS(A2:D3, 2, 4, 1)"]
+          ]
+        },
+        stepByStep: [
+          "Column 2 (Name) becomes the first output column.",
+          "Column 4 (Salary) becomes the second.",
+          "Column 1 (ID) becomes the third."
+        ]
+      },
+      {
+        title: "Negative Column Indexing",
+        table: {
+          headers: ["Formula", "Meaning"],
+          rows: [
+            ["=CHOOSECOLS(A2:D4, -1)", "Last column (Salary)"],
+            ["=CHOOSECOLS(A2:D4, 1, -1)", "First and last columns"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Column index 0.", desc: "Column index of 0 returns #VALUE!." },
+      { title: "Spill area.", desc: "Ensure the spill range is clear of existing data." }
+    ],
+    proTips: [
+      "Use CHOOSECOLS with FILTER or SORT to build custom report views.",
+      "Negative indices are perfect for grabbing 'the last N columns' without knowing the count."
+    ],
+    relatedFunctions: ["CHOOSEROWS", "INDEX", "TAKE"],
+    miniChallenge: {
+      question: "Which column does =CHOOSECOLS(array, -1) return?",
+      expectedAnswer: "Last"
+    },
+    practice: {
+      instructions: "In cell E1, use CHOOSECOLS to extract columns 2 and 1 from range A1:B2.",
+      initialData: [["A", "B"], ["C", "D"]],
+      targetCell: [0, 4],
+      expectedFormula: "CHOOSECOLS(A1:B2,2,1)",
+      expectedValue: "B"
+    }
+  },
+  {
+    id: "chooserows",
+    title: "Choose Rows from an Array: CHOOSEROWS Function",
+    category: "lookup",
+    difficulty: "Intermediate",
+    xp: 350,
+    introduction: {
+      title: "Choose Rows from an Array: CHOOSEROWS Function",
+      description: "The CHOOSEROWS function returns specific rows from an array, in any order. You can pick, reorder, or duplicate rows as needed.",
+      concept: "Think of it as the row-oriented twin of CHOOSECOLS."
+    },
+    syntax: "=CHOOSEROWS(array, row_num1, [row_num2], ...)",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The source array or range." },
+      { arg: "row_num1", desc: "The first row number to extract. Negative counts from the end." },
+      { arg: "row_num2", desc: "Optional additional row numbers." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Top and Bottom Performers",
+        table: {
+          headers: ["Rank", "Name", "Score"],
+          rows: [
+            ["1", "Diana", "98"],
+            ["5", "Hannah", "61"],
+            ["Result", "=CHOOSEROWS(A2:C6, 1, -1)", ""]
+          ]
+        },
+        stepByStep: [
+          "Row 1 is the first data row (Diana).",
+          "Row -1 is the last row (Hannah).",
+          "Both appear in the output, preserving the requested order."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Row index 0.", desc: "Row index of 0 returns #VALUE!." },
+      { title: "Non-contiguous data.", desc: "The source array must be a contiguous range or array." }
+    ],
+    proTips: [
+      "Combine CHOOSEROWS with SORT to extract specific rank positions.",
+      "Use negative indices to always get the last row regardless of row count."
+    ],
+    relatedFunctions: ["CHOOSECOLS", "INDEX", "DROP"],
+    miniChallenge: {
+      question: "Return the first row of range A1:C10 using CHOOSEROWS.",
+      expectedAnswer: "=CHOOSEROWS(A1:C10, 1)"
+    },
+    practice: {
+      instructions: "In cell A1, use CHOOSEROWS to extract rows 2 and 1 from range B1:B2.",
+      initialData: [["", "X"], ["", "Y"]],
+      targetCell: [0, 0],
+      expectedFormula: "CHOOSEROWS(B1:B2,2,1)",
+      expectedValue: "Y"
+    }
+  },
+  {
+    id: "column",
+    title: "Get the Column Number: COLUMN Function",
+    category: "lookup",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Get the Column Number: COLUMN Function",
+      description: "The COLUMN function returns the column number of a reference. If no reference is provided, it returns the column number of the cell containing the formula.",
+      concept: "Think of it as a column GPS: 'What number column am I in?'"
+    },
+    syntax: "=COLUMN([reference])",
+    syntaxBreakdown: [
+      { arg: "reference", desc: "Optional. The cell or range. If omitted, the current cell's column." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Building a Dynamic Index",
+        table: {
+          headers: ["Cell A1", "Cell B1", "Cell C1"],
+          rows: [
+            ["=COLUMN() → 1", "=COLUMN() → 2", "=COLUMN() → 3"]
+          ]
+        }
+      },
+      {
+        title: "Using a Reference",
+        table: {
+          headers: ["Formula", "Result"],
+          rows: [
+            ["=COLUMN(E1)", "5"],
+            ["=COLUMN(Z1)", "26"],
+            ["=COLUMN(AA1)", "27"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Number vs Letter.", desc: "COLUMN returns a number, not a letter. Use ADDRESS to get the letter." },
+      { title: "Range reference.", desc: "Providing a range returns the leftmost column: =COLUMN(B2:D10) returns 2." }
+    ],
+    proTips: [
+      "Use =COLUMN(A1) inside formulas that need incremental numbers when dragged horizontally.",
+      "Combine with MOD for alternating column patterns."
+    ],
+    relatedFunctions: ["ROW", "COLUMNS", "ADDRESS"],
+    miniChallenge: {
+      question: "What is =COLUMN(C1)?",
+      expectedAnswer: "3"
+    },
+    practice: {
+      instructions: "In cell A1, enter the COLUMN function without any arguments.",
+      initialData: [[""]],
+      targetCell: [0, 0],
+      expectedFormula: "COLUMN()",
+      expectedValue: 1
+    }
+  },
+  {
+    id: "columns",
+    title: "Count Columns in a Range: COLUMNS Function",
+    category: "lookup",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Count Columns in a Range: COLUMNS Function",
+      description: "The COLUMNS function returns the number of columns in a given range or array.",
+      concept: "Think of it as a tape measure for table width: 'How many columns wide is this range?'"
+    },
+    syntax: "=COLUMNS(array)",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The range or array whose column count you want." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Dynamic Range Sizing",
+        table: {
+          headers: ["Range", "Formula", "Result"],
+          rows: [
+            ["A1:D10", "=COLUMNS(A1:D10)", "4"],
+            ["B5:G5", "=COLUMNS(B5:G5)", "6"],
+            ["A:A", "=COLUMNS(A:A)", "1"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "COLUMN vs COLUMNS.", desc: "COLUMNS counts columns in a range; COLUMN returns the column number of a single cell." }
+    ],
+    proTips: [
+      "Use COLUMNS inside SEQUENCE to generate grids matching table width.",
+      "Combine with INDEX to reference the last column: =INDEX(range, , COLUMNS(range))."
+    ],
+    relatedFunctions: ["ROWS", "COLUMN", "INDEX"],
+    miniChallenge: {
+      question: "How many columns are in range A1:C5?",
+      expectedAnswer: "3"
+    },
+    practice: {
+      instructions: "In cell B2, use COLUMNS to count the columns in the range A1:C1.",
+      initialData: [["A", "B", "C"], ["", "", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "COLUMNS(A1:C1)",
+      expectedValue: 3
+    }
+  },
+  {
+    id: "drop",
+    title: "Drop Rows or Columns from an Array: DROP Function",
+    category: "lookup",
+    difficulty: "Intermediate",
+    xp: 350,
+    introduction: {
+      title: "Drop Rows or Columns from an Array: DROP Function",
+      description: "The DROP function removes a specified number of rows or columns from the edges of an array, returning what remains.",
+      concept: "Think of it like trimming the crust off a sandwich: you specify how many rows/columns to cut from the top, bottom, left, or right."
+    },
+    syntax: "=DROP(array, rows, [columns])",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The source array or range." },
+      { arg: "rows", desc: "Number of rows to drop. Positive = from top; negative = from bottom." },
+      { arg: "columns", desc: "Optional. Number of columns to drop. Positive = from left; negative = from right." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Removing Headers and Totals",
+        table: {
+          headers: ["Row", "Content"],
+          rows: [
+            ["1", "Title"],
+            ["2", "Headers"],
+            ["3-12", "Data"],
+            ["13", "Totals"]
+          ]
+        },
+        stepByStep: [
+          "Formula: =DROP(A1:C13, 2, 0) drops top 2 rows (Title and Headers).",
+          "Formula: =DROP(DROP(A1:C13, 2), -1) drops top 2 and the bottom 1 (Totals)."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Exceeding bounds.", desc: "Dropping more rows than exist returns #CALC!." },
+      { title: "Array output.", desc: "DROP returns an array; ensure the spill space is clear." }
+    ],
+    proTips: [
+      "Invaluable for cleaning up imported data with extra header/footer rows.",
+      "Combine with TAKE for precise range extraction."
+    ],
+    relatedFunctions: ["TAKE", "CHOOSEROWS", "CHOOSECOLS"],
+    miniChallenge: {
+      question: "How do you drop the last row of range A1:B10?",
+      expectedAnswer: "=DROP(A1:B10, -1)"
+    },
+    practice: {
+      instructions: "In cell D1, use DROP to remove the first row from range A1:B3.",
+      initialData: [["H1", "H2"], ["A", "B"], ["C", "D"]],
+      targetCell: [0, 3],
+      expectedFormula: "DROP(A1:B3,1)",
+      expectedValue: "A"
+    }
+  },
+  {
+    id: "expand",
+    title: "Expand an Array to Specified Dimensions: EXPAND Function",
+    category: "lookup",
+    difficulty: "Intermediate",
+    xp: 350,
+    introduction: {
+      title: "Expand an Array to Specified Dimensions: EXPAND Function",
+      description: "The EXPAND function takes an array and pads it to reach a specified number of rows and columns, filling new cells with a value you choose.",
+      concept: "Think of it like stretching a canvas: the original content stays in the top-left, and the new space is filled with padding."
+    },
+    syntax: "=EXPAND(array, rows, [columns], [pad_with])",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The source array." },
+      { arg: "rows", desc: "Target number of rows. Must be ≥ current rows." },
+      { arg: "columns", desc: "Optional. Target number of columns. Must be ≥ current columns." },
+      { arg: "pad_with", desc: "Optional. Value to fill new cells with (default is #N/A)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Standardising Table Sizes",
+        table: {
+          headers: ["Original", "Target Rows", "Target Cols", "Formula"],
+          rows: [
+            ["7x4 Table", "10", "5", "=EXPAND(Table1, 10, 5, \"\")"]
+          ]
+        },
+        stepByStep: [
+          "Original data stays in the top-left.",
+          "Extra 3 rows and 1 column are added.",
+          "New cells are filled with empty strings (\"\")."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Shrinking.", desc: "EXPAND cannot shrink an array. Use DROP or TAKE to reduce dimensions." },
+      { title: "Missing pad_with.", desc: "Forgetting pad_with results in #N/A which may break other formulas." }
+    ],
+    proTips: [
+      "Use pad_with = \"\" before VSTACK to align arrays of different sizes.",
+      "Ensures consistent output grid sizes in dashboards."
+    ],
+    relatedFunctions: ["TAKE", "DROP", "VSTACK"],
+    miniChallenge: {
+      question: "What is the default fill value for EXPAND?",
+      expectedAnswer: "#N/A"
+    },
+    practice: {
+      instructions: "In cell C1, expand range A1:B1 to be 2 rows and 2 columns, padding with 0.",
+      initialData: [["X", "Y"], ["", ""]],
+      targetCell: [0, 2],
+      expectedFormula: "EXPAND(A1:B1,2,2,0)",
+      expectedValue: "X"
+    }
+  },
+  {
+    id: "formulatext",
+    title: "Reveal the Formula as Text: FORMULATEXT Function",
+    category: "lookup",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Reveal the Formula as Text: FORMULATEXT Function",
+      description: "The FORMULATEXT function returns the formula in a referenced cell as a text string. If the cell has no formula, it returns #N/A.",
+      concept: "Think of it as an X-ray for your spreadsheet: see the formula behind the result without clicking into the cell."
+    },
+    syntax: "=FORMULATEXT(reference)",
+    syntaxBreakdown: [
+      { arg: "reference", desc: "A single cell reference." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Documenting Formulas",
+        table: {
+          headers: ["Item", "Result Cell", "Formula (via FORMULATEXT)"],
+          rows: [
+            ["Total Sales", "1,500", "=FORMULATEXT(B2) → \"=SUM(Data)\""]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Range input.", desc: "FORMULATEXT only works with a single cell reference." },
+      { title: "Closed workbooks.", desc: "Returns #N/A for closed external workbook references." }
+    ],
+    proTips: [
+      "Combine with IFNA to display a custom message: =IFNA(FORMULATEXT(A1), \"No formula\").",
+      "Use in audit sheets to review complex models efficiently."
+    ],
+    relatedFunctions: ["ISFORMULA", "CELL", "TYPE"],
+    miniChallenge: {
+      question: "What does FORMULATEXT return if a cell contains a constant number?",
+      expectedAnswer: "#N/A"
+    },
+    practice: {
+      instructions: "In cell B2, display the formula text of cell A2.",
+      initialData: [["Formula", "Text"], ["=10+5", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "FORMULATEXT(A2)",
+      expectedValue: "=10+5"
+    }
+  },
+  {
+    id: "getpivotdata",
+    title: "Extract Data from a PivotTable: GETPIVOTDATA Function",
+    category: "lookup",
+    difficulty: "Advanced",
+    xp: 400,
+    introduction: {
+      title: "Extract Data from a PivotTable: GETPIVOTDATA Function",
+      description: "The GETPIVOTDATA function retrieves specific summary data from a PivotTable by specifying field names and item values. It's more precise than cell referencing because it follows the data's meaning, not its location.",
+      concept: "Think of it as querying your PivotTable with a structured question: 'What is the Sum of Sales for Region North in Q2?'"
+    },
+    syntax: "=GETPIVOTDATA(data_field, pivot_table, [field1, item1], [field2, item2], ...)",
+    syntaxBreakdown: [
+      { arg: "data_field", desc: "The name of the value field to retrieve, in quotes (e.g., \"Sum of Sales\")." },
+      { arg: "pivot_table", desc: "A reference to any cell in the PivotTable." },
+      { arg: "field1, item1", desc: "Optional pairs specifying filters (field name and the item to match)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Retrieving Specific Pivot Data",
+        table: {
+          headers: ["Query", "Formula", "Result"],
+          rows: [
+            ["North Q2 Sales", "=GETPIVOTDATA(\"Sales\", $A$1, \"Region\", \"North\", \"Quarter\", \"Q2\")", "600"]
+          ]
+        },
+        stepByStep: [
+          "'Sales' is the data field name.",
+          "$A$1 is any cell within the PivotTable.",
+          "Field/item pairs filter to the exact intersection needed."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Hard-coding items.", desc: "If the PivotTable updates and items change, hard-coded item names in formulas may break." },
+      { title: "Mismatched field names.", desc: "The data_field must match exactly how it appears in the PivotTable." }
+    ],
+    proTips: [
+      "Reference cells for item values to make formulas dynamic.",
+      "Turn off automatic generation if you prefer regular cell references."
+    ],
+    relatedFunctions: ["VLOOKUP", "XLOOKUP", "INDEX"],
+    miniChallenge: {
+      question: "Which argument identifies the PivotTable location in GETPIVOTDATA?",
+      expectedAnswer: "pivot_table"
+    },
+    practice: {
+      instructions: "In cell C1, use GETPIVOTDATA to get \"Sales\" from the pivot at A1 for \"Region\" \"North\".",
+      initialData: [["PivotTable", ""], ["North", 500]],
+      targetCell: [0, 2],
+      expectedFormula: "GETPIVOTDATA(\"Sales\",A1,\"Region\",\"North\")",
+      expectedValue: 500
+    }
+  },
+  {
+    id: "hlookup",
+    title: "Horizontal Lookup: HLOOKUP Function",
+    category: "lookup",
+    difficulty: "Intermediate",
+    xp: 300,
+    introduction: {
+      title: "Horizontal Lookup: HLOOKUP Function",
+      description: "The HLOOKUP function searches for a value in the top row of a table and returns a value from the same column in a specified row below. It's the horizontal sibling of VLOOKUP.",
+      concept: "Think of it as looking across the top of a table and then reaching down to pull out the matching data."
+    },
+    syntax: "=HLOOKUP(lookup_value, table_array, row_index_num, [range_lookup])",
+    syntaxBreakdown: [
+      { arg: "lookup_value", desc: "The value to find in the first row." },
+      { arg: "table_array", desc: "The range containing the data." },
+      { arg: "row_index_num", desc: "Which row to return (1 = top row)." },
+      { arg: "range_lookup", desc: "Optional. TRUE = approximate match (default), FALSE = exact match." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Grade Boundaries",
+        table: {
+          headers: ["Student", "Score", "Formula", "Grade"],
+          rows: [
+            ["Alice", "73", "=HLOOKUP(B2, $A$1:$F$2, 2, TRUE)", "B"]
+          ]
+        },
+        stepByStep: [
+          "HLOOKUP finds the largest threshold ≤ the score.",
+          "For 73, the largest threshold ≤ 73 is 70, so row 2 returns 'B'."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Match type.", desc: "Forgetting to set range_lookup to FALSE when you need an exact match." },
+      { title: "Row index error.", desc: "row_index_num exceeding the number of rows returns #REF!." }
+    ],
+    proTips: [
+      "Sort the top row in ascending order when using approximate match.",
+      "Consider XLOOKUP for more flexibility."
+    ],
+    relatedFunctions: ["VLOOKUP", "XLOOKUP", "INDEX"],
+    miniChallenge: {
+      question: "Which row of the table does HLOOKUP search in?",
+      expectedAnswer: "Top"
+    },
+    practice: {
+      instructions: "In cell B2, use HLOOKUP to find the value of A2 in the range $D$1:$F$2 and return row 2.",
+      initialData: [["Score", "Grade", "", "0", "50", "90"], [73, "", "", "F", "D", "A"]],
+      targetCell: [1, 1],
+      expectedFormula: "HLOOKUP(A2,D1:F2,2,TRUE)",
+      expectedValue: "D"
+    }
+  },
+  {
+    id: "hstack",
+    title: "Stack Arrays Horizontally: HSTACK Function",
+    category: "lookup",
+    difficulty: "Intermediate",
+    xp: 350,
+    introduction: {
+      title: "Stack Arrays Horizontally: HSTACK Function",
+      description: "The HSTACK function joins multiple arrays side by side, combining their columns into a single wider array.",
+      concept: "Think of it like placing tables next to each other on a desk: everything stays in its rows, columns add up horizontally."
+    },
+    syntax: "=HSTACK(array1, [array2], ...)",
+    syntaxBreakdown: [
+      { arg: "array1", desc: "The first array." },
+      { arg: "array2", desc: "Optional additional arrays to stack to the right." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Combining Two Tables",
+        table: {
+          headers: ["ID", "Name", "Dept", "Salary"],
+          rows: [
+            ["101", "Alice", "Sales", "55,000"],
+            ["102", "Ben", "Marketing", "62,000"]
+          ]
+        },
+        stepByStep: [
+          "Columns from A2:B3 and D2:E3 are joined.",
+          "If heights differ, the shorter array is padded with #N/A."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Unequal row counts.", desc: "Shorter arrays get #N/A padding, which may cause errors." }
+    ],
+    proTips: [
+      "Perfect for assembling reports from separate data blocks.",
+      "Use with CHOOSECOLS to reorder columns before stacking."
+    ],
+    relatedFunctions: ["VSTACK", "CHOOSECOLS", "EXPAND"],
+    miniChallenge: {
+      question: "Does HSTACK add rows or columns?",
+      expectedAnswer: "Columns"
+    },
+    practice: {
+      instructions: "In cell C1, stack range A1:A2 and B1:B2 horizontally.",
+      initialData: [["1"], ["2"], ["3"], ["4"]],
+      targetCell: [0, 2],
+      expectedFormula: "HSTACK(A1:A2,B1:B2)",
+      expectedValue: 1
+    }
+  },
+  {
+    id: "hyperlink",
+    title: "Create Clickable Links: HYPERLINK Function",
+    category: "lookup",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Create Clickable Links: HYPERLINK Function",
+      description: "The HYPERLINK function creates a clickable shortcut that opens a document, webpage, or navigates within the workbook.",
+      concept: "Think of it as building a bridge: one click and the user jumps to the destination."
+    },
+    syntax: "=HYPERLINK(link_location, [friendly_name])",
+    syntaxBreakdown: [
+      { arg: "link_location", desc: "The URL, file path, or internal cell reference as text." },
+      { arg: "friendly_name", desc: "Optional. The text displayed in the cell (default is the link itself)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Email Links",
+        table: {
+          headers: ["Name", "Email", "Formula"],
+          rows: [
+            ["Alice", "alice@company.com", "=HYPERLINK(\"mailto:\"&B2, \"Email Alice\")"]
+          ]
+        }
+      },
+      {
+        title: "Navigation Examples",
+        table: {
+          headers: ["Type", "Formula", "Result"],
+          rows: [
+            ["Webpage", "=HYPERLINK(\"https://google.com\", \"Google\")", "Google"],
+            ["Internal", "=HYPERLINK(\"#Sheet2!A1\", \"Go\")", "Go"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Missing #.", desc: "Forgetting the # for internal workbook links." },
+      { title: "Broken paths.", desc: "Links may break if external files are moved." }
+    ],
+    proTips: [
+      "Create dynamic tables of contents that update as sheet names change."
+    ],
+    relatedFunctions: ["ADDRESS", "INDIRECT"],
+    miniChallenge: {
+      question: "What symbol is needed to link to another sheet in the same file?",
+      expectedAnswer: "#"
+    },
+    practice: {
+      instructions: "In cell B2, create a hyperlink to \"https://learnexcel.com\" with name \"Start\".",
+      initialData: [["URL", "Link"], ["https://learnexcel.com", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "HYPERLINK(A2,\"Start\")",
+      expectedValue: "Start"
+    }
+  },
+  {
+    id: "indirect",
+    title: "Convert Text to a Reference: INDIRECT Function",
+    category: "lookup",
+    difficulty: "Advanced",
+    xp: 350,
+    introduction: {
+      title: "Convert Text to a Reference: INDIRECT Function",
+      description: "The INDIRECT function takes a text string that looks like a cell reference and turns it into an actual reference that Excel can use.",
+      concept: "Think of it as a translator: 'Take this string and treat it as if I typed that cell address directly.'"
+    },
+    syntax: "=INDIRECT(ref_text, [a1])",
+    syntaxBreakdown: [
+      { arg: "ref_text", desc: "A text string representing a cell reference." },
+      { arg: "a1", desc: "Optional. TRUE for A1 style (default), FALSE for R1C1 style." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Dynamic Sheet Reference",
+        table: {
+          headers: ["Month", "Cell", "Formula", "Result"],
+          rows: [
+            ["Jan", "B10", "=INDIRECT(\"'\"&A2&\"'!B10\")", "Value from Jan!B10"]
+          ]
+        },
+        stepByStep: [
+          "The formula builds a text string: \"'Jan'!B10\".",
+          "INDIRECT converts it into a live reference."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Volatility.", desc: "INDIRECT recalculates on every change, slowing large workbooks." },
+      { title: "Closed workbooks.", desc: "External references require the source to be open." }
+    ],
+    proTips: [
+      "Use with Data Validation dropdowns to create dynamic dashboards.",
+      "Wrap sheet names in single quotes if they contain spaces."
+    ],
+    relatedFunctions: ["ADDRESS", "INDEX", "CHOOSE"],
+    miniChallenge: {
+      question: "Convert the text \"A1\" to a real reference using which function?",
+      expectedAnswer: "INDIRECT"
+    },
+    practice: {
+      instructions: "In cell B2, use INDIRECT to reference the cell address written in A2.",
+      initialData: [["Address", "Result", "", "Target"], ["C1", "", "", "Success"]],
+      targetCell: [1, 1],
+      expectedFormula: "INDIRECT(A2)",
+      expectedValue: "Success"
+    }
+  },
+  {
+    id: "lookup",
+    title: "Classic Vector and Array Lookup: LOOKUP Function",
+    category: "lookup",
+    difficulty: "Intermediate",
+    xp: 300,
+    introduction: {
+      title: "Classic Vector and Array Lookup: LOOKUP Function",
+      description: "The LOOKUP function searches for a value in a single row or column (the lookup vector) and returns a corresponding value from the same position in a result vector.",
+      concept: "Think of it as matching two parallel lists: find the position in list A, and return the value at that same position in list B."
+    },
+    syntax: "=LOOKUP(lookup_value, lookup_vector, [result_vector])",
+    syntaxBreakdown: [
+      { arg: "lookup_value", desc: "The value to search for." },
+      { arg: "lookup_vector", desc: "A single row or column to search in. Must be sorted ascending." },
+      { arg: "result_vector", desc: "Optional. A single row or column of the same size. Returns from this." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Tax Rate by Income Bracket",
+        table: {
+          headers: ["Income Threshold", "Tax Rate"],
+          rows: [
+            ["0", "0%"],
+            ["12,500", "10%"],
+            ["50,000", "20%"]
+          ]
+        },
+        stepByStep: [
+          "LOOKUP finds the largest value in the lookup_vector ≤ the lookup_value.",
+          "For 45,000: largest threshold ≤ 45,000 is 12,500, so tax rate = 10%."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Sorting.", desc: "Lookup_vector must be sorted ascending for predictable results." },
+      { title: "Smallest value.", desc: "Lookup_value smaller than the first value returns #N/A." }
+    ],
+    proTips: [
+      "LOOKUP is faster than VLOOKUP with approximate match.",
+      "If exact match is needed, use VLOOKUP with FALSE or XLOOKUP."
+    ],
+    relatedFunctions: ["VLOOKUP", "HLOOKUP", "XLOOKUP"],
+    miniChallenge: {
+      question: "Does LOOKUP require the search column to be sorted?",
+      expectedAnswer: "Yes"
+    },
+    practice: {
+      instructions: "In cell B2, use LOOKUP to find A2 in range $D$1:$D$3 and return from $E$1:$E$3.",
+      initialData: [["Val", "Rate", "", "0", "0%"], [45000, "", "", "12500", "10%"], ["", "", "", "50000", "20%"]],
+      targetCell: [1, 1],
+      expectedFormula: "LOOKUP(A2,D1:D3,E1:E3)",
+      expectedValue: "10%"
+    }
+  },
+  {
+    id: "offset",
+    title: "Create a Dynamic Reference: OFFSET Function",
+    category: "lookup",
+    difficulty: "Advanced",
+    xp: 400,
+    introduction: {
+      title: "Create a Dynamic Reference: OFFSET Function",
+      description: "The OFFSET function returns a reference to a range that is offset from a starting cell by a specified number of rows and columns. You can also define the height and width.",
+      concept: "Think of it as a navigator: start at a known point, then move down X rows and right Y columns to your destination."
+    },
+    syntax: "=OFFSET(reference, rows, cols, [height], [width])",
+    syntaxBreakdown: [
+      { arg: "reference", desc: "The starting cell or range." },
+      { arg: "rows", desc: "Number of rows to move (positive = down, negative = up)." },
+      { arg: "cols", desc: "Number of columns to move (positive = right, negative = left)." },
+      { arg: "height", desc: "Optional. How many rows the result should be." },
+      { arg: "width", desc: "Optional. How many columns the result should be." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Rolling 3-Month Average",
+        table: {
+          headers: ["Month", "Sales", "3-Month Avg"],
+          rows: [
+            ["Jan", "100", ""],
+            ["Feb", "150", ""],
+            ["Mar", "200", "=AVERAGE(OFFSET(B2, 0, 0, 3, 1))"]
+          ]
+        },
+        stepByStep: [
+          "Starting from B2, height 3 takes B2:B4.",
+          "Average of {100, 150, 200} = 150."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Volatility.", desc: "OFFSET recalculates on every change, affecting large workbooks." },
+      { title: "Beyond boundaries.", desc: "Resulting range extending beyond sheet boundaries returns #REF!." }
+    ],
+    proTips: [
+      "Ideal for dynamic named ranges that grow with data.",
+      "Consider INDEX for non-volatile dynamic ranges."
+    ],
+    relatedFunctions: ["INDEX", "INDIRECT", "ADDRESS"],
+    miniChallenge: {
+      question: "Which function is a non-volatile alternative to OFFSET for dynamic ranges?",
+      expectedAnswer: "INDEX"
+    },
+    practice: {
+      instructions: "In cell C1, use OFFSET to reference cell B2 from starting point A1.",
+      initialData: [["Start", "A"], ["", "B"]],
+      targetCell: [0, 2],
+      expectedFormula: "OFFSET(A1,1,1)",
+      expectedValue: "B"
+    }
+  },
+  {
+    id: "row",
+    title: "Get the Row Number: ROW Function",
+    category: "lookup",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Get the Row Number: ROW Function",
+      description: "The ROW function returns the row number of a reference. If no reference is given, it returns the row of the cell containing the formula.",
+      concept: "Think of it as a vertical position sensor: 'What row am I in?'"
+    },
+    syntax: "=ROW([reference])",
+    syntaxBreakdown: [
+      { arg: "reference", desc: "Optional. The cell or range. If omitted, the current cell's row." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Auto-Numbering Rows",
+        table: {
+          headers: ["Formula", "Content"],
+          rows: [
+            ["=ROW()-ROW($A$1)+1", "Item 1"],
+            ["=ROW()-ROW($A$1)+1", "Item 2"]
+          ]
+        },
+        stepByStep: [
+          "ROW() returns the current row number.",
+          "Subtract the header row and add 1 to start at 1."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "ROW vs ROWS.", desc: "ROW(range) returns only the first row of the range." }
+    ],
+    proTips: [
+      "Use =ROW(1:1) for an auto-incrementing counter when dragged down.",
+      "Combine with MOD for alternating row patterns."
+    ],
+    relatedFunctions: ["ROWS", "COLUMN", "SEQUENCE"],
+    miniChallenge: {
+      question: "What is =ROW(A10)?",
+      expectedAnswer: "10"
+    },
+    practice: {
+      instructions: "In cell A5, enter the ROW function without arguments.",
+      initialData: [[""]],
+      targetCell: [4, 0],
+      expectedFormula: "ROW()",
+      expectedValue: 5
+    }
+  },
+  {
+    id: "rows",
+    title: "Count Rows in a Range: ROWS Function",
+    category: "lookup",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Count Rows in a Range: ROWS Function",
+      description: "The ROWS function returns the number of rows in a given range or array.",
+      concept: "Think of it as measuring the height of a range: 'How many rows tall is this?'"
+    },
+    syntax: "=ROWS(array)",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The range or array whose row count you want." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Dynamic Range Height",
+        table: {
+          headers: ["Range", "Formula", "Result"],
+          rows: [
+            ["A1:D10", "=ROWS(A1:D10)", "10"],
+            ["B5:G5", "=ROWS(B5:G5)", "1"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "ROW vs ROWS.", desc: "ROWS counts rows in a range; ROW returns the number of a single cell." }
+    ],
+    proTips: [
+      "Use ROWS in INDEX to get the last row: =INDEX(range, ROWS(range), column)."
+    ],
+    relatedFunctions: ["COLUMNS", "ROW", "INDEX"],
+    miniChallenge: {
+      question: "How many rows are in =ROWS(A1:A5)?",
+      expectedAnswer: "5"
+    },
+    practice: {
+      instructions: "In cell B2, use ROWS to count rows in range A1:A10.",
+      initialData: [["Data"], [""], [""], ["Total", ""]],
+      targetCell: [3, 1],
+      expectedFormula: "ROWS(A1:A10)",
+      expectedValue: 10
+    }
+  },
+  {
+    id: "rtd",
+    title: "Real-Time Data: RTD Function",
+    category: "lookup",
+    difficulty: "Advanced",
+    xp: 400,
+    introduction: {
+      title: "Real-Time Data: RTD Function",
+      description: "The RTD function retrieves real-time data from a COM automation server — typically used for live financial data or industrial feeds.",
+      concept: "Think of it as a live feed pipe: connect to an external server and pull streaming data directly into your cell."
+    },
+    syntax: "=RTD(ProgID, server, topic1, [topic2], ...)",
+    syntaxBreakdown: [
+      { arg: "ProgID", desc: "Programmatic identifier of the registered COM server." },
+      { arg: "server", desc: "Server name. Leave blank (\"\") for local." },
+      { arg: "topic1", desc: "First parameter specifies what data to fetch." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Stock Price Feed",
+        table: {
+          headers: ["Symbol", "Formula", "Live Price"],
+          rows: [
+            ["MSFT", "=RTD(\"StockData.Feed\", \"\", \"LAST_PRICE\", \"MSFT\")", "425.63"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Server registration.", desc: "If the RTD server is not installed or registered, it returns #N/A." },
+      { title: "Volatility.", desc: "RTD is network-dependent and affected by connectivity issues." }
+    ],
+    proTips: [
+      "Primarily for enterprise use; often accessed via Bloomberg or Reuters add-ins."
+    ],
+    relatedFunctions: ["WEBSERVICE", "ENCODEURL"],
+    miniChallenge: {
+      question: "What does ProgID stand for in RTD?",
+      expectedAnswer: "Programmatic Identifier"
+    },
+    practice: {
+      instructions: "In cell B2, write an RTD formula for \"Prog.ID\" with local server and topic \"Price\".",
+      initialData: [["Server", "Result"], ["", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "RTD(\"Prog.ID\",\"\",\"Price\")",
+      expectedValue: "VALID"
+    }
+  },
+  {
+    id: "sortby",
+    title: "Sort by Another Array: SORTBY Function",
+    category: "lookup",
+    difficulty: "Intermediate",
+    xp: 350,
+    introduction: {
+      title: "Sort by Another Array: SORTBY Function",
+      description: "The SORTBY function sorts a range or array based on the values in one or more corresponding arrays. Unlike SORT, which sorts by the values in the data itself, SORTBY can sort by external or derived criteria.",
+      concept: "Think of it as sorting a guest list by the table number in another column, without touching the guest list itself."
+    },
+    syntax: "=SORTBY(array, by_array1, [sort_order1], [by_array2, sort_order2], ...)",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The data to sort." },
+      { arg: "by_array1", desc: "The array to sort by. Must match array in dimensions." },
+      { arg: "sort_order1", desc: "Optional. 1 = ascending (default), -1 = descending." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Sorting Employees by Dept then Salary",
+        table: {
+          headers: ["Name", "Dept", "Salary"],
+          rows: [
+            ["Alice", "Sales", "55,000"],
+            ["Ben", "Marketing", "62,000"],
+            ["Carla", "Sales", "70,000"],
+            ["Result", "=SORTBY(A2:C5, B2:B5, 1, C2:C5, -1)", ""]
+          ]
+        },
+        stepByStep: [
+          "First sort by Department (B2:B5), ascending.",
+          "Within each department, sort by Salary (C2:C5), descending."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Dimension mismatch.", desc: "by_array size must match the array's row or column count." }
+    ],
+    proTips: [
+      "Excels when you need to sort based on a calculated column without adding a helper column.",
+      "Combine with FILTER to sort only a subset."
+    ],
+    relatedFunctions: ["SORT", "FILTER", "UNIQUE"],
+    miniChallenge: {
+      question: "Which function sorts based on a separate array?",
+      expectedAnswer: "SORTBY"
+    },
+    practice: {
+      instructions: "In cell E1, use SORTBY to sort range A1:A3 by B1:B3 ascending.",
+      initialData: [["A", "2"], ["B", "1"], ["C", "3"]],
+      targetCell: [0, 4],
+      expectedFormula: "SORTBY(A1:A3,B1:B3,1)",
+      expectedValue: "B"
+    }
+  },
+  {
+    id: "take",
+    title: "Extract Rows or Columns from Edges: TAKE Function",
+    category: "lookup",
+    difficulty: "Intermediate",
+    xp: 350,
+    introduction: {
+      title: "Extract Rows or Columns from Edges: TAKE Function",
+      description: "The TAKE function extracts a specified number of consecutive rows or columns from the start or end of an array. It's the opposite of DROP — TAKE keeps what DROP discards.",
+      concept: "Think of it as slicing: 'Give me the first 5 rows' or 'Give me the last 3 columns.'"
+    },
+    syntax: "=TAKE(array, rows, [columns])",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The source array." },
+      { arg: "rows", desc: "Number of rows to take. Positive = from top; negative = from bottom." },
+      { arg: "columns", desc: "Optional. Number of columns to take. Positive = from left; negative = from right." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Top and Bottom Sales",
+        table: {
+          headers: ["Operation", "Formula"],
+          rows: [
+            ["Top 5", "=TAKE(A2:B51, 5)"],
+            ["Bottom 5", "=TAKE(A2:B51, -5)"]
+          ]
+        }
+      },
+      {
+        title: "Column Extraction Examples",
+        table: {
+          headers: ["Array", "Formula", "Result"],
+          rows: [
+            ["10 rows, 5 cols", "=TAKE(A1:E10, 10, 2)", "First 2 columns"],
+            ["10 rows, 5 cols", "=TAKE(A1:E10, 10, -1)", "Last column"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Exceeding size.", desc: "Taking more rows than exist returns the entire array, not an error." }
+    ],
+    proTips: [
+      "TAKE + SORT is powerful for leaderboards: =TAKE(SORT(data, 2, -1), 10).",
+      "Use negative numbers for 'last N' without knowing the row count."
+    ],
+    relatedFunctions: ["DROP", "CHOOSEROWS", "CHOOSECOLS"],
+    miniChallenge: {
+      question: "How do you take the first 3 rows of range A1:C10?",
+      expectedAnswer: "=TAKE(A1:C10, 3)"
+    },
+    practice: {
+      instructions: "In cell C1, take the first row of range A1:B2.",
+      initialData: [["1", "2"], ["3", "4"]],
+      targetCell: [0, 2],
+      expectedFormula: "TAKE(A1:B2,1)",
+      expectedValue: 1
+    }
+  },
+  {
+    id: "tocol",
+    title: "Convert Array to a Single Column: TOCOL Function",
+    category: "lookup",
+    difficulty: "Intermediate",
+    xp: 350,
+    introduction: {
+      title: "Convert Array to a Single Column: TOCOL Function",
+      description: "The TOCOL function transforms a 2D array into a single column by scanning row by row (default) or column by column. You can optionally skip blanks and errors.",
+      concept: "Think of it as flattening a table into one long vertical list."
+    },
+    syntax: "=TOCOL(array, [ignore], [scan_by_column])",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The 2D array or range to flatten." },
+      { arg: "ignore", desc: "Optional. 0 = keep all (default), 1 = ignore blanks, 2 = ignore errors, 3 = ignore both." },
+      { arg: "scan_by_column", desc: "Optional. FALSE = row by row (default), TRUE = column by column." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Unique List from Grid",
+        table: {
+          headers: ["A", "B", "C"],
+          rows: [
+            ["Math", "", "Art"],
+            ["", "English", ""],
+            ["Result", "=TOCOL(A1:C2, 1)", ""]
+          ]
+        },
+        stepByStep: [
+          "TOCOL scans row 1: Math, (blank skipped), Art.",
+          "Row 2: (blank skipped), English.",
+          "ignore = 1 removes blanks."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Missing ignore.", desc: "Forgetting the ignore parameter keeps blanks, which may clog your list." }
+    ],
+    proTips: [
+      "Combine with UNIQUE to extract distinct non-blank entries: =UNIQUE(TOCOL(range, 1)).",
+      "Prepare messy ranges for SORT or FILTER."
+    ],
+    relatedFunctions: ["TOROW", "TRANSPOSE", "UNIQUE"],
+    miniChallenge: {
+      question: "Which argument allows TOCOL to skip blank cells?",
+      expectedAnswer: "ignore"
+    },
+    practice: {
+      instructions: "In cell D1, flatten range A1:B2 into a column.",
+      initialData: [["A", "B"], ["C", "D"]],
+      targetCell: [0, 3],
+      expectedFormula: "TOCOL(A1:B2)",
+      expectedValue: "A"
+    }
+  },
+  {
+    id: "torow",
+    title: "Convert Array to a Single Row: TOROW Function",
+    category: "lookup",
+    difficulty: "Intermediate",
+    xp: 350,
+    introduction: {
+      title: "Convert Array to a Single Row: TOROW Function",
+      description: "The TOROW function transforms a 2D array into a single row, scanning row by row (default) or column by column. You can skip blanks and errors.",
+      concept: "Think of it as flattening a table into one long horizontal list — the row-oriented twin of TOCOL."
+    },
+    syntax: "=TOROW(array, [ignore], [scan_by_column])",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The 2D array to flatten." },
+      { arg: "ignore", desc: "Optional. 0 = keep all (default), 1 = ignore blanks, 2 = ignore errors, 3 = ignore both." },
+      { arg: "scan_by_column", desc: "Optional. FALSE = row by row (default), TRUE = column by column." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Comma-Separated Tag List",
+        table: {
+          headers: ["Product", "Tag 1", "Tag 2"],
+          rows: [
+            ["Widget", "Red", "Large"],
+            ["Gadget", "Blue", "Small"]
+          ]
+        },
+        stepByStep: [
+          "TOROW flattens into a single row: Red, Large, Blue, Small.",
+          "TEXTJOIN can then combine them with commas."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Horizontal spill.", desc: "Ensure enough empty cells to the right for the result to spill." }
+    ],
+    proTips: [
+      "TOROW + TEXTJOIN creates clean summary strings from grid data."
+    ],
+    relatedFunctions: ["TOCOL", "TRANSPOSE"],
+    miniChallenge: {
+      question: "Does TOROW scan row-by-row or column-by-column by default?",
+      expectedAnswer: "Row-by-row"
+    },
+    practice: {
+      instructions: "In cell A3, flatten range A1:B2 into a single row.",
+      initialData: [["1", "2"], ["3", "4"]],
+      targetCell: [2, 0],
+      expectedFormula: "TOROW(A1:B2)",
+      expectedValue: 1
+    }
+  },
+  {
+    id: "transpose",
+    title: "Flip Rows to Columns and Vice Versa: TRANSPOSE Function",
+    category: "lookup",
+    difficulty: "Beginner",
+    xp: 200,
+    introduction: {
+      title: "Flip Rows to Columns and Vice Versa: TRANSPOSE Function",
+      description: "The TRANSPOSE function converts a vertical range to horizontal, or horizontal to vertical, swapping rows and columns.",
+      concept: "Think of it as rotating your data 90 degrees: what was across becomes down, and what was down becomes across."
+    },
+    syntax: "=TRANSPOSE(array)",
+    detailedExamples: [
+      {
+        title: "Example: Reshaping a Data Table",
+        table: {
+          headers: ["Q1", "Q2", "Q3"],
+          rows: [
+            ["100", "150", "200"],
+            ["Result", "=TRANSPOSE(A1:C2)", ""]
+          ]
+        },
+        stepByStep: [
+          "Original is 2 rows × 3 columns.",
+          "TRANSPOSE outputs 3 rows × 2 columns.",
+          "Row 1 becomes Column 1; Row 2 becomes Column 2."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Spill area.", desc: "Spill cells must be empty in modern Excel." },
+      { title: "Overwriting data.", desc: "Always check output dimensions before placing the formula." }
+    ],
+    proTips: [
+      "Essential for converting data between formats for charts or lookups."
+    ],
+    relatedFunctions: ["TOCOL", "TOROW"],
+    miniChallenge: {
+      question: "If you transpose a 2x5 range, what are the dimensions of the result?",
+      expectedAnswer: "5x2"
+    },
+    practice: {
+      instructions: "In cell A3, transpose the range A1:B1.",
+      initialData: [["H1", "H2"], ["", ""]],
+      targetCell: [2, 0],
+      expectedFormula: "TRANSPOSE(A1:B1)",
+      expectedValue: "H1"
+    }
+  },
+  {
+    id: "vstack",
+    title: "Stack Arrays Vertically: VSTACK Function",
+    category: "lookup",
+    difficulty: "Intermediate",
+    xp: 350,
+    introduction: {
+      title: "Stack Arrays Vertically: VSTACK Function",
+      description: "The VSTACK function joins multiple arrays top to bottom, stacking their rows into a single taller array.",
+      concept: "Think of it as placing tables one below another: rows add up, columns stay aligned."
+    },
+    syntax: "=VSTACK(array1, [array2], ...)",
+    syntaxBreakdown: [
+      { arg: "array1", desc: "The first array." },
+      { arg: "array2", desc: "Optional additional arrays to stack below." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Combining Regional Data",
+        table: {
+          headers: ["Region", "Sales"],
+          rows: [
+            ["North", "500"],
+            ["North", "600"],
+            ["South", "400"],
+            ["Result", "=VSTACK(A2:B3, A4:B4)", ""]
+          ]
+        },
+        stepByStep: [
+          "VSTACK takes all rows from the first array, then all rows from the second.",
+          "Columns must match; shorter arrays are padded with #N/A."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Column count.", desc: "Mismatched column counts cause #N/A padding." },
+      { title: "Duplicate headers.", desc: "VSTACK doesn't remove duplicate headers automatically." }
+    ],
+    proTips: [
+      "Use with UNIQUE to merge lists and remove duplicates.",
+      "Combine with FILTER to stack only filtered subsets."
+    ],
+    relatedFunctions: ["HSTACK", "FILTER", "UNIQUE"],
+    miniChallenge: {
+      question: "Does VSTACK add rows or columns?",
+      expectedAnswer: "Rows"
+    },
+    practice: {
+      instructions: "In cell A3, stack A1:A1 and B1:B1 vertically.",
+      initialData: [["A"], ["B"], [""]],
+      targetCell: [2, 0],
+      expectedFormula: "VSTACK(A1,B1)",
+      expectedValue: "A"
+    }
+  },
+  {
+    id: "wrapcols",
+    title: "Wrap a Row into Columns: WRAPCOLS Function",
+    category: "lookup",
+    difficulty: "Intermediate",
+    xp: 350,
+    introduction: {
+      title: "Wrap a Row into Columns: WRAPCOLS Function",
+      description: "The WRAPCOLS function takes a one-dimensional array and wraps it into a 2D array by filling down each column.",
+      concept: "Think of it as flowing text into a multi-column layout: the list snakes down one column, then the next."
+    },
+    syntax: "=WRAPCOLS(vector, wrap_count, [pad_with])",
+    syntaxBreakdown: [
+      { arg: "vector", desc: "The 1D array to wrap." },
+      { arg: "wrap_count", desc: "Maximum number of values per column." },
+      { arg: "pad_with", desc: "Optional. Value for unfilled cells (default #N/A)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Multi-Column List",
+        table: {
+          headers: ["A", "B", "C", "D"],
+          rows: [
+            ["Alice", "Ben", "Carla", "David"],
+            ["Result", "=WRAPCOLS(A1:D1, 2)", "", ""]
+          ]
+        },
+        stepByStep: [
+          "Values fill down column 1: Alice, Ben.",
+          "Then column 2: Carla, David."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Direction.", desc: "Forgetting that WRAPCOLS fills down each column, not across rows." },
+      { title: "1D requirement.", desc: "Vector must be 1D (use TOCOL if starting with 2D)." }
+    ],
+    proTips: [
+      "Excellent for print-friendly multi-column layouts."
+    ],
+    relatedFunctions: ["WRAPROWS", "TOCOL", "TOROW"],
+    miniChallenge: {
+      question: "Which function fills columns first: WRAPCOLS or WRAPROWS?",
+      expectedAnswer: "WRAPCOLS"
+    },
+    practice: {
+      instructions: "In cell A2, wrap range A1:D1 into columns of 2.",
+      initialData: [["1", "2", "3", "4"], ["", "", "", ""]],
+      targetCell: [1, 0],
+      expectedFormula: "WRAPCOLS(A1:D1,2)",
+      expectedValue: 1
+    }
+  },
+  {
+    id: "wraprows",
+    title: "Wrap a Column into Rows: WRAPROWS Function",
+    category: "lookup",
+    difficulty: "Intermediate",
+    xp: 350,
+    introduction: {
+      title: "Wrap a Column into Rows: WRAPROWS Function",
+      description: "The WRAPROWS function takes a one-dimensional array and wraps it into a 2D array by filling across each row.",
+      concept: "Think of it as flowing a long list into a table: the list fills left to right, then wraps to the next row."
+    },
+    syntax: "=WRAPROWS(vector, wrap_count, [pad_with])",
+    syntaxBreakdown: [
+      { arg: "vector", desc: "The 1D array to wrap." },
+      { arg: "wrap_count", desc: "Number of values per row." },
+      { arg: "pad_with", desc: "Optional. Fill value for leftover cells (default #N/A)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Calendar Layout",
+        table: {
+          headers: ["Day 1", "Day 2", "Day 3"],
+          rows: [
+            ["1", "2", "3"],
+            ["Result", "=WRAPROWS(SEQUENCE(6), 3)", ""]
+          ]
+        },
+        stepByStep: [
+          "WRAPROWS fills 3 values per row, left to right.",
+          "Row 1: 1, 2, 3. Row 2: 4, 5, 6."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "WRAPCOLS vs WRAPROWS.", desc: "WRAPROWS fills row-by-row; WRAPCOLS fills column-by-column." }
+    ],
+    proTips: [
+      "Combine with SEQUENCE to generate grids or seating charts."
+    ],
+    relatedFunctions: ["WRAPCOLS", "TOCOL", "SEQUENCE"],
+    miniChallenge: {
+      question: "How do you fill across rows? WRAPROWS or WRAPCOLS?",
+      expectedAnswer: "WRAPROWS"
+    },
+    practice: {
+      instructions: "In cell B1, wrap range A1:A4 into rows of 2.",
+      initialData: [["1"], ["2"], ["3"], ["4"]],
+      targetCell: [0, 1],
+      expectedFormula: "WRAPROWS(A1:A4,2)",
+      expectedValue: 1
+    }
+  },
+  {
+    id: "xmatch",
+    title: "Next-Generation Match: XMATCH Function",
+    category: "lookup",
+    difficulty: "Intermediate",
+    xp: 350,
+    introduction: {
+      title: "Next-Generation Match: XMATCH Function",
+      description: "The XMATCH function searches for a value in an array and returns its relative position. It's the modern replacement for MATCH.",
+      concept: "Think of it as asking: 'Where is this value in the list?' — and getting the position back."
+    },
+    syntax: "=XMATCH(lookup_value, lookup_array, [match_mode], [search_mode])",
+    syntaxBreakdown: [
+      { arg: "lookup_value", desc: "The value to find." },
+      { arg: "lookup_array", desc: "The array to search." },
+      { arg: "match_mode", desc: "Optional. 0=exact (default), -1=next smaller, 1=next larger, 2=wildcard." },
+      { arg: "search_mode", desc: "Optional. 1=first-to-last (default), -1=last-to-first." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Finding Position",
+        table: {
+          headers: ["Employee", "Formula", "Position"],
+          rows: [
+            ["Alice", "=XMATCH(\"Carla\", A2:A4)", "3"],
+            ["Ben", "", ""],
+            ["Carla", "", ""]
+          ]
+        },
+        stepByStep: [
+          "XMATCH scans A2:A4 for 'Carla'.",
+          "It finds a match at the 3rd position and returns 3."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Binary search.", desc: "Using binary search modes (2, -2) on unsorted data gives incorrect results." }
+    ],
+    proTips: [
+      "XMATCH + INDEX is the modern replacement for VLOOKUP.",
+      "Use search_mode -1 to find the last occurrence."
+    ],
+    relatedFunctions: ["MATCH", "INDEX", "XLOOKUP"],
+    miniChallenge: {
+      question: "Which match_mode is used for wildcards in XMATCH?",
+      expectedAnswer: "2"
+    },
+    practice: {
+      instructions: "In cell B1, find the position of \"Target\" in range A1:A3.",
+      initialData: [["Other"], ["Target"], ["Other"]],
+      targetCell: [0, 1],
+      expectedFormula: "XMATCH(\"Target\",A1:A3)",
+      expectedValue: 2
+    }
+  },
+  {
     id: "vlookup",
     title: "VLOOKUP Function",
     category: "lookup",
