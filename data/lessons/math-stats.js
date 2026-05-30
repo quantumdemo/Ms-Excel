@@ -2097,7 +2097,7 @@ export const mathStatsLessons = [
             ["Rate", "5%", ""],
             ["Years", "3", ""],
             ["Growth Factor", "=EXP(0.05*3)", "1.1618"],
-            ["Future Value", "=1000*EXP(0.15)", "£1,161.83"]
+            ["Future Value", "=1000*EXP(0.15)", "₦1,161.83"]
           ]
         }
       }
@@ -2231,7 +2231,7 @@ export const mathStatsLessons = [
     introduction: {
       title: "Round Down to Significance: FLOOR Function",
       description: "The FLOOR function rounds a number down to the nearest multiple of a specified significance, moving toward zero.",
-      concept: "Think of it as the opposite of CEILING: if you have £4.87 and can only withdraw in multiples of £0.10, FLOOR says you can take £4.80."
+      concept: "Think of it as the opposite of CEILING: if you have ₦4.87 and can only withdraw in multiples of ₦0.10, FLOOR says you can take ₦4.80."
     },
     whyItExists: "Ideal for currency dispensing, inventory carton calculations, and time-clocking.",
     syntax: "=FLOOR(number, significance)",
@@ -2779,7 +2779,7 @@ export const mathStatsLessons = [
         table: {
           headers: ["Principal", "Rate", "Years", "Formula", "Future Value"],
           rows: [
-            ["5,000", "7%", "10", "=5000*POWER(1+0.07, 10)", "£9,835.76"]
+            ["5,000", "7%", "10", "=5000*POWER(1+0.07, 10)", "₦9,835.76"]
           ]
         }
       },
