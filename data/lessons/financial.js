@@ -428,6 +428,7 @@ export const financialLessons = [
       question: "What is the return for COUPDAYS if frequency is 2 and basis is 0?",
       expectedAnswer: "180"
     },
+    commonMistakes: [{ title: "Invalid Frequency", desc: "Frequency must be 1, 2, or 4." }],
     practice: {
       instructions: "In cell B2, find total days in coupon period for B1 and B2.",
       initialData: [["Settlement", "2026-03-15"], ["Maturity", "2031-01-01"], ["Total Days", ""]],
@@ -471,6 +472,14 @@ export const financialLessons = [
       question: "True or False: COUPDAYSNC returns days remaining in the period.",
       expectedAnswer: "True"
     },
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "Settlement date." },
+      { arg: "maturity", desc: "Maturity date." },
+      { arg: "frequency", desc: "Payments per year." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Settlement vs Maturity", desc: "Settlement date must be before maturity date." }],
+    proTips: ["Use this to find the exact number of days until your next interest payment."],
     practice: {
       instructions: "In cell B2, find days to next coupon for B1 and B2.",
       initialData: [["Settlement", "2026-03-15"], ["Maturity", "2031-01-01"], ["Days Left", ""]],
@@ -505,6 +514,14 @@ export const financialLessons = [
     commonMistakes: [
       { title: "Serial numbers.", desc: "COUPNCD returns a serial number. Format the cell as Date to see it." }
     ],
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "Settlement date." },
+      { arg: "maturity", desc: "Maturity date." },
+      { arg: "frequency", desc: "Payments per year." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    proTips: ["Format the result as a date to make it readable."],
+    miniChallenge: { question: "What does NCD stand for in COUPNCD?", expectedAnswer: "Next Coupon Date" },
     practice: {
       instructions: "In cell B2, find the next coupon date.",
       initialData: [["Settlement", "2026-03-15"], ["Maturity", "2031-01-01"], ["Date", ""]],
@@ -539,6 +556,15 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "Settlement date." },
+      { arg: "maturity", desc: "Maturity date." },
+      { arg: "frequency", desc: "Payments per year." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Frequency Error", desc: "Frequency must be 1, 2, or 4." }],
+    proTips: ["Use this to estimate the total remaining interest income from a bond."],
+    miniChallenge: { question: "How many coupons are left if a bond matures in 5 years with semi-annual payments?", expectedAnswer: "10" },
     practice: {
       instructions: "In cell B2, find the number of coupons left.",
       initialData: [["Settlement", "2026-03-15"], ["Maturity", "2031-01-01"], ["Count", ""]],
@@ -570,6 +596,15 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "Settlement date." },
+      { arg: "maturity", desc: "Maturity date." },
+      { arg: "frequency", desc: "Payments per year." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Date Formatting", desc: "Ensure the output cell is formatted as a Date." }],
+    proTips: ["Use this to verify the last time interest was paid on a security."],
+    miniChallenge: { question: "What does PCD stand for?", expectedAnswer: "Previous Coupon Date" },
     practice: {
       instructions: "In cell B2, find the previous coupon date.",
       initialData: [["Settlement", "2026-03-15"], ["Maturity", "2031-01-01"], ["Prev Date", ""]],
@@ -605,6 +640,16 @@ export const financialLessons = [
     commonMistakes: [
       { title: "Sign outflow.", desc: "Result is negative as it's a cash outflow." }
     ],
+    syntaxBreakdown: [
+      { arg: "rate", desc: "Interest rate per period." },
+      { arg: "nper", desc: "Total number of payment periods." },
+      { arg: "pv", desc: "Present value (loan amount)." },
+      { arg: "start_period", desc: "First period in the calculation." },
+      { arg: "end_period", desc: "Last period in the calculation." },
+      { arg: "type", desc: "Timing of payment (0 = end, 1 = start)." }
+    ],
+    proTips: ["Great for calculating the total interest tax deduction for a specific year."],
+    miniChallenge: { question: "Is the result of CUMIPMT usually positive or negative?", expectedAnswer: "Negative" },
     practice: {
       instructions: "In cell B2, calculate total interest for periods 1 to 12 of a ₦200k loan (B2) at 4.5%/12 (B1) over 300 months.",
       initialData: [["Rate", 0.00375], ["PV", 200000], ["Interest", ""]],
@@ -636,6 +681,17 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "rate", desc: "Interest rate per period." },
+      { arg: "nper", desc: "Total number of payment periods." },
+      { arg: "pv", desc: "Present value (loan amount)." },
+      { arg: "start_period", desc: "First period in the calculation." },
+      { arg: "end_period", desc: "Last period in the calculation." },
+      { arg: "type", desc: "Timing of payment (0 = end, 1 = start)." }
+    ],
+    commonMistakes: [{ title: "Sign Convention", desc: "Result is negative as it represents principal reduction." }],
+    proTips: ["Use this to see how much equity you have built in an asset over time."],
+    miniChallenge: { question: "Does CUMPRINC include interest?", expectedAnswer: "No, only principal." },
     practice: {
       instructions: "In cell B2, calculate total principal for periods 1 to 12.",
       initialData: [["Rate", 0.00375], ["PV", 200000], ["Principal", ""]],
@@ -669,6 +725,16 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "cost", desc: "Initial cost of the asset." },
+      { arg: "salvage", desc: "Value at the end of depreciation." },
+      { arg: "life", desc: "Number of periods (years) the asset is depreciated." },
+      { arg: "period", desc: "The period for which you want to calculate depreciation." },
+      { arg: "month", desc: "Optional. Number of months in the first year (default 12)." }
+    ],
+    commonMistakes: [{ title: "Period out of range", desc: "The period cannot be greater than the life of the asset." }],
+    proTips: ["Commonly used for tax purposes where accelerated depreciation is allowed."],
+    miniChallenge: { question: "Does DB depreciation increase or decrease over time?", expectedAnswer: "Decrease" },
     practice: {
       instructions: "In cell B2, calculate depreciation for year 1 of 5000 asset (B2) with 500 salvage and 5 year life.",
       initialData: [["Item", "Value"], ["Cost", 5000], ["Year 1 Dep", ""]],
@@ -700,6 +766,16 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "cost", desc: "Initial cost of the asset." },
+      { arg: "salvage", desc: "Value at the end of depreciation." },
+      { arg: "life", desc: "Number of periods the asset is depreciated." },
+      { arg: "period", desc: "The period for which you want to calculate depreciation." },
+      { arg: "factor", desc: "Optional. Rate at which the balance declines (default 2 for double)." }
+    ],
+    commonMistakes: [{ title: "Salvage floor", desc: "DDB will not depreciate below the salvage value." }],
+    proTips: ["You can change the 'factor' to adjust the acceleration speed."],
+    miniChallenge: { question: "What is the default factor for DDB?", expectedAnswer: "2" },
     practice: {
       instructions: "In cell B2, find year 1 depreciation for ₦5000 asset (B2) with 500 salvage and 5 year life.",
       initialData: [["Item", "Value"], ["Cost", 5000], ["Dep", ""]],
@@ -732,6 +808,16 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "The security's settlement date." },
+      { arg: "maturity", desc: "The security's maturity date." },
+      { arg: "pr", desc: "The security's price per ₦100 face value." },
+      { arg: "redemption", desc: "The security's redemption value per ₦100 face value." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Basis Error", desc: "Using the wrong basis can significantly impact the yield/discount result." }],
+    proTips: ["Useful for comparing the returns of various Treasury bills."],
+    miniChallenge: { question: "Does DISC calculate the coupon rate?", expectedAnswer: "No, it calculates the discount rate." },
     practice: {
       instructions: "In cell B2, find the discount rate for 98.5 price (B1) with 100 redemption.",
       initialData: [["Price", 98.5], ["Rate", ""]],
@@ -763,6 +849,13 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "fractional_dollar", desc: "The number expressed as a fraction (e.g., 1.02 for 1 and 2/32)." },
+      { arg: "fraction", desc: "The denominator of the fraction (e.g., 32)." }
+    ],
+    commonMistakes: [{ title: "Confusing notation", desc: "The decimal part is the numerator, not a standard decimal value." }],
+    proTips: ["Essential for working with older bond quotes that still use 32nds or 16ths."],
+    miniChallenge: { question: "What is 1.08 with a fraction of 32 as a decimal?", expectedAnswer: "1.25" },
     practice: {
       instructions: "In cell B2, convert 101.16 (B2) using denominator 32.",
       initialData: [["Quote", 101.16], ["Decimal", ""]],
@@ -794,6 +887,13 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "decimal_dollar", desc: "The decimal number you want to convert." },
+      { arg: "fraction", desc: "The denominator you want to use (e.g., 32)." }
+    ],
+    commonMistakes: [{ title: "Interpretation", desc: "The result 1.08 means 1 and 8/denominator, not 1.08 decimal." }],
+    proTips: ["Use this to convert decimal calculations back into standard market quotes."],
+    miniChallenge: { question: "What is 1.25 converted to 32nds?", expectedAnswer: "1.08" },
     practice: {
       instructions: "In cell B2, convert 101.5 (B1) using 32.",
       initialData: [["Decimal", 101.5], ["Quote", ""]],
@@ -825,6 +925,17 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "The security's settlement date." },
+      { arg: "maturity", desc: "The security's maturity date." },
+      { arg: "coupon", desc: "The annual coupon rate." },
+      { arg: "yld", desc: "The annual yield." },
+      { arg: "frequency", desc: "Coupon payments per year." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Yield vs Coupon", desc: "Make sure you don't swap the coupon rate and the market yield." }],
+    proTips: ["Higher coupons lead to lower durations because you get your money back faster."],
+    miniChallenge: { question: "What unit is duration measured in?", expectedAnswer: "Years" },
     practice: {
       instructions: "In cell B2, find the duration.",
       initialData: [["Settlement", "2026-01-01"], ["Maturity", "2031-01-01"], ["Result", ""]],
@@ -856,6 +967,13 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "nominal_rate", desc: "The nominal interest rate." },
+      { arg: "npery", desc: "The number of compounding periods per year." }
+    ],
+    commonMistakes: [{ title: "Periods error", desc: "Ensure npery is an integer greater than 0." }],
+    proTips: ["The more compounding periods, the higher the effective rate will be."],
+    miniChallenge: { question: "If compounding is annual, is EFFECT different from nominal?", expectedAnswer: "No" },
     practice: {
       instructions: "In cell B2, find the effective rate for 5% (B1) compounded monthly (12).",
       initialData: [["Nominal", 0.05], ["Effective", ""]],
@@ -887,6 +1005,16 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "rate", desc: "Interest rate per period." },
+      { arg: "nper", desc: "Total number of payment periods." },
+      { arg: "pmt", desc: "Payment made each period." },
+      { arg: "pv", desc: "Optional. Present value (initial lump sum)." },
+      { arg: "type", desc: "Optional. 0 = end of period, 1 = start." }
+    ],
+    commonMistakes: [{ title: "Period mismatch", desc: "Annual rate with monthly payments will give a massive error. Divide rate by 12." }],
+    proTips: ["Set PV to 0 if you are starting with no initial savings."],
+    miniChallenge: { question: "Does a higher interest rate increase or decrease FV?", expectedAnswer: "Increase" },
     practice: {
       instructions: "In cell B2, find future value of saving ₦200/mo (B1) for 20 years at 6%/12.",
       initialData: [["PMT", -200], ["FV", ""]],
@@ -918,6 +1046,13 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "principal", desc: "The initial value." },
+      { arg: "schedule", desc: "An array or range of interest rates to apply." }
+    ],
+    commonMistakes: [{ title: "Schedule format", desc: "Ensure rates in the schedule are decimals (0.05) or percentages (5%)." }],
+    proTips: ["Useful for accounts with promotional rates that change every few months."],
+    miniChallenge: { question: "Can the schedule contain negative rates?", expectedAnswer: "Yes, representing a loss." },
     practice: {
       instructions: "In cell B2, find FV of 10000 (B2) with rates in A2:A4.",
       initialData: [["Rates", ""], [0.05, 10000], [0.03, ""], [0.07, ""]],
@@ -949,6 +1084,16 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "The settlement date." },
+      { arg: "maturity", desc: "The maturity date." },
+      { arg: "investment", desc: "The amount invested." },
+      { arg: "redemption", desc: "The amount received at maturity." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Invalid dates", desc: "Maturity must be after settlement." }],
+    proTips: ["Use this for instruments that don't pay periodic interest, only a final lump sum."],
+    miniChallenge: { question: "Does INTRATE account for compounding?", expectedAnswer: "No, it's a simple annual rate." },
     practice: {
       instructions: "In cell B2, find the interest rate.",
       initialData: [["Invest", 9750], ["Redeem", 10000], ["Result", ""]],
@@ -981,6 +1126,17 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "rate", desc: "Interest rate per period." },
+      { arg: "per", desc: "The specific period for which you want the interest." },
+      { arg: "nper", desc: "Total number of payment periods." },
+      { arg: "pv", desc: "Present value (loan amount)." },
+      { arg: "fv", desc: "Optional. Future value or cash balance desired." },
+      { arg: "type", desc: "Optional. 0 = end, 1 = start." }
+    ],
+    commonMistakes: [{ title: "Period out of range", desc: "The 'per' must be between 1 and nper." }],
+    proTips: ["IPMT decreases every month as you pay down the principal."],
+    miniChallenge: { question: "In which period is IPMT the highest?", expectedAnswer: "Period 1" },
     practice: {
       instructions: "In cell B2, find the interest for payment 1 of ₦200k loan (B2) at 4.5%/12 (B1).",
       initialData: [["Rate", 0.00375], ["PV", 200000], ["Interest", ""]],
@@ -1012,6 +1168,13 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "values", desc: "An array or range of cash flows (must include at least one negative and one positive)." },
+      { arg: "guess", desc: "Optional. A number you think is close to the result." }
+    ],
+    commonMistakes: [{ title: "No solution", desc: "If cash flows don't change sign, IRR returns #NUM!." }],
+    proTips: ["IRR assumes reinvestment at the IRR rate, which can be overly optimistic."],
+    miniChallenge: { question: "What does IRR stand for?", expectedAnswer: "Internal Rate of Return" },
     practice: {
       instructions: "In cell B2, find the IRR of flows in A2:A7.",
       initialData: [["Flows", ""], [-50000, ""], [12000, ""], [15000, ""], [18000, ""], [22000, ""], [25000, ""]],
@@ -1044,6 +1207,15 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "rate", desc: "Interest rate for the loan." },
+      { arg: "per", desc: "The period for which you want to find the interest." },
+      { arg: "nper", desc: "Total number of payment periods." },
+      { arg: "pv", desc: "Present value of the loan." }
+    ],
+    commonMistakes: [{ title: "Zero-based period", desc: "Unlike IPMT, ISPMT periods are 0-based (0 is the first period)." }],
+    proTips: ["This is used for 'level principal' loans, which are less common than standard amortized loans."],
+    miniChallenge: { question: "Is the first period in ISPMT 0 or 1?", expectedAnswer: "0" },
     practice: {
       instructions: "In cell B2, find interest for period 0.",
       initialData: [["Rate", 0.06], ["PV", 10000], ["Interest", ""]],
@@ -1075,6 +1247,17 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "The security's settlement date." },
+      { arg: "maturity", desc: "The security's maturity date." },
+      { arg: "coupon", desc: "The annual coupon rate." },
+      { arg: "yld", desc: "The annual yield." },
+      { arg: "frequency", desc: "Coupon payments per year." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Yield required", desc: "MDURATION requires the yield to maturity, not just the coupon rate." }],
+    proTips: ["Modified duration is the best measure of a bond's price volatility."],
+    miniChallenge: { question: "If modified duration is 5, how much does price drop if rates rise 1%?", expectedAnswer: "5%" },
     practice: {
       instructions: "In cell B2, find modified duration.",
       initialData: [["Settlement", "2026-01-01"], ["Maturity", "2031-01-01"], ["Result", ""]],
@@ -1106,6 +1289,14 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "values", desc: "An array or range of cash flows." },
+      { arg: "finance_rate", desc: "Interest rate paid on money used in the flows." },
+      { arg: "reinvest_rate", desc: "Interest rate received on reinvested cash flows." }
+    ],
+    commonMistakes: [{ title: "Rate mismatch", desc: "Ensure your rates match the period of your cash flows." }],
+    proTips: ["MIRR is generally considered more accurate than IRR for project evaluation."],
+    miniChallenge: { question: "What does the M in MIRR stand for?", expectedAnswer: "Modified" },
     practice: {
       instructions: "In cell B2, find MIRR for flows in A2:A6 (Fin: 6%, Re: 8%).",
       initialData: [["Flows", ""], [-100000, ""], [30000, ""], [-20000, ""], [60000, ""], [80000, ""]],
@@ -1126,6 +1317,13 @@ export const financialLessons = [
       concept: "Think of it as the reverse-compounding calculator: 'The effective rate is 5.12% compounded monthly — what's the nominal rate?'"
     },
     syntax: "=NOMINAL(effect_rate, npery)",
+    syntaxBreakdown: [
+      { arg: "effect_rate", desc: "The effective interest rate." },
+      { arg: "npery", desc: "Number of compounding periods per year." }
+    ],
+    commonMistakes: [{ title: "Periods mismatch", desc: "Ensure npery matches how often interest is actually compounded." }],
+    proTips: ["Use this to find the base rate before compounding effects are added."],
+    miniChallenge: { question: "Is nominal rate usually higher or lower than effective rate?", expectedAnswer: "Lower" },
     practice: {
       instructions: "In cell B2, find nominal rate for 5.12% (B1) with 12 periods.",
       initialData: [["Effective", 0.051161897881733], ["Nominal", ""]],
@@ -1157,6 +1355,16 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "rate", desc: "Interest rate per period." },
+      { arg: "pmt", desc: "Payment made each period." },
+      { arg: "pv", desc: "Present value (loan amount)." },
+      { arg: "fv", desc: "Optional. Future value." },
+      { arg: "type", desc: "Optional. 0 = end, 1 = start." }
+    ],
+    commonMistakes: [{ title: "Infinite loop", desc: "If your interest rate is high and payment is too low, you'll never pay off the loan!" }],
+    proTips: ["Useful for determining when you will reach a specific savings goal."],
+    miniChallenge: { question: "What does NPER return if the goal is already met?", expectedAnswer: "0" },
     practice: {
       instructions: "In cell B2, find months to pay off ₦5000 (B2) at 18%/12 (B1) with ₦200 payments (B3).",
       initialData: [["Rate", 0.015], ["PV", 5000], ["PMT", -200], ["Months", ""]],
@@ -1180,6 +1388,12 @@ export const financialLessons = [
     commonMistakes: [
       { title: "Period 0.", desc: "Initial investment is period 0 and should be added OUTSIDE the NPV function." }
     ],
+    syntaxBreakdown: [
+      { arg: "rate", desc: "Discount rate over the length of one period." },
+      { arg: "value1, value2, ...", desc: "Cash flows (1 to 254) occurring at equal intervals." }
+    ],
+    proTips: ["NPV is positive? The investment is generally a good idea."],
+    miniChallenge: { question: "What does NPV stand for?", expectedAnswer: "Net Present Value" },
     practice: {
       instructions: "In cell B2, find NPV of flows in A2:A6 at 10% (B1).",
       initialData: [["Rate", 0.1], ["Flows", ""], [25000, ""], [35000, ""], [45000, ""], [40000, ""], [30000, ""]],
@@ -1200,6 +1414,20 @@ export const financialLessons = [
       concept: "Think of it as the bond pricer for non-standard first periods: 'How much should I pay for this bond when the first coupon payment isn't a full period away?'"
     },
     syntax: "=ODDFPRICE(settlement, maturity, issue, first_coupon, rate, yld, redemption, frequency, [basis])",
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "Settlement date." },
+      { arg: "maturity", desc: "Maturity date." },
+      { arg: "issue", desc: "Issue date." },
+      { arg: "first_coupon", desc: "First coupon date." },
+      { arg: "rate", desc: "Interest rate." },
+      { arg: "yld", desc: "Annual yield." },
+      { arg: "redemption", desc: "Redemption value per ₦100 face value." },
+      { arg: "frequency", desc: "Payments per year." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Date Logic", desc: "Issue < Settlement < First Coupon < Maturity." }],
+    proTips: ["Essential for pricing new-issue bonds that don't align with standard calendars."],
+    miniChallenge: { question: "What does ODDF stand for?", expectedAnswer: "Odd First (Period)" },
     practice: {
       instructions: "In cell B2, find the price.",
       initialData: [["Settlement", "2026-03-15"], ["Maturity", "2031-01-01"], ["Result", ""]],
@@ -1220,6 +1448,20 @@ export const financialLessons = [
       concept: "Think of it as the reverse of ODDFPRICE: 'I know the price — what yield does that imply for this bond with an irregular first coupon?'"
     },
     syntax: "=ODDFYIELD(settlement, maturity, issue, first_coupon, rate, pr, redemption, frequency, [basis])",
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "Settlement date." },
+      { arg: "maturity", desc: "Maturity date." },
+      { arg: "issue", desc: "Issue date." },
+      { arg: "first_coupon", desc: "First coupon date." },
+      { arg: "rate", desc: "Interest rate." },
+      { arg: "pr", desc: "Price per ₦100 face value." },
+      { arg: "redemption", desc: "Redemption value per ₦100 face value." },
+      { arg: "frequency", desc: "Payments per year." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Price mismatch", desc: "Ensure price is per ₦100 par value." }],
+    proTips: ["Use this to find the actual return on a bond with an irregular start."],
+    miniChallenge: { question: "Does ODDFYIELD return a percentage or currency?", expectedAnswer: "Percentage" },
     practice: {
       instructions: "In cell B2, find the yield.",
       initialData: [["Settlement", "2026-03-15"], ["Maturity", "2031-01-01"], ["Yield", ""]],
@@ -1240,6 +1482,19 @@ export const financialLessons = [
       concept: "Think of it as the bond pricer for non-standard final periods: 'How much for this bond when the last coupon period isn't exactly 6 months?'"
     },
     syntax: "=ODDLPRICE(settlement, maturity, last_interest, rate, yld, redemption, frequency, [basis])",
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "Settlement date." },
+      { arg: "maturity", desc: "Maturity date." },
+      { arg: "last_interest", desc: "Last interest date." },
+      { arg: "rate", desc: "Interest rate." },
+      { arg: "yld", desc: "Annual yield." },
+      { arg: "redemption", desc: "Redemption value per ₦100 face value." },
+      { arg: "frequency", desc: "Payments per year." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Last Interest Date", desc: "This must be the date of the last standard coupon payment." }],
+    proTips: ["Used for bonds approaching maturity with a non-standard final window."],
+    miniChallenge: { question: "What does ODDL stand for?", expectedAnswer: "Odd Last (Period)" },
     practice: {
       instructions: "In cell B2, find the price.",
       initialData: [["Settlement", "2026-06-15"], ["Maturity", "2030-12-31"], ["Result", ""]],
@@ -1260,6 +1515,19 @@ export const financialLessons = [
       concept: "Think of it as the reverse of ODDLPRICE: 'I know the price of this bond with an irregular final coupon — what's the yield?'"
     },
     syntax: "=ODDLYIELD(settlement, maturity, last_interest, rate, pr, redemption, frequency, [basis])",
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "Settlement date." },
+      { arg: "maturity", desc: "Maturity date." },
+      { arg: "last_interest", desc: "Last interest date." },
+      { arg: "rate", desc: "Interest rate." },
+      { arg: "pr", desc: "Price per ₦100 face value." },
+      { arg: "redemption", desc: "Redemption value per ₦100 face value." },
+      { arg: "frequency", desc: "Payments per year." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Yield to maturity", desc: "This calculates YTM for a non-standard final period." }],
+    proTips: ["Compare this with standard YIELD to see the impact of the final period length."],
+    miniChallenge: { question: "Is ODDLYIELD for the first or last period?", expectedAnswer: "Last" },
     practice: {
       instructions: "In cell B2, find the yield.",
       initialData: [["Settlement", "2026-06-15"], ["Maturity", "2030-12-31"], ["Yield", ""]],
@@ -1291,6 +1559,14 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "rate", desc: "The interest rate per period." },
+      { arg: "pv", desc: "The present value." },
+      { arg: "fv", desc: "The desired future value." }
+    ],
+    commonMistakes: [{ title: "PV/FV Sign", desc: "Both PV and FV must be positive for PDURATION to work." }],
+    proTips: ["This is the most direct way to answer 'How long until I hit my goal?'."],
+    miniChallenge: { question: "What happens if PV > FV?", expectedAnswer: "PDURATION returns #NUM! unless rate is negative." },
     practice: {
       instructions: "In cell B2, find years to double 5000 (B1) at 7% (B2).",
       initialData: [["PV", 5000], ["Rate", 0.07], ["Result", ""]],
@@ -1311,6 +1587,17 @@ export const financialLessons = [
       concept: "Think of it as the equity tracker: 'How much of my 36th car payment goes toward actually reducing the balance?'"
     },
     syntax: "=PPMT(rate, per, nper, pv, [fv], [type])",
+    syntaxBreakdown: [
+      { arg: "rate", desc: "Interest rate per period." },
+      { arg: "per", desc: "The specific period for which you want the principal part." },
+      { arg: "nper", desc: "Total number of periods." },
+      { arg: "pv", desc: "Present value (loan amount)." },
+      { arg: "fv", desc: "Optional. Future value." },
+      { arg: "type", desc: "Optional. 0 = end, 1 = start." }
+    ],
+    commonMistakes: [{ title: "Per vs Nper", desc: "Make sure 'per' is not larger than 'nper'." }],
+    proTips: ["PPMT increases every month as interest (IPMT) decreases."],
+    miniChallenge: { question: "What is IPMT + PPMT equal to?", expectedAnswer: "PMT (Total Payment)" },
     practice: {
       instructions: "In cell B2, find principal for payment 1.",
       initialData: [["Rate", 0.00375], ["PV", 200000], ["Principal", ""]],
@@ -1342,6 +1629,18 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "The security's settlement date." },
+      { arg: "maturity", desc: "The security's maturity date." },
+      { arg: "rate", desc: "The annual coupon rate." },
+      { arg: "yld", desc: "The annual yield." },
+      { arg: "redemption", desc: "Redemption value per ₦100 face value." },
+      { arg: "frequency", desc: "Payments per year." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Redemption value", desc: "Usually 100, but can vary for certain bond types." }],
+    proTips: ["Price and Yield have an inverse relationship: when yields go up, prices go down."],
+    miniChallenge: { question: "If yield equals coupon rate, what is the price?", expectedAnswer: "100" },
     practice: {
       instructions: "In cell B2, find the price.",
       initialData: [["Settlement", "2026-02-15"], ["Maturity", "2031-02-15"], ["Result", ""]],
@@ -1373,6 +1672,16 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "The security's settlement date." },
+      { arg: "maturity", desc: "The security's maturity date." },
+      { arg: "discount", desc: "The security's discount rate." },
+      { arg: "redemption", desc: "Redemption value per ₦100 face value." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Discount vs Yield", desc: "PRICEDISC uses a discount rate, not a yield to maturity." }],
+    proTips: ["The primary tool for calculating the current cost of Treasury bills."],
+    miniChallenge: { question: "What is the redemption value for T-bills?", expectedAnswer: "100" },
     practice: {
       instructions: "In cell B2, find the price for 5% discount (B1).",
       initialData: [["Discount", 0.05], ["Price", ""]],
@@ -1393,6 +1702,17 @@ export const financialLessons = [
       concept: "Think of it as the 'all-at-maturity' bond pricer: 'What do I pay for a bond that pays all its interest at the end?'"
     },
     syntax: "=PRICEMAT(settlement, maturity, issue, rate, yld, [basis])",
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "The security's settlement date." },
+      { arg: "maturity", desc: "The security's maturity date." },
+      { arg: "issue", desc: "The security's issue date." },
+      { arg: "rate", desc: "The annual coupon rate." },
+      { arg: "yld", desc: "The annual yield." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Issue Date", desc: "PRICEMAT requires the issue date to calculate total interest at the end." }],
+    proTips: ["Ideal for evaluating certificates of deposit (CDs) that pay everything at once."],
+    miniChallenge: { question: "Does PRICEMAT calculate periodic interest?", expectedAnswer: "No, only at maturity." },
     practice: {
       instructions: "In cell B2, find the price.",
       initialData: [["Settlement", "2026-02-01"], ["Maturity", "2027-02-01"], ["Price", ""]],
@@ -1424,6 +1744,17 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "nper", desc: "Total number of payment periods." },
+      { arg: "pmt", desc: "Payment made each period." },
+      { arg: "pv", desc: "Present value (total amount that a series of future payments is worth now)." },
+      { arg: "fv", desc: "Optional. Future value." },
+      { arg: "type", desc: "Optional. 0 = end, 1 = start." },
+      { arg: "guess", desc: "Optional. Your guess for what the rate will be." }
+    ],
+    commonMistakes: [{ title: "#NUM! Error", desc: "If RATE doesn't converge after 20 iterations, try a different guess." }],
+    proTips: ["The result is the rate per period. Multiply by 12 to get the annual rate for monthly loans."],
+    miniChallenge: { question: "What error does RATE show if it can't find a solution?", expectedAnswer: "#NUM!" },
     practice: {
       instructions: "In cell B4, find monthly rate for ₦15k loan (B3) and 48 payments (B1) of ₦350 (B2).",
       initialData: [["NPER", 48], ["PMT", -350], ["PV", 15000], ["Rate", ""]],
@@ -1444,6 +1775,16 @@ export const financialLessons = [
       concept: "Think of it as the maturity payoff calculator: 'If I invest ₦9,750 today, what do I get back at maturity?'"
     },
     syntax: "=RECEIVED(settlement, maturity, investment, discount, [basis])",
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "The security's settlement date." },
+      { arg: "maturity", desc: "The security's maturity date." },
+      { arg: "investment", desc: "The amount invested." },
+      { arg: "discount", desc: "The security's discount rate." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Investment Sign", desc: "Unlike many financial functions, investment here is usually positive." }],
+    proTips: ["Use this to find the final cash you'll have in hand when a zero-coupon bond expires."],
+    miniChallenge: { question: "Does RECEIVED include coupon payments?", expectedAnswer: "No, it's for non-periodic securities." },
     practice: {
       instructions: "In cell B2, find amount received for 9750 invest (B1) and 5% disc.",
       initialData: [["Invest", 9750], ["Result", ""]],
@@ -1475,6 +1816,14 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "nper", desc: "Total number of periods." },
+      { arg: "pv", desc: "Present value." },
+      { arg: "fv", desc: "Future value." }
+    ],
+    commonMistakes: [{ title: "Negative Results", desc: "If FV is less than PV, RRI will correctly show a negative growth rate." }],
+    proTips: ["Best used to calculate the performance of a stock or investment over several years."],
+    miniChallenge: { question: "What is another name for RRI?", expectedAnswer: "CAGR" },
     practice: {
       instructions: "In cell B2, find CAGR for 5000 (B1) to 10000 in 8 years.",
       initialData: [["PV", 5000], ["Result", ""]],
@@ -1506,6 +1855,14 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "cost", desc: "Initial cost of the asset." },
+      { arg: "salvage", desc: "Value at end of depreciation." },
+      { arg: "life", desc: "Number of periods the asset is depreciated." }
+    ],
+    commonMistakes: [{ title: "Life zero", desc: "Asset life must be greater than 0." }],
+    proTips: ["The simplest and most transparent method for depreciation."],
+    miniChallenge: { question: "Is SLN depreciation higher in year 1 than year 5?", expectedAnswer: "No, it's equal." },
     practice: {
       instructions: "In cell B2, find annual dep for ₦12k asset (B2).",
       initialData: [["Item", "Value"], ["Cost", 12000], ["Result", ""]],
@@ -1537,6 +1894,15 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "cost", desc: "Initial cost of the asset." },
+      { arg: "salvage", desc: "Value at end of depreciation." },
+      { arg: "life", desc: "Number of periods the asset is depreciated." },
+      { arg: "per", desc: "The period for which you want to find the depreciation." }
+    ],
+    commonMistakes: [{ title: "Period mismatch", desc: "Ensure the period is between 1 and the life of the asset." }],
+    proTips: ["SYD is a middle ground between straight-line and double-declining balance."],
+    miniChallenge: { question: "What does SYD stand for?", expectedAnswer: "Sum of Years' Digits" },
     practice: {
       instructions: "In cell B2, find year 1 dep for ₦25k asset (B2).",
       initialData: [["Item", "Value"], ["Cost", 25000], ["Result", ""]],
@@ -1568,6 +1934,14 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "The settlement date." },
+      { arg: "maturity", desc: "The maturity date." },
+      { arg: "discount", desc: "The T-bill's discount rate." }
+    ],
+    commonMistakes: [{ title: "Date range", desc: "The maturity must be within one year of the settlement." }],
+    proTips: ["Use BEY (Bond Equivalent Yield) to compare T-bills directly with standard coupon bonds."],
+    miniChallenge: { question: "Is BEY usually higher or lower than the discount rate?", expectedAnswer: "Higher" },
     practice: {
       instructions: "In cell B2, find yield for 4.8% discount (B1).",
       initialData: [["Discount", 0.048], ["Yield", ""]],
@@ -1588,6 +1962,14 @@ export const financialLessons = [
       concept: "Think of it as the T-bill pricer: 'What do I pay for a T-bill with this discount rate?'"
     },
     syntax: "=TBILLPRICE(settlement, maturity, discount)",
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "The settlement date." },
+      { arg: "maturity", desc: "The maturity date." },
+      { arg: "discount", desc: "The T-bill's discount rate." }
+    ],
+    commonMistakes: [{ title: "Over one year", desc: "TBILLPRICE only works for T-bills maturing within one year." }],
+    proTips: ["Prices are always quoted per ₦100 of the face value."],
+    miniChallenge: { question: "If discount is 0%, what is the T-bill price?", expectedAnswer: "100" },
     practice: {
       instructions: "In cell B2, find price for 5% discount (B1).",
       initialData: [["Discount", 0.05], ["Price", ""]],
@@ -1608,6 +1990,14 @@ export const financialLessons = [
       concept: "Think of it as the T-bill return calculator: 'What annual return will I earn on this T-bill?'"
     },
     syntax: "=TBILLYIELD(settlement, maturity, pr)",
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "The settlement date." },
+      { arg: "maturity", desc: "The maturity date." },
+      { arg: "pr", desc: "The T-bill's price per ₦100 face value." }
+    ],
+    commonMistakes: [{ title: "Invalid Price", desc: "Price must be greater than 0." }],
+    proTips: ["Use this to find your actual annualized return after buying a T-bill at a certain price."],
+    miniChallenge: { question: "Does TBILLYIELD return a percentage?", expectedAnswer: "Yes" },
     practice: {
       instructions: "In cell B2, find yield for 98.75 price (B1).",
       initialData: [["Price", 98.75], ["Yield", ""]],
@@ -1639,6 +2029,18 @@ export const financialLessons = [
         }
       }
     ],
+    syntaxBreakdown: [
+      { arg: "cost", desc: "Initial cost of the asset." },
+      { arg: "salvage", desc: "Value at end of depreciation." },
+      { arg: "life", desc: "Number of periods the asset is depreciated." },
+      { arg: "start_period", desc: "The starting period for the calculation." },
+      { arg: "end_period", desc: "The ending period for the calculation." },
+      { arg: "factor", desc: "Optional. Rate of declining balance." },
+      { arg: "no_switch", desc: "Optional. TRUE = do not switch to straight-line; FALSE = switch (default)." }
+    ],
+    commonMistakes: [{ title: "Start vs End", desc: "Start period must be less than end period." }],
+    proTips: ["VDB is the most powerful depreciation function in Excel because it handles partial years and switches methods automatically."],
+    miniChallenge: { question: "Can VDB calculate depreciation for half a year?", expectedAnswer: "Yes" },
     practice: {
       instructions: "In cell B2, find dep for first 6 months (0 to 0.5) of ₦10k asset (B2).",
       initialData: [["Item", "Value"], ["Cost", 10000], ["Dep", ""]],
@@ -1659,6 +2061,14 @@ export const financialLessons = [
       concept: "Think of it as the real-world IRR: 'What's my annualised return when I invested and withdrew money on these specific dates?'"
     },
     syntax: "=XIRR(values, dates, [guess])",
+    syntaxBreakdown: [
+      { arg: "values", desc: "A series of cash flows that correspond to a schedule of dates." },
+      { arg: "dates", desc: "A schedule of payment dates that correspond to the cash flow payments." },
+      { arg: "guess", desc: "Optional. A guess at the result." }
+    ],
+    commonMistakes: [{ title: "Length mismatch", desc: "Values and Dates must have the exact same number of entries." }],
+    proTips: ["XIRR is much more accurate than IRR for real-world projects where money comes and goes on random dates."],
+    miniChallenge: { question: "Must the first date in XIRR be the earliest?", expectedAnswer: "No, but it's good practice." },
     practice: {
       instructions: "In cell C1, find IRR for flows in B1:B4 and dates in A1:A4.",
       initialData: [["2025-01-01", -10000, ""], ["2025-03-15", -5000, ""], ["2025-06-30", 2000, ""], ["2026-06-15", 20000, ""]],
@@ -1679,6 +2089,14 @@ export const financialLessons = [
       concept: "Think of it as the real-world NPV: 'What's the present value of these cash flows, which don't happen at regular periods?'"
     },
     syntax: "=XNPV(rate, values, dates)",
+    syntaxBreakdown: [
+      { arg: "rate", desc: "The discount rate to apply to the cash flows." },
+      { arg: "values", desc: "A series of cash flows that correspond to a schedule of dates." },
+      { arg: "dates", desc: "A schedule of payment dates." }
+    ],
+    commonMistakes: [{ title: "Date format", desc: "Ensure dates are valid Excel date serial numbers or DATE function results." }],
+    proTips: ["Use XNPV for any project with irregular cash flow timing to avoid massive calculation errors."],
+    miniChallenge: { question: "Does XNPV require equal time intervals?", expectedAnswer: "No" },
     practice: {
       instructions: "In cell D1, find XNPV for 8% (A1) and flows in B1:B3, dates C1:C3.",
       initialData: [[0.08, -50000, "2026-01-01", ""], [0, 10000, "2026-04-15", ""], [0, 15000, "2026-10-01", ""]],
@@ -1699,6 +2117,18 @@ export const financialLessons = [
       concept: "Think of it as the bond return calculator: 'If I pay ₦102.50 for this bond, what annual return will I earn?'"
     },
     syntax: "=YIELD(settlement, maturity, rate, pr, redemption, frequency, [basis])",
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "The security's settlement date." },
+      { arg: "maturity", desc: "The security's maturity date." },
+      { arg: "rate", desc: "Annual coupon rate." },
+      { arg: "pr", desc: "Security's price per ₦100 face value." },
+      { arg: "redemption", desc: "Redemption value per ₦100 face value." },
+      { arg: "frequency", desc: "Coupon payments per year." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Wrong frequency", desc: "Matching the frequency to the bond's actual payment schedule is critical." }],
+    proTips: ["This calculates the Yield to Maturity (YTM), the most standard measure of bond performance."],
+    miniChallenge: { question: "What is the return for YIELD if price is 100 and coupon is 5%?", expectedAnswer: "5%" },
     practice: {
       instructions: "In cell B2, find the yield.",
       initialData: [["Settlement", "2026-02-15"], ["Maturity", "2031-02-15"], ["Yield", ""]],
@@ -1719,6 +2149,16 @@ export const financialLessons = [
       concept: "Think of it as the discount instrument return calculator: 'What annual return do I earn buying this at a discount?'"
     },
     syntax: "=YIELDDISC(settlement, maturity, pr, redemption, [basis])",
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "The security's settlement date." },
+      { arg: "maturity", desc: "The security's maturity date." },
+      { arg: "pr", desc: "Security's price per ₦100 face value." },
+      { arg: "redemption", desc: "Redemption value per ₦100 face value." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Price too high", desc: "Price should generally be less than redemption for a discount security." }],
+    proTips: ["Use this for zero-coupon bonds to find their effective annual yield."],
+    miniChallenge: { question: "Is YIELDDISC for coupon-paying bonds?", expectedAnswer: "No" },
     practice: {
       instructions: "In cell B2, find yield for 95 price (B1) and 100 redemption.",
       initialData: [["Price", 95], ["Yield", ""]],
@@ -1739,6 +2179,17 @@ export const financialLessons = [
       concept: "Think of it as the all-at-maturity yield calculator: 'What's my annual return on this CD?'"
     },
     syntax: "=YIELDMAT(settlement, maturity, issue, rate, pr, [basis])",
+    syntaxBreakdown: [
+      { arg: "settlement", desc: "The security's settlement date." },
+      { arg: "maturity", desc: "The security's maturity date." },
+      { arg: "issue", desc: "The security's issue date." },
+      { arg: "rate", desc: "The annual coupon rate." },
+      { arg: "pr", desc: "The security's price per ₦100 face value." },
+      { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    commonMistakes: [{ title: "Maturity Interest", desc: "This is only for securities that pay interest at maturity, not periodically." }],
+    proTips: ["Use this to compare at-maturity bonds with other investment options."],
+    miniChallenge: { question: "Does YIELDMAT require a frequency argument?", expectedAnswer: "No" },
     practice: {
       instructions: "In cell B2, find yield for price 100 (B3).",
       initialData: [["Settlement", "2026-02-01"], ["Maturity", "2027-02-01"], ["Price", 100], ["Yield", ""]],
@@ -1791,6 +2242,8 @@ export const financialLessons = [
       { title: "Mixing Units.", desc: "If payments are monthly, your rate MUST be monthly (rate/12)." }
     ],
     relatedFunctions: ["IPMT", "PPMT", "NPER", "RATE"],
+    proTips: ["The result is negative because it represents a cash outflow from your pocket."],
+    miniChallenge: { question: "What function calculates the principal part of a PMT?", expectedAnswer: "PPMT" },
     practice: {
       instructions: "In cell B5, calculate the monthly payment for a ₦10,000 loan (B2) at 5% annual interest (B3) over 3 years (B4).",
       initialData: [["Setting", "Value"], ["Loan", 10000], ["Rate", 0.05], ["Years", 3], ["Monthly PMT", ""]],
