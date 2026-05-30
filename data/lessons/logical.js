@@ -20,7 +20,7 @@ export const logicalLessons = [
       "Flagging overdue invoices in an accounting system."
     ],
     businessExample: {
-      scenario: "A manager wants to automatically approve all purchase requests under $500 and flag anything higher for 'Manual Review'.",
+      scenario: "A manager wants to automatically approve all purchase requests under ₦500 and flag anything higher for 'Manual Review'.",
       formula: "=IF(B2<500, \"Approved\", \"Manual Review\")"
     },
     syntax: "=IF(logical_test, value_if_true, [value_if_false])",
@@ -96,7 +96,7 @@ export const logicalLessons = [
     whenToUse: "Use AND whenever you have multiple 'must-haves'. If your logic is 'This must be true AND that must also be true', use this function.",
     realWorldUseCases: [
       "Checking if a student passed both the written and practical exam.",
-      "Verifying if an employee is eligible for a bonus (Sales > $10k AND Attendance > 95%).",
+      "Verifying if an employee is eligible for a bonus (Sales > ₦10k AND Attendance > 95%).",
       "Ensuring a date is within a specific range (Start Date <= Today AND End Date >= Today)."
     ],
     businessExample: {
@@ -173,7 +173,7 @@ export const logicalLessons = [
     whenToUse: "Use OR whenever you have multiple valid options. If your logic is 'If this is true OR that is true', use this function.",
     realWorldUseCases: [
       "Flagging weekends (Day = 'Saturday' OR Day = 'Sunday').",
-      "Approving discounts (Customer = 'VIP' OR Purchase > $500).",
+      "Approving discounts (Customer = 'VIP' OR Purchase > ₦500).",
       "Identifying errors (Cell = '' OR Cell = 0)."
     ],
     businessExample: {
@@ -388,7 +388,7 @@ export const logicalLessons = [
       "Assigning shipping costs based on package weight."
     ],
     businessExample: {
-      scenario: "A sales manager wants to categorize deals: >$10k is 'Large', >$5k is 'Medium', otherwise 'Small'.",
+      scenario: "A sales manager wants to categorize deals: >₦10k is 'Large', >₦5k is 'Medium', otherwise 'Small'.",
       formula: "=IFS(B2>10000, \"Large\", B2>5000, \"Medium\", TRUE, \"Small\")"
     },
     syntax: "=IFS(logical_test1, value1, [logical_test2, value2], ...)",
@@ -790,8 +790,8 @@ export const logicalLessons = [
       "Creating 'Self-Documenting' formulas where the names (e.g., 'TaxRate') explain what the numbers are."
     ],
     businessExample: {
-      scenario: "You want a calculate a total price with tax, but you only want to show the result if the price is valid. You name the 'Price' calculation to avoid repeating it.",
-      formula: "=LET(Price, A2*B2, IF(Price>0, Price*1.15, 0))"
+      scenario: "A manager wants to calculate a tiered bonus where 5% is paid on revenue up to 50,000 and 8% on anything above, without repeating the logic.",
+      formula: "=LET(rev, B2, threshold, 50000, lower, MIN(rev, threshold), upper, MAX(0, rev-threshold), lower*0.05 + upper*0.08)"
     },
     syntax: "=LET(name1, value1, [name2, value2, ...], calculation)",
     syntaxBreakdown: [
@@ -867,8 +867,8 @@ export const logicalLessons = [
       "Converting proprietary unit measurements unique to your industry."
     ],
     businessExample: {
-      scenario: "You want a custom function called 'GET_PROFIT' that subtracts Costs from Sales and subtracts 10% tax.",
-      formula: "=LAMBDA(sales, costs, (sales-costs)*0.9)"
+      scenario: "You want a reusable function that calculates a selling price given a cost price and a markup percentage.",
+      formula: "=LAMBDA(cost, margin, cost * (1 + margin))"
     },
     syntax: "=LAMBDA(parameter1, [parameter2, ...], calculation)",
     syntaxBreakdown: [
@@ -882,15 +882,15 @@ export const logicalLessons = [
         table: {
           headers: ["Product", "Cost", "Margin", "Formula", "Selling Price"],
           rows: [
-            ["Widget A", "50", "20%", "=MARKUP(B2, C2)", "60.00"],
-            ["Widget B", "120", "15%", "=MARKUP(B3, C3)", "138.00"],
-            ["Widget C", "80", "25%", "=MARKUP(B4, C4)", "100.00"]
+            ["Widget A", "50", "20%", "=MARKUP(A2, B2)", "60.00"],
+            ["Widget B", "120", "15%", "=MARKUP(A3, B3)", "138.00"],
+            ["Widget C", "80", "25%", "=MARKUP(A4, B4)", "100.00"]
           ]
         },
         stepByStep: [
-          "The LAMBDA accepts two parameters: cost and margin.",
-          "It calculates cost * (1 + margin).",
-          "Once saved as 'MARKUP' in Name Manager, you use it like any built-in function."
+          "Step 1: Define the LAMBDA in Name Manager (e.g., MARKUP = =LAMBDA(cost, margin, cost * (1 + margin))).",
+          "Step 2: Use it in the sheet just like any built-in function.",
+          "The LAMBDA accepts cost and margin as parameters and calculates the final price."
         ]
       },
       {
@@ -903,7 +903,7 @@ export const logicalLessons = [
         },
         stepByStep: [
           "You can use LAMBDA directly in a cell by adding parentheses with arguments at the end.",
-          "In this case, (B2, C2) are passed as the 'c' and 'm' parameters."
+          "In this case, (B2, C2) are passed as the 'c' and 'm' parameters immediately."
         ]
       }
     ],
