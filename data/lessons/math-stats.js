@@ -1201,27 +1201,66 @@ export const mathStatsLessons = [
   },
   {
     id: "rounddown",
-    title: "Force Downward: ROUNDDOWN",
+    title: "Force Numbers Down: ROUNDDOWN Function",
     category: "math",
     difficulty: "Beginner",
     xp: 150,
     introduction: {
-      title: "Always Rounding Down: ROUNDDOWN",
-      description: "The ROUNDDOWN function always rounds a number toward zero.",
-      concept: "The 'Floor'. Even if you have 1.99, ROUNDDOWN(1.99, 0) will give you 1. Use this when you only care about 'full' or 'completed' units."
+      title: "Force Numbers Down: ROUNDDOWN Function",
+      description: "The ROUNDDOWN function rounds a number down toward zero, regardless of the next digit. Unlike standard rounding, it never rounds up — it simply chops off digits beyond the specified precision.",
+      concept: "Think of it like a strict bouncer at a club: no matter how close you are to the next level, you're kept at the current one."
     },
     internalLogic: "Excel simply truncates (cuts off) any digits beyond the specified precision.",
-    whyItExists: "Useful for calculating age (you aren't 30 until the day of your birthday, even if you are 29.9 years old) or full years of service.",
-    whenToUse: "Use when you want to ignore fractional progress and only count completed units.",
+    whyItExists: "Useful for calculating age or full years of service.",
+    whenToUse: "Use ROUNDDOWN when calculating conservative estimates, floor pricing, or when you need to be sure a value is never overstated.",
     realWorldUseCases: [
       "Calculating completed years of employment.",
       "Finding the number of full units that can be made from raw material.",
       "Rounding down currency for conservative budget estimates."
     ],
     syntax: "=ROUNDDOWN(number, num_digits)",
-    commonMistakes: [
-      { title: "Thinking it rounds to nearest.", desc: "ROUNDDOWN ignores standard 0.5 rules and always goes toward zero. 1.9 becomes 1." }
+    syntaxBreakdown: [
+      { arg: "number", desc: "The value you want to round down." },
+      { arg: "num_digits", desc: "The number of decimal places to keep. Use 0 for a whole number, positive values for decimals, negative to round down before the decimal point." }
     ],
+    detailedExamples: [
+      {
+        title: "Example: Truncating Prices",
+        table: {
+          headers: ["Product", "Original Price", "Formula", "Rounded Down"],
+          rows: [
+            ["Pen", "12.789", "=ROUNDDOWN(B2, 2)", "12.78"],
+            ["Notebook", "45.999", "=ROUNDDOWN(B3, 2)", "45.99"],
+            ["Eraser", "7.101", "=ROUNDDOWN(B4, 2)", "7.10"]
+          ]
+        },
+        stepByStep: [
+          "Excel takes the original price.",
+          "It keeps only the number of decimal places specified.",
+          "All digits beyond are discarded — no rounding up, even if the next digit is 9."
+        ]
+      },
+      {
+        title: "Rounding Precision Examples",
+        table: {
+          headers: ["Value", "Num_Digits", "Formula", "Result"],
+          rows: [
+            ["1234.5678", "2", "=ROUNDDOWN(1234.5678, 2)", "1234.56"],
+            ["1234.5678", "0", "=ROUNDDOWN(1234.5678, 0)", "1234"],
+            ["1234.5678", "-2", "=ROUNDDOWN(1234.5678, -2)", "1200"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Confusing with INT for negatives.", desc: "ROUNDDOWN(-4.3, 0) returns -4, while INT(-4.3) returns -5. INT always rounds down to the lower integer; ROUNDDOWN goes toward zero." },
+      { title: "Expecting it to round up.", desc: "It never does, even when the next digit is 5 or more." }
+    ],
+    proTips: [
+      "Use ROUNDDOWN when calculating conservative estimates, floor pricing, or when you need to be sure a value is never overstated.",
+      "Pair with SUM on financial projections where you deliberately want to understate totals."
+    ],
+    relatedFunctions: ["ROUND", "ROUNDUP", "INT", "TRUNC"],
     miniChallenge: {
       question: "Round 1.99 down to zero decimal places.",
       expectedAnswer: "=ROUNDDOWN(1.99, 0)"
@@ -1236,29 +1275,66 @@ export const mathStatsLessons = [
   },
   {
     id: "int",
-    title: "The Integer Function: INT",
+    title: "The Integer Extractor: INT Function",
     category: "math",
     difficulty: "Beginner",
     xp: 100,
     introduction: {
-      title: "Dropping Decimals: INT",
-      description: "INT rounds a number down to the nearest integer.",
-      concept: "Similar to ROUNDDOWN(number, 0). It just kills the decimals and gives you the whole number part."
+      title: "The Integer Extractor: INT Function",
+      description: "The INT function returns the integer part of a number by rounding down to the nearest whole number. For positive numbers, this simply strips the decimal. For negative numbers, it moves further away from zero.",
+      concept: "Think of it as a floor function: it finds the greatest integer less than or equal to the number."
     },
     internalLogic: "Excel identifies the nearest integer that is less than or equal to the number.",
     whyItExists: "Essential for working with dates and times (since dates are integers and times are decimals).",
     whenToUse: "Use INT to extract the date from a NOW() timestamp.",
     syntax: "=INT(number)",
-    commonMistakes: [
-      { title: "Handling negative numbers.", desc: "INT rounds DOWN to the nearest integer. For -5.1, INT returns -6, not -5. Use TRUNC if you just want to remove decimals." }
+    syntaxBreakdown: [
+      { arg: "number", desc: "The value you want to convert to an integer." }
     ],
+    detailedExamples: [
+      {
+        title: "Example: Extracting Whole Days from Hours",
+        table: {
+          headers: ["Employee", "Total Hours", "Formula", "Full Days"],
+          rows: [
+            ["John", "27.8", "=INT(B2/8)", "3"],
+            ["Maria", "15.2", "=INT(B3/8)", "1"],
+            ["Ahmed", "40.0", "=INT(B4/8)", "5"]
+          ]
+        },
+        stepByStep: [
+          "Total hours is divided by 8 to get the number of days (including partial).",
+          "INT strips the decimal, leaving only completed full days."
+        ]
+      },
+      {
+        title: "Negative Number Behaviour",
+        table: {
+          headers: ["Value", "Formula", "Result"],
+          rows: [
+            ["7.9", "=INT(7.9)", "7"],
+            ["-7.9", "=INT(-7.9)", "-8"]
+          ]
+        },
+        stepByStep: [
+          "INT rounds down to the next lowest integer.",
+          "Since -8 is less than -7.9, that's the result. This is different from TRUNC which returns -7."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Using INT when you want TRUNC for negative numbers.", desc: "INT moves away from zero; TRUNC moves toward zero." },
+      { title: "Forgetting date-time behaviour.", desc: "INT on a date-time serial number extracts just the date, stripping the time decimal." }
+    ],
+    proTips: [
+      "Use =INT(NOW()) to get today's date without the time component.",
+      "Combine INT with division to count complete groups or units in allocation problems."
+    ],
+    relatedFunctions: ["TRUNC", "ROUNDDOWN", "FLOOR"],
     miniChallenge: {
       question: "Convert 5.7 to the nearest lower integer.",
       expectedAnswer: "=INT(5.7)"
     },
-    proTips: [
-      "Use =NOW()-INT(NOW()) to get just the time from a timestamp."
-    ],
     practice: {
       instructions: "In cell B2, get the integer part of A2.",
       initialData: [["Value", "Int"], [5.7, ""]],
@@ -1269,14 +1345,14 @@ export const mathStatsLessons = [
   },
   {
     id: "mod",
-    title: "The Remainder Finder: MOD",
+    title: "The Remainder Finder: MOD Function",
     category: "math",
     difficulty: "Intermediate",
     xp: 200,
     introduction: {
-      title: "What's Left Over: MOD",
-      description: "The MOD function returns the remainder after a number is divided by a divisor.",
-      concept: "If you have 10 cookies and share them between 3 people, each gets 3 and 1 is left over. MOD(10, 3) gives you that 1."
+      title: "The Remainder Finder: MOD Function",
+      description: "The MOD function returns the remainder after a number is divided by a divisor. It answers the question: 'What's left over?'",
+      concept: "Think of it like sharing sweets among friends: the MOD tells you how many sweets remain after everyone gets an equal share."
     },
     internalLogic: "Result = number - divisor * INT(number/divisor).",
     whyItExists: "Critical for scheduling (every 3rd row), unit conversions (inches remaining after feet), and alternating row colors in conditional formatting.",
@@ -1291,17 +1367,55 @@ export const mathStatsLessons = [
       formula: "=MOD(500, 12)"
     },
     syntax: "=MOD(number, divisor)",
-    commonMistakes: [
-      { title: "Division by zero.", desc: "If the divisor is 0, MOD returns a #DIV/0! error. Ensure your divisor is never zero." },
-      { title: "Negative results.", desc: "In Excel, MOD returns a result with the same sign as the divisor. This can be confusing when doing math with negative numbers." }
+    syntaxBreakdown: [
+      { arg: "number", desc: "The value to be divided." },
+      { arg: "divisor", desc: "The value you're dividing by." }
     ],
+    detailedExamples: [
+      {
+        title: "Example: Identifying Alternate Rows",
+        table: {
+          headers: ["Item", "Row Number", "Formula", "Row Type"],
+          rows: [
+            ["Apple", "1", "=MOD(A2, 2)", "1 (Odd)"],
+            ["Banana", "2", "=MOD(A3, 2)", "0 (Even)"],
+            ["Cherry", "3", "=MOD(A4, 2)", "1 (Odd)"],
+            ["Date", "4", "=MOD(A5, 2)", "0 (Even)"]
+          ]
+        },
+        stepByStep: [
+          "When the result is 0, the row is even.",
+          "Conditional formatting can use =MOD(ROW(),2)=0 to shade every other row automatically."
+        ]
+      },
+      {
+        title: "Real-World Example: Task Scheduling",
+        table: {
+          headers: ["Day", "Cycle Days", "Formula", "Day in Cycle"],
+          rows: [
+            ["23", "5", "=MOD(23, 5)", "3"]
+          ]
+        },
+        stepByStep: [
+          "You have a task that runs every 5 days.",
+          "Day 23 is divided by 5, remainder is 3.",
+          "The task is on day 3 of its 5-day cycle."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Divisor of zero.", desc: "=MOD(10,0) returns #DIV/0!." },
+      { title: "Forgetting the sign rules.", desc: "The result takes the sign of the divisor. =MOD(-10,3) returns 2, not -1. =MOD(10,-3) returns -2." }
+    ],
+    proTips: [
+      "Use =MOD(value,1) to extract just the decimal part of a number (the fractional remainder when divided by 1).",
+      "Combine MOD with conditional formatting for zebra stripes, scheduling patterns, or group assignments."
+    ],
+    relatedFunctions: ["QUOTIENT", "INT", "ROUND"],
     miniChallenge: {
       question: "Find the remainder of 10 divided by 3.",
       expectedAnswer: "=MOD(10, 3)"
     },
-    proTips: [
-      "Use =MOD(ROW(), 2) = 0 in conditional formatting to highlight every other row."
-    ],
     practice: {
       instructions: "In cell B2, find the remainder of 10 divided by 3.",
       initialData: [["Num", "Rem"], [10, ""]],
@@ -1312,19 +1426,49 @@ export const mathStatsLessons = [
   },
   {
     id: "product",
-    title: "Multiply Everything: PRODUCT",
+    title: "Multiply Everything: PRODUCT Function",
     category: "math",
     difficulty: "Beginner",
     xp: 100,
     introduction: {
-      title: "Mass Multiplication: PRODUCT",
-      description: "The PRODUCT function multiplies all the numbers given as arguments.",
-      concept: "Like SUM, but for multiplication. =PRODUCT(A1:A5) is the same as =A1*A2*A3*A4*A5."
+      title: "Multiply Everything: PRODUCT Function",
+      description: "The PRODUCT function multiplies all the numbers you give it and returns the final product. It's a fast way to multiply a range without typing A1*A2*A3*... endlessly.",
+      concept: "Think of it like SUM, but for multiplication instead of addition."
     },
     syntax: "=PRODUCT(number1, [number2], ...)",
-    commonMistakes: [
-      { title: "Empty cells vs Zeros.", desc: "PRODUCT ignores empty cells, but it multiplies by 0 if a cell contains a zero, making the whole result 0. Be careful with 'placeholder' zeros." }
+    syntaxBreakdown: [
+      { arg: "number1", desc: "The first number or range to multiply." },
+      { arg: "number2", desc: "Optional additional numbers or ranges. You can include up to 255 arguments." }
     ],
+    detailedExamples: [
+      {
+        title: "Example: Compound Growth",
+        table: {
+          headers: ["Year", "Return Factor", "Formula", "Cumulative Growth"],
+          rows: [
+            ["1", "1.08", "", "1.080"],
+            ["2", "1.12", "", "1.210"],
+            ["3", "0.95", "", "1.149"],
+            ["4", "1.10", "", "1.264"],
+            ["Overall", "", "=PRODUCT(B2:B5)", "1.264"]
+          ]
+        },
+        stepByStep: [
+          "PRODUCT multiplies 1.08 × 1.12 × 0.95 × 1.10.",
+          "The result 1.264 means 26.4% total growth over four years.",
+          "Without PRODUCT, you'd write =B2*B3*B4*B5 — manageable here, but messy with 50 rows."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Including blank or text cells.", desc: "They are ignored, which may silently affect your result if you expected them to count as 1 or 0." },
+      { title: "Multiplying by zero unintentionally.", desc: "One zero in the range makes the entire product zero." }
+    ],
+    proTips: [
+      "Use =PRODUCT(1+range)-1 to convert annual growth rates to a total compound growth rate.",
+      "Combine with IF or FILTER to multiply only values meeting certain criteria."
+    ],
+    relatedFunctions: ["SUM", "SUMPRODUCT", "QUOTIENT"],
     miniChallenge: {
       question: "Multiply cells A1 and A2.",
       expectedAnswer: "=PRODUCT(A1, A2)"
@@ -1339,19 +1483,47 @@ export const mathStatsLessons = [
   },
   {
     id: "sqrt",
-    title: "Square Root: SQRT",
+    title: "Root of the Matter: SQRT Function",
     category: "math",
     difficulty: "Beginner",
     xp: 100,
     introduction: {
-      title: "Finding the Root: SQRT",
-      description: "Returns the positive square root of a number.",
-      concept: "What number multiplied by itself equals this number? SQRT(16) is 4."
+      title: "Root of the Matter: SQRT Function",
+      description: "The SQRT function returns the positive square root of a number. It answers: 'What number, multiplied by itself, gives this value?'",
+      concept: "Think of it as the reverse of squaring: if x² = 25, then SQRT(25) = 5."
     },
     syntax: "=SQRT(number)",
-    commonMistakes: [
-      { title: "Negative numbers.", desc: "SQRT cannot handle negative numbers and will return a #NUM! error. Use ABS first if you need the root of a negative's magnitude: =SQRT(ABS(A1))." }
+    syntaxBreakdown: [
+      { arg: "number", desc: "The positive number you want the square root of. Must be ≥ 0." }
     ],
+    detailedExamples: [
+      {
+        title: "Example: Euclidean Distance",
+        table: {
+          headers: ["Step", "Calculation", "Formula", "Value"],
+          rows: [
+            ["Δx (difference in x)", "7 – 3", "=7-3", "4"],
+            ["Δy (difference in y)", "1 – 4", "=1-4", "-3"],
+            ["Δx²", "4²", "=4^2", "16"],
+            ["Δy²", "(-3)²", "=(-3)^2", "9"],
+            ["Sum of squares", "16 + 9", "=16+9", "25"],
+            ["Distance", "Square root of 25", "=SQRT(25)", "5"]
+          ]
+        },
+        stepByStep: [
+          "All in one formula: =SQRT((7-3)^2 + (1-4)^2) = 5"
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Negative number as input.", desc: "=SQRT(-9) returns #NUM!. Use =SQRT(ABS(-9)) if you need the root of the absolute value." },
+      { title: "Confusing with ^0.5.", desc: "While =number^0.5 gives the same result, SQRT is clearer and self-documenting." }
+    ],
+    proTips: [
+      "Combine with SUMSQ for quick distance calculations: =SQRT(SUMSQ(x1-x2, y1-y2)).",
+      "Use in finance to annualise standard deviation: multiply the standard deviation of monthly returns by =SQRT(12)."
+    ],
+    relatedFunctions: ["POWER", "SUMSQ", "ABS"],
     miniChallenge: {
       question: "Find the square root of 64.",
       expectedAnswer: "=SQRT(64)"
@@ -1366,14 +1538,14 @@ export const mathStatsLessons = [
   },
   {
     id: "sumsq",
-    title: "Sum of Squares: SUMSQ",
+    title: "Sum of Squares: SUMSQ Function",
     category: "math",
     difficulty: "Intermediate",
     xp: 200,
     introduction: {
-      title: "Squaring and Totaling: SUMSQ",
-      description: "The SUMSQ function squares each of its arguments and then returns the sum of those squares.",
-      concept: "Instead of writing =(A1^2)+(A2^2), you use =SUMSQ(A1:A2). It's mathematically efficient and commonly used in statistical calculations like variance or standard deviation."
+      title: "Sum of Squares: SUMSQ Function",
+      description: "The SUMSQ function squares each number first, then adds them all up. It follows the formula: x₁² + x₂² + x₃² + ...",
+      concept: "Think of it as a two-step machine: square everything that goes in, then pour it all into a SUM bucket."
     },
     internalLogic: "Excel takes each number in the range, multiplies it by itself (squares it), and then adds all those individual results together.",
     whyItExists: "Summing squares is a fundamental step in many statistical and engineering formulas. SUMSQ provides a single-function shortcut for this multi-step process.",
@@ -1385,23 +1557,47 @@ export const mathStatsLessons = [
     ],
     syntax: "=SUMSQ(number1, [number2], ...)",
     syntaxBreakdown: [
-      { arg: "number1", desc: "The first number, cell, or range to square and sum." }
+      { arg: "number1", desc: "The first number or range." },
+      { arg: "number2", desc: "Optional additional numbers or ranges (up to 255)." }
     ],
     detailedExamples: [
       {
-        title: "Example: Basic Squares",
+        title: "Example: Pythagorean Check",
         table: {
-          headers: ["Val 1", "Val 2", "Formula", "Result"],
+          headers: ["Triangle", "Leg A", "Leg B", "Formula", "Hypotenuse²"],
           rows: [
-            ["3", "4", "=SUMSQ(A2:B2)", "25"]
+            ["1", "3", "4", "=SUMSQ(B2, C2)", "25"],
+            ["2", "5", "12", "=SUMSQ(B3, C3)", "169"],
+            ["3", "8", "15", "=SUMSQ(B4, C4)", "289"]
           ]
         },
         stepByStep: [
-          "Excel squares 3 (3*3 = 9).",
-          "Excel squares 4 (4*4 = 16).",
-          "It adds 9 + 16 = 25."
+          "For Triangle 1: 3² + 4² = 9 + 16 = 25.",
+          "For Triangle 2: 5² + 12² = 25 + 144 = 169.",
+          "For Triangle 3: 8² + 15² = 64 + 225 = 289.",
+          "To get the actual hypotenuse length, wrap with SQRT: =SQRT(SUMSQ(B2, C2))."
+        ]
+      },
+      {
+        title: "Range Use",
+        table: {
+          headers: ["Values", "Formula", "Result"],
+          rows: [
+            ["{1, 2, 3, 4}", "=SUMSQ(1,2,3,4)", "30"]
+          ]
+        },
+        stepByStep: [
+          "1²+2²+3²+4² = 1+4+9+16 = 30"
         ]
       }
+    ],
+    commonMistakes: [
+      { title: "Confusing with SUMX2PY2.", desc: "SUMSQ works on one array; SUMX2PY2 needs two arrays and squares both before adding." },
+      { title: "Header rows.", desc: "Accidentally including header rows in the range — they'll be treated as 0." }
+    ],
+    proTips: [
+      "Use SUMSQ in regression analysis to calculate the total sum of squares.",
+      "Combine with COUNTA to quickly calculate variance from zero: =SUMSQ(range)/COUNTA(range)."
     ],
     relatedFunctions: ["SUM", "SQRT", "SUMPRODUCT"],
     miniChallenge: {
@@ -1424,14 +1620,14 @@ export const mathStatsLessons = [
   },
   {
     id: "sumxmy2",
-    title: "Difference Squared: SUMXMY2",
+    title: "Difference Squared: SUMXMY2 Function",
     category: "math",
     difficulty: "Advanced",
     xp: 400,
     introduction: {
-      title: "The Statistical Variance Tool: SUMXMY2",
-      description: "SUMXMY2 takes two sets of numbers, subtracts the second from the first, squares the results, and then sums them all up.",
-      concept: "The name stands for: Sum of (X Minus Y) squared. It's a key tool in error analysis and comparing how close two datasets are to each other."
+      title: "Difference Squared: SUMXMY2 Function",
+      description: "The SUMXMY2 function subtracts pairs of values (X – Y), squares each difference, and then sums all the squared differences. The formula is: (x₁-y₁)² + (x₂-y₂)² + ...",
+      concept: "Think of it as measuring the squared distance between two sets of points. The larger the result, the more the two arrays differ."
     },
     internalLogic: "Excel pairs up the numbers in the two arrays. For each pair (x, y), it calculates (x-y)^2. Finally, it sums all those individual squared differences.",
     whyItExists: "This calculation is the heart of finding the 'Sum of Squared Errors' (SSE), which tells scientists and analysts how much two sets of data vary from each other.",
@@ -1441,36 +1637,40 @@ export const mathStatsLessons = [
       "Measuring the accuracy of a business sales forecast.",
       "Analyzing the difference between two experimental results."
     ],
-    businessExample: {
-      scenario: "You have 'Actual Sales' in Column A and 'Forecast Sales' in Column B. You want to see the total squared error to measure forecasting accuracy.",
-      formula: "=SUMXMY2(A2:A10, B2:B10)"
-    },
     syntax: "=SUMXMY2(array_x, array_y)",
     syntaxBreakdown: [
-      { arg: "array_x", desc: "The first range or array of values." },
-      { arg: "array_y", desc: "The second range or array of values. Must be the same size as array_x." }
+      { arg: "array_x", desc: "The first set of values (the X values)." },
+      { arg: "array_y", desc: "The second set of values (the Y values). Must be the same size as array_x." }
     ],
     detailedExamples: [
       {
-        title: "Example: Error Calculation",
+        title: "Example: Forecast Accuracy (Squared Error)",
         table: {
-          headers: ["Actual (X)", "Forecast (Y)", "Formula", "Result"],
+          headers: ["Month", "Actual (X)", "Forecast (Y)", "Difference (X-Y)", "Squared (X-Y)²"],
           rows: [
-            ["10", "8", "=SUMXMY2(A2, B2)", "4"],
-            ["15", "12", "=SUMXMY2(A2:A3, B2:B3)", "13"]
+            ["Jan", "150", "145", "5", "25"],
+            ["Feb", "200", "210", "-10", "100"],
+            ["Mar", "180", "175", "5", "25"],
+            ["Apr", "220", "230", "-10", "100"],
+            ["SSE", "", "", "=SUMXMY2(B2:B5, C2:C5)", "250"]
           ]
         },
         stepByStep: [
-          "Excel calculates (10-8)^2 = 4.",
-          "Excel calculates (15-12)^2 = 9.",
-          "It sums 4 + 9 = 13."
+          "Excel pairs each actual value with its forecast.",
+          "It computes the difference for each pair.",
+          "Each difference is squared (making all values positive and penalising larger errors more).",
+          "All squared differences are summed: 25 + 100 + 25 + 100 = 250."
         ]
       }
     ],
     commonMistakes: [
-      { title: "Array size mismatch.", desc: "If Array X has 5 items and Array Y has 6 items, SUMXMY2 will return a #N/A error. The ranges must be identical in size." }
+      { title: "Arrays of different sizes.", desc: "Both arrays must have the same number of elements, or you'll get #N/A." },
+      { title: "Squaring amplifies outliers.", desc: "One large error can dominate the sum." }
     ],
-    limitations: "Text or empty cells in the ranges are treated as zero, which might skew your results.",
+    proTips: [
+      "Use SUMXMY2 as the numerator in R-squared calculations to measure unexplained variance.",
+      "Combine with COUNT to get Mean Squared Error (MSE): =SUMXMY2(actual, forecast)/COUNT(actual)."
+    ],
     relatedFunctions: ["SUMX2MY2", "SUMX2PY2", "SUMPRODUCT"],
     miniChallenge: {
       question: "Which function calculates the sum of squares of differences between two ranges?",
@@ -1492,39 +1692,50 @@ export const mathStatsLessons = [
   },
   {
     id: "sumx2my2",
-    title: "Difference of Squares: SUMX2MY2",
+    title: "Difference of Squares: SUMX2MY2 Function",
     category: "math",
     difficulty: "Advanced",
     xp: 400,
     introduction: {
-      title: "Squared Differences: SUMX2MY2",
-      description: "This function squares the numbers in two arrays separately, subtracts the squared Y from the squared X, and sums the results.",
-      concept: "Sum of (X squared Minus Y squared). It's a specialized tool for advanced algebraic and statistical modeling."
+      title: "Difference of Squares: SUMX2MY2 Function",
+      description: "The SUMX2MY2 function squares each X value and each Y value separately, then subtracts the squared Y from the squared X for each pair, and finally sums the results. Formula: (x₁² – y₁²) + (x₂² – y₂²) + ...",
+      concept: "Think of it as: 'Square first, then subtract, then sum.' Unlike SUMXMY2, the subtraction happens after squaring."
     },
     internalLogic: "For each pair (x, y), it calculates (x^2 - y^2) and then sums those results.",
     whyItExists: "It simplifies the calculation of variance differences in statistical models and is useful in certain physics equations involving energy levels.",
     whenToUse: "Use this when you need the sum of the differences of individual squares, often seen in regression analysis.",
     syntax: "=SUMX2MY2(array_x, array_y)",
     syntaxBreakdown: [
-      { arg: "array_x", desc: "The first range or array of numbers." },
-      { arg: "array_y", desc: "The second range or array of numbers." }
+      { arg: "array_x", desc: "The X values." },
+      { arg: "array_y", desc: "The Y values. Must match array_x in size." }
     ],
     detailedExamples: [
       {
-        title: "Example: Basic Algebra",
+        title: "Example: Energy Variance",
         table: {
-          headers: ["X", "Y", "Formula", "Result"],
+          headers: ["Object", "Initial Velocity (X)", "Final Velocity (Y)", "X² – Y²"],
           rows: [
-            ["4", "3", "=SUMX2MY2(A2, B2)", "7"]
+            ["A", "10", "8", "100 – 64 = 36"],
+            ["B", "6", "6", "36 – 36 = 0"],
+            ["C", "15", "12", "225 – 144 = 81"],
+            ["Total", "", "", "=SUMX2MY2(B2:B4, C2:C4) = 117"]
           ]
         },
         stepByStep: [
-          "Excel squares 4 (16).",
-          "Excel squares 3 (9).",
-          "It subtracts 9 from 16 (7).",
-          "If ranges are used, it repeats this for each pair and sums them."
+          "Object A: 10² – 8² = 100 – 64 = 36.",
+          "Object B: 6² – 6² = 36 – 36 = 0.",
+          "Object C: 15² – 12² = 225 – 144 = 81.",
+          "Sum: 36 + 0 + 81 = 117."
         ]
       }
+    ],
+    commonMistakes: [
+      { title: "Expecting the same result as SUMXMY2.", desc: "They compute completely different things: SUMXMY2 squares after subtracting; SUMX2MY2 squares before subtracting." },
+      { title: "Negative results are possible.", desc: "If Y values are generally larger, the total will be negative." }
+    ],
+    proTips: [
+      "Use when comparing magnitudes directly — it's algebraically equivalent to (x-y)(x+y) for each pair, useful in factoring problems.",
+      "Pairs well with SUMSQ for decomposing variance components."
     ],
     relatedFunctions: ["SUMXMY2", "SUMX2PY2"],
     miniChallenge: {
@@ -1540,40 +1751,1537 @@ export const mathStatsLessons = [
     }
   },
   {
-    id: "sumx2py2",
-    title: "Sum of Sum of Squares: SUMX2PY2",
+    id: "ceiling",
+    title: "Round Up to Significance: CEILING Function",
+    category: "math",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Round Up to Significance: CEILING Function",
+      description: "The CEILING function rounds a number up to the nearest multiple of a specified significance. It always moves away from zero (for positive numbers, it rounds up; for negative, it rounds to a more negative number).",
+      concept: "Think of it like buying planks of wood: if you need 3.2 metres and they're sold in 1-metre lengths, CEILING tells you to buy 4."
+    },
+    internalLogic: "Excel identifies the nearest multiple of the significance that is greater than or equal to the number (in absolute terms).",
+    whyItExists: "Useful for packaging, scheduling, and financial thresholds where you must meet a minimum multiple.",
+    whenToUse: "Use CEILING for time billing in 15-minute increments or adjusting order quantities to standard box sizes.",
+    realWorldUseCases: [
+      "Determining the number of full boxes needed for shipping.",
+      "Rounding up prices to the nearest nickel or dime.",
+      "Billing work hours in fixed blocks (e.g., 15 mins)."
+    ],
+    syntax: "=CEILING(number, significance)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The value to round up." },
+      { arg: "significance", desc: "The multiple to which you want to round." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Packaging Units",
+        table: {
+          headers: ["Order Units", "Box Size", "Formula", "Boxes Needed"],
+          rows: [
+            ["14", "6", "=CEILING(B2, 6)/6", "3"],
+            ["30", "6", "=CEILING(B3, 6)/6", "5"],
+            ["7", "6", "=CEILING(B4, 6)/6", "2"]
+          ]
+        },
+        stepByStep: [
+          "CEILING rounds 14 up to the next multiple of 6: 18.",
+          "18 units ÷ 6 per box = 3 boxes.",
+          "For 30, CEILING returns 30 exactly (already a multiple)."
+        ]
+      },
+      {
+        title: "Rounding Monetary Values",
+        table: {
+          headers: ["Value", "Significance", "Formula", "Result"],
+          rows: [
+            ["4.23", "0.10", "=CEILING(4.23, 0.1)", "4.30"],
+            ["4.23", "0.25", "=CEILING(4.23, 0.25)", "4.25"],
+            ["4.23", "1", "=CEILING(4.23, 1)", "5"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Sign mismatch.", desc: "Using a negative significance with a positive number (or vice versa) returns #NUM!. Both must share the same sign." },
+      { title: "Confusing with ROUNDUP.", desc: "CEILING rounds to a multiple; ROUNDUP rounds to a number of decimal places." }
+    ],
+    proTips: [
+      "Use CEILING for time billing in 15-minute increments: =CEILING(minutes_worked, 15).",
+      "CEILING with significance of 1 quickly rounds any decimal up to the next integer."
+    ],
+    relatedFunctions: ["FLOOR", "MROUND", "ROUNDUP"],
+    miniChallenge: {
+      question: "What is =CEILING(3.2, 1)?",
+      expectedAnswer: "4"
+    },
+    practice: {
+      instructions: "In cell C2, calculate the boxes needed by rounding up A2 to the nearest multiple of 6 and dividing by 6.",
+      initialData: [["Units", "Box Size", "Result"], [14, 6, ""]],
+      targetCell: [1, 2],
+      expectedFormula: "CEILING(A2,6)/6",
+      expectedValue: 3
+    }
+  },
+  {
+    id: "combin",
+    title: "Count Combinations: COMBIN Function",
+    category: "math",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Count Combinations: COMBIN Function",
+      description: "The COMBIN function returns the number of ways to choose a certain number of items from a larger set, where the order does not matter (combinations, not permutations). Repetition is not allowed.",
+      concept: "Think of it like forming a team: if you pick Alice and Bob, that's the same as picking Bob and Alice."
+    },
+    internalLogic: "COMBIN uses the formula: n! / (r! × (n-r)!).",
+    whyItExists: "Essential for probability calculations and statistical sampling.",
+    whenToUse: "Use COMBIN to calculate the number of possible outcomes where order is irrelevant.",
+    syntax: "=COMBIN(number, number_chosen)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The total number of items." },
+      { arg: "number_chosen", desc: "How many items you're choosing." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Team Selection",
+        table: {
+          headers: ["Total Employees", "Committee Size", "Formula", "Possible Teams"],
+          rows: [
+            ["8", "3", "=COMBIN(8, 3)", "56"]
+          ]
+        }
+      },
+      {
+        title: "Lottery Odds Table",
+        table: {
+          headers: ["Game", "Total Balls", "Balls Drawn", "Formula", "Combinations"],
+          rows: [
+            ["Pick 3", "10", "3", "=COMBIN(B2, C2)", "120"],
+            ["Pick 6", "49", "6", "=COMBIN(B3, C3)", "13,983,816"],
+            ["Pick 5", "35", "5", "=COMBIN(B4, C4)", "324,632"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Invalid arguments.", desc: "number_chosen > number returns #NUM!." },
+      { title: "Decimal values.", desc: "COMBIN truncates non-integer values automatically." }
+    ],
+    proTips: [
+      "Use COMBIN to calculate binomial coefficients in probability distributions.",
+      "Pair with the binomial probability formula: =COMBIN(n,k) * p^k * (1-p)^(n-k)."
+    ],
+    relatedFunctions: ["PERMUT", "COMBINA", "FACT"],
+    miniChallenge: {
+      question: "How many ways to choose 2 items from 4?",
+      expectedAnswer: "6"
+    },
+    practice: {
+      instructions: "In cell C2, calculate the number of ways to choose 3 items from 8 using COMBIN.",
+      initialData: [["Total", "Choose", "Ways"], [8, 3, ""]],
+      targetCell: [1, 2],
+      expectedFormula: "COMBIN(A2,B2)",
+      expectedValue: 56
+    }
+  },
+  {
+    id: "combina",
+    title: "Combinations With Repetition: COMBINA Function",
+    category: "math",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Combinations With Repetition: COMBINA Function",
+      description: "The COMBINA function returns the number of combinations where repetition is allowed and order doesn't matter. Unlike COMBIN, an item can be chosen more than once.",
+      concept: "Think of it like choosing ice cream scoops: you can pick chocolate, chocolate, vanilla — repetition is fine."
+    },
+    internalLogic: "COMBINA uses the formula: (n + r – 1)! / (r! × (n – 1)!).",
+    whyItExists: "Useful in multiset counting problems and resource allocation.",
+    syntax: "=COMBINA(number, number_chosen)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "Total number of unique items." },
+      { arg: "number_chosen", desc: "How many items you're picking (with repetition allowed)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Ice Cream Flavours",
+        table: {
+          headers: ["Total Flavours", "Scoops", "Formula", "Possible Combos"],
+          rows: [
+            ["5", "3", "=COMBINA(5, 3)", "35"]
+          ]
+        },
+        stepByStep: [
+          "For 5 flavours, 3 scoops: (5+3–1)!/(3! × 4!) = 7!/(6×24) = 35."
+        ]
+      },
+      {
+        title: "Comparison with COMBIN",
+        table: {
+          headers: ["Function", "Formula", "Result"],
+          rows: [
+            ["COMBIN", "=COMBIN(5,3)", "10"],
+            ["COMBINA", "=COMBINA(5,3)", "35"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Using COMBIN instead.", desc: "Always double-check whether repeats make sense for your problem." }
+    ],
+    proTips: [
+      "If order matters and repetition is allowed, use =number^number_chosen instead."
+    ],
+    relatedFunctions: ["COMBIN", "PERMUT"],
+    miniChallenge: {
+      question: "Does COMBINA allow repetition?",
+      expectedAnswer: "Yes"
+    },
+    practice: {
+      instructions: "In cell C2, use COMBINA to find possible combos for 5 items choosing 3.",
+      initialData: [["N", "R", "Combos"], [5, 3, ""]],
+      targetCell: [1, 2],
+      expectedFormula: "COMBINA(A2,B2)",
+      expectedValue: 35
+    }
+  },
+  {
+    id: "decimal",
+    title: "Convert Text to Number Base: DECIMAL Function",
+    category: "math",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Convert Text to Number Base: DECIMAL Function",
+      description: "The DECIMAL function converts a text representation of a number in a given base to its decimal (base-10) equivalent. It handles bases from 2 (binary) to 36.",
+      concept: "Think of it as a translator: 'What does this binary string actually mean in normal numbers?'"
+    },
+    internalLogic: "Excel calculates the positional value based on the radix (base).",
+    whyItExists: "Critical for computing, engineering, and working with non-standard number systems like Hex or Binary.",
+    syntax: "=DECIMAL(text, radix)",
+    syntaxBreakdown: [
+      { arg: "text", desc: "The number as a text string in the source base. Max 255 characters." },
+      { arg: "radix", desc: "The base of the source number (between 2 and 36)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Converting Bases",
+        table: {
+          headers: ["Source Value", "Base", "Formula", "Decimal Result"],
+          rows: [
+            ["1101", "2", "=DECIMAL(\"1101\", 2)", "13"],
+            ["FF", "16", "=DECIMAL(\"FF\", 16)", "255"],
+            ["1A", "16", "=DECIMAL(\"1A\", 16)", "26"],
+            ["777", "8", "=DECIMAL(\"777\", 8)", "511"]
+          ]
+        },
+        stepByStep: [
+          "Binary 1101: 1×2³ + 1×2² + 0×2¹ + 1×2⁰ = 8 + 4 + 0 + 1 = 13.",
+          "Hex FF: F=15, so 15×16¹ + 15×16⁰ = 240 + 15 = 255."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Missing quotes.", desc: "The input must be text. =DECIMAL(1101, 2) without quotes may cause errors." },
+      { title: "Invalid radix.", desc: "Radix less than 2 or greater than 36 returns #NUM!." }
+    ],
+    proTips: [
+      "Use alongside BASE (which does the reverse — decimal to any base) for complete base conversion.",
+      "DECIMAL is case-insensitive: 'FF' and 'ff' are treated the same."
+    ],
+    relatedFunctions: ["BASE", "BIN2DEC", "HEX2DEC"],
+    miniChallenge: {
+      question: "Convert binary '101' to decimal.",
+      expectedAnswer: "5"
+    },
+    practice: {
+      instructions: "In cell C2, convert the binary value in A2 (radix 2) to decimal.",
+      initialData: [["Base2", "Radix", "Result"], ["1101", 2, ""]],
+      targetCell: [1, 2],
+      expectedFormula: "DECIMAL(A2,B2)",
+      expectedValue: 13
+    }
+  },
+  {
+    id: "even",
+    title: "Round to Nearest Even Integer: EVEN Function",
+    category: "math",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Round to Nearest Even Integer: EVEN Function",
+      description: "The EVEN function rounds a number up to the nearest even integer, moving away from zero. Positive numbers go up to the next even; negative numbers go to the next more negative even.",
+      concept: "Think of it like seating pairs at a dinner table: you always round up to the next full pair."
+    },
+    internalLogic: "Excel identifies the smallest even integer whose absolute value is greater than or equal to the number's absolute value.",
+    whyItExists: "Useful for grouping items into pairs or handling processes that require even units.",
+    syntax: "=EVEN(number)",
+    detailedExamples: [
+      {
+        title: "Example: Pairing Items",
+        table: {
+          headers: ["Item", "Individual Count", "Formula", "Pairs to Order"],
+          rows: [
+            ["Shoes", "7", "=EVEN(B2)/2", "4"],
+            ["Gloves", "12", "=EVEN(B3)/2", "6"],
+            ["Socks", "3", "=EVEN(B4)/2", "2"]
+          ]
+        },
+        stepByStep: [
+          "7 rounds up to the next even number: 8. That's 4 pairs.",
+          "12 is already even, so it stays 12 (6 pairs)."
+        ]
+      },
+      {
+        title: "Negative Values",
+        table: {
+          headers: ["Value", "Formula", "Result"],
+          rows: [
+            ["3.2", "=EVEN(3.2)", "4"],
+            ["-3.2", "=EVEN(-3.2)", "-4"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Mathematical sign.", desc: "For negatives, it moves further from zero, which is actually rounding down numerically." }
+    ],
+    proTips: [
+      "Use EVEN when calculating page counts for double-sided printing: =EVEN(pages)/2."
+    ],
+    relatedFunctions: ["ODD", "ROUND", "CEILING"],
+    miniChallenge: {
+      question: "What is =EVEN(3)?",
+      expectedAnswer: "4"
+    },
+    practice: {
+      instructions: "In cell B2, round A2 up to the nearest even number.",
+      initialData: [["Val", "Even"], [7, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "EVEN(A2)",
+      expectedValue: 8
+    }
+  },
+  {
+    id: "exp",
+    title: "The Exponential Function: EXP Function",
+    category: "math",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "The Exponential Function: EXP Function",
+      description: "The EXP function returns e (Euler's number, approximately 2.71828) raised to a given power. It's the inverse of the natural logarithm (LN).",
+      concept: "Think of it as the engine of continuous growth: if something grows at 100% continuously, EXP tells you the final multiplier."
+    },
+    internalLogic: "Calculates e^n.",
+    whyItExists: "Fundamental in finance (continuous compounding) and science (population growth, decay).",
+    syntax: "=EXP(number)",
+    detailedExamples: [
+      {
+        title: "Example: Continuous Compound Interest",
+        table: {
+          headers: ["Variable", "Value", "Result"],
+          rows: [
+            ["Principal", "1,000", ""],
+            ["Rate", "5%", ""],
+            ["Years", "3", ""],
+            ["Growth Factor", "=EXP(0.05*3)", "1.1618"],
+            ["Future Value", "=1000*EXP(0.15)", "£1,161.83"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Confusing with POWER.", desc: "=POWER(2,3) gives 2³=8; =EXP(3) gives e³≈20.09." }
+    ],
+    proTips: [
+      "Pair with LN to verify: =LN(EXP(x)) always returns x."
+    ],
+    relatedFunctions: ["LN", "LOG", "POWER"],
+    miniChallenge: {
+      question: "What is =EXP(0)?",
+      expectedAnswer: "1"
+    },
+    practice: {
+      instructions: "In cell B2, calculate e raised to the power of A2.",
+      initialData: [["Power", "Result"], [1, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "EXP(A2)",
+      expectedValue: 2.71828182845904
+    }
+  },
+  {
+    id: "fact",
+    title: "The Factorial Factory: FACT Function",
+    category: "math",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "The Factorial Factory: FACT Function",
+      description: "The FACT function returns the factorial of a number: the product of all positive integers from 1 up to that number. For example, 5! = 5 × 4 × 3 × 2 × 1 = 120.",
+      concept: "Think of it as counting arrangements: how many ways can you line up 5 people?"
+    },
+    internalLogic: "Iterative multiplication of sequence 1 to n.",
+    whyItExists: "Core function for combinatorics and probability.",
+    syntax: "=FACT(number)",
+    detailedExamples: [
+      {
+        title: "Example: Permutations of Books",
+        table: {
+          headers: ["Books", "Formula", "Arrangements"],
+          rows: [
+            ["6", "=FACT(6)", "720"]
+          ]
+        }
+      },
+      {
+        title: "Factorial Growth Table",
+        table: {
+          headers: ["n", "Formula", "Result"],
+          rows: [
+            ["0", "=FACT(0)", "1"],
+            ["3", "=FACT(3)", "6"],
+            ["5", "=FACT(5)", "120"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Large numbers.", desc: "FACT(171) returns #NUM! as it exceeds Excel's limit." }
+    ],
+    proTips: [
+      "For permutations of r items from n, use =FACT(n)/FACT(n-r)."
+    ],
+    relatedFunctions: ["FACTDOUBLE", "COMBIN", "PERMUT"],
+    miniChallenge: {
+      question: "What is =FACT(3)?",
+      expectedAnswer: "6"
+    },
+    practice: {
+      instructions: "In cell B2, find the factorial of A2.",
+      initialData: [["Val", "Fact"], [5, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "FACT(A2)",
+      expectedValue: 120
+    }
+  },
+  {
+    id: "factdouble",
+    title: "Double Factorial: FACTDOUBLE Function",
+    category: "math",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Double Factorial: FACTDOUBLE Function",
+      description: "The FACTDOUBLE function returns the double factorial of a number. For an even number n, it multiplies all even numbers from n down to 2. For odd n, it multiplies all odd numbers from n down to 1.",
+      concept: "Think of it as a factorial that skips every other number. Notation: n!!."
+    },
+    syntax: "=FACTDOUBLE(number)",
+    detailedExamples: [
+      {
+        title: "Example: Double Factorial Patterns",
+        table: {
+          headers: ["n", "Type", "Calculation", "Formula", "Result"],
+          rows: [
+            ["6", "Even", "6×4×2", "=FACTDOUBLE(6)", "48"],
+            ["7", "Odd", "7×5×3×1", "=FACTDOUBLE(7)", "105"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Confusing with FACT.", desc: "FACT(6) = 720; FACTDOUBLE(6) = 48. They are very different." }
+    ],
+    relatedFunctions: ["FACT"],
+    miniChallenge: {
+      question: "What is =FACTDOUBLE(4)?",
+      expectedAnswer: "8"
+    },
+    practice: {
+      instructions: "In cell B2, find the double factorial of A2.",
+      initialData: [["Val", "DoubleFact"], [5, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "FACTDOUBLE(A2)",
+      expectedValue: 15
+    }
+  },
+  {
+    id: "floor",
+    title: "Round Down to Significance: FLOOR Function",
+    category: "math",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Round Down to Significance: FLOOR Function",
+      description: "The FLOOR function rounds a number down to the nearest multiple of a specified significance, moving toward zero.",
+      concept: "Think of it as the opposite of CEILING: if you have £4.87 and can only withdraw in multiples of £0.10, FLOOR says you can take £4.80."
+    },
+    whyItExists: "Ideal for currency dispensing, inventory carton calculations, and time-clocking.",
+    syntax: "=FLOOR(number, significance)",
+    detailedExamples: [
+      {
+        title: "Example: Currency Rounding",
+        table: {
+          headers: ["Request", "Multiple", "Formula", "Dispensed"],
+          rows: [
+            ["87", "5", "=FLOOR(87, 5)", "85"],
+            ["123", "5", "=FLOOR(123, 5)", "120"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Mismatched signs.", desc: "Number and significance must share the same sign or you get #NUM!." }
+    ],
+    relatedFunctions: ["CEILING", "MROUND", "ROUNDDOWN"],
+    miniChallenge: {
+      question: "What is =FLOOR(7.9, 1)?",
+      expectedAnswer: "7"
+    },
+    practice: {
+      instructions: "In cell B2, round A2 down to the nearest multiple of 5.",
+      initialData: [["Val", "Floor"], [87, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "FLOOR(A2,5)",
+      expectedValue: 85
+    }
+  },
+  {
+    id: "gcd",
+    title: "Greatest Common Divisor: GCD Function",
+    category: "math",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Greatest Common Divisor: GCD Function",
+      description: "The GCD function returns the largest integer that divides all the given numbers without a remainder.",
+      concept: "Think of it as finding the biggest box size that can perfectly pack several different lengths."
+    },
+    syntax: "=GCD(number1, [number2], ...)",
+    syntaxBreakdown: [
+      { arg: "number1", desc: "The first number." },
+      { arg: "number2", desc: "Optional additional numbers (up to 255)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Simplifying Ratios",
+        table: {
+          headers: ["Ingredient", "Parts", "GCD", "Simplifying Divisor"],
+          rows: [
+            ["A", "48", "", ""],
+            ["B", "72", "", ""],
+            ["C", "108", "", ""],
+            ["GCD", "", "=GCD(48, 72, 108)", "12"]
+          ]
+        },
+        stepByStep: [
+          "Original ratio 48:72:108 is divided by GCD 12.",
+          "Results in simplified ratio 4:6:9."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Negative numbers.", desc: "Negative numbers are treated as positive." },
+      { title: "Including zero.", desc: "GCD(n, 0) = n, which may be unexpected." }
+    ],
+    proTips: [
+      "Use GCD to simplify fractions: numerator/GCD & denominator/GCD.",
+      "Helpful in scheduling: find the GCD of task cycles to determine when they align."
+    ],
+    relatedFunctions: ["LCM"],
+    miniChallenge: {
+      question: "What is =GCD(12, 18)?",
+      expectedAnswer: "6"
+    },
+    practice: {
+      instructions: "In cell B2, find the GCD of 48, 72, and 108.",
+      initialData: [["Nums", "GCD"], ["48, 72, 108", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "GCD(48,72,108)",
+      expectedValue: 12
+    }
+  },
+  {
+    id: "iso.ceiling",
+    title: "ISO-Compliant Ceiling: ISO.CEILING Function",
+    category: "math",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "ISO-Compliant Ceiling: ISO.CEILING Function",
+      description: "The ISO.CEILING function rounds a number up to the nearest multiple of significance, regardless of the sign of the number. It always rounds away from zero.",
+      concept: "Think of it as CEILING's more predictable cousin: no sign-matching rules, always rounds to the larger absolute value."
+    },
+    syntax: "=ISO.CEILING(number, [significance])",
+    detailedExamples: [
+      {
+        title: "Comparison: CEILING vs ISO.CEILING",
+        table: {
+          headers: ["Value", "Significance", "CEILING", "ISO.CEILING"],
+          rows: [
+            ["-4.3", "1", "#NUM!", "-5"],
+            ["-4.3", "-1", "-5", "-5"],
+            ["4.3", "1", "5", "5"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Assuming CEILING parity.", desc: "ISO.CEILING behaves differently with negatives than basic CEILING." }
+    ],
+    proTips: [
+      "Prefer ISO.CEILING over CEILING in modern workbooks for consistent rounding regardless of sign."
+    ],
+    relatedFunctions: ["CEILING", "FLOOR"],
+    miniChallenge: {
+      question: "What is =ISO.CEILING(-4.3, 1)?",
+      expectedAnswer: "-5"
+    },
+    practice: {
+      instructions: "In cell B2, use ISO.CEILING on -4.3 with significance 1.",
+      initialData: [["Val", "Result"], [-4.3, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "ISO.CEILING(A2,1)",
+      expectedValue: -5
+    }
+  },
+  {
+    id: "lcm",
+    title: "Least Common Multiple: LCM Function",
+    category: "math",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Least Common Multiple: LCM Function",
+      description: "The LCM function returns the smallest positive integer that is a multiple of all the numbers provided.",
+      concept: "Think of it like synchronising events: when will three cycles with different lengths next happen at the same time?"
+    },
+    syntax: "=LCM(number1, [number2], ...)",
+    detailedExamples: [
+      {
+        title: "Example: Meeting Schedule",
+        table: {
+          headers: ["Machine", "Cycle (days)"],
+          rows: [
+            ["A", "4"],
+            ["B", "6"],
+            ["C", "10"]
+          ]
+        },
+        stepByStep: [
+          "LCM(4, 6, 10) = 60.",
+          "They'll all be serviced together again on day 60."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Including zero.", desc: "LCM(n,0) returns 0, which may not be useful in scheduling." }
+    ],
+    proTips: [
+      "Useful in project planning to find when cyclical tasks align."
+    ],
+    relatedFunctions: ["GCD"],
+    miniChallenge: {
+      question: "What is =LCM(3, 5)?",
+      expectedAnswer: "15"
+    },
+    practice: {
+      instructions: "In cell B2, find the LCM of 4, 6, and 10.",
+      initialData: [["Nums", "LCM"], ["4, 6, 10", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "LCM(4,6,10)",
+      expectedValue: 60
+    }
+  },
+  {
+    id: "ln",
+    title: "Natural Logarithm: LN Function",
+    category: "math",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Natural Logarithm: LN Function",
+      description: "The LN function returns the natural logarithm of a number — the power to which e must be raised to equal that number. It's the inverse of EXP.",
+      concept: "Think of it as asking: 'How long do I need to grow continuously at 100% to reach this value?'"
+    },
+    syntax: "=LN(number)",
+    detailedExamples: [
+      {
+        title: "Example: Time to Double Investment",
+        table: {
+          headers: ["Variable", "Value", "Formula", "Result"],
+          rows: [
+            ["Target ratio", "2 (double)", "", ""],
+            ["Rate", "8%", "", ""],
+            ["Time (years)", "", "=LN(2)/0.08", "8.66"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Invalid inputs.", desc: "Zero or negative numbers return #NUM!. LN is undefined for x ≤ 0." }
+    ],
+    proTips: [
+      "In regression, log-transforming a variable with LN can linearise exponential relationships."
+    ],
+    relatedFunctions: ["EXP", "LOG", "LOG10"],
+    miniChallenge: {
+      question: "What is =LN(1)?",
+      expectedAnswer: "0"
+    },
+    practice: {
+      instructions: "In cell B2, calculate the natural log of A2.",
+      initialData: [["Val", "LN"], [1, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "LN(A2)",
+      expectedValue: 0
+    }
+  },
+  {
+    id: "log",
+    title: "Logarithm to Any Base: LOG Function",
+    category: "math",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Logarithm to Any Base: LOG Function",
+      description: "The LOG function returns the logarithm of a number to a specified base. If no base is given, it defaults to base 10.",
+      concept: "Think of it as asking: 'What power do I raise this base to, to get my number?'"
+    },
+    syntax: "=LOG(number, [base])",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The positive number you want the logarithm of." },
+      { arg: "base", desc: "Optional. The base of the logarithm (default is 10)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Base Conversion",
+        table: {
+          headers: ["Value", "Base", "Formula", "Result"],
+          rows: [
+            ["8", "2", "=LOG(8, 2)", "3"],
+            ["100", "10", "=LOG(100)", "2"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Base of 1.", desc: "Base of 1 returns #DIV/0!." }
+    ],
+    relatedFunctions: ["LN", "LOG10"],
+    miniChallenge: {
+      question: "What is =LOG(8, 2)?",
+      expectedAnswer: "3"
+    },
+    practice: {
+      instructions: "In cell C2, find log base 2 of A2.",
+      initialData: [["Val", "Base", "Result"], [8, 2, ""]],
+      targetCell: [1, 2],
+      expectedFormula: "LOG(A2,B2)",
+      expectedValue: 3
+    }
+  },
+  {
+    id: "log10",
+    title: "Base-10 Logarithm: LOG10 Function",
+    category: "math",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Base-10 Logarithm: LOG10 Function",
+      description: "The LOG10 function returns the base-10 logarithm of a number — how many times you need to multiply 10 to reach that number.",
+      concept: "Think of it as measuring orders of magnitude: how many zeros after the 1?"
+    },
+    syntax: "=LOG10(number)",
+    detailedExamples: [
+      {
+        title: "Example: Decibel Calculation",
+        table: {
+          headers: ["Intensity Ratio", "Formula", "Log10", "Decibels (x10)"],
+          rows: [
+            ["1,000,000", "=LOG10(1000000)", "6", "60"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Non-positive inputs.", desc: "Negative or zero returns #NUM!." }
+    ],
+    proTips: [
+      "Perfect for pH calculations, Richter scale, and decibels."
+    ],
+    relatedFunctions: ["LOG", "LN"],
+    miniChallenge: {
+      question: "What is =LOG10(100)?",
+      expectedAnswer: "2"
+    },
+    practice: {
+      instructions: "In cell B2, find the base-10 log of 1000.",
+      initialData: [["Val", "Log10"], [1000, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "LOG10(A2)",
+      expectedValue: 3
+    }
+  },
+  {
+    id: "mround",
+    title: "Round to Nearest Multiple: MROUND Function",
+    category: "math",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Round to Nearest Multiple: MROUND Function",
+      description: "The MROUND function rounds a number to the nearest multiple of a specified significance. If the number is exactly halfway between two multiples, it rounds up (away from zero).",
+      concept: "Think of it as rounding cash to the nearest 5 pence, or minutes to the nearest quarter hour."
+    },
+    syntax: "=MROUND(number, multiple)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The value to round." },
+      { arg: "multiple", desc: "The significance to round to." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Time Clock Rounding",
+        table: {
+          headers: ["Actual Minutes", "Round To", "Formula", "Billed Minutes"],
+          rows: [
+            ["43", "15", "=MROUND(B2, 15)", "45"],
+            ["37", "15", "=MROUND(B3, 15)", "30"],
+            ["52", "15", "=MROUND(B4, 15)", "45"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Sign mismatch.", desc: "Number and multiple must have the same sign, or you get #NUM!." }
+    ],
+    proTips: [
+      "In manufacturing, use MROUND to adjust raw material orders to standard pack sizes."
+    ],
+    relatedFunctions: ["ROUND", "CEILING", "FLOOR"],
+    miniChallenge: {
+      question: "What is =MROUND(2.23, 0.05)?",
+      expectedAnswer: "2.25"
+    },
+    practice: {
+      instructions: "In cell C2, round A2 to the nearest multiple of 15.",
+      initialData: [["Mins", "Signif", "Result"], [43, 15, ""]],
+      targetCell: [1, 2],
+      expectedFormula: "MROUND(A2,B2)",
+      expectedValue: 45
+    }
+  },
+  {
+    id: "multinomial",
+    title: "Multinomial Coefficient: MULTINOMIAL Function",
+    category: "math",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Multinomial Coefficient: MULTINOMIAL Function",
+      description: "The MULTINOMIAL function returns the ratio of the factorial of the sum of values to the product of the factorials of each value. It answers: 'How many ways can I arrange these groups?'",
+      concept: "Think of it like arranging letters with repeats: how many distinct ways to arrange the word 'MISSISSIPPI'?"
+    },
+    syntax: "=MULTINOMIAL(number1, [number2], ...)",
+    detailedExamples: [
+      {
+        title: "Example: Arranging Coloured Balls",
+        table: {
+          headers: ["Colour", "Count"],
+          rows: [
+            ["Red", "3"],
+            ["Blue", "2"],
+            ["Green", "4"]
+          ]
+        },
+        stepByStep: [
+          "Total balls = 3 + 2 + 4 = 9.",
+          "Ways: 9! / (3! × 2! × 4!) = 1,260."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Confusing with COMBIN.", desc: "MULTINOMIAL is for multiple groups, not choosing a subset." }
+    ],
+    relatedFunctions: ["FACT", "COMBIN"],
+    miniChallenge: {
+      question: "What is =MULTINOMIAL(2, 2)?",
+      expectedAnswer: "6"
+    },
+    practice: {
+      instructions: "In cell B2, find the multinomial for 3, 2, and 4.",
+      initialData: [["Counts", "Result"], ["3, 2, 4", ""]],
+      targetCell: [1, 1],
+      expectedFormula: "MULTINOMIAL(3,2,4)",
+      expectedValue: 1260
+    }
+  },
+  {
+    id: "odd",
+    title: "Round to Nearest Odd Integer: ODD Function",
+    category: "math",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Round to Nearest Odd Integer: ODD Function",
+      description: "The ODD function rounds a number up to the nearest odd integer, moving away from zero.",
+      concept: "Think of it as EVEN's quirky sibling: it always rounds to an odd number, away from zero."
+    },
+    syntax: "=ODD(number)",
+    detailedExamples: [
+      {
+        title: "Example: Odd-Numbered Seating",
+        table: {
+          headers: ["Guests", "Formula", "Seats Arranged"],
+          rows: [
+            ["12", "=ODD(12)", "13"],
+            ["7", "=ODD(7)", "7"],
+            ["2.1", "=ODD(2.1)", "3"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "ISODD confusion.", desc: "ODD rounds the number; ISODD only tests if it is odd." }
+    ],
+    relatedFunctions: ["EVEN", "ROUND"],
+    miniChallenge: {
+      question: "What is =ODD(12)?",
+      expectedAnswer: "13"
+    },
+    practice: {
+      instructions: "In cell B2, round A2 up to the nearest odd integer.",
+      initialData: [["Val", "Odd"], [12, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "ODD(A2)",
+      expectedValue: 13
+    }
+  },
+  {
+    id: "pi",
+    title: "The Circle Constant: PI Function",
+    category: "math",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "The Circle Constant: PI Function",
+      description: "The PI function returns the mathematical constant π (pi), approximately 3.14159265358979, accurate to 15 digits.",
+      concept: "Think of it as the universal circle key: the ratio of any circle's circumference to its diameter."
+    },
+    syntax: "=PI()",
+    detailedExamples: [
+      {
+        title: "Example: Circle Calculations",
+        table: {
+          headers: ["Property", "Radius", "Formula", "Result"],
+          rows: [
+            ["Circumference", "5", "=2*PI()*5", "31.416"],
+            ["Area", "5", "=PI()*5^2", "78.540"]
+          ]
+        }
+      },
+      {
+        title: "Converting Degrees to Radians",
+        table: {
+          headers: ["Degrees", "Formula", "Radians"],
+          rows: [
+            ["180", "=PI()", "3.1416"],
+            ["90", "=PI()/2", "1.5708"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Missing parentheses.", desc: "=PI without () returns #NAME?. Always write =PI()." },
+      { title: "Manual typing.", desc: "Typing 3.14 manually loses precision. Always use PI() for accurate calculations." }
+    ],
+    proTips: [
+      "Use PI() in any geometry formula involving circles, spheres, or cylinders.",
+      "Combine with SIN, COS, TAN for angle calculations in radians."
+    ],
+    relatedFunctions: ["SQRTPI", "SIN", "COS"],
+    miniChallenge: {
+      question: "What does =PI() return approximately?",
+      expectedAnswer: "3.14159"
+    },
+    practice: {
+      instructions: "In cell B2, calculate the area of a circle with radius in A2 (πr²).",
+      initialData: [["Radius", "Area"], [5, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "PI()*A2^2",
+      expectedValue: 78.5398163397448
+    }
+  },
+  {
+    id: "power",
+    title: "Raise to a Power: POWER Function",
+    category: "math",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Raise to a Power: POWER Function",
+      description: "The POWER function returns a number raised to a specified exponent. It's equivalent to the caret operator ^.",
+      concept: "Think of it as a supercharged multiplier: instead of writing A*A*A*A, you write POWER(A,4)."
+    },
+    syntax: "=POWER(number, power)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The base number." },
+      { arg: "power", desc: "The exponent. Can be positive, negative, or fractional." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Compound Annual Growth",
+        table: {
+          headers: ["Principal", "Rate", "Years", "Formula", "Future Value"],
+          rows: [
+            ["5,000", "7%", "10", "=5000*POWER(1+0.07, 10)", "£9,835.76"]
+          ]
+        }
+      },
+      {
+        title: "Power Variations",
+        table: {
+          headers: ["Base", "Exponent", "Formula", "Result"],
+          rows: [
+            ["3", "2", "=POWER(3,2)", "9"],
+            ["16", "0.5", "=POWER(16,0.5)", "4"],
+            ["2", "-3", "=POWER(2,-3)", "0.125"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Negative base.", desc: "Using a negative base with a fractional exponent may return #NUM!." },
+      { title: "EXP vs POWER.", desc: "POWER(2,3) = 8, but EXP(3) ≈ 20.09." }
+    ],
+    proTips: [
+      "Use fractional powers for all root calculations: cube root = =POWER(x, 1/3)."
+    ],
+    relatedFunctions: ["EXP", "SQRT"],
+    miniChallenge: {
+      question: "What is =POWER(2, 4)?",
+      expectedAnswer: "16"
+    },
+    practice: {
+      instructions: "In cell B2, raise A2 to the power of 3.",
+      initialData: [["Val", "Cube"], [3, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "POWER(A2,3)",
+      expectedValue: 27
+    }
+  },
+  {
+    id: "quotient",
+    title: "Integer Division: QUOTIENT Function",
+    category: "math",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Integer Division: QUOTIENT Function",
+      description: "The QUOTIENT function returns the integer portion of a division, discarding the remainder. It tells you how many whole times one number fits into another.",
+      concept: "Think of it as division that ignores the leftover crumbs. It's equivalent to =INT(numerator/denominator)."
+    },
+    syntax: "=QUOTIENT(numerator, denominator)",
+    detailedExamples: [
+      {
+        title: "Example: Packing Items",
+        table: {
+          headers: ["Total Items", "Per Box", "Formula", "Full Boxes"],
+          rows: [
+            ["250", "24", "=QUOTIENT(250, 24)", "10"],
+            ["100", "12", "=QUOTIENT(100, 12)", "8"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Non-numeric values.", desc: "Both arguments must be numeric or you get #VALUE!." },
+      { title: "Confusing with /.", desc: "Regular division / gives the decimal; QUOTIENT only gives the integer." }
+    ],
+    proTips: [
+      "QUOTIENT + MOD together form a complete division breakdown."
+    ],
+    relatedFunctions: ["MOD", "INT"],
+    miniChallenge: {
+      question: "What is =QUOTIENT(10, 3)?",
+      expectedAnswer: "3"
+    },
+    practice: {
+      instructions: "In cell B2, find the quotient of A2 divided by 4.",
+      initialData: [["Val", "Quotient"], [10, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "QUOTIENT(A2,4)",
+      expectedValue: 2
+    }
+  },
+  {
+    id: "rand",
+    title: "Random Number Generator: RAND Function",
+    category: "math",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Random Number Generator: RAND Function",
+      description: "The RAND function returns a random decimal number greater than or equal to 0 and less than 1. It recalculates every time the worksheet is refreshed.",
+      concept: "Think of it as a digital dice that rolls itself whenever you make any change."
+    },
+    syntax: "=RAND()",
+    detailedExamples: [
+      {
+        title: "Example: Scaling Random Values",
+        table: {
+          headers: ["#", "Formula", "Random Value", "Scaled (1-10)"],
+          rows: [
+            ["1", "=RAND()", "0.7234", "8"]
+          ]
+        },
+        stepByStep: [
+          "RAND() generates a decimal between 0 and 1.",
+          "Multiply by 10 to get 0 to 9.999...",
+          "INT strips decimals, then +1 shifts to 1–10."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Volatility.", desc: "Forgetting RAND recalculates on every sheet change, which can slow large workbooks." },
+      { title: "Security.", desc: "Not suitable for high-stakes cryptography." }
+    ],
+    proTips: [
+      "To freeze random values, use Paste Special > Values."
+    ],
+    relatedFunctions: ["RANDBETWEEN"],
+    miniChallenge: {
+      question: "Does RAND() take any arguments?",
+      expectedAnswer: "No"
+    },
+    practice: {
+      instructions: "In cell A1, simply enter the RAND function.",
+      initialData: [[""]],
+      targetCell: [0, 0],
+      expectedFormula: "RAND()",
+      expectedValue: 0.5
+    }
+  },
+  {
+    id: "randbetween",
+    title: "Random Integer Between Bounds: RANDBETWEEN Function",
+    category: "math",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Random Integer Between Bounds: RANDBETWEEN Function",
+      description: "The RANDBETWEEN function returns a random integer between (and including) two specified numbers. Like RAND, it recalculates on every sheet change.",
+      concept: "Think of it as setting the lower and upper face of a digital die: roll and you get a whole number within those limits."
+    },
+    syntax: "=RANDBETWEEN(bottom, top)",
+    detailedExamples: [
+      {
+        title: "Example: Generating Test Scores",
+        table: {
+          headers: ["Student", "Formula", "Score"],
+          rows: [
+            ["Alice", "=RANDBETWEEN(50, 100)", "87"],
+            ["Ben", "=RANDBETWEEN(50, 100)", "63"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Bottom > Top.", desc: "If bottom is greater than top, it returns #NUM!." }
+    ],
+    proTips: [
+      "To generate random dates: =RANDBETWEEN(DATE(2020,1,1), DATE(2025,12,31))."
+    ],
+    relatedFunctions: ["RAND"],
+    miniChallenge: {
+      question: "Get a random number between 1 and 6.",
+      expectedAnswer: "=RANDBETWEEN(1, 6)"
+    },
+    practice: {
+      instructions: "In cell B2, generate a random number between A2 and 100.",
+      initialData: [["Bottom", "Random"], [50, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "RANDBETWEEN(A2,100)",
+      expectedValue: 75
+    }
+  },
+  {
+    id: "roman",
+    title: "Convert to Roman Numerals: ROMAN Function",
+    category: "math",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Convert to Roman Numerals: ROMAN Function",
+      description: "The ROMAN function converts a regular number into its Roman numeral equivalent as text.",
+      concept: "Think of it as a time machine for your spreadsheet: transforming modern digits into ancient notation."
+    },
+    syntax: "=ROMAN(number, [form])",
+    detailedExamples: [
+      {
+        title: "Example: Year Display",
+        table: {
+          headers: ["Year", "Formula", "Roman Numeral"],
+          rows: [
+            ["2024", "=ROMAN(2024)", "MMXXIV"],
+            ["1999", "=ROMAN(1999)", "MCMXCIX"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Number limit.", desc: "Must be 1–3999. Others return #VALUE!." }
+    ],
+    proTips: [
+      "Useful for outlines, chapter numbering, or adding a classical touch to reports."
+    ],
+    relatedFunctions: ["ARABIC"],
+    miniChallenge: {
+      question: "Convert 10 to Roman.",
+      expectedAnswer: "X"
+    },
+    practice: {
+      instructions: "In cell B2, convert A2 to a Roman numeral.",
+      initialData: [["Num", "Roman"], [2024, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "ROMAN(A2)",
+      expectedValue: "MMXXIV"
+    }
+  },
+  {
+    id: "sequence",
+    title: "Generate Number Sequences: SEQUENCE Function",
+    category: "math",
+    difficulty: "Intermediate",
+    xp: 300,
+    introduction: {
+      title: "Generate Number Sequences: SEQUENCE Function",
+      description: "The SEQUENCE function generates an array of sequential numbers in a grid of specified rows and columns.",
+      concept: "Think of it as an automatic number factory: tell it how many rows and columns you need, and it fills them in order."
+    },
+    syntax: "=SEQUENCE(rows, [columns], [start], [step])",
+    detailedExamples: [
+      {
+        title: "Example: Monthly Date Generator",
+        table: {
+          headers: ["#", "Formula", "Output"],
+          rows: [
+            ["1", "=SEQUENCE(12, 1, DATE(2026,1,1), 1)", "01/01/2026"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Missing rows.", desc: "Rows argument is required — omitting it returns #CALC!." },
+      { title: "Spill errors.", desc: "Adjacent cells must be empty for the array to spill." }
+    ],
+    proTips: [
+      "Combine with DATE to generate timelines: =SEQUENCE(365, 1, DATE(2026,1,1))."
+    ],
+    relatedFunctions: ["RANDARRAY"],
+    miniChallenge: {
+      question: "Generate a sequence of 5 numbers.",
+      expectedAnswer: "=SEQUENCE(5)"
+    },
+    practice: {
+      instructions: "In cell A1, generate a sequence of 5 rows and 1 column.",
+      initialData: [[""]],
+      targetCell: [0, 0],
+      expectedFormula: "SEQUENCE(5,1)",
+      expectedValue: 1
+    }
+  },
+  {
+    id: "seriessum",
+    title: "Sum of a Power Series: SERIESSUM Function",
     category: "math",
     difficulty: "Advanced",
     xp: 400,
     introduction: {
-      title: "Totaling Squares: SUMX2PY2",
-      description: "This function squares the numbers in two arrays and then sums all of those squares together.",
-      concept: "Sum of (X squared Plus Y squared). It is used for finding the total energy or magnitude across two datasets."
+      title: "Sum of a Power Series: SERIESSUM Function",
+      description: "The SERIESSUM function calculates the sum of a power series based on a starting exponent, step, and coefficients.",
+      concept: "Think of it as evaluating a polynomial or Taylor series efficiently without typing every term."
+    },
+    syntax: "=SERIESSUM(x, n, m, coefficients)",
+    detailedExamples: [
+      {
+        title: "Example: Polynomial Evaluation",
+        table: {
+          headers: ["x", "n", "m", "Coefficients", "Result"],
+          rows: [
+            ["2", "0", "1", "{2, 3, 1}", "12"]
+          ]
+        },
+        stepByStep: [
+          "Evaluate 2x⁰ + 3x¹ + 1x² at x = 2.",
+          "Result: 2 + 6 + 4 = 12."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Non-numeric coefficients.", desc: "Text or blanks in the range can cause #VALUE!." }
+    ],
+    proTips: [
+      "Elegant replacement for long polynomial formulas when n=0 and m=1."
+    ],
+    relatedFunctions: ["SUMPRODUCT"],
+    miniChallenge: {
+      question: "Evaluate x² + x + 1 at x=1 using SERIESSUM.",
+      expectedAnswer: "=SERIESSUM(1, 0, 1, {1, 1, 1})"
+    },
+    practice: {
+      instructions: "In cell B2, evaluate the sum of series for x=2, starting n=0, step 1, with coefficients in A2:A4.",
+      initialData: [["Coeffs", "Result"], [2, ""], [3, ""], [1, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "SERIESSUM(2,0,1,A2:A4)",
+      expectedValue: 12
+    }
+  },
+  {
+    id: "sign",
+    title: "Determine the Sign: SIGN Function",
+    category: "math",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Determine the Sign: SIGN Function",
+      description: "The SIGN function returns 1 if a number is positive, -1 if negative, and 0 if zero. It captures the direction, not the magnitude.",
+      concept: "Think of it as a compass: it tells you whether you're heading up, down, or staying flat."
+    },
+    syntax: "=SIGN(number)",
+    detailedExamples: [
+      {
+        title: "Example: Classifying Monthly Changes",
+        table: {
+          headers: ["Month", "Change", "Formula", "Direction"],
+          rows: [
+            ["Feb", "+2,500", "=SIGN(2500)", "1"],
+            ["Mar", "-3,500", "=SIGN(-3500)", "-1"],
+            ["Apr", "0", "=SIGN(0)", "0"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Expecting magnitude.", desc: "SIGN(-500) returns -1, not 500. Use ABS for magnitude." }
+    ],
+    proTips: [
+      "Perfect for directional indicators (arrows, colour coding) in dashboards."
+    ],
+    relatedFunctions: ["ABS"],
+    miniChallenge: {
+      question: "What is =SIGN(-15)?",
+      expectedAnswer: "-1"
+    },
+    practice: {
+      instructions: "In cell B2, find the sign of A2.",
+      initialData: [["Val", "Sign"], [-100, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "SIGN(A2)",
+      expectedValue: -1
+    }
+  },
+  {
+    id: "sqrtpi",
+    title: "Square Root of Pi Times Number: SQRTPI Function",
+    category: "math",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Square Root of Pi Times Number: SQRTPI Function",
+      description: "The SQRTPI function returns the square root of a number multiplied by π: SQRTPI(x) = √(x × π).",
+      concept: "Think of it as a shortcut for =SQRT(PI()*number)."
+    },
+    syntax: "=SQRTPI(number)",
+    detailedExamples: [
+      {
+        title: "Example: Geometry and Distribution",
+        table: {
+          headers: ["Parameter", "Formula", "Result"],
+          rows: [
+            ["x = 2", "=SQRTPI(2)", "2.5066"],
+            ["x = 1", "=SQRTPI(1)", "1.7725"],
+            ["x = 0", "=SQRTPI(0)", "0"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Negative numbers.", desc: "Negative number returns #NUM!." },
+      { title: "Miscalculation.", desc: "Confusing with =SQRT(number)*PI()." }
+    ],
+    proTips: [
+      "SQRTPI appears in the normal distribution probability density function denominator."
+    ],
+    relatedFunctions: ["SQRT", "PI"],
+    miniChallenge: {
+      question: "What is =SQRTPI(1) approximately?",
+      expectedAnswer: "1.772"
+    },
+    practice: {
+      instructions: "In cell B2, find the square root of A2 times Pi.",
+      initialData: [["Val", "Result"], [2, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "SQRTPI(A2)",
+      expectedValue: 2.506628274631
+    }
+  },
+  {
+    id: "subtotal",
+    title: "Aggregate with Control: SUBTOTAL Function",
+    category: "math",
+    difficulty: "Intermediate",
+    xp: 300,
+    introduction: {
+      title: "Aggregate with Control: SUBTOTAL Function",
+      description: "The SUBTOTAL function performs a calculation (SUM, AVERAGE, etc.) on a range while optionally ignoring filtered-out or hidden rows.",
+      concept: "Think of it as a smart aggregator that respects your filters: filter out some rows, and SUBTOTAL adapts instantly."
+    },
+    syntax: "=SUBTOTAL(function_num, ref1, [ref2], ...)",
+    syntaxBreakdown: [
+      { arg: "function_num", desc: "A code (1–11 or 101–111) specifying the calculation type (e.g., 9 for SUM)." },
+      { arg: "ref1", desc: "The range to aggregate." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Filtered Sales Totals",
+        table: {
+          headers: ["Region", "Sales"],
+          rows: [
+            ["North", "500"],
+            ["South", "300"],
+            ["East", "400"],
+            ["West", "600"],
+            ["Total", "=SUBTOTAL(9, B2:B5)"]
+          ]
+        },
+        stepByStep: [
+          "Function code 9 means SUM.",
+          "If you filter out 'South' and 'West', the subtotal automatically updates from 1,800 to 900."
+        ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Nesting.", desc: "SUBTOTAL ignores other SUBTOTAL cells within the range." },
+      { title: "Function codes.", desc: "Codes 1–11 only ignore filtered rows, not manually hidden ones (use 101–111 for both)." }
+    ],
+    proTips: [
+      "Ideal for subtotaling within a column without circular references."
+    ],
+    relatedFunctions: ["AGGREGATE", "SUM"],
+    miniChallenge: {
+      question: "Which function_num is used for SUM in SUBTOTAL?",
+      expectedAnswer: "9"
+    },
+    practice: {
+      instructions: "In cell B6, use SUBTOTAL with code 9 to sum the range B2:B5.",
+      initialData: [["Region", "Sales"], ["A", 100], ["B", 200], ["C", 300], ["D", 400], ["Subtotal", ""]],
+      targetCell: [5, 1],
+      expectedFormula: "SUBTOTAL(9,B2:B5)",
+      expectedValue: 1000
+    }
+  },
+  {
+    id: "trunc",
+    title: "Truncate to Precision: TRUNC Function",
+    category: "math",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Truncate to Precision: TRUNC Function",
+      description: "The TRUNC function cuts off a number to a specified number of decimal places without any rounding.",
+      concept: "Think of it as a clean cut: unlike INT or ROUNDDOWN, TRUNC always chops toward zero."
+    },
+    syntax: "=TRUNC(number, [num_digits])",
+    detailedExamples: [
+      {
+        title: "Example: Extracting Dollars",
+        table: {
+          headers: ["Price", "Formula", "Result"],
+          rows: [
+            ["45.89", "=TRUNC(B2)", "45"],
+            ["-67.90", "=TRUNC(B3)", "-67"]
+          ]
+        }
+      },
+      {
+        title: "INT vs TRUNC comparison",
+        table: {
+          headers: ["Value", "INT", "TRUNC"],
+          rows: [
+            ["7.9", "7", "7"],
+            ["-7.9", "-8", "-7"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Negative parity.", desc: "Assuming TRUNC and INT are identical for negatives." }
+    ],
+    proTips: [
+      "Use TRUNC when you need to remove time from a date-time value."
+    ],
+    relatedFunctions: ["INT", "ROUNDDOWN"],
+    miniChallenge: {
+      question: "What is =TRUNC(-4.9)?",
+      expectedAnswer: "-4"
+    },
+    practice: {
+      instructions: "In cell B2, truncate A2 to 0 decimal places.",
+      initialData: [["Val", "Trunc"], [45.89, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "TRUNC(A2)",
+      expectedValue: 45
+    }
+  },
+  {
+    id: "sumx2py2",
+    title: "Sum of Squares: SUMX2PY2 Function",
+    category: "math",
+    difficulty: "Advanced",
+    xp: 400,
+    introduction: {
+      title: "Sum of Squares: SUMX2PY2 Function",
+      description: "The SUMX2PY2 function squares both X and Y values for each pair, adds the two squares together, and then sums everything. Formula: (x₁² + y₁²) + (x₂² + y₂²) + ...",
+      concept: "Think of it as the combined magnitude of two sets: square both, add together, sum it all up."
     },
     internalLogic: "For each pair (x, y), it calculates (x^2 + y^2) and then sums those results.",
     whyItExists: "Commonly used in geometry and physics for calculating the sum of squared distances or total energy across multiple components.",
     whenToUse: "Use this to calculate aggregate squared magnitudes between two datasets.",
     syntax: "=SUMX2PY2(array_x, array_y)",
     syntaxBreakdown: [
-      { arg: "array_x", desc: "The first range or array of numbers." },
-      { arg: "array_y", desc: "The second range or array of numbers." }
+      { arg: "array_x", desc: "The X values." },
+      { arg: "array_y", desc: "The Y values. Must match array_x in size." }
     ],
     detailedExamples: [
       {
-        title: "Example: Aggregated Squares",
+        title: "Example: Total Energy (Squared Velocity)",
         table: {
-          headers: ["X", "Y", "Formula", "Result"],
+          headers: ["Object", "Velocity 1 (X)", "Velocity 2 (Y)", "X² + Y²"],
           rows: [
-            ["3", "4", "=SUMX2PY2(A2, B2)", "25"]
+            ["A", "4", "3", "16 + 9 = 25"],
+            ["B", "6", "8", "36 + 64 = 100"],
+            ["C", "5", "12", "25 + 144 = 169"],
+            ["Total", "", "", "=SUMX2PY2(B2:B4, C2:C4) = 294"]
           ]
         },
         stepByStep: [
-          "Excel squares 3 (9).",
-          "Excel squares 4 (16).",
-          "It adds 9 + 16 = 25.",
-          "It sums these results across all pairs in the ranges."
+          "Object A: 4² + 3² = 16 + 9 = 25.",
+          "Object B: 6² + 8² = 36 + 64 = 100.",
+          "Object C: 5² + 12² = 25 + 144 = 169.",
+          "Sum: 25 + 100 + 169 = 294."
         ]
       }
+    ],
+    commonMistakes: [
+      { title: "Confusing with SUMSQ.", desc: "SUMSQ works on one set of numbers. SUMX2PY2 needs two arrays of equal size and always adds both squares." },
+      { title: "Arrays of unequal length.", desc: "Arrays of unequal length cause #N/A." }
+    ],
+    proTips: [
+      "In geometry, use SUMX2PY2 for the sum of squared distances from the origin for a set of (x,y) points.",
+      "The square root of SUMX2PY2 gives the Euclidean norm of paired data: =SQRT(SUMX2PY2(x_range, y_range))."
     ],
     relatedFunctions: ["SUMXMY2", "SUMX2MY2", "SUMSQ"],
     miniChallenge: {
@@ -1587,5 +3295,5 @@ export const mathStatsLessons = [
       expectedFormula: "SUMX2PY2(A2:A3,B2:B3)",
       expectedValue: 30
     }
-  }
+  },
 ];
