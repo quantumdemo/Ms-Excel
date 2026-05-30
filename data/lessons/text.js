@@ -46,7 +46,7 @@ export const textLessons = [
     },
     practice: {
       instructions: "In cell C1, convert range A1:B1 to a concise text string.",
-      initialData: [["A", "B"], ["", ""]],
+      initialData: [["A", "B", ""]],
       targetCell: [0, 2],
       expectedFormula: "ARRAYTOTEXT(A1:B1,0)",
       expectedValue: "A, B"
