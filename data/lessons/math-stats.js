@@ -1377,15 +1377,18 @@ export const mathStatsLessons = [
         table: {
           headers: ["Item", "Row Number", "Formula", "Row Type"],
           rows: [
-            ["Apple", "1", "=MOD(A2, 2)", "1 (Odd)"],
-            ["Banana", "2", "=MOD(A3, 2)", "0 (Even)"],
-            ["Cherry", "3", "=MOD(A4, 2)", "1 (Odd)"],
-            ["Date", "4", "=MOD(A5, 2)", "0 (Even)"]
+            ["Apple", "1", "=MOD(B2, 2)", "1 (Odd)"],
+            ["Banana", "2", "=MOD(B3, 2)", "0 (Even)"],
+            ["Cherry", "3", "=MOD(B4, 2)", "1 (Odd)"],
+            ["Date", "4", "=MOD(B5, 2)", "0 (Even)"]
           ]
         },
         stepByStep: [
-          "When the result is 0, the row is even.",
-          "Conditional formatting can use =MOD(ROW(),2)=0 to shade every other row automatically."
+          "To identify odd/even rows for shading, use =MOD(ROW(), 2).",
+          "Row 1: MOD(1, 2) = 1 (Odd).",
+          "Row 2: MOD(2, 2) = 0 (Even).",
+          "Row 3: MOD(3, 2) = 1 (Odd).",
+          "When the result is 0, the row is even. Conditional formatting can use this to shade every other row automatically."
         ]
       },
       {
@@ -2018,6 +2021,9 @@ export const mathStatsLessons = [
     internalLogic: "Excel identifies the smallest even integer whose absolute value is greater than or equal to the number's absolute value.",
     whyItExists: "Useful for grouping items into pairs or handling processes that require even units.",
     syntax: "=EVEN(number)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The value to round." }
+    ],
     detailedExamples: [
       {
         title: "Example: Pairing Items",
@@ -2078,6 +2084,9 @@ export const mathStatsLessons = [
     internalLogic: "Calculates e^n.",
     whyItExists: "Fundamental in finance (continuous compounding) and science (population growth, decay).",
     syntax: "=EXP(number)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The exponent applied to e." }
+    ],
     detailedExamples: [
       {
         title: "Example: Continuous Compound Interest",
@@ -2126,6 +2135,9 @@ export const mathStatsLessons = [
     internalLogic: "Iterative multiplication of sequence 1 to n.",
     whyItExists: "Core function for combinatorics and probability.",
     syntax: "=FACT(number)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "A non-negative integer. FACT truncates decimals." }
+    ],
     detailedExamples: [
       {
         title: "Example: Permutations of Books",
@@ -2179,6 +2191,9 @@ export const mathStatsLessons = [
       concept: "Think of it as a factorial that skips every other number. Notation: n!!."
     },
     syntax: "=FACTDOUBLE(number)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "A non-negative number. Decimals are truncated." }
+    ],
     detailedExamples: [
       {
         title: "Example: Double Factorial Patterns",
@@ -2220,6 +2235,10 @@ export const mathStatsLessons = [
     },
     whyItExists: "Ideal for currency dispensing, inventory carton calculations, and time-clocking.",
     syntax: "=FLOOR(number, significance)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The value to round down." },
+      { arg: "significance", desc: "The multiple to round to." }
+    ],
     detailedExamples: [
       {
         title: "Example: Currency Rounding",
@@ -2315,6 +2334,10 @@ export const mathStatsLessons = [
       concept: "Think of it as CEILING's more predictable cousin: no sign-matching rules, always rounds to the larger absolute value."
     },
     syntax: "=ISO.CEILING(number, [significance])",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The value to round up." },
+      { arg: "significance", desc: "The multiple (optional, defaults to 1)." }
+    ],
     detailedExamples: [
       {
         title: "Comparison: CEILING vs ISO.CEILING",
@@ -2359,6 +2382,10 @@ export const mathStatsLessons = [
       concept: "Think of it like synchronising events: when will three cycles with different lengths next happen at the same time?"
     },
     syntax: "=LCM(number1, [number2], ...)",
+    syntaxBreakdown: [
+      { arg: "number1", desc: "The first number." },
+      { arg: "number2", desc: "Optional additional numbers (up to 255)." }
+    ],
     detailedExamples: [
       {
         title: "Example: Meeting Schedule",
@@ -2407,6 +2434,9 @@ export const mathStatsLessons = [
       concept: "Think of it as asking: 'How long do I need to grow continuously at 100% to reach this value?'"
     },
     syntax: "=LN(number)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "A positive number. LN of 1 is 0; LN of e is 1." }
+    ],
     detailedExamples: [
       {
         title: "Example: Time to Double Investment",
@@ -2495,6 +2525,9 @@ export const mathStatsLessons = [
       concept: "Think of it as measuring orders of magnitude: how many zeros after the 1?"
     },
     syntax: "=LOG10(number)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "A positive number." }
+    ],
     detailedExamples: [
       {
         title: "Example: Decibel Calculation",
@@ -2585,6 +2618,10 @@ export const mathStatsLessons = [
       concept: "Think of it like arranging letters with repeats: how many distinct ways to arrange the word 'MISSISSIPPI'?"
     },
     syntax: "=MULTINOMIAL(number1, [number2], ...)",
+    syntaxBreakdown: [
+      { arg: "number1", desc: "The count of the first group." },
+      { arg: "number2", desc: "Optional additional group counts." }
+    ],
     detailedExamples: [
       {
         title: "Example: Arranging Coloured Balls",
@@ -2630,6 +2667,9 @@ export const mathStatsLessons = [
       concept: "Think of it as EVEN's quirky sibling: it always rounds to an odd number, away from zero."
     },
     syntax: "=ODD(number)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The value to round." }
+    ],
     detailedExamples: [
       {
         title: "Example: Odd-Numbered Seating",
@@ -2671,6 +2711,9 @@ export const mathStatsLessons = [
       concept: "Think of it as the universal circle key: the ratio of any circle's circumference to its diameter."
     },
     syntax: "=PI()",
+    syntaxBreakdown: [
+      { arg: "(none)", desc: "PI takes no arguments, but the empty parentheses are required." }
+    ],
     detailedExamples: [
       {
         title: "Example: Circle Calculations",
@@ -2784,6 +2827,10 @@ export const mathStatsLessons = [
       concept: "Think of it as division that ignores the leftover crumbs. It's equivalent to =INT(numerator/denominator)."
     },
     syntax: "=QUOTIENT(numerator, denominator)",
+    syntaxBreakdown: [
+      { arg: "numerator", desc: "The number to be divided." },
+      { arg: "denominator", desc: "The number to divide by." }
+    ],
     detailedExamples: [
       {
         title: "Example: Packing Items",
@@ -2828,6 +2875,9 @@ export const mathStatsLessons = [
       concept: "Think of it as a digital dice that rolls itself whenever you make any change."
     },
     syntax: "=RAND()",
+    syntaxBreakdown: [
+      { arg: "(none)", desc: "RAND takes no arguments, but parentheses are required." }
+    ],
     detailedExamples: [
       {
         title: "Example: Scaling Random Values",
@@ -2876,6 +2926,10 @@ export const mathStatsLessons = [
       concept: "Think of it as setting the lower and upper face of a digital die: roll and you get a whole number within those limits."
     },
     syntax: "=RANDBETWEEN(bottom, top)",
+    syntaxBreakdown: [
+      { arg: "bottom", desc: "The smallest integer you want." },
+      { arg: "top", desc: "The largest integer you want." }
+    ],
     detailedExamples: [
       {
         title: "Example: Generating Test Scores",
@@ -2919,6 +2973,10 @@ export const mathStatsLessons = [
       concept: "Think of it as a time machine for your spreadsheet: transforming modern digits into ancient notation."
     },
     syntax: "=ROMAN(number, [form])",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The number to convert (must be 1–3999)." },
+      { arg: "form", desc: "Optional. 0 (classic), 1-4 (more concise), TRUE (simplified). Default is 0." }
+    ],
     detailedExamples: [
       {
         title: "Example: Year Display",
@@ -2962,6 +3020,12 @@ export const mathStatsLessons = [
       concept: "Think of it as an automatic number factory: tell it how many rows and columns you need, and it fills them in order."
     },
     syntax: "=SEQUENCE(rows, [columns], [start], [step])",
+    syntaxBreakdown: [
+      { arg: "rows", desc: "Number of rows to fill." },
+      { arg: "columns", desc: "Optional. Number of columns (default 1)." },
+      { arg: "start", desc: "Optional. Starting number (default 1)." },
+      { arg: "step", desc: "Optional. Increment between numbers (default 1)." }
+    ],
     detailedExamples: [
       {
         title: "Example: Monthly Date Generator",
@@ -3005,6 +3069,12 @@ export const mathStatsLessons = [
       concept: "Think of it as evaluating a polynomial or Taylor series efficiently without typing every term."
     },
     syntax: "=SERIESSUM(x, n, m, coefficients)",
+    syntaxBreakdown: [
+      { arg: "x", desc: "The input value for the series." },
+      { arg: "n", desc: "The starting exponent for the first coefficient." },
+      { arg: "m", desc: "The step by which the exponent increases." },
+      { arg: "coefficients", desc: "A range or array of constants multiplying each term." }
+    ],
     detailedExamples: [
       {
         title: "Example: Polynomial Evaluation",
@@ -3051,6 +3121,9 @@ export const mathStatsLessons = [
       concept: "Think of it as a compass: it tells you whether you're heading up, down, or staying flat."
     },
     syntax: "=SIGN(number)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "Any real number." }
+    ],
     detailedExamples: [
       {
         title: "Example: Classifying Monthly Changes",
@@ -3095,6 +3168,9 @@ export const mathStatsLessons = [
       concept: "Think of it as a shortcut for =SQRT(PI()*number)."
     },
     syntax: "=SQRTPI(number)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The number to multiply by π before taking the square root. Must be ≥ 0." }
+    ],
     detailedExamples: [
       {
         title: "Example: Geometry and Distribution",
@@ -3195,6 +3271,10 @@ export const mathStatsLessons = [
       concept: "Think of it as a clean cut: unlike INT or ROUNDDOWN, TRUNC always chops toward zero."
     },
     syntax: "=TRUNC(number, [num_digits])",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The value to truncate." },
+      { arg: "num_digits", desc: "Optional. Number of decimal places to keep (default 0)." }
+    ],
     detailedExamples: [
       {
         title: "Example: Extracting Dollars",
