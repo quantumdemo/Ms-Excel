@@ -122,7 +122,7 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell A1, use AREAS to count the areas in the reference (B2:B5, D2:D5).",
-      initialData: [[""]],
+      initialData: [["", "", "", ""], ["", "", "", ""], ["", "", "", ""], ["", "", "", ""], ["", "", "", ""]],
       targetCell: [0, 0],
       expectedFormula: "AREAS((B2:B5,D2:D5))",
       expectedValue: 2
@@ -249,7 +249,7 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell E1, use CHOOSECOLS to extract columns 2 and 1 from range A1:B2.",
-      initialData: [["A", "B"], ["C", "D"]],
+      initialData: [["A", "B", "", "", "", ""], ["C", "D", "", "", "", ""]],
       targetCell: [0, 4],
       expectedFormula: "CHOOSECOLS(A1:B2,2,1)",
       expectedValue: "B"
@@ -466,9 +466,9 @@ export const lookupLessons = [
       expectedAnswer: "=DROP(A1:B10, -1)"
     },
     practice: {
-      instructions: "In cell D1, use DROP to remove the first row from range A1:B3.",
-      initialData: [["H1", "H2"], ["A", "B"], ["C", "D"]],
-      targetCell: [0, 3],
+      instructions: "In cell C1, use DROP to remove the first row from range A1:B3.",
+      initialData: [["H1", "H2", ""], ["A", "B", ""], ["C", "D", ""]],
+      targetCell: [0, 2],
       expectedFormula: "DROP(A1:B3,1)",
       expectedValue: "A"
     }
@@ -522,7 +522,7 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell C1, expand range A1:B1 to be 2 rows and 2 columns, padding with 0.",
-      initialData: [["X", "Y"], ["", ""]],
+      initialData: [["X", "Y", ""], ["", "", ""]],
       targetCell: [0, 2],
       expectedFormula: "EXPAND(A1:B1,2,2,0)",
       expectedValue: "X"
@@ -623,7 +623,7 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell C1, use GETPIVOTDATA to get \"Sales\" from the pivot at A1 for \"Region\" \"North\".",
-      initialData: [["PivotTable", ""], ["North", 500]],
+      initialData: [["PivotTable", "", ""], ["North", 500, ""]],
       targetCell: [0, 2],
       expectedFormula: "GETPIVOTDATA(\"Sales\",A1,\"Region\",\"North\")",
       expectedValue: 500
@@ -729,7 +729,7 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell C1, stack range A1:A2 and B1:B2 horizontally.",
-      initialData: [["1"], ["2"], ["3"], ["4"]],
+      initialData: [["1", "", ""], ["2", "", ""], ["3", "", ""], ["4", "", ""]],
       targetCell: [0, 2],
       expectedFormula: "HSTACK(A1:A2,B1:B2)",
       expectedValue: 1
@@ -950,7 +950,7 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell C1, use OFFSET to reference cell B2 from starting point A1.",
-      initialData: [["Start", "A"], ["", "B"]],
+      initialData: [["Start", "A", ""], ["", "B", ""]],
       targetCell: [0, 2],
       expectedFormula: "OFFSET(A1,1,1)",
       expectedValue: "B"
@@ -1001,7 +1001,7 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell A5, enter the ROW function without arguments.",
-      initialData: [[""]],
+      initialData: [[""], [""], [""], [""], [""]],
       targetCell: [4, 0],
       expectedFormula: "ROW()",
       expectedValue: 5
@@ -1046,8 +1046,8 @@ export const lookupLessons = [
       expectedAnswer: "5"
     },
     practice: {
-      instructions: "In cell B2, use ROWS to count rows in range A1:A10.",
-      initialData: [["Data"], [""], [""], ["Total", ""]],
+      instructions: "In cell B4, use ROWS to count rows in range A1:A10.",
+      initialData: [["Data", ""], ["", ""], ["", ""], ["Total", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]],
       targetCell: [3, 1],
       expectedFormula: "ROWS(A1:A10)",
       expectedValue: 10
@@ -1150,7 +1150,7 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell E1, use SORTBY to sort range A1:A3 by B1:B3 ascending.",
-      initialData: [["A", "2"], ["B", "1"], ["C", "3"]],
+      initialData: [["A", "2", "", "", ""], ["B", "1", "", "", ""], ["C", "3", "", "", ""]],
       targetCell: [0, 4],
       expectedFormula: "SORTBY(A1:A3,B1:B3,1)",
       expectedValue: "B"
@@ -1209,7 +1209,7 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell C1, take the first row of range A1:B2.",
-      initialData: [["1", "2"], ["3", "4"]],
+      initialData: [["1", "2", ""], ["3", "4", ""]],
       targetCell: [0, 2],
       expectedFormula: "TAKE(A1:B2,1)",
       expectedValue: 1
@@ -1264,7 +1264,7 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell D1, flatten range A1:B2 into a column.",
-      initialData: [["A", "B"], ["C", "D"]],
+      initialData: [["A", "B", "", ""], ["C", "D", "", ""], ["", "", "", ""], ["", "", "", ""]],
       targetCell: [0, 3],
       expectedFormula: "TOCOL(A1:B2)",
       expectedValue: "A"
@@ -1316,7 +1316,7 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell A3, flatten range A1:B2 into a single row.",
-      initialData: [["1", "2"], ["3", "4"]],
+      initialData: [["1", "2", "", ""], ["3", "4", "", ""], ["", "", "", ""]],
       targetCell: [2, 0],
       expectedFormula: "TOROW(A1:B2)",
       expectedValue: 1
@@ -1365,7 +1365,7 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell A3, transpose the range A1:B1.",
-      initialData: [["H1", "H2"], ["", ""]],
+      initialData: [["H1", "H2"], ["", ""], ["", ""], ["", ""]],
       targetCell: [2, 0],
       expectedFormula: "TRANSPOSE(A1:B1)",
       expectedValue: "H1"
@@ -1420,7 +1420,7 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell A3, stack A1:A1 and B1:B1 vertically.",
-      initialData: [["A"], ["B"], [""]],
+      initialData: [["A", "B"], ["", ""], ["", ""], ["", ""]],
       targetCell: [2, 0],
       expectedFormula: "VSTACK(A1,B1)",
       expectedValue: "A"
@@ -1473,7 +1473,7 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell A2, wrap range A1:D1 into columns of 2.",
-      initialData: [["1", "2", "3", "4"], ["", "", "", ""]],
+      initialData: [["1", "2", "3", "4"], ["", "", "", ""], ["", "", "", ""]],
       targetCell: [1, 0],
       expectedFormula: "WRAPCOLS(A1:D1,2)",
       expectedValue: 1
@@ -1525,7 +1525,7 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell B1, wrap range A1:A4 into rows of 2.",
-      initialData: [["1"], ["2"], ["3"], ["4"]],
+      initialData: [["1", ""], ["2", ""], ["3", ""], ["4", ""]],
       targetCell: [0, 1],
       expectedFormula: "WRAPROWS(A1:A4,2)",
       expectedValue: 1
@@ -1580,7 +1580,7 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell B1, find the position of \"Target\" in range A1:A3.",
-      initialData: [["Other"], ["Target"], ["Other"]],
+      initialData: [["Other", ""], ["Target", ""], ["Other", ""]],
       targetCell: [0, 1],
       expectedFormula: "XMATCH(\"Target\",A1:A3)",
       expectedValue: 2
@@ -1656,7 +1656,12 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell E2, find the Price of the product named in D2 using VLOOKUP from the table in A2:B4.",
-      initialData: [["Product", "Price", "", "Search", "Result"], ["Apple", 5, "", "Banana", ""], ["Banana", 3, "", "", ""], ["Mango", 4, "", "", ""]],
+      initialData: [
+        ["Product", "Price", "", "Search", "Result"],
+        ["Apple", 5, "", "Banana", ""],
+        ["Banana", 3, "", "", ""],
+        ["Mango", 4, "", "", ""]
+      ],
       targetCell: [1, 4],
       expectedFormula: "VLOOKUP(D2,A2:B4,2,FALSE)",
       expectedValue: 3
@@ -1732,7 +1737,12 @@ export const lookupLessons = [
     },
     practice: {
       instructions: "In cell E2, use XLOOKUP to find the Salary (Col A) of the employee in D2 (Col B). Search range B2:B4, Return range A2:A4.",
-      initialData: [["Salary", "Name", "", "Search", "Result"], [5000, "Alice", "", "Bob", ""], [7000, "Bob", "", "", ""], [4500, "Charlie", "", "", ""]],
+      initialData: [
+        ["Salary", "Name", "", "Search", "Result"],
+        [5000, "Alice", "", "Bob", ""],
+        [7000, "Bob", "", "", ""],
+        [4500, "Charlie", "", "", ""]
+      ],
       targetCell: [1, 4],
       expectedFormula: "XLOOKUP(D2,B2:B4,A2:A4)",
       expectedValue: 7000
