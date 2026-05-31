@@ -86,7 +86,7 @@ export const foundationLessons = [
     syntaxBreakdown: [
       { arg: "Relative (A1)", desc: "The default. Changes automatically when you copy the formula to other cells. Excel thinks 'one cell to the left'." },
       { arg: "Absolute ($A$1)", desc: "The 'Lock'. Does NOT change when copied. The $ signs lock the column and row." },
-      { arg: "Mixed ($A1 or A$1)", desc: "Locks only the Column ($A) or only the Row ($1). Used in advanced matrix tables." }
+      { arg: "Mixed ($A1 or A$1)", desc: "Locks only the Column ($A) or only the Row (₦1). Used in advanced matrix tables." }
     ],
     detailedExamples: [
       {
@@ -139,5 +139,204 @@ export const foundationLessons = [
       ["Laptop", 1200, "=B3*0.05", "=B3+C3"],
       ["Tablet", 300, "=B4*0.05", "=B4+C4"]
     ]
+  },
+  {
+    id: "excel-errors",
+    title: "Excel Error Types",
+    category: "foundations",
+    difficulty: "Beginner",
+    xp: 200,
+    introduction: {
+      title: "Understanding What Excel Is Telling You",
+      description: "Errors in Excel are not just annoyances, they are diagnostic messages. Each error type tells you something specific about what went wrong.",
+      concept: "Learning to read them is like learning to read a car's dashboard warning lights. Think of errors as Excel's way of saying 'I tried to do what you asked, but here's why I couldn't.'"
+    },
+    internalLogic: "When Excel encounters a calculation it cannot complete (like dividing by zero or referring to a deleted cell), it stops the process and returns a specific error code instead of a value.",
+    whyItExists: "Without specific error types, you wouldn't know if a formula failed because of a typo, a missing file, or a math impossibility. Errors help you debug your work.",
+    whenToUse: "You don't 'use' errors intentionally, but you must learn to recognize them to fix your spreadsheets effectively.",
+    realWorldUseCases: [
+      "#DIV/0! when calculating averages for data that hasn't been entered yet.",
+      "#N/A when a product ID doesn't exist in your price list.",
+      "#REF! after deleting a sheet that was used in a summary report.",
+      "#NAME? when you accidentally type '=SUMM' instead of '=SUM'."
+    ],
+    syntax: "#DIV/0!, #N/A, #VALUE!, #REF!, #NAME?, #NUM!, #NULL!, #SPILL!, #CALC!, #GETTING_DATA",
+    syntaxBreakdown: [
+      { arg: "#DIV/0!", desc: "Division by zero. The divisor cell is 0 or blank." },
+      { arg: "#N/A", desc: "Value not available. Classic lookup failure (VLOOKUP/XLOOKUP)." },
+      { arg: "#VALUE!", desc: "Wrong type of argument (e.g., adding a number to text)." },
+      { arg: "#REF!", desc: "Invalid reference. A cell or sheet used in the formula was deleted." },
+      { arg: "#NAME?", desc: "Unrecognised text. Usually a typo in a function name or missing quotes." },
+      { arg: "#NUM!", desc: "#NUM! error. Formula produces a number too large or impossible." },
+      { arg: "#NULL!", desc: "No intersection. Ranges in the formula do not overlap (often an accidental space)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example 1: #DIV/0! — Division by Zero",
+        table: {
+          headers: ["Revenue", "Units", "Formula", "Result"],
+          rows: [
+            ["₦5,000", "0", "=A2/B2", "#DIV/0!"],
+            ["₦5,000", "(blank)", "=A3/B3", "#DIV/0!"]
+          ]
+        },
+        stepByStep: [
+          "Excel tries to divide the revenue by the number of units.",
+          "Since units is 0 or blank, the calculation is mathematically impossible.",
+          "Excel returns #DIV/0! to warn you that the divisor is missing or zero."
+        ],
+        explanation: "Fix by using =IF(B2=0, \"N/A\", A2/B2) or =IFERROR(A2/B2, \"N/A\")."
+      },
+      {
+        title: "Example 2: #N/A — Value Not Available",
+        table: {
+          headers: ["ID", "Name", "Lookup ID", "Result"],
+          rows: [
+            ["101", "Alice", "999", "#N/A"],
+            ["102", "Ben", "", ""]
+          ]
+        },
+        stepByStep: [
+          "A VLOOKUP or XLOOKUP searches for ID 999 in the list.",
+          "ID 999 does not exist in the source data.",
+          "Excel returns #N/A because the requested value is 'Not Available'."
+        ],
+        explanation: "Fix by verifying data or using =IFNA(VLOOKUP(...), \"Not found\")."
+      },
+      {
+        title: "Example 3: #VALUE! — Wrong Argument Type",
+        table: {
+          headers: ["A", "B", "Formula", "Result"],
+          rows: [
+            ["10", "ABC", "=A2 + B2", "#VALUE!"],
+            ["10", "\" 20 \"", "=A3 * B3", "#VALUE!"]
+          ]
+        },
+        stepByStep: [
+          "The formula tries to perform math on a text string ('ABC').",
+          "Excel cannot add a number to text.",
+          "Excel returns #VALUE! because one of the arguments is the wrong data type."
+        ],
+        explanation: "Fix by using VALUE() function or cleaning text with TRIM() and CLEAN()."
+      },
+      {
+        title: "Example 4: #REF! — Invalid Reference",
+        table: {
+          headers: ["Item", "Price", "Formula", "Result"],
+          rows: [
+            ["Phone", "₦500", "=SUM(#REF!)", "#REF!"]
+          ]
+        },
+        stepByStep: [
+          "The formula originally pointed to a range (e.g., A1:A5).",
+          "The rows or columns in that range were deleted.",
+          "The reference is now broken, so Excel returns #REF!."
+        ],
+        explanation: "Undo immediately or rebuild the formula pointing to the new correct range."
+      },
+      {
+        title: "Example 5: #NAME? — Unrecognised Text",
+        table: {
+          headers: ["Scenario", "Formula", "Error", "Fix"],
+          rows: [
+            ["Misspelling", "=SUMM(A1:A10)", "#NAME?", "=SUM(A1:A10)"],
+            ["Missing Quotes", "=IF(A1=Yes, 1, 0)", "#NAME?", "=IF(A1=\"Yes\", 1, 0)"]
+          ]
+        },
+        explanation: "This usually happens due to a typo in a function name or forgetting quotes around text."
+      },
+      {
+        title: "Example 6: #NUM! — Invalid Number",
+        table: {
+          headers: ["Formula", "Result", "Why"],
+          rows: [
+            ["=SQRT(-9)", "#NUM!", "Negative square root"],
+            ["=FACT(171)", "#NUM!", "Exceeds Excel's limit"],
+            ["=RATE(1000, -100, 1000)", "#NUM!", "Formula can't converge"]
+          ]
+        },
+        explanation: "The result is either too large, too small, or mathematically impossible for Excel to handle."
+      },
+      {
+        title: "Modern Errors (365/2021+)",
+        table: {
+          headers: ["Error", "Meaning", "Common Cause"],
+          rows: [
+            ["#SPILL!", "Spill range blocked", "Something is in the way of a dynamic array output."],
+            ["#CALC!", "Calculation error", "FILTER found no matches or LAMBDA missing args."],
+            ["#NULL!", "No intersection", "Using a space instead of a comma between ranges."],
+            ["#GETTING_DATA", "Data retrieving", "A linked data type (like Stocks) is still loading."]
+          ]
+        }
+      },
+      {
+        title: "Error Handling Functions",
+        table: {
+          headers: ["Function", "Purpose", "Example"],
+          rows: [
+            ["IFERROR", "Catches any error", "=IFERROR(A1/B1, \"Error\")"],
+            ["IFNA", "Catches only #N/A", "=IFNA(VLOOKUP(...), \"Not found\")"],
+            ["ISERROR", "TRUE if any error", "=ISERROR(A1)"],
+            ["ISERR", "TRUE if any error except #N/A", "=ISERR(A1)"],
+            ["ISNA", "TRUE if #N/A", "=ISNA(A1)"]
+          ]
+        }
+      },
+      {
+        title: "Error Auditing Tools",
+        table: {
+          headers: ["Tool", "Tab", "Purpose"],
+          rows: [
+            ["Trace Precedents", "Formulas", "Arrows showing which cells feed into the formula."],
+            ["Trace Dependents", "Formulas", "Arrows showing which cells depend on this cell."],
+            ["Error Checking", "Formulas", "Walks through each error on the sheet."],
+            ["Evaluate Formula", "Formulas", "Steps through a formula part by part."],
+            ["Watch Window", "Formulas", "Monitor cell values while working elsewhere."]
+          ]
+        }
+      },
+      {
+        title: "Error Type Codes (for ERROR.TYPE function)",
+        table: {
+          headers: ["Error", "Code"],
+          rows: [
+            ["#NULL!", "1"],
+            ["#DIV/0!", "2"],
+            ["#VALUE!", "3"],
+            ["#REF!", "4"],
+            ["#NAME?", "5"],
+            ["#NUM!", "6"],
+            ["#N/A", "7"],
+            ["#GETTING_DATA", "8"]
+          ]
+        }
+      }
+    ],
+    commonMistakes: [
+      { title: "Hiding all errors.", desc: "Using IFERROR to hide everything can mask serious bugs. Use IFNA for lookups instead." },
+      { title: "Hard-deleting cells.", desc: "Deleting rows/columns causes #REF!. Clear the contents or use 'Cut' instead." }
+    ],
+    bestPractices: [
+      "Use Trace Precedents/Dependents (Formulas tab) to see which cells feed into a broken formula.",
+      "Use 'Evaluate Formula' to step through a calculation part by part.",
+      "Build in error checks: =IF(ISERROR(A1), \"CHECK DATA\", A1) for critical dashboard values."
+    ],
+    proTips: [
+      "When debugging, work from the inside out. Break nested functions into helper columns.",
+      "#N/A on purpose — sometimes you want #N/A for charts (they skip #N/A points). Use =NA().",
+      "Green triangles in the cell corner are Excel's way of offering a fix. Click them for suggestions."
+    ],
+    relatedFunctions: ["IFERROR", "IFNA", "ISERROR", "ERROR.TYPE"],
+    miniChallenge: {
+      question: "Which function specifically catches only the #N/A error?",
+      expectedAnswer: "IFNA"
+    },
+    practice: {
+      instructions: "In cell C2, write a formula to divide Revenue (A2) by Units (B2). It will result in an error because B2 is 0.",
+      initialData: [["Revenue", "Units", "Result"], [5000, 0, ""]],
+      targetCell: [1, 2],
+      expectedFormula: "A2/B2",
+      expectedValue: "#DIV/0!"
+    }
   }
 ];
