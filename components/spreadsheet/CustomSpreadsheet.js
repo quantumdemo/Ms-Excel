@@ -76,12 +76,37 @@ export default function CustomSpreadsheet({
   const [selected, setSelected] = useState({ r: 0, c: 0 });
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [dragStarted, setDragStarted] = useState(false);
+  const pointerStartPos = useRef(null);
+  const lastCommittedCell = useRef({ r: 0, c: 0 });
   const [spillMap, setSpillMap] = useState(new Map());
   const [fillRange, setFillRange] = useState(null);
   const [isFilling, setIsFilling] = useState(false);
 
   const evaluationCache = useRef(new Map());
   const formulaParser = useMemo(() => new ExcelEngine(), []);
+  const getCellValueRef = useRef();
+
+  useEffect(() => {
+    formulaParser.on('callCellValue', (coord, done) => {
+      if (getCellValueRef.current) {
+        done(getCellValueRef.current(coord.row.index, coord.column.index));
+      }
+    });
+    formulaParser.on('callRangeValue', (start, end, done) => {
+      if (getCellValueRef.current) {
+        const res = [];
+        for (let r = start.row.index; r <= end.row.index; r++) {
+          const row = [];
+          for (let c = start.column.index; c <= end.column.index; c++) {
+            row.push(getCellValueRef.current(r, c));
+          }
+          res.push(row);
+        }
+        done(res);
+      }
+    });
+  }, [formulaParser]);
 
   // Grid Initialization
   useEffect(() => {
@@ -92,48 +117,39 @@ export default function CustomSpreadsheet({
     );
     setData(newData);
     setSelected({ r: 0, c: 0 });
+    lastCommittedCell.current = { r: 0, c: 0 };
     setInputValue(newData[0]?.[0]?.toString() || "");
     setFillRange(null);
     setIsFilling(false);
   }, [initialData]);
 
   // Comprehensive Evaluation Logic
-  const getCellValue = useCallback((r, c, path = new Set()) => {
+  const getCellValue = useCallback((r, c, path = new Set(), currentData = null) => {
+    const activeData = currentData || data;
     const cellId = `${r},${c}`;
     if (spillMap.has(cellId)) return spillMap.get(cellId);
     if (path.has(cellId)) return "#CIRCULAR!";
-    if (evaluationCache.current.has(cellId)) return evaluationCache.current.get(cellId);
 
-    const raw = data[r]?.[c];
+    // Cache only if using base data
+    if (!currentData && evaluationCache.current.has(cellId)) return evaluationCache.current.get(cellId);
+
+    const raw = activeData[r]?.[c];
     if (raw === undefined) return "";
 
     if (typeof raw === 'string' && raw.startsWith('=')) {
       const currentPath = new Set(path);
       currentPath.add(cellId);
 
-      formulaParser.off('callCellValue');
-      formulaParser.on('callCellValue', (coord, done) => {
-        done(getCellValue(coord.row.index, coord.column.index, currentPath));
-      });
-
-      formulaParser.off('callRangeValue');
-      formulaParser.on('callRangeValue', (start, end, done) => {
-        const res = [];
-        for (let row = start.row.index; row <= end.row.index; row++) {
-          const rowData = [];
-          for (let col = start.column.index; col <= end.column.index; col++) {
-            rowData.push(getCellValue(row, col, currentPath));
-          }
-          res.push(rowData);
-        }
-        done(res);
-      });
+      // Temporary override for recursive calls
+      const prevHandler = getCellValueRef.current;
+      getCellValueRef.current = (r, c) => getCellValue(r, c, currentPath, activeData);
 
       const parsed = formulaParser.parse(raw.substring(1));
+      getCellValueRef.current = prevHandler;
       const val = parsed.error ? parsed.error : parsed.result;
 
       const displayVal = Array.isArray(val) ? val[0]?.[0] : val;
-      evaluationCache.current.set(cellId, displayVal);
+      if (!currentData) evaluationCache.current.set(cellId, displayVal);
       return displayVal;
     }
 
@@ -165,9 +181,10 @@ export default function CustomSpreadsheet({
     setSpillMap(newSpills);
   }, [data, formulaParser]);
 
+  getCellValueRef.current = getCellValue;
   evaluationCache.current.clear();
 
-  const adjustRefs = (formula, rOff, cOff) => {
+  const adjustRefs = useCallback((formula, rOff, cOff) => {
     if (typeof formula !== 'string' || !formula.startsWith('=')) return formula;
     return formula.replace(/(\$?[A-Z]+)(\$?[0-9]+)/g, (match, col, row) => {
       let nc = col, nr = row;
@@ -185,32 +202,109 @@ export default function CustomSpreadsheet({
       if (!row.startsWith('$')) nr = (parseInt(row) + rOff).toString();
       return nc + nr;
     });
-  };
+  }, []);
 
-  const handleFillEnd = () => {
+  const handleFillEnd = useCallback(() => {
+    setDragStarted(false);
+    pointerStartPos.current = null;
     if (!isFilling || !fillRange) return;
-    const src = data[fillRange.startR][fillRange.startC];
-    const newData = data.map((row, r) =>
-      row.map((cell, c) => {
-        if (r >= Math.min(fillRange.startR, fillRange.endR) &&
-            r <= Math.max(fillRange.startR, fillRange.endR) &&
-            c >= Math.min(fillRange.startC, fillRange.endC) &&
-            c <= Math.max(fillRange.startC, fillRange.endC)) {
-          return adjustRefs(src, r - fillRange.startR, c - fillRange.startC);
+
+    const { startR, startC, endR, endC } = fillRange;
+    if (startR === endR && startC === endC) {
+      setIsFilling(false);
+      setFillRange(null);
+      return;
+    }
+
+    const rDir = endR > startR ? 1 : (endR < startR ? -1 : 0);
+    const cDir = endC > startC ? 1 : (endC < startC ? -1 : 0);
+
+    const newData = data.map(row => [...row]);
+    const sourceCell = data[startR][startC];
+
+    // Simple numeric sequence check
+    let step = 0;
+    let hasPattern = false;
+    if (typeof sourceCell === 'number' || (!isNaN(sourceCell) && sourceCell !== "")) {
+      const sVal = Number(sourceCell);
+      const prevR = startR > 0 ? startR - 1 : -1;
+      const prevC = startC > 0 ? startC - 1 : -1;
+
+      if (rDir !== 0 && prevR !== -1) {
+        const pVal = Number(data[prevR][startC]);
+        if (!isNaN(pVal)) { step = sVal - pVal; hasPattern = true; }
+      } else if (cDir !== 0 && prevC !== -1) {
+        const pVal = Number(data[startR][prevC]);
+        if (!isNaN(pVal)) { step = sVal - pVal; hasPattern = true; }
+      }
+    }
+
+    if (rDir !== 0) {
+      for (let r = startR + rDir; rDir > 0 ? r <= endR : r >= endR; r += rDir) {
+        const offset = Math.abs(r - startR);
+        if (typeof sourceCell === 'string' && sourceCell.startsWith('=')) {
+          newData[r][startC] = adjustRefs(sourceCell, r - startR, 0);
+        } else if (hasPattern) {
+          newData[r][startC] = Number(sourceCell) + step * offset;
+        } else {
+          newData[r][startC] = sourceCell;
         }
-        return cell;
-      })
-    );
+      }
+    } else if (cDir !== 0) {
+      for (let c = startC + cDir; cDir > 0 ? c <= endC : c >= endC; c += cDir) {
+        const offset = Math.abs(c - startC);
+        if (typeof sourceCell === 'string' && sourceCell.startsWith('=')) {
+          newData[startR][c] = adjustRefs(sourceCell, 0, c - startC);
+        } else if (hasPattern) {
+          newData[startR][c] = Number(sourceCell) + step * offset;
+        } else {
+          newData[startR][c] = sourceCell;
+        }
+      }
+    }
+
     setData(newData);
+
+    // Validation check after fill
+    if (onCellChange && targetCell[0] !== -1) {
+      const tr = targetCell[0], tc = targetCell[1];
+      const targetVal = newData[tr][tc];
+      onCellChange(targetVal?.toString() || "", getCellValue(tr, tc, new Set(), newData));
+    }
+
     setIsFilling(false);
     setFillRange(null);
+  }, [isFilling, fillRange, data, adjustRefs, onCellChange, targetCell, getCellValue]);
+
+  const handlePointerMove = (e) => {
+    if (!isFilling) return;
+    const clientX = e.clientX || e.touches?.[0]?.clientX;
+    const clientY = e.clientY || e.touches?.[0]?.clientY;
+    if (clientX === undefined || clientY === undefined) return;
+
+    if (e.cancelable) e.preventDefault();
+
+    const el = document.elementFromPoint(clientX, clientY);
+    const td = el?.closest('td');
+    if (td) {
+      const r = parseInt(td.getAttribute('data-row'));
+      const c = parseInt(td.getAttribute('data-col'));
+      if (!isNaN(r) && !isNaN(c)) {
+        const { startR, startC } = fillRange;
+        if (Math.abs(r - startR) >= Math.abs(c - startC)) {
+           setFillRange(prev => ({ ...prev, endR: r, endC: startC }));
+        } else {
+           setFillRange(prev => ({ ...prev, endR: startR, endC: c }));
+        }
+      }
+    }
   };
 
   if (data.length === 0) return null;
 
   return (
-    <div className="flex flex-col w-full bg-card-dark rounded-3xl overflow-hidden border border-white/5 shadow-2xl select-none"
-         onMouseUp={handleFillEnd} onTouchEnd={handleFillEnd}>
+    <div className="flex flex-col w-full bg-card-dark rounded-3xl overflow-hidden border border-white/5 shadow-2xl"
+         onPointerUp={handleFillEnd} onPointerMove={handlePointerMove}>
       <div className="px-5 py-4 bg-white/5 border-b border-white/5 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-excel-green/20 rounded-lg flex items-center justify-center">
@@ -236,14 +330,20 @@ export default function CustomSpreadsheet({
           <input
             className="bg-transparent border-none outline-none text-sm font-mono w-full text-slate-100"
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(e) => {
+                const val = e.target.value;
+                setInputValue(val);
+                // Live evaluation for onCellChange
+                if (onCellChange && selected.r === targetCell[0] && selected.c === targetCell[1]) {
+                    const tempData = data.map(row => [...row]);
+                    tempData[selected.r][selected.c] = val;
+                    onCellChange(val, getCellValue(selected.r, selected.c, new Set(), tempData));
+                }
+            }}
             onBlur={() => {
-               const newData = [...data];
+               const newData = data.map(row => [...row]);
                newData[selected.r][selected.c] = inputValue;
                setData(newData);
-               if (onCellChange && selected.r === targetCell[0] && selected.c === targetCell[1]) {
-                 onCellChange(inputValue, getCellValue(selected.r, selected.c));
-               }
             }}
             placeholder="Enter formula or value..."
           />
@@ -272,15 +372,34 @@ export default function CustomSpreadsheet({
                   const isS = selected.r === r && selected.c === c;
                   const isT = targetCell[0] === r && targetCell[1] === c;
                   const isSp = spillMap.has(`${r},${c}`);
-                  const val = typeof cell === 'string' && cell.startsWith('=') ? getCellValue(r, c) : (isSp ? spillMap.get(`${r},${c}`) : cell);
+
+                  const val = isS ? inputValue : (typeof cell === 'string' && cell.startsWith('=') ? getCellValue(r, c) : (isSp ? spillMap.get(`${r},${c}`) : cell));
 
                   const isF = fillRange && r >= Math.min(fillRange.startR, fillRange.endR) && r <= Math.max(fillRange.startR, fillRange.endR) && c >= Math.min(fillRange.startC, fillRange.endC) && c <= Math.max(fillRange.startC, fillRange.endC);
 
                   return (
                     <td
                       key={c}
-                      onClick={() => { setSelected({r,c}); setInputValue(cell.toString()); }}
-                      onMouseEnter={() => isFilling && setFillRange({...fillRange, endR: r, endC: c})}
+                      data-row={r}
+                      data-col={c}
+                      onPointerDown={(e) => {
+                         if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+                         const prevR = lastCommittedCell.current.r;
+                         const prevC = lastCommittedCell.current.c;
+
+                         const newData = data.map(row => [...row]);
+                         newData[prevR][prevC] = inputValue;
+
+                         if (onCellChange && prevR === targetCell[0] && prevC === targetCell[1]) {
+                            onCellChange(inputValue, getCellValue(prevR, prevC, new Set(), newData));
+                         }
+
+                         setData(newData);
+                         setSelected({r,c});
+                         setInputValue(newData[r][c]?.toString() || "");
+                         lastCommittedCell.current = { r, c };
+                      }}
                       className={cn(
                         "border border-white/5 h-12 p-2 text-xs transition-all relative cursor-pointer",
                         isS && "ring-2 ring-inset ring-excel-green bg-excel-green/5 z-10",
@@ -289,17 +408,21 @@ export default function CustomSpreadsheet({
                         isF && "bg-excel-green/20"
                       )}
                     >
-                      <div className={cn(
-                        "truncate text-center font-semibold",
-                        val?.toString().startsWith("#") ? "text-red-500" : (typeof val === 'number' ? "text-blue-400" : "text-slate-300")
-                      )}>
-                        {val?.toString()}
+                      <div className="truncate text-center font-semibold pointer-events-none">
+                        <span className={cn(
+                            val?.toString().startsWith("#") ? "text-red-500" : (typeof val === 'number' ? "text-blue-400" : "text-slate-300")
+                        )}>
+                            {val?.toString()}
+                        </span>
                       </div>
                       {isS && (
                         <div
-                          className="absolute bottom-[-5px] right-[-5px] w-4 h-4 bg-excel-green border-2 border-white rounded-full z-30 cursor-crosshair"
-                          onMouseDown={(e) => { e.stopPropagation(); setIsFilling(true); setFillRange({startR:r, startC:c, endR:r, endC:c}); }}
-                          onTouchStart={(e) => { e.stopPropagation(); setIsFilling(true); setFillRange({startR:r, startC:c, endR:r, endC:c}); }}
+                          className="absolute bottom-[-5px] right-[-5px] w-6 h-6 bg-excel-green border-2 border-white rounded-full z-30 cursor-crosshair"
+                          onPointerDown={(e) => {
+                             e.stopPropagation();
+                             setIsFilling(true);
+                             setFillRange({startR:r, startC:c, endR:r, endC:c});
+                          }}
                         />
                       )}
                     </td>
