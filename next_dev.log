@@ -2,27 +2,21 @@
 > learn-excel@0.1.0 dev
 > next dev
 
- ⚠ Port 3000 is in use, trying 3001 instead.
    ▲ Next.js 15.1.12
-   - Local:        http://localhost:3001
-   - Network:      http://192.168.0.2:3001
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.2:3000
 
  ✓ Starting...
 > [PWA] PWA support is disabled
-> [P[?25h
- support is disabled
- ✓ Ready in 3s
+> [PWA] PWA support is disabled
+ ✓ Ready in 5.1s
  ○ Compiling /middleware ...
- ✓ Compiled /middleware in 1134ms (104 modules)
+ ✓ Compiled /middleware in 1703ms (104 modules)
 [Upstash Redis] The 'url' property is missing or undefined in your Redis config.
 [Upstash Redis] The 'token' property is missing or undefined in your Redis config.
  ○ Compiling /test-sheetlab ...
- ✓ Compiled /test-sheetlab in 8.5s (1746 modules)
- GET /test-sheetlab 200 in 9602ms
- ✓ Compiled in 1182ms (863 modules)
+ ✓ Compiled /test-sheetlab in 13s (1746 modules)
+ GET /test-sheetlab 200 in 15043ms
+ ✓ Compiled in 2.1s (863 modules)
 <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (107kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
- GET /test-sheetlab 200 in 66ms
- ✓ Compiled in 1033ms (1746 modules)
- GET /test-sheetlab 200 in 459ms
- ✓ Compiled in 681ms (734 modules)
 [?25h
