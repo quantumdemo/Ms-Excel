@@ -126,88 +126,63 @@ export default function SheetLab({ onBack }) {
       return;
     }
 
-    const sourceFormula = hf.getCellFormula(sheetId, startR, startC);
-    const sourceValue = hf.getCellValue(sheetId, startR, startC);
-
-    // Enhanced Pattern recognition using selection range
-    let step = 0;
-    let hasPattern = false;
-    const isSingleCellSelection = selection.startR === selection.endR && selection.startC === selection.endC;
-
-    if (!sourceFormula && typeof sourceValue === 'number') {
-      if (!isSingleCellSelection) {
-        // Calculate step from the selection range
-        const sR1 = Math.min(selection.startR, selection.endR);
-        const sR2 = Math.max(selection.startR, selection.endR);
-        const sC1 = Math.min(selection.startC, selection.endC);
-        const sC2 = Math.max(selection.startC, selection.endC);
-
-        if (endR !== startR && sR1 !== sR2) {
-          // Vertical fill, check vertical selection
-          const val1 = hf.getCellValue(sheetId, sR1, startC);
-          const val2 = hf.getCellValue(sheetId, sR2, startC);
-          if (typeof val1 === 'number' && typeof val2 === 'number') {
-            step = (val2 - val1) / (sR2 - sR1);
-            hasPattern = true;
-          }
-        } else if (endC !== startC && sC1 !== sC2) {
-          // Horizontal fill, check horizontal selection
-          const val1 = hf.getCellValue(sheetId, startR, sC1);
-          const val2 = hf.getCellValue(sheetId, startR, sC2);
-          if (typeof val1 === 'number' && typeof val2 === 'number') {
-            step = (val2 - val1) / (sC2 - sC1);
-            hasPattern = true;
-          }
-        }
-      }
-
-      // Fallback to preceding cell if no pattern from selection and it's a single cell
-      if (!hasPattern && isSingleCellSelection) {
-        const prevR = startR > 0 ? startR - 1 : -1;
-        const prevC = startC > 0 ? startC - 1 : -1;
-
-        if (endR !== startR && prevR !== -1) {
-          const prevValue = hf.getCellValue(sheetId, prevR, startC);
-          if (typeof prevValue === 'number') {
-            step = sourceValue - prevValue;
-            hasPattern = true;
-          }
-        } else if (endC !== startC && prevC !== -1) {
-          const prevValue = hf.getCellValue(sheetId, startR, prevC);
-          if (typeof prevValue === 'number') {
-            step = sourceValue - prevValue;
-            hasPattern = true;
-          }
-        }
-      }
-    }
+    const sR1 = Math.min(selection.startR, selection.endR);
+    const sR2 = Math.max(selection.startR, selection.endR);
+    const sC1 = Math.min(selection.startC, selection.endC);
+    const sC2 = Math.max(selection.startC, selection.endC);
 
     const batchUpdates = [];
     const rDir = endR > startR ? 1 : (endR < startR ? -1 : 0);
     const cDir = endC > startC ? 1 : (endC < startC ? -1 : 0);
 
     if (rDir !== 0) { // Vertical drag
+      const rowCount = sR2 - sR1 + 1;
+      const isSequence = rowCount > 1 && typeof hf.getCellValue(sheetId, sR1, startC) === 'number' && typeof hf.getCellValue(sheetId, sR2, startC) === 'number';
+      let step = 0;
+      if (isSequence) {
+        step = (hf.getCellValue(sheetId, sR2, startC) - hf.getCellValue(sheetId, sR1, startC)) / (sR2 - sR1);
+      }
+
       for (let r = startR + rDir; rDir > 0 ? r <= endR : r >= endR; r += rDir) {
-        if (sourceFormula) {
-          const adjusted = adjustRefs(sourceFormula, r - startR, 0);
-          batchUpdates.push({ address: { sheet: sheetId, row: r, col: startC }, value: [[adjusted]] });
-        } else if (hasPattern) {
-          const val = sourceValue + (step * (Math.abs(r - startR)));
-          batchUpdates.push({ address: { sheet: sheetId, row: r, col: startC }, value: [[val]] });
+        const offset = Math.abs(r - startR);
+        if (isSequence) {
+          const baseVal = hf.getCellValue(sheetId, startR, startC);
+          batchUpdates.push({ address: { sheet: sheetId, row: r, col: startC }, value: [[baseVal + step * offset]] });
         } else {
-          batchUpdates.push({ address: { sheet: sheetId, row: r, col: startC }, value: [[sourceValue]] });
+          const sourceRowIdx = sR1 + (offset % rowCount);
+          const sourceFormula = hf.getCellFormula(sheetId, sourceRowIdx, startC);
+          const sourceValue = hf.getCellValue(sheetId, sourceRowIdx, startC);
+          if (sourceFormula) {
+            const adjusted = adjustRefs(sourceFormula, r - sourceRowIdx, 0);
+            batchUpdates.push({ address: { sheet: sheetId, row: r, col: startC }, value: [[adjusted]] });
+          } else {
+            batchUpdates.push({ address: { sheet: sheetId, row: r, col: startC }, value: [[sourceValue]] });
+          }
         }
       }
     } else if (cDir !== 0) { // Horizontal drag
+      const colCount = sC2 - sC1 + 1;
+      const isSequence = colCount > 1 && typeof hf.getCellValue(sheetId, startR, sC1) === 'number' && typeof hf.getCellValue(sheetId, startR, sC2) === 'number';
+      let step = 0;
+      if (isSequence) {
+        step = (hf.getCellValue(sheetId, startR, sC2) - hf.getCellValue(sheetId, startR, sC1)) / (sC2 - sC1);
+      }
+
       for (let c = startC + cDir; cDir > 0 ? c <= endC : c >= endC; c += cDir) {
-        if (sourceFormula) {
-          const adjusted = adjustRefs(sourceFormula, 0, c - startC);
-          batchUpdates.push({ address: { sheet: sheetId, row: startR, col: c }, value: [[adjusted]] });
-        } else if (hasPattern) {
-          const val = sourceValue + (step * (Math.abs(c - startC)));
-          batchUpdates.push({ address: { sheet: sheetId, row: startR, col: c }, value: [[val]] });
+        const offset = Math.abs(c - startC);
+        if (isSequence) {
+          const baseVal = hf.getCellValue(sheetId, startR, startC);
+          batchUpdates.push({ address: { sheet: sheetId, row: startR, col: c }, value: [[baseVal + step * offset]] });
         } else {
-          batchUpdates.push({ address: { sheet: sheetId, row: startR, col: c }, value: [[sourceValue]] });
+          const sourceColIdx = sC1 + (offset % colCount);
+          const sourceFormula = hf.getCellFormula(sheetId, startR, sourceColIdx);
+          const sourceValue = hf.getCellValue(sheetId, startR, sourceColIdx);
+          if (sourceFormula) {
+            const adjusted = adjustRefs(sourceFormula, 0, c - sourceColIdx);
+            batchUpdates.push({ address: { sheet: sheetId, row: startR, col: c }, value: [[adjusted]] });
+          } else {
+            batchUpdates.push({ address: { sheet: sheetId, row: startR, col: c }, value: [[sourceValue]] });
+          }
         }
       }
     }
@@ -236,9 +211,14 @@ export default function SheetLab({ onBack }) {
 
   const handleTouchMove = (e) => {
     if (!isFilling && !isSelecting) return;
-    if (e.cancelable) e.preventDefault();
-    const touch = e.touches[0];
-    const el = document.elementFromPoint(touch.clientX, touch.clientY);
+
+    const clientX = e.clientX || e.touches?.[0]?.clientX;
+    const clientY = e.clientY || e.touches?.[0]?.clientY;
+    if (clientX === undefined || clientY === undefined) return;
+
+    if (e.cancelable && (isFilling || isSelecting)) e.preventDefault();
+
+    const el = document.elementFromPoint(clientX, clientY);
     const td = el?.closest('td');
     if (td) {
       const r = parseInt(td.getAttribute('data-row'));
@@ -311,7 +291,7 @@ export default function SheetLab({ onBack }) {
 
       {/* Grid */}
       <div
-        className="flex-1 overflow-auto no-scrollbar relative touch-none"
+        className="flex-1 overflow-auto no-scrollbar relative"
         onPointerUp={handleFillEnd}
         onPointerMove={handleTouchMove}
       >
@@ -343,7 +323,7 @@ export default function SheetLab({ onBack }) {
                   </td>
                   {row.map((cell, c) => {
                     const isSelected = selected.r === r && selected.c === c;
-                    const displayValue = cell?.toString() || "";
+                    const displayValue = isSelected ? inputValue : (cell?.toString() || "");
 
                     const isInSelection =
                       r >= Math.min(selection.startR, selection.endR) &&
@@ -385,7 +365,7 @@ export default function SheetLab({ onBack }) {
                         </div>
 
                         {/* Drag Handle */}
-                        {isSelected && (
+                        {r === Math.max(selection.startR, selection.endR) && c === Math.max(selection.startC, selection.endC) && (
                           <motion.div
                             layoutId="drag-handle"
                             className={cn(
@@ -396,6 +376,8 @@ export default function SheetLab({ onBack }) {
                             onPointerDown={(e) => {
                               e.stopPropagation();
                               setIsFilling(true);
+                              // When dragging handle from selection, startR/startC should be the "anchor" of the fill
+                              // usually the bottom-right cell of selection
                               setFillRange({ startR: r, startC: c, endR: r, endC: c });
                             }}
                           />
