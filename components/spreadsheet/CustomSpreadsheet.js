@@ -382,8 +382,8 @@ export default function CustomSpreadsheet({
                       key={c}
                       data-row={r}
                       data-col={c}
-                      onPointerDown={(e) => {
-                         if (e.pointerType === 'mouse' && e.button !== 0) return;
+                      onClick={() => {
+                         if (dragStarted) return;
 
                          const prevR = lastCommittedCell.current.r;
                          const prevC = lastCommittedCell.current.c;
@@ -399,6 +399,11 @@ export default function CustomSpreadsheet({
                          setSelected({r,c});
                          setInputValue(newData[r][c]?.toString() || "");
                          lastCommittedCell.current = { r, c };
+                      }}
+                      onPointerDown={(e) => {
+                         if (e.pointerType === 'mouse' && e.button !== 0) return;
+                         pointerStartPos.current = { x: e.clientX, y: e.clientY };
+                         setDragStarted(false);
                       }}
                       className={cn(
                         "border border-white/5 h-12 p-2 text-xs transition-all relative cursor-pointer",
