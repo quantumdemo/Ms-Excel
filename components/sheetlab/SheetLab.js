@@ -69,7 +69,6 @@ export default function SheetLab({ onBack }) {
 
   const handleCellSelect = useCallback((r, c, isMultiSelect = false) => {
     if (!isMultiSelect) {
-      // Avoid redundant updates
       if (selected.r === r && selected.c === c && selection.endR === r && selection.endC === c) return;
 
       commitValue();
@@ -87,7 +86,7 @@ export default function SheetLab({ onBack }) {
     }
   }, [hf, sheetId, commitValue, selected, selection]);
 
-  // Global keydown listener
+  // Global keydown listener to focus input when typing
   useEffect(() => {
     const handleGlobalKeyDown = (e) => {
       if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
@@ -130,19 +129,19 @@ export default function SheetLab({ onBack }) {
   }, []);
 
   const handleFillEnd = useCallback(() => {
-    if (isSelecting) {
-      setIsSelecting(false);
-      setDragStarted(false);
-      pointerStartPos.current = null;
-    }
-    if (!isFilling || !fillRange) return;
+    const wasFilling = isFilling;
+    const currentFillRange = fillRange;
 
-    const { startR, startC, endR, endC } = fillRange;
-    if (startR === endR && startC === endC) {
-      setIsFilling(false);
-      setFillRange(null);
-      return;
-    }
+    setIsSelecting(false);
+    setDragStarted(false);
+    pointerStartPos.current = null;
+    setIsFilling(false);
+    setFillRange(null);
+
+    if (!wasFilling || !currentFillRange) return;
+
+    const { startR, startC, endR, endC } = currentFillRange;
+    if (startR === endR && startC === endC) return;
 
     const sR1 = Math.min(selection.startR, selection.endR);
     const sR2 = Math.max(selection.startR, selection.endR);
@@ -207,17 +206,22 @@ export default function SheetLab({ onBack }) {
 
     batchUpdates.forEach(upd => hf.setCellContents(upd.address, upd.value));
     refreshValues();
-    setIsFilling(false);
-    setFillRange(null);
   }, [isSelecting, isFilling, fillRange, selection, hf, sheetId, refreshValues, adjustRefs]);
 
   useEffect(() => {
-    const up = () => {
-      if (isSelecting || isFilling) handleFillEnd();
-    };
+    const up = () => handleFillEnd();
     window.addEventListener('pointerup', up);
     return () => window.removeEventListener('pointerup', up);
-  }, [isSelecting, isFilling, handleFillEnd]);
+  }, [handleFillEnd]);
+
+  const resetSheet = () => {
+    const emptyData = Array(INITIAL_ROWS).fill(0).map(() => Array(INITIAL_COLS).fill(""));
+    hf.setSheetContent(sheetId, emptyData);
+    refreshValues();
+    setSelected({ r: 0, c: 0 });
+    setSelection({ startR: 0, startC: 0, endR: 0, endC: 0 });
+    setInputValue("");
+  };
 
   const handleTouchMove = (e) => {
     if (!isFilling && !isSelecting) return;
@@ -286,14 +290,7 @@ export default function SheetLab({ onBack }) {
             <p className="text-[10px] text-excel-green font-bold uppercase tracking-widest mt-1">Professional Sandbox</p>
           </div>
         </div>
-        <button onClick={() => {
-          const emptyData = Array(INITIAL_ROWS).fill(0).map(() => Array(INITIAL_COLS).fill(""));
-          hf.setSheetContent(sheetId, emptyData);
-          refreshValues();
-          setSelected({ r: 0, c: 0 });
-          setSelection({ startR: 0, startC: 0, endR: 0, endC: 0 });
-          setInputValue("");
-        }} className="p-2 bg-white/5 rounded-full active:rotate-180 transition-all duration-500">
+        <button onClick={resetSheet} className="p-2 bg-white/5 rounded-full active:rotate-180 transition-all duration-500">
           <RotateCcw size={20} className="text-slate-400" />
         </button>
       </header>
@@ -320,7 +317,6 @@ export default function SheetLab({ onBack }) {
       {/* Grid */}
       <div
         className="flex-1 overflow-auto no-scrollbar relative"
-        onPointerUp={handleFillEnd}
         onPointerMove={handleTouchMove}
       >
         <div className="inline-block min-w-full">
