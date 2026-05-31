@@ -47,7 +47,9 @@ export default function SheetLab({ onBack }) {
   }, [hf, sheetId, refreshValues]);
 
   const handleCellSelect = (r, c) => {
-    const cellValue = hf.getCellFormula(sheetId, r, c) || hf.getCellValue(sheetId, r, c)?.toString() || "";
+    const formula = hf.getCellFormula(sheetId, r, c);
+    const value = hf.getCellValue(sheetId, r, c);
+    const cellValue = formula || (value !== null && value !== undefined ? value.toString() : "");
     setSelected({ r, c });
     setInputValue(cellValue);
   };
@@ -137,6 +139,7 @@ export default function SheetLab({ onBack }) {
 
   const handleTouchMove = (e) => {
     if (!isFilling) return;
+    if (e.cancelable) e.preventDefault();
     const touch = e.touches[0];
     const el = document.elementFromPoint(touch.clientX, touch.clientY);
     const td = el?.closest('td');
@@ -150,7 +153,7 @@ export default function SheetLab({ onBack }) {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-bg-dark text-slate-100 overflow-hidden fixed inset-0 z-50">
+    <div className="flex flex-col h-screen bg-bg-dark text-slate-100 overflow-hidden fixed inset-0 z-50 select-none">
       {/* Header */}
       <header className="px-6 py-4 flex items-center justify-between border-b border-white/5 bg-bg-dark/80 backdrop-blur-md">
         <div className="flex items-center gap-4">
@@ -234,7 +237,7 @@ export default function SheetLab({ onBack }) {
                         key={c}
                         data-row={r}
                         data-col={c}
-                        onClick={() => handleCellSelect(r, c)}
+                        onPointerDown={() => handleCellSelect(r, c)}
                         onMouseEnter={() => isFilling && setFillRange(prev => ({ ...prev, endR: r, endC: c }))}
                         className={cn(
                           "w-24 h-12 border-b border-r border-white/5 text-sm transition-all relative outline-none",
@@ -253,13 +256,12 @@ export default function SheetLab({ onBack }) {
                         {isSelected && (
                           <motion.div
                             layoutId="drag-handle"
-                            className="absolute bottom-[-6px] right-[-6px] w-4 h-4 bg-excel-green border-2 border-white rounded-full z-40 cursor-crosshair shadow-lg"
-                            onMouseDown={(e) => {
-                              e.stopPropagation();
-                              setIsFilling(true);
-                              setFillRange({ startR: r, startC: c, endR: r, endC: c });
-                            }}
-                            onTouchStart={(e) => {
+                            className={cn(
+                              "absolute bottom-[-8px] right-[-8px] w-5 h-5 bg-excel-green border-2 border-white rounded-full z-40 cursor-crosshair shadow-lg",
+                              isFilling && "pointer-events-none opacity-50"
+                            )}
+                            style={{ touchAction: 'none' }}
+                            onPointerDown={(e) => {
                               e.stopPropagation();
                               setIsFilling(true);
                               setFillRange({ startR: r, startC: c, endR: r, endC: c });
