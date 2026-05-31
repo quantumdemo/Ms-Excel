@@ -88,6 +88,12 @@ export default function HamburgerMenu({ isOpen, onClose, onSelectCategory, setAc
                    active={activeTab === 'achievements'}
                    onClick={() => { setActiveTab('achievements'); onClose(); }}
                  />
+                 <MenuLink
+                   icon={<Layout size={20} className="text-excel-green" />}
+                   label="SheetLab"
+                   active={activeTab === 'sheetlab'}
+                   onClick={() => { setActiveTab('sheetlab'); onClose(); }}
+                 />
 
                  <div className="pt-6 pb-2 px-4">
                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Learning Roadmap</p>

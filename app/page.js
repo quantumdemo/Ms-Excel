@@ -12,6 +12,7 @@ import AuthScreen from "@/components/common/AuthScreen";
 // Dynamic imports for heavy components
 const HomeDashboard = dynamic(() => import("@/components/home/HomeDashboard"), { ssr: false });
 const LessonViewer = dynamic(() => import("@/components/lesson/LessonViewer"), { ssr: false });
+const SheetLab = dynamic(() => import("@/components/sheetlab/SheetLab"), { ssr: false });
 
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
@@ -76,6 +77,11 @@ export default function Home() {
               key={selectedLesson.id}
               lesson={selectedLesson}
               onBack={() => setSelectedLesson(null)}
+            />
+          ) : activeTab === 'sheetlab' ? (
+            <SheetLab
+              key="sheetlab"
+              onBack={() => setActiveTab('home')}
             />
           ) : (
             <HomeDashboard
