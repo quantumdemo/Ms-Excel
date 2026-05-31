@@ -9,14 +9,13 @@
  ✓ Starting...
 > [PWA] PWA support is disabled
 > [PWA] PWA support is disabled
- ✓ Ready in 3.9s
- ○ Compiling /middleware ...
- ✓ Compiled /middleware in 545ms (104 modules)
+ ✓ Ready in 2.5s
+ ✓ Compiled /middleware in 359ms (104 modules)
 [Upstash Redis] The 'url' property is missing or undefined in your Redis config.
 [Upstash Redis] The 'token' property is missing or undefined in your Redis config.
  ○ Compiling /test-sheetlab ...
- ✓ Compiled /test-sheetlab in 7.7s (1746 modules)
- GET /test-sheetlab 200 in 9197ms
- ✓ Compiled in 1608ms (863 modules)
- GET /test-sheetlab 200 in 47ms
+ ✓ Compiled /test-sheetlab in 4.8s (1746 modules)
+ GET /test-sheetlab 200 in 5828ms
+ ✓ Compiled in 1108ms (863 modules)
+ GET /test-sheetlab 200 in 59ms
 [?25h

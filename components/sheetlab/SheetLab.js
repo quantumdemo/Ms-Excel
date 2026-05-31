@@ -17,6 +17,7 @@ export default function SheetLab({ onBack }) {
   const [selected, setSelected] = useState({ r: 0, c: 0 });
   const [selection, setSelection] = useState({ startR: 0, startC: 0, endR: 0, endC: 0 });
   const [isSelecting, setIsSelecting] = useState(false);
+  const [dragStarted, setDragStarted] = useState(false);
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [hfValues, setHfValues] = useState([]);
@@ -24,6 +25,8 @@ export default function SheetLab({ onBack }) {
   const [fillRange, setFillRange] = useState(null);
 
   const lastCommittedCell = useRef({ r: 0, c: 0 });
+  const pointerStartPos = useRef(null);
+  const inputRef = useRef(null);
 
   // Initialize HyperFormula
   const hf = useMemo(() => {
@@ -67,8 +70,11 @@ export default function SheetLab({ onBack }) {
     }
   }, [hf, sheetId, refreshValues, inputValue]);
 
-  const handleCellSelect = (r, c, isMultiSelect = false) => {
+  const handleCellSelect = useCallback((r, c, isMultiSelect = false) => {
     if (!isMultiSelect) {
+      // If clicking the same cell, don't re-select but allow focusing input
+      if (selected.r === r && selected.c === c) return;
+
       // Commit previous value before moving
       commitValue();
 
@@ -83,7 +89,22 @@ export default function SheetLab({ onBack }) {
     } else {
       setSelection(prev => ({ ...prev, endR: r, endC: c }));
     }
-  };
+  }, [hf, sheetId, commitValue, selected]);
+
+  // Global keydown listener to focus input when typing
+  useEffect(() => {
+    const handleGlobalKeyDown = (e) => {
+      // Don't hijack if already typing in an input
+      if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+
+      // Focus formula bar on alphanumeric keys, backspace, delete
+      if (e.key.length === 1 || e.key === 'Backspace' || e.key === 'Delete') {
+        inputRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, []);
 
   const handleInputChange = (val) => {
     setInputValue(val);
@@ -116,7 +137,11 @@ export default function SheetLab({ onBack }) {
   }, []);
 
   const handleFillEnd = useCallback(() => {
-    if (isSelecting) setIsSelecting(false);
+    if (isSelecting) {
+      setIsSelecting(false);
+      setDragStarted(false);
+      pointerStartPos.current = null;
+    }
     if (!isFilling || !fillRange) return;
 
     const { startR, startC, endR, endC } = fillRange;
@@ -216,7 +241,20 @@ export default function SheetLab({ onBack }) {
     const clientY = e.clientY || e.touches?.[0]?.clientY;
     if (clientX === undefined || clientY === undefined) return;
 
-    if (e.cancelable && (isFilling || isSelecting)) e.preventDefault();
+    // Movement threshold for drag-selection to avoid hijacking scroll
+    if (isSelecting && !dragStarted && pointerStartPos.current) {
+      const dist = Math.sqrt(
+        Math.pow(clientX - pointerStartPos.current.x, 2) +
+        Math.pow(clientY - pointerStartPos.current.y, 2)
+      );
+      if (dist > 15) {
+        setDragStarted(true);
+      } else {
+        return;
+      }
+    }
+
+    if (e.cancelable && (isFilling || (isSelecting && dragStarted))) e.preventDefault();
 
     const el = document.elementFromPoint(clientX, clientY);
     const td = el?.closest('td');
@@ -224,7 +262,7 @@ export default function SheetLab({ onBack }) {
       const r = parseInt(td.getAttribute('data-row'));
       const c = parseInt(td.getAttribute('data-col'));
       if (!isNaN(r) && !isNaN(c)) {
-        if (isSelecting) {
+        if (isSelecting && dragStarted) {
           handleCellSelect(r, c, true);
         } else if (isFilling && fillRange) {
           const { startR, startC } = fillRange;
@@ -240,7 +278,7 @@ export default function SheetLab({ onBack }) {
   };
 
   const handleMouseEnter = (r, c) => {
-    if (isSelecting) {
+    if (isSelecting && dragStarted) {
       handleCellSelect(r, c, true);
     } else if (isFilling && fillRange) {
       const { startR, startC } = fillRange;
@@ -254,7 +292,7 @@ export default function SheetLab({ onBack }) {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-bg-dark text-slate-100 overflow-hidden fixed inset-0 z-50 select-none">
+    <div className="flex flex-col h-screen bg-bg-dark text-slate-100 overflow-hidden fixed inset-0 z-50">
       {/* Header */}
       <header className="px-6 py-4 flex items-center justify-between border-b border-white/5 bg-bg-dark/80 backdrop-blur-md">
         <div className="flex items-center gap-4">
@@ -273,12 +311,13 @@ export default function SheetLab({ onBack }) {
 
       {/* Formula Bar */}
       <div className="flex items-center gap-3 p-4 bg-black/40 border-b border-white/5">
-        <div className="px-3 py-2 bg-excel-green/10 rounded-xl font-mono font-bold text-excel-green text-sm min-w-[3rem] text-center border border-excel-green/20">
+        <div className="px-3 py-2 bg-excel-green/10 rounded-xl font-mono font-bold text-excel-green text-sm min-w-[3.5rem] text-center border border-excel-green/20">
           {getColLabel(selected.c)}{selected.r + 1}
         </div>
         <div className="flex-1 flex items-center gap-3 bg-white/5 rounded-2xl px-4 py-3 border border-white/5 focus-within:border-excel-green/50 focus-within:bg-white/10 transition-all shadow-inner">
           <span className="text-excel-green font-mono italic font-bold">fx</span>
           <input
+            ref={inputRef}
             className="bg-transparent border-none outline-none text-base font-mono w-full text-slate-100"
             value={inputValue}
             onChange={(e) => handleInputChange(e.target.value)}
@@ -345,12 +384,14 @@ export default function SheetLab({ onBack }) {
                         data-col={c}
                         onPointerDown={(e) => {
                           if (e.pointerType === 'mouse' && e.button !== 0) return;
-                          setIsSelecting(true);
                           handleCellSelect(r, c);
+                          setIsSelecting(true);
+                          setDragStarted(false);
+                          pointerStartPos.current = { x: e.clientX, y: e.clientY };
                         }}
                         onPointerEnter={() => handleMouseEnter(r, c)}
                         className={cn(
-                          "w-24 h-12 border-b border-r border-white/5 text-sm transition-all relative outline-none",
+                          "min-w-[80px] min-h-[48px] h-12 border-b border-r border-white/5 text-sm transition-all relative outline-none cursor-cell active:bg-excel-green/20",
                           isSelected && "ring-2 ring-inset ring-excel-green z-20 bg-excel-green/5",
                           isInSelection && !isSelected && "bg-excel-green/10",
                           !isInSelection && "hover:bg-white/[0.02]",
@@ -358,7 +399,7 @@ export default function SheetLab({ onBack }) {
                         )}
                       >
                         <div className={cn(
-                          "px-2 truncate text-center font-medium",
+                          "px-2 truncate text-center font-medium pointer-events-none",
                           displayValue.startsWith('#') ? "text-red-400 font-bold" : (typeof cell === 'number' ? "text-blue-400" : "text-slate-300")
                         )}>
                           {displayValue}
@@ -369,7 +410,7 @@ export default function SheetLab({ onBack }) {
                           <motion.div
                             layoutId="drag-handle"
                             className={cn(
-                              "absolute bottom-[-8px] right-[-8px] w-5 h-5 bg-excel-green border-2 border-white rounded-full z-40 cursor-crosshair shadow-lg",
+                              "absolute bottom-[-10px] right-[-10px] w-6 h-6 bg-excel-green border-2 border-white rounded-full z-40 cursor-crosshair shadow-lg",
                               isFilling && "pointer-events-none opacity-50"
                             )}
                             style={{ touchAction: 'none' }}
