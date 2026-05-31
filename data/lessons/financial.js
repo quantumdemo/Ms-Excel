@@ -508,7 +508,8 @@ export const financialLessons = [
           rows: [
             ["15/03/2026", "01/01/2031", "2", "01/07/2026"]
           ]
-        }
+        },
+        stepByStep: ["Identify the settlement date (when the bond is traded).", "Identify the maturity date (when the bond expires).", "Define the frequency of coupon payments.", "Excel finds the first standard coupon date that occurs after the settlement date."]
       }
     ],
     commonMistakes: [
@@ -553,7 +554,8 @@ export const financialLessons = [
             ["Frequency", "2"],
             ["Result", "10"]
           ]
-        }
+        },
+        stepByStep: ["Calculate the total number of coupon periods from settlement to maturity.", "Include the current period if the settlement date falls on a coupon date.", "The result is the number of interest payments you will receive."]
       }
     ],
     syntaxBreakdown: [
@@ -593,7 +595,8 @@ export const financialLessons = [
           rows: [
             ["15/03/2026", "01/01/2031", "01/01/2026"]
           ]
-        }
+        },
+        stepByStep: ["Excel looks back from the settlement date.", "It finds the most recent scheduled coupon date that occurred before or on the settlement date.", "This is useful for calculating exactly how many days of interest the previous owner earned."]
       }
     ],
     syntaxBreakdown: [
@@ -634,7 +637,8 @@ export const financialLessons = [
           rows: [
             ["0.045/12", "300", "200000", "1", "12", "0", "-₦8,903.23"]
           ]
-        }
+        },
+        stepByStep: ["Define the loan details (rate, nper, pv).", "Specify the start and end periods for the interest calculation.", "Excel sums the interest component of every scheduled payment in that window.", "The result is negative, indicating money paid out."]
       }
     ],
     commonMistakes: [
@@ -678,7 +682,8 @@ export const financialLessons = [
           rows: [
             ["0.045/12", "300", "200000", "1", "12", "-₦3,208.90"]
           ]
-        }
+        },
+        stepByStep: ["Define the loan terms.", "Specify the range of periods to analyze.", "Excel calculates the principal portion of each payment in that range.", "It sums these portions to show how much total debt was repaid during the window."]
       }
     ],
     syntaxBreakdown: [
@@ -722,7 +727,8 @@ export const financialLessons = [
             ["1", "₦1,845.00", "₦3,155.00"],
             ["2", "₦1,164.20", "₦1,990.80"]
           ]
-        }
+        },
+        stepByStep: ["Input the cost, salvage value, and life of the asset.", "Excel calculates a fixed rate for the declining balance method.", "It applies this rate to the book value from the previous period to find the current depreciation."]
       }
     ],
     syntaxBreakdown: [
@@ -763,7 +769,8 @@ export const financialLessons = [
           rows: [
             ["1", "₦2,000.00", "₦900.00"]
           ]
-        }
+        },
+        stepByStep: ["Define asset cost and useful life.", "By default, Excel uses a factor of 2 (Double-Declining).", "The function applies the accelerated rate to the remaining book value.", "It ensures depreciation stops once the salvage value is reached."]
       }
     ],
     syntaxBreakdown: [
@@ -805,7 +812,8 @@ export const financialLessons = [
           rows: [
             ["98.50", "100", "6.09%"]
           ]
-        }
+        },
+        stepByStep: ["Provide the current price and the future redemption value.", "Excel calculates the total discount (Redemption - Price).", "It annualizes this discount based on the time remaining to maturity."]
       }
     ],
     syntaxBreakdown: [
@@ -846,7 +854,8 @@ export const financialLessons = [
           rows: [
             ["101.16", "32", "101.50"]
           ]
-        }
+        },
+        stepByStep: ["Take a price quoted in fractions (like 101.16 for 101 and 16/32).", "Identify the denominator used in the market (e.g., 32).", "Excel divides the fraction part by the denominator and adds it to the integer part."]
       }
     ],
     syntaxBreakdown: [
@@ -884,7 +893,8 @@ export const financialLessons = [
           rows: [
             ["101.5", "32", "101.16"]
           ]
-        }
+        },
+        stepByStep: ["Take a decimal price (like 101.5).", "Identify the target denominator (e.g., 32).", "Excel converts the decimal remainder into a numerator based on that denominator.", "Result 101.16 means 101 integer and 16/32 fraction."]
       }
     ],
     syntaxBreakdown: [
@@ -922,7 +932,8 @@ export const financialLessons = [
           rows: [
             ["5%", "4.5%", "4.49 years"]
           ]
-        }
+        },
+        stepByStep: ["Gather bond terms: coupon, yield, and frequency.", "Calculate the time to each cash flow.", "Weight each time period by the present value of the cash flow at that time.", "Divide the total weighted time by the current bond price to get Macaulay duration."]
       }
     ],
     syntaxBreakdown: [
@@ -964,7 +975,8 @@ export const financialLessons = [
           rows: [
             ["5%", "12", "5.12%"]
           ]
-        }
+        },
+        stepByStep: ["Identify the stated annual (nominal) rate.", "Identify the number of compounding periods per year.", "Apply the compounding formula: (1 + rate/n)^n - 1.", "The result shows the true annual interest earned/paid."]
       }
     ],
     syntaxBreakdown: [
@@ -1002,7 +1014,8 @@ export const financialLessons = [
           rows: [
             ["-₦200", "20", "6%", "₦92,408.18"]
           ]
-        }
+        },
+        stepByStep: ["Specify the periodic interest rate.", "Define the total number of periods and constant payment.", "Excel calculates the future value by compounding the initial balance and all subsequent payments."]
       }
     ],
     syntaxBreakdown: [
@@ -1043,7 +1056,8 @@ export const financialLessons = [
           rows: [
             ["₦10,000", "{5%, 3%, 7%}", "₦11,572.05"]
           ]
-        }
+        },
+        stepByStep: ["Identify the starting principal.", "Provide a list of interest rates for each period.", "Excel applies the first rate to the principal, then the next rate to the new total, and so on."]
       }
     ],
     syntaxBreakdown: [
@@ -1081,7 +1095,8 @@ export const financialLessons = [
           rows: [
             ["₦9,750", "₦10,000", "5.13%"]
           ]
-        }
+        },
+        stepByStep: ["Enter the initial investment and the final amount received.", "Identify the dates of investment and maturity.", "Excel calculates the total gain and annualizes it based on the day-count basis."]
       }
     ],
     syntaxBreakdown: [
@@ -1123,7 +1138,8 @@ export const financialLessons = [
             ["1", "-₦750.00"],
             ["120", "-₦517.53"]
           ]
-        }
+        },
+        stepByStep: ["Define loan terms (rate, nper, pv).", "Specify the exact period you want to check.", "Excel calculates the remaining balance at the start of that period.", "It multiplies that balance by the interest rate to find the interest component of that payment."]
       }
     ],
     syntaxBreakdown: [
@@ -1165,7 +1181,8 @@ export const financialLessons = [
           rows: [
             ["A", "18.7%"]
           ]
-        }
+        },
+        stepByStep: ["Input a range of cash flows starting with an initial investment (negative).", "Excel uses an iterative process to find the interest rate.", "It stops when it finds a rate that makes the sum of present values equal zero."]
       }
     ],
     syntaxBreakdown: [
@@ -1204,7 +1221,8 @@ export const financialLessons = [
             ["0", "-₦600.00"],
             ["1", "-₦400.00"]
           ]
-        }
+        },
+        stepByStep: ["Define the level principal loan terms.", "Specify the period (using 0 for the first period).", "Excel calculates the interest based on the remaining principal balance, which decreases linearly over time."]
       }
     ],
     syntaxBreakdown: [
@@ -1244,7 +1262,8 @@ export const financialLessons = [
           rows: [
             ["4.49", "4.39"]
           ]
-        }
+        },
+        stepByStep: ["Calculate the Macaulay Duration first.", "Identify the yield to maturity (yld) and frequency.", "Adjust the duration: Macaulay Duration / (1 + (yld/frequency)).", "The result represents the price sensitivity to interest rate changes."]
       }
     ],
     syntaxBreakdown: [
@@ -1286,7 +1305,8 @@ export const financialLessons = [
           rows: [
             ["15.8%", "13.2%"]
           ]
-        }
+        },
+        stepByStep: ["Gather cash flows.", "Specify the rate paid on borrowed money (finance_rate).", "Specify the rate earned on reinvested cash (reinvest_rate).", "Excel discounts all negative flows to the present and compounds all positive flows to the future, then finds the implied return."]
       }
     ],
     syntaxBreakdown: [
@@ -1321,6 +1341,22 @@ export const financialLessons = [
       { arg: "effect_rate", desc: "The effective interest rate." },
       { arg: "npery", desc: "Number of compounding periods per year." }
     ],
+    detailedExamples: [
+      {
+        title: "Example: Finding Nominal from Effective",
+        table: {
+          headers: ["Effective Rate", "Compounding", "Result"],
+          rows: [
+            ["5.116%", "Monthly (12)", "5.00%"]
+          ]
+        },
+        stepByStep: [
+          "Take the true annual return (effective rate).",
+          "Specify how many times interest is compounded per year.",
+          "Excel reverses the compounding formula to find the stated annual rate."
+        ]
+      }
+    ],
     commonMistakes: [{ title: "Periods mismatch", desc: "Ensure npery matches how often interest is actually compounded." }],
     proTips: ["Use this to find the base rate before compounding effects are added."],
     miniChallenge: { question: "Is nominal rate usually higher or lower than effective rate?", expectedAnswer: "Lower" },
@@ -1352,7 +1388,8 @@ export const financialLessons = [
           rows: [
             ["₦5,000", "18%", "-₦200", "31"]
           ]
-        }
+        },
+        stepByStep: ["Define interest rate, fixed payment, and present value.", "Excel solves the annuity equation for 'n' (number of periods).", "If the payment is too low to cover interest, the function may return an error or infinite result."]
       }
     ],
     syntaxBreakdown: [
@@ -1385,6 +1422,23 @@ export const financialLessons = [
       concept: "Think of it as the value-creation test: 'Are these future cash flows worth more than the initial investment in today's money?'"
     },
     syntax: "=NPV(rate, value1, [value2], ...)",
+    detailedExamples: [
+      {
+        title: "Example: Investment Analysis",
+        table: {
+          headers: ["Rate", "Year 1", "Year 2", "Year 3", "Result"],
+          rows: [
+            ["10%", "₦10,000", "₦15,000", "₦20,000", "₦35,950.41"]
+          ]
+        },
+        stepByStep: [
+          "Identify the discount rate (cost of capital).",
+          "Identify all future positive cash flows.",
+          "Excel discounts each flow back to Year 0 and sums them up.",
+          "Subtract your initial investment from this result to find the total Net Present Value."
+        ]
+      }
+    ],
     commonMistakes: [
       { title: "Period 0.", desc: "Initial investment is period 0 and should be added OUTSIDE the NPV function." }
     ],
@@ -1425,6 +1479,23 @@ export const financialLessons = [
       { arg: "frequency", desc: "Payments per year." },
       { arg: "basis", desc: "Optional. Day-count basis." }
     ],
+    detailedExamples: [
+      {
+        title: "Example: New Bond with Long First Period",
+        table: {
+          headers: ["Settlement", "Maturity", "Coupon", "Yield", "Result"],
+          rows: [
+            ["2026-03-15", "2031-01-01", "5%", "4.5%", "₦102.67"]
+          ]
+        },
+        stepByStep: [
+          "Identify the irregular first coupon date.",
+          "Calculate the duration of that first 'odd' period.",
+          "Price all future regular cash flows.",
+          "Excel adjusts the total price to account for the unique timing of the first payment."
+        ]
+      }
+    ],
     commonMistakes: [{ title: "Date Logic", desc: "Issue < Settlement < First Coupon < Maturity." }],
     proTips: ["Essential for pricing new-issue bonds that don't align with standard calendars."],
     miniChallenge: { question: "What does ODDF stand for?", expectedAnswer: "Odd First (Period)" },
@@ -1459,6 +1530,22 @@ export const financialLessons = [
       { arg: "frequency", desc: "Payments per year." },
       { arg: "basis", desc: "Optional. Day-count basis." }
     ],
+    detailedExamples: [
+      {
+        title: "Example: Yield on Odd-Period Bond",
+        table: {
+          headers: ["Price", "Coupon", "Settlement", "Maturity", "Yield"],
+          rows: [
+            ["102.50", "5%", "2026-03-15", "2031-01-01", "4.39%"]
+          ]
+        },
+        stepByStep: [
+          "Provide the market price of the bond.",
+          "Provide the issue and first coupon dates.",
+          "Excel solves for the interest rate that aligns the irregular first payment and subsequent coupons with the current price."
+        ]
+      }
+    ],
     commonMistakes: [{ title: "Price mismatch", desc: "Ensure price is per ₦100 par value." }],
     proTips: ["Use this to find the actual return on a bond with an irregular start."],
     miniChallenge: { question: "Does ODDFYIELD return a percentage or currency?", expectedAnswer: "Percentage" },
@@ -1491,6 +1578,22 @@ export const financialLessons = [
       { arg: "redemption", desc: "Redemption value per ₦100 face value." },
       { arg: "frequency", desc: "Payments per year." },
       { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Bond with Short Final Period",
+        table: {
+          headers: ["Settlement", "Maturity", "Yield", "Coupon", "Price"],
+          rows: [
+            ["2026-06-15", "2030-12-31", "4.5%", "5%", "₦102.16"]
+          ]
+        },
+        stepByStep: [
+          "Identify the date of the last standard coupon before maturity.",
+          "Calculate the remaining time in the 'odd' final period.",
+          "Excel adjusts the valuation to account for the non-standard length of the final interest window."
+        ]
+      }
     ],
     commonMistakes: [{ title: "Last Interest Date", desc: "This must be the date of the last standard coupon payment." }],
     proTips: ["Used for bonds approaching maturity with a non-standard final window."],
@@ -1525,6 +1628,22 @@ export const financialLessons = [
       { arg: "frequency", desc: "Payments per year." },
       { arg: "basis", desc: "Optional. Day-count basis." }
     ],
+    detailedExamples: [
+      {
+        title: "Example: Yield to Maturity (Odd Final)",
+        table: {
+          headers: ["Price", "Maturity", "Last Coupon", "Yield"],
+          rows: [
+            ["103.00", "2030-12-31", "2030-07-01", "4.21%"]
+          ]
+        },
+        stepByStep: [
+          "Input the market price and bond terms.",
+          "Identify the last standard coupon date.",
+          "Excel calculates the rate of return, specifically accounting for the irregular time remaining until the final principal and interest payment."
+        ]
+      }
+    ],
     commonMistakes: [{ title: "Yield to maturity", desc: "This calculates YTM for a non-standard final period." }],
     proTips: ["Compare this with standard YIELD to see the impact of the final period length."],
     miniChallenge: { question: "Is ODDLYIELD for the first or last period?", expectedAnswer: "Last" },
@@ -1556,7 +1675,8 @@ export const financialLessons = [
           rows: [
             ["₦5,000", "₦10,000", "7%", "10.24 years"]
           ]
-        }
+        },
+        stepByStep: ["Identify the current rate of growth.", "Specify the starting and target values.", "Excel uses the compound growth formula to determine the exact number of periods needed to reach the goal."]
       }
     ],
     syntaxBreakdown: [
@@ -1595,6 +1715,23 @@ export const financialLessons = [
       { arg: "fv", desc: "Optional. Future value." },
       { arg: "type", desc: "Optional. 0 = end, 1 = start." }
     ],
+    detailedExamples: [
+      {
+        title: "Example: Principal Repayment Schedule",
+        table: {
+          headers: ["Loan", "Rate", "Payment #", "Principal Part"],
+          rows: [
+            ["₦200,000", "4.5%", "1", "-₦361.43"]
+          ]
+        },
+        stepByStep: [
+          "Calculate the total payment (PMT) first.",
+          "Calculate the interest component (IPMT) for the specific period.",
+          "Subtract the interest from the total payment: Principal = Total - Interest.",
+          "This shows how much your debt actually decreased during that period."
+        ]
+      }
+    ],
     commonMistakes: [{ title: "Per vs Nper", desc: "Make sure 'per' is not larger than 'nper'." }],
     proTips: ["PPMT increases every month as interest (IPMT) decreases."],
     miniChallenge: { question: "What is IPMT + PPMT equal to?", expectedAnswer: "PMT (Total Payment)" },
@@ -1626,7 +1763,8 @@ export const financialLessons = [
           rows: [
             ["4%", "3.5%", "₦102.26"]
           ]
-        }
+        },
+        stepByStep: ["Identify the bond's annual coupon rate.", "Identify the current market yield (yld).", "Excel calculates the present value of all future coupon payments and the final redemption amount.", "The sum of these present values is the bond's price."]
       }
     ],
     syntaxBreakdown: [
@@ -1669,7 +1807,8 @@ export const financialLessons = [
           rows: [
             ["5%", "₦98.77"]
           ]
-        }
+        },
+        stepByStep: ["Identify the future redemption value (usually 100).", "Identify the market discount rate.", "Calculate the time remaining to maturity.", "Excel subtracts the annualized discount from the redemption value to find today's price."]
       }
     ],
     syntaxBreakdown: [
@@ -1710,6 +1849,23 @@ export const financialLessons = [
       { arg: "yld", desc: "The annual yield." },
       { arg: "basis", desc: "Optional. Day-count basis." }
     ],
+    detailedExamples: [
+      {
+        title: "Example: Price of At-Maturity Bond",
+        table: {
+          headers: ["Issue", "Maturity", "Coupon", "Yield", "Price"],
+          rows: [
+            ["2026-02-01", "2027-02-01", "4%", "3.8%", "₦100.19"]
+          ]
+        },
+        stepByStep: [
+          "Identify the issue date and maturity date.",
+          "Identify the interest rate and market yield.",
+          "Excel calculates the total interest to be paid at the very end.",
+          "It then discounts that final payout back to the settlement date to find the fair price today."
+        ]
+      }
+    ],
     commonMistakes: [{ title: "Issue Date", desc: "PRICEMAT requires the issue date to calculate total interest at the end." }],
     proTips: ["Ideal for evaluating certificates of deposit (CDs) that pay everything at once."],
     miniChallenge: { question: "Does PRICEMAT calculate periodic interest?", expectedAnswer: "No, only at maturity." },
@@ -1741,7 +1897,8 @@ export const financialLessons = [
           rows: [
             ["₦15,000", "-₦350", "48", "7.06%"]
           ]
-        }
+        },
+        stepByStep: ["Input the number of periods, payment amount, and loan/investment value.", "Excel uses an iterative process (trial and error) to find the interest rate.", "It stops when the calculated values match the input within 0.0000001 precision."]
       }
     ],
     syntaxBreakdown: [
@@ -1782,6 +1939,23 @@ export const financialLessons = [
       { arg: "discount", desc: "The security's discount rate." },
       { arg: "basis", desc: "Optional. Day-count basis." }
     ],
+    detailedExamples: [
+      {
+        title: "Example: Final Payoff from T-Bill",
+        table: {
+          headers: ["Investment", "Discount", "Duration", "Result"],
+          rows: [
+            ["₦9,750", "5%", "181 Days", "₦10,000"]
+          ]
+        },
+        stepByStep: [
+          "Input the initial amount paid for the security.",
+          "Identify the market discount rate applied at purchase.",
+          "Identify the duration until the security expires.",
+          "Excel calculates the total future amount you will receive, including the principal and the implied interest discount."
+        ]
+      }
+    ],
     commonMistakes: [{ title: "Investment Sign", desc: "Unlike many financial functions, investment here is usually positive." }],
     proTips: ["Use this to find the final cash you'll have in hand when a zero-coupon bond expires."],
     miniChallenge: { question: "Does RECEIVED include coupon payments?", expectedAnswer: "No, it's for non-periodic securities." },
@@ -1813,7 +1987,8 @@ export const financialLessons = [
           rows: [
             ["₦5,000", "₦10,000", "8", "9.05%"]
           ]
-        }
+        },
+        stepByStep: ["Define the number of years/periods.", "Identify the starting and final investment values.", "Excel calculates the geometric average growth rate: (Final/Start)^(1/n) - 1."]
       }
     ],
     syntaxBreakdown: [
@@ -1852,7 +2027,8 @@ export const financialLessons = [
           rows: [
             ["₦12,000", "₦2,000", "10", "₦1,000"]
           ]
-        }
+        },
+        stepByStep: ["Identify the total depreciable amount (Cost - Salvage).", "Divide that amount by the total number of periods (Life).", "The result is the constant amount of value lost every single period."]
       }
     ],
     syntaxBreakdown: [
@@ -1891,7 +2067,8 @@ export const financialLessons = [
           rows: [
             ["1", "₦6,666.67"]
           ]
-        }
+        },
+        stepByStep: ["Calculate the sum of years (e.g., for 5 years: 5+4+3+2+1 = 15).", "Identify the depreciable amount (Cost - Salvage).", "In year 1, depreciation is 5/15 of the total; in year 2, it is 4/15, and so on.", "This accelerates depreciation in the early years compared to straight-line."]
       }
     ],
     syntaxBreakdown: [
@@ -1931,7 +2108,8 @@ export const financialLessons = [
           rows: [
             ["4.8%", "4.98%"]
           ]
-        }
+        },
+        stepByStep: ["Identify the T-bill's discount rate.", "Account for the fact that T-bills use a 360-day year while bonds use 365.", "Excel applies the bond-equivalent yield formula to make the T-bill directly comparable to a standard treasury bond."]
       }
     ],
     syntaxBreakdown: [
@@ -1967,6 +2145,23 @@ export const financialLessons = [
       { arg: "maturity", desc: "The maturity date." },
       { arg: "discount", desc: "The T-bill's discount rate." }
     ],
+    detailedExamples: [
+      {
+        title: "Example: 90-Day T-Bill Price",
+        table: {
+          headers: ["Discount", "Days to Mat.", "Price"],
+          rows: [
+            ["5%", "90", "₦98.75"]
+          ]
+        },
+        stepByStep: [
+          "Identify the annual discount rate.",
+          "Calculate the number of days until the bill expires.",
+          "Excel applies the formula: Price = 100 * (1 - (discount * days / 360)).",
+          "The result is the price per ₦100 face value."
+        ]
+      }
+    ],
     commonMistakes: [{ title: "Over one year", desc: "TBILLPRICE only works for T-bills maturing within one year." }],
     proTips: ["Prices are always quoted per ₦100 of the face value."],
     miniChallenge: { question: "If discount is 0%, what is the T-bill price?", expectedAnswer: "100" },
@@ -1994,6 +2189,21 @@ export const financialLessons = [
       { arg: "settlement", desc: "The settlement date." },
       { arg: "maturity", desc: "The maturity date." },
       { arg: "pr", desc: "The T-bill's price per ₦100 face value." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: T-Bill Annual Return",
+        table: {
+          headers: ["Price", "Days to Mat.", "Yield"],
+          rows: [
+            ["₦98.75", "90", "5.06%"]
+          ]
+        },
+        stepByStep: [
+          "Input the current market price of the T-bill.",
+          "Identify the days remaining until maturity.",
+          "Excel calculates the total profit earned and annualizes it using the T-bill standard (360-day year)."]
+      }
     ],
     commonMistakes: [{ title: "Invalid Price", desc: "Price must be greater than 0." }],
     proTips: ["Use this to find your actual annualized return after buying a T-bill at a certain price."],
@@ -2026,7 +2236,8 @@ export const financialLessons = [
           rows: [
             ["0-0.5", "₦2,000"]
           ]
-        }
+        },
+        stepByStep: ["Input asset cost and estimated life.", "Define the specific time window (start and end) for calculation.", "Specify whether Excel should switch to straight-line method when that becomes more beneficial.", "The function calculates the total depreciation occurring within that custom timeframe."]
       }
     ],
     syntaxBreakdown: [
@@ -2066,6 +2277,24 @@ export const financialLessons = [
       { arg: "dates", desc: "A schedule of payment dates that correspond to the cash flow payments." },
       { arg: "guess", desc: "Optional. A guess at the result." }
     ],
+    detailedExamples: [
+      {
+        title: "Example: Irregular Project Returns",
+        table: {
+          headers: ["Date", "Flow", "Result"],
+          rows: [
+            ["2025-01-01", "-₦10,000", "18.78%"],
+            ["2025-03-15", "-₦5,000", ""],
+            ["2026-06-15", "₦20,000", ""]
+          ]
+        },
+        stepByStep: [
+          "Identify the specific dates each investment or withdrawal occurred.",
+          "Input the matching amounts for those dates.",
+          "Excel uses an iterative process to find the annualized return that results in a Net Present Value of zero, accounting for the exact number of days between each flow."
+        ]
+      }
+    ],
     commonMistakes: [{ title: "Length mismatch", desc: "Values and Dates must have the exact same number of entries." }],
     proTips: ["XIRR is much more accurate than IRR for real-world projects where money comes and goes on random dates."],
     miniChallenge: { question: "Must the first date in XIRR be the earliest?", expectedAnswer: "No, but it's good practice." },
@@ -2093,6 +2322,25 @@ export const financialLessons = [
       { arg: "rate", desc: "The discount rate to apply to the cash flows." },
       { arg: "values", desc: "A series of cash flows that correspond to a schedule of dates." },
       { arg: "dates", desc: "A schedule of payment dates." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Real-World NPV",
+        table: {
+          headers: ["Date", "Flow", "Discount Rate", "XNPV"],
+          rows: [
+            ["2026-01-01", "-₦50,000", "8%", "-₦27,638.60"],
+            ["2026-04-15", "₦10,000", "", ""],
+            ["2026-10-01", "₦15,000", "", ""]
+          ]
+        },
+        stepByStep: [
+          "Identify the target discount rate.",
+          "Identify the exact dates for each future cash flow.",
+          "Excel discounts each flow based on its specific distance (in days) from the first date.",
+          "It sums these individually discounted flows to find the total present value."
+        ]
+      }
     ],
     commonMistakes: [{ title: "Date format", desc: "Ensure dates are valid Excel date serial numbers or DATE function results." }],
     proTips: ["Use XNPV for any project with irregular cash flow timing to avoid massive calculation errors."],
@@ -2126,6 +2374,22 @@ export const financialLessons = [
       { arg: "frequency", desc: "Coupon payments per year." },
       { arg: "basis", desc: "Optional. Day-count basis." }
     ],
+    detailedExamples: [
+      {
+        title: "Example: Bond Yield to Maturity",
+        table: {
+          headers: ["Price", "Coupon", "Maturity", "Result"],
+          rows: [
+            ["₦102.50", "4%", "5 Years", "3.44%"]
+          ]
+        },
+        stepByStep: [
+          "Input the market price and the redemption value.",
+          "Define the annual coupon rate and the maturity date.",
+          "Excel calculates the internal rate of return (YTM) for the bond, considering all future coupons and the final principal repayment."
+        ]
+      }
+    ],
     commonMistakes: [{ title: "Wrong frequency", desc: "Matching the frequency to the bond's actual payment schedule is critical." }],
     proTips: ["This calculates the Yield to Maturity (YTM), the most standard measure of bond performance."],
     miniChallenge: { question: "What is the return for YIELD if price is 100 and coupon is 5%?", expectedAnswer: "5%" },
@@ -2155,6 +2419,23 @@ export const financialLessons = [
       { arg: "pr", desc: "Security's price per ₦100 face value." },
       { arg: "redemption", desc: "Redemption value per ₦100 face value." },
       { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: Zero-Coupon Yield",
+        table: {
+          headers: ["Price", "Redemption", "Time", "Result"],
+          rows: [
+            ["₦95.00", "₦100.00", "1 Year", "5.26%"]
+          ]
+        },
+        stepByStep: [
+          "Identify the discounted purchase price.",
+          "Identify the final redemption amount.",
+          "Calculate the total interest earned over the holding period.",
+          "Excel annualizes this return to provide the true annual yield of the investment."
+        ]
+      }
     ],
     commonMistakes: [{ title: "Price too high", desc: "Price should generally be less than redemption for a discount security." }],
     proTips: ["Use this for zero-coupon bonds to find their effective annual yield."],
@@ -2186,6 +2467,23 @@ export const financialLessons = [
       { arg: "rate", desc: "The annual coupon rate." },
       { arg: "pr", desc: "The security's price per ₦100 face value." },
       { arg: "basis", desc: "Optional. Day-count basis." }
+    ],
+    detailedExamples: [
+      {
+        title: "Example: CD Annualized Yield",
+        table: {
+          headers: ["Price", "Coupon", "Issue Date", "Result"],
+          rows: [
+            ["₦100.00", "4%", "1 Year", "4.00%"]
+          ]
+        },
+        stepByStep: [
+          "Input the issue price and date.",
+          "Input the coupon rate paid at the end.",
+          "Specify the maturity date.",
+          "Excel calculates the annual return, accounting for the interest that accumulates from the issue until the maturity date."
+        ]
+      }
     ],
     commonMistakes: [{ title: "Maturity Interest", desc: "This is only for securities that pay interest at maturity, not periodically." }],
     proTips: ["Use this to compare at-maturity bonds with other investment options."],
@@ -2235,7 +2533,8 @@ export const financialLessons = [
           rows: [
             ["20000", "4.5%", "5", "₦372.86"]
           ]
-        }
+        },
+        stepByStep: ["Identify the periodic interest rate.", "Identify the total number of periods in the loan term.", "Define the loan amount (present value).", "Excel uses the annuity formula to find the constant payment that will result in a zero balance at the end of the term."]
       }
     ],
     commonMistakes: [
