@@ -69,8 +69,6 @@ export default function SheetLab({ onBack }) {
 
   const handleCellSelect = useCallback((r, c, isMultiSelect = false) => {
     if (!isMultiSelect) {
-      if (selected.r === r && selected.c === c && selection.endR === r && selection.endC === c) return;
-
       commitValue();
 
       const formula = hf.getCellFormula(sheetId, r, c);
@@ -84,7 +82,7 @@ export default function SheetLab({ onBack }) {
     } else {
       setSelection(prev => ({ ...prev, endR: r, endC: c }));
     }
-  }, [hf, sheetId, commitValue, selected, selection]);
+  }, [hf, sheetId, commitValue]);
 
   // Global keydown listener to focus input when typing
   useEffect(() => {
@@ -235,7 +233,7 @@ export default function SheetLab({ onBack }) {
         Math.pow(clientX - pointerStartPos.current.x, 2) +
         Math.pow(clientY - pointerStartPos.current.y, 2)
       );
-      if (dist > 15) {
+      if (dist > 10) {
         setDragStarted(true);
       } else {
         return;
@@ -366,12 +364,14 @@ export default function SheetLab({ onBack }) {
                         key={c}
                         data-row={r}
                         data-col={c}
+                        onClick={() => {
+                          if (!dragStarted) handleCellSelect(r, c);
+                        }}
                         onPointerDown={(e) => {
                           if (e.pointerType === 'mouse' && e.button !== 0) return;
                           pointerStartPos.current = { x: e.clientX, y: e.clientY };
                           setDragStarted(false);
                           setIsSelecting(true);
-                          handleCellSelect(r, c);
                         }}
                         onPointerEnter={() => handleMouseEnter(r, c)}
                         className={cn(
@@ -395,7 +395,7 @@ export default function SheetLab({ onBack }) {
                           <motion.div
                             layoutId="drag-handle"
                             className={cn(
-                              "absolute bottom-[-10px] right-[-10px] w-6 h-6 bg-excel-green border-2 border-white rounded-full z-40 cursor-crosshair shadow-lg",
+                              "absolute bottom-[-12px] right-[-12px] w-8 h-8 bg-excel-green border-4 border-white rounded-full z-40 cursor-crosshair shadow-lg",
                               isFilling && "pointer-events-none opacity-50"
                             )}
                             style={{ touchAction: 'none' }}
