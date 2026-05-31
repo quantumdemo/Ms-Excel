@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { Parser } from 'hot-formula-parser';
 import { RotateCcw, MousePointer2 } from 'lucide-react';
+import { CellRegistry, ReferenceResolver } from '@/lib/excel-core';
 
 // Advanced Formula Engine with LET and specialized functions
 class ExcelEngine extends Parser {
@@ -43,11 +44,8 @@ class ExcelEngine extends Parser {
       const array_x = args[0];
       const array_y = args[1];
       if (!array_x || !array_y) return "#N/A";
-
       const flat_x = Array.isArray(array_x) ? array_x.flat() : [array_x];
       const flat_y = Array.isArray(array_y) ? array_y.flat() : [array_y];
-
-      // Real Excel behavior: if one is single value, it's used for all
       const len = Math.max(flat_x.length, flat_y.length);
       let sum = 0;
       for (let i = 0; i < len; i++) {
@@ -60,9 +58,7 @@ class ExcelEngine extends Parser {
       return sum;
     });
 
-    this.setFunction('LET', (args) => {
-       return args[args.length - 1];
-    });
+    this.setFunction('LET', (args) => args[args.length - 1]);
   }
 }
 
@@ -72,34 +68,34 @@ export default function CustomSpreadsheet({
   onCellChange,
   isSandbox = false
 }) {
-  const [data, setData] = useState([]);
+  const [registry, setRegistry] = useState(null);
   const [selected, setSelected] = useState({ r: 0, c: 0 });
-  const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [dragStarted, setDragStarted] = useState(false);
   const pointerStartPos = useRef(null);
-  const lastCommittedCell = useRef({ r: 0, c: 0 });
-  const [spillMap, setSpillMap] = useState(new Map());
+
   const [fillRange, setFillRange] = useState(null);
   const [isFilling, setIsFilling] = useState(false);
 
-  const evaluationCache = useRef(new Map());
   const formulaParser = useMemo(() => new ExcelEngine(), []);
-  const getCellValueRef = useRef();
+  const registryRef = useRef();
 
+  // Wire formula parser to registry
   useEffect(() => {
     formulaParser.on('callCellValue', (coord, done) => {
-      if (getCellValueRef.current) {
-        done(getCellValueRef.current(coord.row.index, coord.column.index));
+      if (registryRef.current) {
+        const id = ReferenceResolver.coordToId(coord.row.index, coord.column.index);
+        done(registryRef.current.getCell(id).computed);
       }
     });
     formulaParser.on('callRangeValue', (start, end, done) => {
-      if (getCellValueRef.current) {
+      if (registryRef.current) {
         const res = [];
         for (let r = start.row.index; r <= end.row.index; r++) {
           const row = [];
           for (let c = start.column.index; c <= end.column.index; c++) {
-            row.push(getCellValueRef.current(r, c));
+            const id = ReferenceResolver.coordToId(r, c);
+            row.push(registryRef.current.getCell(id).computed);
           }
           res.push(row);
         }
@@ -112,77 +108,33 @@ export default function CustomSpreadsheet({
   useEffect(() => {
     const rCount = Math.max(initialData.length, 12);
     const cCount = Math.max(initialData[0]?.length || 0, 6);
-    const newData = Array(rCount).fill(0).map((_, r) =>
-      Array(cCount).fill(0).map((_, c) => initialData[r]?.[c] ?? "")
-    );
-    setData(newData);
-    setSelected({ r: 0, c: 0 });
-    lastCommittedCell.current = { r: 0, c: 0 };
-    setInputValue(newData[0]?.[0]?.toString() || "");
-    setFillRange(null);
-    setIsFilling(false);
-  }, [initialData]);
+    const r = new CellRegistry(rCount, cCount, formulaParser);
 
-  // Comprehensive Evaluation Logic
-  const getCellValue = useCallback((r, c, path = new Set(), currentData = null) => {
-    const activeData = currentData || data;
-    const cellId = `${r},${c}`;
-    if (spillMap.has(cellId)) return spillMap.get(cellId);
-    if (path.has(cellId)) return "#CIRCULAR!";
+    r.onUpdate = () => {
+      setRegistry(Object.assign(Object.create(Object.getPrototypeOf(r)), r));
+    };
 
-    // Cache only if using base data
-    if (!currentData && evaluationCache.current.has(cellId)) return evaluationCache.current.get(cellId);
-
-    const raw = activeData[r]?.[c];
-    if (raw === undefined) return "";
-
-    if (typeof raw === 'string' && raw.startsWith('=')) {
-      const currentPath = new Set(path);
-      currentPath.add(cellId);
-
-      // Temporary override for recursive calls
-      const prevHandler = getCellValueRef.current;
-      getCellValueRef.current = (r, c) => getCellValue(r, c, currentPath, activeData);
-
-      const parsed = formulaParser.parse(raw.substring(1));
-      getCellValueRef.current = prevHandler;
-      const val = parsed.error ? parsed.error : parsed.result;
-
-      const displayVal = Array.isArray(val) ? val[0]?.[0] : val;
-      if (!currentData) evaluationCache.current.set(cellId, displayVal);
-      return displayVal;
-    }
-
-    if (raw !== "" && !isNaN(raw) && typeof raw !== 'boolean') return Number(raw);
-    return raw;
-  }, [data, formulaParser, spillMap]);
-
-  // Update Spills Effect
-  useEffect(() => {
-    const newSpills = new Map();
-    data.forEach((row, r) => {
-      row.forEach((cell, c) => {
-        if (typeof cell === 'string' && cell.startsWith('=')) {
-          const res = formulaParser.parse(cell.substring(1));
-          if (Array.isArray(res.result)) {
-            res.result.forEach((arrRow, ar) => {
-              arrRow.forEach((val, ac) => {
-                if (ar === 0 && ac === 0) return;
-                const tr = r + ar, tc = c + ac;
-                if (tr < data.length && tc < (data[0]?.length || INITIAL_COLS)) {
-                   newSpills.set(`${tr},${tc}`, val);
-                }
-              });
-            });
-          }
+    initialData.forEach((row, rIdx) => {
+      row.forEach((cell, cIdx) => {
+        if (cell !== "") {
+          const id = ReferenceResolver.coordToId(rIdx, cIdx);
+          r.updateCell(id, cell);
         }
       });
     });
-    setSpillMap(newSpills);
-  }, [data, formulaParser]);
 
-  getCellValueRef.current = getCellValue;
-  evaluationCache.current.clear();
+    setRegistry(r);
+    setSelected({ r: 0, c: 0 });
+    const startId = ReferenceResolver.coordToId(0, 0);
+    setInputValue(r.getCell(startId).raw || "");
+  }, [initialData, formulaParser]);
+
+  registryRef.current = registry;
+
+  const activeCellId = useMemo(() =>
+    ReferenceResolver.coordToId(selected.r, selected.c),
+    [selected]
+  );
 
   const adjustRefs = useCallback((formula, rOff, cOff) => {
     if (typeof formula !== 'string' || !formula.startsWith('=')) return formula;
@@ -207,7 +159,7 @@ export default function CustomSpreadsheet({
   const handleFillEnd = useCallback(() => {
     setDragStarted(false);
     pointerStartPos.current = null;
-    if (!isFilling || !fillRange) return;
+    if (!isFilling || !fillRange || !registry) return;
 
     const { startR, startC, endR, endC } = fillRange;
     if (startR === endR && startC === endC) {
@@ -219,69 +171,76 @@ export default function CustomSpreadsheet({
     const rDir = endR > startR ? 1 : (endR < startR ? -1 : 0);
     const cDir = endC > startC ? 1 : (endC < startC ? -1 : 0);
 
-    const newData = data.map(row => [...row]);
-    const sourceCell = data[startR][startC];
+    const sourceId = ReferenceResolver.coordToId(startR, startC);
+    const sourceCell = registry.getCell(sourceId);
+    const sourceRaw = sourceCell.raw;
 
-    // Simple numeric sequence check
     let step = 0;
     let hasPattern = false;
-    if (typeof sourceCell === 'number' || (!isNaN(sourceCell) && sourceCell !== "")) {
-      const sVal = Number(sourceCell);
+    if (sourceCell.type === "number") {
+      const sVal = Number(sourceRaw);
       const prevR = startR > 0 ? startR - 1 : -1;
       const prevC = startC > 0 ? startC - 1 : -1;
 
       if (rDir !== 0 && prevR !== -1) {
-        const pVal = Number(data[prevR][startC]);
-        if (!isNaN(pVal)) { step = sVal - pVal; hasPattern = true; }
+        const pId = ReferenceResolver.coordToId(prevR, startC);
+        const pCell = registry.getCell(pId);
+        if (pCell.type === "number") {
+          step = sVal - Number(pCell.raw);
+          hasPattern = true;
+        }
       } else if (cDir !== 0 && prevC !== -1) {
-        const pVal = Number(data[startR][prevC]);
-        if (!isNaN(pVal)) { step = sVal - pVal; hasPattern = true; }
+        const pId = ReferenceResolver.coordToId(startR, prevC);
+        const pCell = registry.getCell(pId);
+        if (pCell.type === "number") {
+          step = sVal - Number(pCell.raw);
+          hasPattern = true;
+        }
       }
     }
 
     if (rDir !== 0) {
       for (let r = startR + rDir; rDir > 0 ? r <= endR : r >= endR; r += rDir) {
         const offset = Math.abs(r - startR);
-        if (typeof sourceCell === 'string' && sourceCell.startsWith('=')) {
-          newData[r][startC] = adjustRefs(sourceCell, r - startR, 0);
+        const targetId = ReferenceResolver.coordToId(r, startC);
+        if (sourceCell.type === "formula") {
+          registry.updateCell(targetId, adjustRefs(sourceRaw, r - startR, 0));
         } else if (hasPattern) {
-          newData[r][startC] = Number(sourceCell) + step * offset;
+          registry.updateCell(targetId, (Number(sourceRaw) + step * offset).toString());
         } else {
-          newData[r][startC] = sourceCell;
+          registry.updateCell(targetId, sourceRaw);
         }
       }
     } else if (cDir !== 0) {
       for (let c = startC + cDir; cDir > 0 ? c <= endC : c >= endC; c += cDir) {
         const offset = Math.abs(c - startC);
-        if (typeof sourceCell === 'string' && sourceCell.startsWith('=')) {
-          newData[startR][c] = adjustRefs(sourceCell, 0, c - startC);
+        const targetId = ReferenceResolver.coordToId(startR, c);
+        if (sourceCell.type === "formula") {
+          registry.updateCell(targetId, adjustRefs(sourceRaw, 0, c - startC));
         } else if (hasPattern) {
-          newData[startR][c] = Number(sourceCell) + step * offset;
+          registry.updateCell(targetId, (Number(sourceRaw) + step * offset).toString());
         } else {
-          newData[startR][c] = sourceCell;
+          registry.updateCell(targetId, sourceRaw);
         }
       }
     }
 
-    setData(newData);
-
-    // Validation check after fill
+    // Trigger validation
     if (onCellChange && targetCell[0] !== -1) {
-      const tr = targetCell[0], tc = targetCell[1];
-      const targetVal = newData[tr][tc];
-      onCellChange(targetVal?.toString() || "", getCellValue(tr, tc, new Set(), newData));
+      const targetId = ReferenceResolver.coordToId(targetCell[0], targetCell[1]);
+      const cell = registry.getCell(targetId);
+      onCellChange(cell.raw, cell.computed);
     }
 
     setIsFilling(false);
     setFillRange(null);
-  }, [isFilling, fillRange, data, adjustRefs, onCellChange, targetCell, getCellValue]);
+  }, [isFilling, fillRange, registry, adjustRefs, onCellChange, targetCell]);
 
   const handlePointerMove = (e) => {
     if (!isFilling) return;
     const clientX = e.clientX || e.touches?.[0]?.clientX;
     const clientY = e.clientY || e.touches?.[0]?.clientY;
     if (clientX === undefined || clientY === undefined) return;
-
     if (e.cancelable) e.preventDefault();
 
     const el = document.elementFromPoint(clientX, clientY);
@@ -300,7 +259,7 @@ export default function CustomSpreadsheet({
     }
   };
 
-  if (data.length === 0) return null;
+  if (!registry) return null;
 
   return (
     <div className="flex flex-col w-full bg-card-dark rounded-3xl overflow-hidden border border-white/5 shadow-2xl"
@@ -314,26 +273,11 @@ export default function CustomSpreadsheet({
             {isSandbox ? "Excel Sandbox Pro" : "Practice Lab"}
           </span>
         </div>
-        {isSandbox && (
-          <button onClick={() => {
-              const rCount = Math.max(initialData.length, 12);
-              const cCount = Math.max(initialData[0]?.length || 0, 6);
-              const newData = Array(rCount).fill(0).map((_, r) =>
-                Array(cCount).fill(0).map((_, c) => initialData[r]?.[c] ?? "")
-              );
-              setData(newData);
-              setSelected({ r: 0, c: 0 });
-              lastCommittedCell.current = { r: 0, c: 0 };
-              setInputValue(newData[0]?.[0]?.toString() || "");
-          }} className="p-2 rounded-full hover:bg-white/5 text-excel-green transition-colors">
-            <RotateCcw size={18} />
-          </button>
-        )}
       </div>
 
       <div className="flex items-center gap-3 p-4 bg-black/40 border-b border-white/5">
         <div className="px-3 py-1 bg-excel-green/10 rounded-md font-mono font-bold text-excel-green text-sm">
-          {String.fromCharCode(65 + selected.c)}{selected.r + 1}
+          {activeCellId}
         </div>
         <div className="flex-1 flex items-center gap-3 bg-white/5 rounded-xl px-4 py-2 border border-white/5 focus-within:border-excel-green/50 transition-all">
           <span className="text-slate-500 font-mono italic text-sm">fx</span>
@@ -343,17 +287,10 @@ export default function CustomSpreadsheet({
             onChange={(e) => {
                 const val = e.target.value;
                 setInputValue(val);
-                // Live evaluation for onCellChange
+                registry.updateCell(activeCellId, val);
                 if (onCellChange && selected.r === targetCell[0] && selected.c === targetCell[1]) {
-                    const tempData = data.map(row => [...row]);
-                    tempData[selected.r][selected.c] = val;
-                    onCellChange(val, getCellValue(selected.r, selected.c, new Set(), tempData));
+                    onCellChange(val, registry.getCell(activeCellId).computed);
                 }
-            }}
-            onBlur={() => {
-               const newData = data.map(row => [...row]);
-               newData[selected.r][selected.c] = inputValue;
-               setData(newData);
             }}
             placeholder="Enter formula or value..."
           />
@@ -365,25 +302,26 @@ export default function CustomSpreadsheet({
           <thead>
             <tr>
               <th className="w-12 bg-black/40 border border-white/5 text-[10px] text-slate-500"></th>
-              {data[0]?.map((_, c) => (
+              {Array(registry.cols).fill(0).map((_, c) => (
                 <th key={c} className="bg-black/40 border border-white/5 p-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                  {String.fromCharCode(65 + c)}
+                  {ReferenceResolver.coordToId(0, c).replace(/[0-9]/g, '')}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {data.map((row, r) => (
+            {Array(registry.rows).fill(0).map((_, r) => (
               <tr key={r}>
                 <td className="bg-black/40 border border-white/5 text-center text-[10px] font-bold text-slate-600">
                   {r + 1}
                 </td>
-                {row.map((cell, c) => {
+                {Array(registry.cols).fill(0).map((_, c) => {
+                  const id = ReferenceResolver.coordToId(r, c);
+                  const cellData = registry.getCell(id);
                   const isS = selected.r === r && selected.c === c;
                   const isT = targetCell[0] === r && targetCell[1] === c;
-                  const isSp = spillMap.has(`${r},${c}`);
 
-                  const val = isS ? inputValue : (typeof cell === 'string' && cell.startsWith('=') ? getCellValue(r, c) : (isSp ? spillMap.get(`${r},${c}`) : cell));
+                  const displayValue = isS ? inputValue : cellData.computed;
 
                   const isF = fillRange && r >= Math.min(fillRange.startR, fillRange.endR) && r <= Math.max(fillRange.startR, fillRange.endR) && c >= Math.min(fillRange.startC, fillRange.endC) && c <= Math.max(fillRange.startC, fillRange.endC);
 
@@ -394,21 +332,8 @@ export default function CustomSpreadsheet({
                       data-col={c}
                       onClick={() => {
                          if (dragStarted) return;
-
-                         const prevR = lastCommittedCell.current.r;
-                         const prevC = lastCommittedCell.current.c;
-
-                         const newData = data.map(row => [...row]);
-                         newData[prevR][prevC] = inputValue;
-
-                         if (onCellChange && prevR === targetCell[0] && prevC === targetCell[1]) {
-                            onCellChange(inputValue, getCellValue(prevR, prevC, new Set(), newData));
-                         }
-
-                         setData(newData);
                          setSelected({r,c});
-                         setInputValue(newData[r][c]?.toString() || "");
-                         lastCommittedCell.current = { r, c };
+                         setInputValue(registry.getCell(id).raw || "");
                       }}
                       onPointerDown={(e) => {
                          if (e.pointerType === 'mouse' && e.button !== 0) return;
@@ -419,15 +344,14 @@ export default function CustomSpreadsheet({
                         "border border-white/5 h-12 p-2 text-xs transition-all relative cursor-pointer",
                         isS && "ring-2 ring-inset ring-excel-green bg-excel-green/5 z-10",
                         isT && !isS && "bg-excel-green/10",
-                        isSp && "text-blue-400 italic bg-blue-500/5",
                         isF && "bg-excel-green/20"
                       )}
                     >
                       <div className="truncate text-center font-semibold pointer-events-none">
                         <span className={cn(
-                            val?.toString().startsWith("#") ? "text-red-500" : (typeof val === 'number' ? "text-blue-400" : "text-slate-300")
+                            displayValue?.toString().startsWith("#") ? "text-red-500" : (typeof displayValue === 'number' ? "text-blue-400" : "text-slate-300")
                         )}>
-                            {val?.toString()}
+                            {displayValue?.toString()}
                         </span>
                       </div>
                       {isS && (
