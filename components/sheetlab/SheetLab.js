@@ -10,7 +10,6 @@ import { cn } from '@/lib/utils';
 const INITIAL_ROWS = 40;
 const INITIAL_COLS = 26;
 
-// Helper to convert column index to Excel letter (0 -> A, 25 -> Z)
 const getColLabel = (index) => String.fromCharCode(65 + index);
 
 export default function SheetLab({ onBack }) {
@@ -18,7 +17,6 @@ export default function SheetLab({ onBack }) {
   const [selection, setSelection] = useState({ startR: 0, startC: 0, endR: 0, endC: 0 });
   const [isSelecting, setIsSelecting] = useState(false);
   const [dragStarted, setDragStarted] = useState(false);
-  const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [hfValues, setHfValues] = useState([]);
   const [isFilling, setIsFilling] = useState(false);
@@ -56,7 +54,6 @@ export default function SheetLab({ onBack }) {
   const commitValue = useCallback(() => {
     const { r, c } = lastCommittedCell.current;
     try {
-      // Get current formula/value to see if it actually changed
       const formula = hf.getCellFormula(sheetId, r, c);
       const value = hf.getCellValue(sheetId, r, c);
       const currentContent = formula || (value !== null && value !== undefined ? value.toString() : "");
@@ -72,10 +69,9 @@ export default function SheetLab({ onBack }) {
 
   const handleCellSelect = useCallback((r, c, isMultiSelect = false) => {
     if (!isMultiSelect) {
-      // If clicking the same cell, don't re-select but allow focusing input
-      if (selected.r === r && selected.c === c) return;
+      // Avoid redundant updates
+      if (selected.r === r && selected.c === c && selection.endR === r && selection.endC === c) return;
 
-      // Commit previous value before moving
       commitValue();
 
       const formula = hf.getCellFormula(sheetId, r, c);
@@ -89,15 +85,12 @@ export default function SheetLab({ onBack }) {
     } else {
       setSelection(prev => ({ ...prev, endR: r, endC: c }));
     }
-  }, [hf, sheetId, commitValue, selected]);
+  }, [hf, sheetId, commitValue, selected, selection]);
 
-  // Global keydown listener to focus input when typing
+  // Global keydown listener
   useEffect(() => {
     const handleGlobalKeyDown = (e) => {
-      // Don't hijack if already typing in an input
       if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
-
-      // Focus formula bar on alphanumeric keys, backspace, delete
       if (e.key.length === 1 || e.key === 'Backspace' || e.key === 'Delete') {
         inputRef.current?.focus();
       }
@@ -160,7 +153,7 @@ export default function SheetLab({ onBack }) {
     const rDir = endR > startR ? 1 : (endR < startR ? -1 : 0);
     const cDir = endC > startC ? 1 : (endC < startC ? -1 : 0);
 
-    if (rDir !== 0) { // Vertical drag
+    if (rDir !== 0) {
       const rowCount = sR2 - sR1 + 1;
       const isSequence = rowCount > 1 && typeof hf.getCellValue(sheetId, sR1, startC) === 'number' && typeof hf.getCellValue(sheetId, sR2, startC) === 'number';
       let step = 0;
@@ -185,7 +178,7 @@ export default function SheetLab({ onBack }) {
           }
         }
       }
-    } else if (cDir !== 0) { // Horizontal drag
+    } else if (cDir !== 0) {
       const colCount = sC2 - sC1 + 1;
       const isSequence = colCount > 1 && typeof hf.getCellValue(sheetId, startR, sC1) === 'number' && typeof hf.getCellValue(sheetId, startR, sC2) === 'number';
       let step = 0;
@@ -226,14 +219,6 @@ export default function SheetLab({ onBack }) {
     return () => window.removeEventListener('pointerup', up);
   }, [isSelecting, isFilling, handleFillEnd]);
 
-  const resetSheet = () => {
-    const emptyData = Array(INITIAL_ROWS).fill(0).map(() => Array(INITIAL_COLS).fill(""));
-    hf.setSheetContent(sheetId, emptyData);
-    refreshValues();
-    setSelected({ r: 0, c: 0 });
-    setInputValue("");
-  };
-
   const handleTouchMove = (e) => {
     if (!isFilling && !isSelecting) return;
 
@@ -241,20 +226,19 @@ export default function SheetLab({ onBack }) {
     const clientY = e.clientY || e.touches?.[0]?.clientY;
     if (clientX === undefined || clientY === undefined) return;
 
-    // Movement threshold to distinguish tap from drag
     if (!dragStarted && pointerStartPos.current) {
       const dist = Math.sqrt(
         Math.pow(clientX - pointerStartPos.current.x, 2) +
         Math.pow(clientY - pointerStartPos.current.y, 2)
       );
-      if (dist > 10) {
+      if (dist > 15) {
         setDragStarted(true);
       } else {
         return;
       }
     }
 
-    if (e.cancelable && (isFilling || isSelecting)) e.preventDefault();
+    if (e.cancelable && (isFilling || (isSelecting && dragStarted))) e.preventDefault();
 
     const el = document.elementFromPoint(clientX, clientY);
     const td = el?.closest('td');
@@ -262,7 +246,7 @@ export default function SheetLab({ onBack }) {
       const r = parseInt(td.getAttribute('data-row'));
       const c = parseInt(td.getAttribute('data-col'));
       if (!isNaN(r) && !isNaN(c)) {
-        if (isSelecting) {
+        if (isSelecting && dragStarted) {
           handleCellSelect(r, c, true);
         } else if (isFilling && fillRange) {
           const { startR, startC } = fillRange;
@@ -281,7 +265,6 @@ export default function SheetLab({ onBack }) {
       handleCellSelect(r, c, true);
     } else if (isFilling && fillRange) {
       const { startR, startC } = fillRange;
-      // Restrict to vertical OR horizontal
       if (Math.abs(r - startR) >= Math.abs(c - startC)) {
         setFillRange(prev => ({ ...prev, endR: r, endC: startC }));
       } else {
@@ -291,7 +274,7 @@ export default function SheetLab({ onBack }) {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-bg-dark text-slate-100 overflow-hidden fixed inset-0 z-50 select-none">
+    <div className="flex flex-col h-screen bg-bg-dark text-slate-100 overflow-hidden fixed inset-0 z-50">
       {/* Header */}
       <header className="px-6 py-4 flex items-center justify-between border-b border-white/5 bg-bg-dark/80 backdrop-blur-md">
         <div className="flex items-center gap-4">
@@ -303,14 +286,21 @@ export default function SheetLab({ onBack }) {
             <p className="text-[10px] text-excel-green font-bold uppercase tracking-widest mt-1">Professional Sandbox</p>
           </div>
         </div>
-        <button onClick={resetSheet} className="p-2 bg-white/5 rounded-full active:rotate-180 transition-all duration-500">
+        <button onClick={() => {
+          const emptyData = Array(INITIAL_ROWS).fill(0).map(() => Array(INITIAL_COLS).fill(""));
+          hf.setSheetContent(sheetId, emptyData);
+          refreshValues();
+          setSelected({ r: 0, c: 0 });
+          setSelection({ startR: 0, startC: 0, endR: 0, endC: 0 });
+          setInputValue("");
+        }} className="p-2 bg-white/5 rounded-full active:rotate-180 transition-all duration-500">
           <RotateCcw size={20} className="text-slate-400" />
         </button>
       </header>
 
       {/* Formula Bar */}
       <div className="flex items-center gap-3 p-4 bg-black/40 border-b border-white/5">
-        <div className="px-3 py-2 bg-excel-green/10 rounded-xl font-mono font-bold text-excel-green text-sm min-w-[3.5rem] text-center border border-excel-green/20">
+        <div className="px-3 py-2 bg-excel-green/10 rounded-xl font-mono font-bold text-excel-green text-sm min-w-[4rem] text-center border border-excel-green/20">
           {getColLabel(selected.c)}{selected.r + 1}
         </div>
         <div className="flex-1 flex items-center gap-3 bg-white/5 rounded-2xl px-4 py-3 border border-white/5 focus-within:border-excel-green/50 focus-within:bg-white/10 transition-all shadow-inner">
@@ -342,7 +332,7 @@ export default function SheetLab({ onBack }) {
                 </th>
                 {Array(INITIAL_COLS).fill(0).map((_, c) => (
                   <th key={c} className={cn(
-                    "w-24 h-10 bg-surface border-b border-r border-white/10 text-[10px] font-black uppercase tracking-widest transition-colors",
+                    "w-[100px] h-10 bg-surface border-b border-r border-white/10 text-[10px] font-black uppercase tracking-widest transition-colors",
                     selected.c === c ? "text-excel-green bg-excel-green/5" : "text-slate-500"
                   )}>
                     {getColLabel(c)}
@@ -369,7 +359,6 @@ export default function SheetLab({ onBack }) {
                       c >= Math.min(selection.startC, selection.endC) &&
                       c <= Math.max(selection.startC, selection.endC);
 
-                    // Check if part of fill range
                     const isFillingCell = fillRange &&
                       r >= Math.min(fillRange.startR, fillRange.endR) &&
                       r <= Math.max(fillRange.startR, fillRange.endR) &&
@@ -383,26 +372,26 @@ export default function SheetLab({ onBack }) {
                         data-col={c}
                         onPointerDown={(e) => {
                           if (e.pointerType === 'mouse' && e.button !== 0) return;
-                          // Immediate selection
-                          handleCellSelect(r, c);
-                          setIsSelecting(true);
-                          setDragStarted(false);
                           pointerStartPos.current = { x: e.clientX, y: e.clientY };
+                          setDragStarted(false);
+                          setIsSelecting(true);
+                          handleCellSelect(r, c);
                         }}
                         onPointerEnter={() => handleMouseEnter(r, c)}
                         className={cn(
-                          "min-w-[100px] min-h-[48px] h-12 border-b border-r border-white/5 text-sm transition-all relative outline-none cursor-cell active:bg-excel-green/20",
+                          "min-w-[100px] min-h-[48px] h-12 border-b border-r border-white/5 text-sm transition-all relative outline-none cursor-cell",
                           isSelected && "ring-2 ring-inset ring-excel-green z-20 bg-excel-green/5",
                           isInSelection && !isSelected && "bg-excel-green/10",
                           !isInSelection && "hover:bg-white/[0.02]",
                           isFillingCell && "bg-excel-green/20"
                         )}
                       >
-                        <div className={cn(
-                          "px-2 truncate text-center font-medium pointer-events-none",
-                          displayValue.startsWith('#') ? "text-red-400 font-bold" : (typeof cell === 'number' ? "text-blue-400" : "text-slate-300")
-                        )}>
-                          {displayValue}
+                        <div className="px-2 truncate text-center font-medium pointer-events-none">
+                          <span className={cn(
+                            displayValue.startsWith('#') ? "text-red-400 font-bold" : (typeof cell === 'number' ? "text-blue-400" : "text-slate-300")
+                          )}>
+                            {displayValue}
+                          </span>
                         </div>
 
                         {/* Drag Handle */}
@@ -417,8 +406,6 @@ export default function SheetLab({ onBack }) {
                             onPointerDown={(e) => {
                               e.stopPropagation();
                               setIsFilling(true);
-                              // When dragging handle from selection, startR/startC should be the "anchor" of the fill
-                              // usually the bottom-right cell of selection
                               setFillRange({ startR: r, startC: c, endR: r, endC: c });
                             }}
                           />
@@ -433,7 +420,7 @@ export default function SheetLab({ onBack }) {
         </div>
       </div>
 
-      {/* Footer Info */}
+      {/* Footer */}
       <div className="p-4 bg-black/40 border-t border-white/5 flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
         <div className="flex items-center gap-2">
           <Sparkles size={12} className="text-excel-green" />
