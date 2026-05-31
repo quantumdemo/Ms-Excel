@@ -15,11 +15,15 @@ const getColLabel = (index) => String.fromCharCode(65 + index);
 
 export default function SheetLab({ onBack }) {
   const [selected, setSelected] = useState({ r: 0, c: 0 });
+  const [selection, setSelection] = useState({ startR: 0, startC: 0, endR: 0, endC: 0 });
+  const [isSelecting, setIsSelecting] = useState(false);
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [hfValues, setHfValues] = useState([]);
   const [isFilling, setIsFilling] = useState(false);
   const [fillRange, setFillRange] = useState(null);
+
+  const lastCommittedCell = useRef({ r: 0, c: 0 });
 
   // Initialize HyperFormula
   const hf = useMemo(() => {
@@ -46,31 +50,46 @@ export default function SheetLab({ onBack }) {
     refreshValues();
   }, [hf, sheetId, refreshValues]);
 
-  const handleCellSelect = (r, c) => {
-    if (selected.r === r && selected.c === c) return;
+  const commitValue = useCallback(() => {
+    const { r, c } = lastCommittedCell.current;
+    try {
+      // Get current formula/value to see if it actually changed
+      const formula = hf.getCellFormula(sheetId, r, c);
+      const value = hf.getCellValue(sheetId, r, c);
+      const currentContent = formula || (value !== null && value !== undefined ? value.toString() : "");
 
-    const formula = hf.getCellFormula(sheetId, r, c);
-    const value = hf.getCellValue(sheetId, r, c);
-    const cellValue = formula || (value !== null && value !== undefined ? (typeof value === 'object' ? JSON.stringify(value) : value.toString()) : "");
+      if (currentContent !== inputValue) {
+        hf.setCellContents({ sheet: sheetId, row: r, col: c }, [[inputValue]]);
+        refreshValues();
+      }
+    } catch (e) {
+      console.error("Formula error:", e);
+    }
+  }, [hf, sheetId, refreshValues, inputValue]);
 
-    setSelected({ r, c });
-    setInputValue(cellValue);
+  const handleCellSelect = (r, c, isMultiSelect = false) => {
+    if (!isMultiSelect) {
+      // Commit previous value before moving
+      commitValue();
+
+      const formula = hf.getCellFormula(sheetId, r, c);
+      const value = hf.getCellValue(sheetId, r, c);
+      const cellValue = formula || (value !== null && value !== undefined ? (typeof value === 'object' ? JSON.stringify(value) : value.toString()) : "");
+
+      setSelected({ r, c });
+      setSelection({ startR: r, startC: c, endR: r, endC: c });
+      setInputValue(cellValue);
+      lastCommittedCell.current = { r, c };
+    } else {
+      setSelection(prev => ({ ...prev, endR: r, endC: c }));
+    }
   };
 
   const handleInputChange = (val) => {
     setInputValue(val);
   };
 
-  const commitValue = () => {
-    try {
-      hf.setCellContents({ sheet: sheetId, row: selected.r, col: selected.c }, [[inputValue]]);
-      refreshValues();
-    } catch (e) {
-      console.error("Formula error:", e);
-    }
-  };
-
-  const adjustRefs = (formula, rOff, cOff) => {
+  const adjustRefs = useCallback((formula, rOff, cOff) => {
     if (typeof formula !== 'string' || !formula.startsWith('=')) return formula;
     return formula.replace(/(\$?[A-Z]+)(\$?[0-9]+)/g, (match, col, row) => {
       let nc = col, nr = row;
@@ -94,9 +113,10 @@ export default function SheetLab({ onBack }) {
       }
       return nc + nr;
     });
-  };
+  }, []);
 
-  const handleFillEnd = () => {
+  const handleFillEnd = useCallback(() => {
+    if (isSelecting) setIsSelecting(false);
     if (!isFilling || !fillRange) return;
 
     const { startR, startC, endR, endC } = fillRange;
@@ -109,24 +129,55 @@ export default function SheetLab({ onBack }) {
     const sourceFormula = hf.getCellFormula(sheetId, startR, startC);
     const sourceValue = hf.getCellValue(sheetId, startR, startC);
 
-    // Pattern recognition for numbers
+    // Enhanced Pattern recognition using selection range
     let step = 0;
     let hasPattern = false;
-    if (!sourceFormula && typeof sourceValue === 'number') {
-      const prevR = startR > 0 ? startR - 1 : -1;
-      const prevC = startC > 0 ? startC - 1 : -1;
+    const isSingleCellSelection = selection.startR === selection.endR && selection.startC === selection.endC;
 
-      if (endR !== startR && prevR !== -1) {
-        const prevValue = hf.getCellValue(sheetId, prevR, startC);
-        if (typeof prevValue === 'number') {
-          step = sourceValue - prevValue;
-          hasPattern = true;
+    if (!sourceFormula && typeof sourceValue === 'number') {
+      if (!isSingleCellSelection) {
+        // Calculate step from the selection range
+        const sR1 = Math.min(selection.startR, selection.endR);
+        const sR2 = Math.max(selection.startR, selection.endR);
+        const sC1 = Math.min(selection.startC, selection.endC);
+        const sC2 = Math.max(selection.startC, selection.endC);
+
+        if (endR !== startR && sR1 !== sR2) {
+          // Vertical fill, check vertical selection
+          const val1 = hf.getCellValue(sheetId, sR1, startC);
+          const val2 = hf.getCellValue(sheetId, sR2, startC);
+          if (typeof val1 === 'number' && typeof val2 === 'number') {
+            step = (val2 - val1) / (sR2 - sR1);
+            hasPattern = true;
+          }
+        } else if (endC !== startC && sC1 !== sC2) {
+          // Horizontal fill, check horizontal selection
+          const val1 = hf.getCellValue(sheetId, startR, sC1);
+          const val2 = hf.getCellValue(sheetId, startR, sC2);
+          if (typeof val1 === 'number' && typeof val2 === 'number') {
+            step = (val2 - val1) / (sC2 - sC1);
+            hasPattern = true;
+          }
         }
-      } else if (endC !== startC && prevC !== -1) {
-        const prevValue = hf.getCellValue(sheetId, startR, prevC);
-        if (typeof prevValue === 'number') {
-          step = sourceValue - prevValue;
-          hasPattern = true;
+      }
+
+      // Fallback to preceding cell if no pattern from selection and it's a single cell
+      if (!hasPattern && isSingleCellSelection) {
+        const prevR = startR > 0 ? startR - 1 : -1;
+        const prevC = startC > 0 ? startC - 1 : -1;
+
+        if (endR !== startR && prevR !== -1) {
+          const prevValue = hf.getCellValue(sheetId, prevR, startC);
+          if (typeof prevValue === 'number') {
+            step = sourceValue - prevValue;
+            hasPattern = true;
+          }
+        } else if (endC !== startC && prevC !== -1) {
+          const prevValue = hf.getCellValue(sheetId, startR, prevC);
+          if (typeof prevValue === 'number') {
+            step = sourceValue - prevValue;
+            hasPattern = true;
+          }
         }
       }
     }
@@ -165,7 +216,15 @@ export default function SheetLab({ onBack }) {
     refreshValues();
     setIsFilling(false);
     setFillRange(null);
-  };
+  }, [isSelecting, isFilling, fillRange, selection, hf, sheetId, refreshValues, adjustRefs]);
+
+  useEffect(() => {
+    const up = () => {
+      if (isSelecting || isFilling) handleFillEnd();
+    };
+    window.addEventListener('pointerup', up);
+    return () => window.removeEventListener('pointerup', up);
+  }, [isSelecting, isFilling, handleFillEnd]);
 
   const resetSheet = () => {
     const emptyData = Array(INITIAL_ROWS).fill(0).map(() => Array(INITIAL_COLS).fill(""));
@@ -176,7 +235,7 @@ export default function SheetLab({ onBack }) {
   };
 
   const handleTouchMove = (e) => {
-    if (!isFilling || !fillRange) return;
+    if (!isFilling && !isSelecting) return;
     if (e.cancelable) e.preventDefault();
     const touch = e.touches[0];
     const el = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -185,25 +244,32 @@ export default function SheetLab({ onBack }) {
       const r = parseInt(td.getAttribute('data-row'));
       const c = parseInt(td.getAttribute('data-col'));
       if (!isNaN(r) && !isNaN(c)) {
-        const { startR, startC } = fillRange;
-        // Restrict to vertical OR horizontal
-        if (Math.abs(r - startR) >= Math.abs(c - startC)) {
-          setFillRange(prev => ({ ...prev, endR: r, endC: startC }));
-        } else {
-          setFillRange(prev => ({ ...prev, endR: startR, endC: c }));
+        if (isSelecting) {
+          handleCellSelect(r, c, true);
+        } else if (isFilling && fillRange) {
+          const { startR, startC } = fillRange;
+          // Restrict to vertical OR horizontal
+          if (Math.abs(r - startR) >= Math.abs(c - startC)) {
+            setFillRange(prev => ({ ...prev, endR: r, endC: startC }));
+          } else {
+            setFillRange(prev => ({ ...prev, endR: startR, endC: c }));
+          }
         }
       }
     }
   };
 
   const handleMouseEnter = (r, c) => {
-    if (!isFilling || !fillRange) return;
-    const { startR, startC } = fillRange;
-    // Restrict to vertical OR horizontal
-    if (Math.abs(r - startR) >= Math.abs(c - startC)) {
-      setFillRange(prev => ({ ...prev, endR: r, endC: startC }));
-    } else {
-      setFillRange(prev => ({ ...prev, endR: startR, endC: c }));
+    if (isSelecting) {
+      handleCellSelect(r, c, true);
+    } else if (isFilling && fillRange) {
+      const { startR, startC } = fillRange;
+      // Restrict to vertical OR horizontal
+      if (Math.abs(r - startR) >= Math.abs(c - startC)) {
+        setFillRange(prev => ({ ...prev, endR: r, endC: startC }));
+      } else {
+        setFillRange(prev => ({ ...prev, endR: startR, endC: c }));
+      }
     }
   };
 
@@ -245,10 +311,9 @@ export default function SheetLab({ onBack }) {
 
       {/* Grid */}
       <div
-        className="flex-1 overflow-auto no-scrollbar relative"
-        onMouseUp={handleFillEnd}
-        onTouchEnd={handleFillEnd}
-        onTouchMove={handleTouchMove}
+        className="flex-1 overflow-auto no-scrollbar relative touch-none"
+        onPointerUp={handleFillEnd}
+        onPointerMove={handleTouchMove}
       >
         <div className="inline-block min-w-full">
           <table className="border-collapse table-fixed bg-bg-dark">
@@ -280,6 +345,12 @@ export default function SheetLab({ onBack }) {
                     const isSelected = selected.r === r && selected.c === c;
                     const displayValue = cell?.toString() || "";
 
+                    const isInSelection =
+                      r >= Math.min(selection.startR, selection.endR) &&
+                      r <= Math.max(selection.startR, selection.endR) &&
+                      c >= Math.min(selection.startC, selection.endC) &&
+                      c <= Math.max(selection.startC, selection.endC);
+
                     // Check if part of fill range
                     const isFillingCell = fillRange &&
                       r >= Math.min(fillRange.startR, fillRange.endR) &&
@@ -292,11 +363,17 @@ export default function SheetLab({ onBack }) {
                         key={c}
                         data-row={r}
                         data-col={c}
-                        onClick={() => handleCellSelect(r, c)}
-                        onMouseEnter={() => handleMouseEnter(r, c)}
+                        onPointerDown={(e) => {
+                          if (e.pointerType === 'mouse' && e.button !== 0) return;
+                          setIsSelecting(true);
+                          handleCellSelect(r, c);
+                        }}
+                        onPointerEnter={() => handleMouseEnter(r, c)}
                         className={cn(
                           "w-24 h-12 border-b border-r border-white/5 text-sm transition-all relative outline-none",
-                          isSelected ? "bg-excel-green/5 ring-2 ring-inset ring-excel-green z-10" : "hover:bg-white/[0.02]",
+                          isSelected && "ring-2 ring-inset ring-excel-green z-20 bg-excel-green/5",
+                          isInSelection && !isSelected && "bg-excel-green/10",
+                          !isInSelection && "hover:bg-white/[0.02]",
                           isFillingCell && "bg-excel-green/20"
                         )}
                       >
