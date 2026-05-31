@@ -23,3 +23,15 @@
  ⚠ The "images.domains" configuration is deprecated. Please use "images.remotePatterns" configuration instead.
  GET /test-sheetlab 200 in 33ms
  ✓ Compiled in 748ms (734 modules)
+ ✓ Compiled in 4.5s (644 modules)
+ ✓ Compiled in 2.2s (644 modules)
+ ✓ Compiled in 428ms (644 modules)
+ ✓ Compiled in 1014ms (734 modules)
+ ○ Compiling /test-sheetlab ...
+ ✓ Compiled /test-sheetlab in 3.1s (1326 modules)
+ GET /test-sheetlab 200 in 3564ms
+ GET /test-sheetlab 200 in 130ms
+ ✓ Compiled in 1025ms (1340 modules)
+ GET /test-sheetlab 200 in 232ms
+ GET /test-sheetlab 200 in 33ms
+ ✓ Compiled in 597ms (734 modules)
