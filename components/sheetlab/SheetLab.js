@@ -47,9 +47,12 @@ export default function SheetLab({ onBack }) {
   }, [hf, sheetId, refreshValues]);
 
   const handleCellSelect = (r, c) => {
+    if (selected.r === r && selected.c === c) return;
+
     const formula = hf.getCellFormula(sheetId, r, c);
     const value = hf.getCellValue(sheetId, r, c);
-    const cellValue = formula || (value !== null && value !== undefined ? value.toString() : "");
+    const cellValue = formula || (value !== null && value !== undefined ? (typeof value === 'object' ? JSON.stringify(value) : value.toString()) : "");
+
     setSelected({ r, c });
     setInputValue(cellValue);
   };
@@ -73,8 +76,10 @@ export default function SheetLab({ onBack }) {
       let nc = col, nr = row;
       if (!col.startsWith('$')) {
         let ci = 0;
-        for (let i = 0; i < col.length; i++) ci = ci * 26 + (col.charCodeAt(i) - 64);
+        let colStr = col;
+        for (let i = 0; i < colStr.length; i++) ci = ci * 26 + (colStr.charCodeAt(i) - 64);
         ci += cOff;
+        if (ci <= 0 || ci > INITIAL_COLS) return "#REF!";
         nc = "";
         while (ci > 0) {
           let rem = (ci - 1) % 26;
@@ -82,7 +87,11 @@ export default function SheetLab({ onBack }) {
           ci = Math.floor((ci - rem) / 26);
         }
       }
-      if (!row.startsWith('$')) nr = (parseInt(row) + rOff).toString();
+      if (!row.startsWith('$')) {
+        let ri = parseInt(row) + rOff;
+        if (ri <= 0 || ri > INITIAL_ROWS) return "#REF!";
+        nr = ri.toString();
+      }
       return nc + nr;
     });
   };
@@ -90,40 +99,69 @@ export default function SheetLab({ onBack }) {
   const handleFillEnd = () => {
     if (!isFilling || !fillRange) return;
 
-    const startR = fillRange.startR;
-    const startC = fillRange.startC;
-    const endR = fillRange.endR;
-    const endC = fillRange.endC;
+    const { startR, startC, endR, endC } = fillRange;
+    if (startR === endR && startC === endC) {
+      setIsFilling(false);
+      setFillRange(null);
+      return;
+    }
 
     const sourceFormula = hf.getCellFormula(sheetId, startR, startC);
     const sourceValue = hf.getCellValue(sheetId, startR, startC);
 
-    // Apply fill logic
-    const batchUpdates = [];
-    for (let r = Math.min(startR, endR); r <= Math.max(startR, endR); r++) {
-      for (let c = Math.min(startC, endC); c <= Math.max(startC, endC); c++) {
-        if (r === startR && c === startC) continue;
+    // Pattern recognition for numbers
+    let step = 0;
+    let hasPattern = false;
+    if (!sourceFormula && typeof sourceValue === 'number') {
+      const prevR = startR > 0 ? startR - 1 : -1;
+      const prevC = startC > 0 ? startC - 1 : -1;
 
-        if (sourceFormula) {
-          const adjusted = adjustRefs(sourceFormula, r - startR, c - startC);
-          batchUpdates.push({
-            address: { sheet: sheetId, row: r, col: c },
-            value: [[adjusted]]
-          });
-        } else {
-          batchUpdates.push({
-            address: { sheet: sheetId, row: r, col: c },
-            value: [[sourceValue]]
-          });
+      if (endR !== startR && prevR !== -1) {
+        const prevValue = hf.getCellValue(sheetId, prevR, startC);
+        if (typeof prevValue === 'number') {
+          step = sourceValue - prevValue;
+          hasPattern = true;
+        }
+      } else if (endC !== startC && prevC !== -1) {
+        const prevValue = hf.getCellValue(sheetId, startR, prevC);
+        if (typeof prevValue === 'number') {
+          step = sourceValue - prevValue;
+          hasPattern = true;
         }
       }
     }
 
-    // Batch set for performance
-    batchUpdates.forEach(upd => {
-      hf.setCellContents(upd.address, upd.value);
-    });
+    const batchUpdates = [];
+    const rDir = endR > startR ? 1 : (endR < startR ? -1 : 0);
+    const cDir = endC > startC ? 1 : (endC < startC ? -1 : 0);
 
+    if (rDir !== 0) { // Vertical drag
+      for (let r = startR + rDir; rDir > 0 ? r <= endR : r >= endR; r += rDir) {
+        if (sourceFormula) {
+          const adjusted = adjustRefs(sourceFormula, r - startR, 0);
+          batchUpdates.push({ address: { sheet: sheetId, row: r, col: startC }, value: [[adjusted]] });
+        } else if (hasPattern) {
+          const val = sourceValue + (step * (Math.abs(r - startR)));
+          batchUpdates.push({ address: { sheet: sheetId, row: r, col: startC }, value: [[val]] });
+        } else {
+          batchUpdates.push({ address: { sheet: sheetId, row: r, col: startC }, value: [[sourceValue]] });
+        }
+      }
+    } else if (cDir !== 0) { // Horizontal drag
+      for (let c = startC + cDir; cDir > 0 ? c <= endC : c >= endC; c += cDir) {
+        if (sourceFormula) {
+          const adjusted = adjustRefs(sourceFormula, 0, c - startC);
+          batchUpdates.push({ address: { sheet: sheetId, row: startR, col: c }, value: [[adjusted]] });
+        } else if (hasPattern) {
+          const val = sourceValue + (step * (Math.abs(c - startC)));
+          batchUpdates.push({ address: { sheet: sheetId, row: startR, col: c }, value: [[val]] });
+        } else {
+          batchUpdates.push({ address: { sheet: sheetId, row: startR, col: c }, value: [[sourceValue]] });
+        }
+      }
+    }
+
+    batchUpdates.forEach(upd => hf.setCellContents(upd.address, upd.value));
     refreshValues();
     setIsFilling(false);
     setFillRange(null);
@@ -138,7 +176,7 @@ export default function SheetLab({ onBack }) {
   };
 
   const handleTouchMove = (e) => {
-    if (!isFilling) return;
+    if (!isFilling || !fillRange) return;
     if (e.cancelable) e.preventDefault();
     const touch = e.touches[0];
     const el = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -147,8 +185,25 @@ export default function SheetLab({ onBack }) {
       const r = parseInt(td.getAttribute('data-row'));
       const c = parseInt(td.getAttribute('data-col'));
       if (!isNaN(r) && !isNaN(c)) {
-        setFillRange(prev => ({ ...prev, endR: r, endC: c }));
+        const { startR, startC } = fillRange;
+        // Restrict to vertical OR horizontal
+        if (Math.abs(r - startR) >= Math.abs(c - startC)) {
+          setFillRange(prev => ({ ...prev, endR: r, endC: startC }));
+        } else {
+          setFillRange(prev => ({ ...prev, endR: startR, endC: c }));
+        }
       }
+    }
+  };
+
+  const handleMouseEnter = (r, c) => {
+    if (!isFilling || !fillRange) return;
+    const { startR, startC } = fillRange;
+    // Restrict to vertical OR horizontal
+    if (Math.abs(r - startR) >= Math.abs(c - startC)) {
+      setFillRange(prev => ({ ...prev, endR: r, endC: startC }));
+    } else {
+      setFillRange(prev => ({ ...prev, endR: startR, endC: c }));
     }
   };
 
@@ -237,8 +292,8 @@ export default function SheetLab({ onBack }) {
                         key={c}
                         data-row={r}
                         data-col={c}
-                        onPointerDown={() => handleCellSelect(r, c)}
-                        onMouseEnter={() => isFilling && setFillRange(prev => ({ ...prev, endR: r, endC: c }))}
+                        onClick={() => handleCellSelect(r, c)}
+                        onMouseEnter={() => handleMouseEnter(r, c)}
                         className={cn(
                           "w-24 h-12 border-b border-r border-white/5 text-sm transition-all relative outline-none",
                           isSelected ? "bg-excel-green/5 ring-2 ring-inset ring-excel-green z-10" : "hover:bg-white/[0.02]",
