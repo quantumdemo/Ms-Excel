@@ -61,7 +61,7 @@ export const mathStatsLessons = [
       "SUM can handle text strings that look like numbers if they are provided directly as arguments (not as cell references)."
     ],
     relatedFunctions: ["SUMIF", "SUMIFS", "AVERAGE", "COUNT", "SUBTOTAL"],
-    comparison: "SUM adds values together, while COUNT tells you how many values there are. If you have three $10 bills, SUM is $30, but COUNT is 3.",
+    comparison: "SUM adds values together, while COUNT tells you how many values there are. If you have three ₦10 bills, SUM is ₦30, but COUNT is 3.",
     miniChallenge: {
       question: "You have sales in B2, B3, B4, and B5. Write the shortest formula to add them all.",
       expectedAnswer: "=SUM(B2:B5)"
@@ -125,7 +125,7 @@ export const mathStatsLessons = [
       { title: "Zeros vs Blanks.", desc: "AVERAGE includes cells with 0 in the math. If a student missed a test, leave it blank (ignored) instead of typing 0 (included, lowers the average)." },
       { title: "Including the total.", desc: "Ensure your range doesn't accidentally include a 'Total' row at the bottom, as this will double the average!" }
     ],
-    limitations: "AVERAGE is sensitive to 'outliers' (extremely high or low numbers). If one person earns $1 million and everyone else earns $10, the 'Average' will look very high and be misleading.",
+    limitations: "AVERAGE is sensitive to 'outliers' (extremely high or low numbers). If one person earns ₦1 million and everyone else earns ₦10, the 'Average' will look very high and be misleading.",
     bestPractices: [
       "Check your data for empty cells vs zeros before averaging.",
       "Use MEDIAN alongside AVERAGE to get a better sense of your data's center."
@@ -253,9 +253,9 @@ export const mathStatsLessons = [
         table: {
           headers: ["Vendor", "Quote", "Formula", "Lowest"],
           rows: [
-            ["A", "$1,200", "=MIN(B2:B4)", "$1,100"],
-            ["B", "$1,100", "", ""],
-            ["C", "$1,500", "", ""]
+            ["A", "₦1,200", "=MIN(B2:B4)", "₦1,100"],
+            ["B", "₦1,100", "", ""],
+            ["C", "₦1,500", "", ""]
           ]
         },
         stepByStep: [
@@ -376,7 +376,7 @@ export const mathStatsLessons = [
     whenToUse: "Use SUMIF when you have one condition to check (e.g., Category = 'Food') before adding numbers.",
     realWorldUseCases: [
       "Calculating total sales for a specific employee.",
-      "Summing expenses that are over $100.",
+      "Summing expenses that are over ₦100.",
       "Totaling inventory for a specific brand.",
       "Summing all overdue invoices."
     ],
@@ -526,7 +526,7 @@ export const mathStatsLessons = [
     whenToUse: "Use COUNTIF when you need a tally of items that match a single rule.",
     realWorldUseCases: [
       "Counting how many employees have 'Completed' their training.",
-      "Finding how many orders were over $500.",
+      "Finding how many orders were over ₦500.",
       "Counting the number of 'Late' marks in an attendance log.",
       "Determining how many products in inventory are 'Out of Stock'."
     ],
@@ -591,7 +591,7 @@ export const mathStatsLessons = [
     introduction: {
       title: "Multi-Criteria Counting: COUNTIFS",
       description: "COUNTIFS counts the number of cells that meet multiple criteria across one or more ranges.",
-      concept: "It's the multi-rule version of COUNTIF. 'How many sales were made by John AND were over $500?' It allows you to find very specific counts in a large dataset."
+      concept: "It's the multi-rule version of COUNTIF. 'How many sales were made by John AND were over ₦500?' It allows you to find very specific counts in a large dataset."
     },
     internalLogic: "Excel checks the first range for the first criteria. Then it checks the same row in the second range for the second criteria. It only increments the count if ALL conditions are TRUE for that row.",
     whyItExists: "Complex reporting often requires counting specific subsets of data. COUNTIFS is the most direct way to get these counts without complex filtering or pivot tables.",
@@ -664,7 +664,7 @@ export const mathStatsLessons = [
     introduction: {
       title: "Cleaning Up Decimals: ROUND",
       description: "The ROUND function rounds a number to a specified number of decimal places based on standard rounding rules (0.5 and up goes up).",
-      concept: "Think of it as a haircut for your numbers. If you have $10.333333, it's messy. ROUND trims it down to a neat $10.33."
+      concept: "Think of it as a haircut for your numbers. If you have ₦10.333333, it's messy. ROUND trims it down to a neat ₦10.33."
     },
     internalLogic: "Excel looks at the digit to the right of your rounding target. If it's 5, 6, 7, 8, or 9, it rounds up. If it's 0, 1, 2, 3, or 4, it keeps the current digit (rounds down).",
     whyItExists: "Financial reports and scientific data often generate long decimals that aren't useful for humans. ROUND ensures your final numbers are clean and professional.",
@@ -676,7 +676,7 @@ export const mathStatsLessons = [
       "Cleaning up results from division formulas."
     ],
     businessExample: {
-      scenario: "An invoice calculation results in $105.6789. You need to round this to the nearest cent for the customer.",
+      scenario: "An invoice calculation results in ₦105.6789. You need to round this to the nearest cent for the customer.",
       formula: "=ROUND(A2, 2)"
     },
     syntax: "=ROUND(number, num_digits)",
@@ -1087,7 +1087,7 @@ export const mathStatsLessons = [
       concept: "Unlike AVERAGE (which can be skewed by one huge number), MEDIAN tells you what the person 'in the middle' actually looks like. It is much more realistic for things like salaries or house prices."
     },
     internalLogic: "Excel sorts the numbers from smallest to largest and picks the one in the center position. If there are two center numbers, it returns their average.",
-    whyItExists: "If 4 people earn $20k and 1 person earns $1M, the 'Average' is $216k (misleading!). The 'Median' is $20k (realistic!). MEDIAN is essential for honest data analysis.",
+    whyItExists: "If 4 people earn ₦20k and 1 person earns ₦1M, the 'Average' is ₦216k (misleading!). The 'Median' is ₦20k (realistic!). MEDIAN is essential for honest data analysis.",
     whenToUse: "Use MEDIAN whenever your data has 'outliers' (extremely high or low values) that would make an average look wrong.",
     realWorldUseCases: [
       "Reporting the typical home price in a city.",

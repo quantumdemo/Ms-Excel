@@ -412,8 +412,8 @@ export const textLessons = [
         table: {
           headers: ["Amount", "Formula", "Result (US locale)"],
           rows: [
-            ["1234.5", "=DOLLAR(1234.5)", "$1,234.50"],
-            ["-99.99", "=DOLLAR(-99.99)", "($99.99)"]
+            ["1234.5", "=DOLLAR(1234.5)", "₦1,234.50"],
+            ["-99.99", "=DOLLAR(-99.99)", "(₦99.99)"]
           ]
         }
       },
@@ -422,8 +422,8 @@ export const textLessons = [
         table: {
           headers: ["Number", "Decimals", "Formula", "Result"],
           rows: [
-            ["5678.9", "1", "=DOLLAR(5678.9, 1)", "$5,678.9"],
-            ["5678.9", "-2", "=DOLLAR(5678.9, -2)", "$5,700"]
+            ["5678.9", "1", "=DOLLAR(5678.9, 1)", "₦5,678.9"],
+            ["5678.9", "-2", "=DOLLAR(5678.9, -2)", "₦5,700"]
           ]
         }
       }
@@ -446,7 +446,7 @@ export const textLessons = [
       initialData: [["Amount", "Currency"], [1234.5, ""]],
       targetCell: [1, 1],
       expectedFormula: "DOLLAR(A2,0)",
-      expectedValue: "$1,235"
+      expectedValue: "₦1,235"
     }
   },
   {
@@ -1600,7 +1600,7 @@ export const textLessons = [
     syntax: "=TEXT(value, format_text)",
     syntaxBreakdown: [
       { arg: "value", desc: "The number, date, or formula result you want to format." },
-      { arg: "format_text", desc: "The format code in double quotes (e.g., \"dd/mm/yyyy\" or \"$#,##0\")." }
+      { arg: "format_text", desc: "The format code in double quotes (e.g., \"dd/mm/yyyy\" or \"₦#,##0\")." }
     ],
     detailedExamples: [
       {
@@ -1618,7 +1618,7 @@ export const textLessons = [
         table: {
           headers: ["Sales", "Formula", "Message"],
           rows: [
-            ["5000", "=\"Total: \" & TEXT(A2, \"$#,##0\")", "Total: $5,000"]
+            ["5000", "=\"Total: \" & TEXT(A2, \"₦#,##0\")", "Total: ₦5,000"]
           ]
         }
       }
@@ -1637,11 +1637,11 @@ export const textLessons = [
       expectedAnswer: "mmmm"
     },
     practice: {
-      instructions: "In cell B2, format the number in A2 as currency using \"$#,##0\".",
+      instructions: "In cell B2, format the number in A2 as currency using \"₦#,##0\".",
       initialData: [["Num", "Formatted"], [1234, ""]],
       targetCell: [1, 1],
-      expectedFormula: "TEXT(A2,\"$#,##0\")",
-      expectedValue: "$1,234"
+      expectedFormula: "TEXT(A2,\"₦#,##0\")",
+      expectedValue: "₦1,234"
     }
   },
   {
@@ -1894,7 +1894,7 @@ export const textLessons = [
         table: {
           headers: ["Text", "Formula", "Number"],
           rows: [
-            ["$1,000", "=VALUE(A2)", "1000"],
+            ["₦1,000", "=VALUE(A2)", "1000"],
             ["16:45", "=VALUE(A3)", "0.6979"]
           ]
         }
