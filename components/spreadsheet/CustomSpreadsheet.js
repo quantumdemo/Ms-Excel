@@ -136,26 +136,6 @@ export default function CustomSpreadsheet({
     [selected]
   );
 
-  const adjustRefs = useCallback((formula, rOff, cOff) => {
-    if (typeof formula !== 'string' || !formula.startsWith('=')) return formula;
-    return formula.replace(/(\$?[A-Z]+)(\$?[0-9]+)/g, (match, col, row) => {
-      let nc = col, nr = row;
-      if (!col.startsWith('$')) {
-        let ci = 0;
-        for (let i = 0; i < col.length; i++) ci = ci * 26 + (col.charCodeAt(i) - 64);
-        ci += cOff;
-        nc = "";
-        while (ci > 0) {
-          let rem = (ci - 1) % 26;
-          nc = String.fromCharCode(65 + rem) + nc;
-          ci = Math.floor((ci - rem) / 26);
-        }
-      }
-      if (!row.startsWith('$')) nr = (parseInt(row) + rOff).toString();
-      return nc + nr;
-    });
-  }, []);
-
   const handleFillEnd = useCallback(() => {
     setDragStarted(false);
     pointerStartPos.current = null;
@@ -204,7 +184,7 @@ export default function CustomSpreadsheet({
         const offset = Math.abs(r - startR);
         const targetId = ReferenceResolver.coordToId(r, startC);
         if (sourceCell.type === "formula") {
-          registry.updateCell(targetId, adjustRefs(sourceRaw, r - startR, 0));
+          registry.updateCell(targetId, ReferenceResolver.adjustFormula(sourceRaw, r - startR, 0));
         } else if (hasPattern) {
           registry.updateCell(targetId, (Number(sourceRaw) + step * offset).toString());
         } else {
@@ -216,7 +196,7 @@ export default function CustomSpreadsheet({
         const offset = Math.abs(c - startC);
         const targetId = ReferenceResolver.coordToId(startR, c);
         if (sourceCell.type === "formula") {
-          registry.updateCell(targetId, adjustRefs(sourceRaw, 0, c - startC));
+          registry.updateCell(targetId, ReferenceResolver.adjustFormula(sourceRaw, 0, c - startC));
         } else if (hasPattern) {
           registry.updateCell(targetId, (Number(sourceRaw) + step * offset).toString());
         } else {
@@ -234,7 +214,7 @@ export default function CustomSpreadsheet({
 
     setIsFilling(false);
     setFillRange(null);
-  }, [isFilling, fillRange, registry, adjustRefs, onCellChange, targetCell]);
+  }, [isFilling, fillRange, registry, onCellChange, targetCell]);
 
   const handlePointerMove = (e) => {
     if (!isFilling) return;

@@ -39,31 +39,6 @@ export default function SheetLab({ onBack }) {
     [selected]
   );
 
-  const adjustRefs = useCallback((formula, rOff, cOff) => {
-    if (typeof formula !== 'string' || !formula.startsWith('=')) return formula;
-    return formula.replace(/(\$?[A-Z]+)(\$?[0-9]+)/g, (match, col, row) => {
-      let nc = col, nr = row;
-      if (!col.startsWith('$')) {
-        let ci = 0;
-        for (let i = 0; i < col.length; i++) ci = ci * 26 + (col.charCodeAt(i) - 64);
-        ci += cOff;
-        if (ci <= 0 || ci > INITIAL_COLS) return "#REF!";
-        nc = "";
-        while (ci > 0) {
-          let rem = (ci - 1) % 26;
-          nc = String.fromCharCode(65 + rem) + nc;
-          ci = Math.floor((ci - rem) / 26);
-        }
-      }
-      if (!row.startsWith('$')) {
-        let ri = parseInt(row) + rOff;
-        if (ri <= 0 || ri > INITIAL_ROWS) return "#REF!";
-        nr = ri.toString();
-      }
-      return nc + nr;
-    });
-  }, []);
-
   const handleFillEnd = useCallback(() => {
     setDragStarted(false);
     pointerStartPos.current = null;
@@ -112,7 +87,7 @@ export default function SheetLab({ onBack }) {
         const offset = Math.abs(r - startR);
         const targetId = ReferenceResolver.coordToId(r, startC);
         if (sourceCell.type === "formula") {
-          registry.updateCell(targetId, adjustRefs(sourceRaw, r - startR, 0));
+          registry.updateCell(targetId, ReferenceResolver.adjustFormula(sourceRaw, r - startR, 0));
         } else if (hasPattern) {
           registry.updateCell(targetId, (Number(sourceRaw) + step * offset).toString());
         } else {
@@ -124,7 +99,7 @@ export default function SheetLab({ onBack }) {
         const offset = Math.abs(c - startC);
         const targetId = ReferenceResolver.coordToId(startR, c);
         if (sourceCell.type === "formula") {
-          registry.updateCell(targetId, adjustRefs(sourceRaw, 0, c - startC));
+          registry.updateCell(targetId, ReferenceResolver.adjustFormula(sourceRaw, 0, c - startC));
         } else if (hasPattern) {
           registry.updateCell(targetId, (Number(sourceRaw) + step * offset).toString());
         } else {
@@ -135,7 +110,7 @@ export default function SheetLab({ onBack }) {
 
     setIsFilling(false);
     setFillRange(null);
-  }, [isFilling, fillRange, registry, adjustRefs]);
+  }, [isFilling, fillRange, registry]);
 
   const handlePointerMove = (e) => {
     if (!isFilling) return;
