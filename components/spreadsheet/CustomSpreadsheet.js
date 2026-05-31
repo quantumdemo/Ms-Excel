@@ -169,7 +169,7 @@ export default function CustomSpreadsheet({
               arrRow.forEach((val, ac) => {
                 if (ar === 0 && ac === 0) return;
                 const tr = r + ar, tc = c + ac;
-                if (tr < data.length && tc < data[0].length) {
+                if (tr < data.length && tc < (data[0]?.length || INITIAL_COLS)) {
                    newSpills.set(`${tr},${tc}`, val);
                 }
               });
@@ -315,7 +315,17 @@ export default function CustomSpreadsheet({
           </span>
         </div>
         {isSandbox && (
-          <button onClick={() => setData(initialData)} className="p-2 rounded-full hover:bg-white/5 text-excel-green transition-colors">
+          <button onClick={() => {
+              const rCount = Math.max(initialData.length, 12);
+              const cCount = Math.max(initialData[0]?.length || 0, 6);
+              const newData = Array(rCount).fill(0).map((_, r) =>
+                Array(cCount).fill(0).map((_, c) => initialData[r]?.[c] ?? "")
+              );
+              setData(newData);
+              setSelected({ r: 0, c: 0 });
+              lastCommittedCell.current = { r: 0, c: 0 };
+              setInputValue(newData[0]?.[0]?.toString() || "");
+          }} className="p-2 rounded-full hover:bg-white/5 text-excel-green transition-colors">
             <RotateCcw size={18} />
           </button>
         )}
