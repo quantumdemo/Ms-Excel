@@ -241,20 +241,20 @@ export default function SheetLab({ onBack }) {
     const clientY = e.clientY || e.touches?.[0]?.clientY;
     if (clientX === undefined || clientY === undefined) return;
 
-    // Movement threshold for drag-selection to avoid hijacking scroll
-    if (isSelecting && !dragStarted && pointerStartPos.current) {
+    // Movement threshold to distinguish tap from drag
+    if (!dragStarted && pointerStartPos.current) {
       const dist = Math.sqrt(
         Math.pow(clientX - pointerStartPos.current.x, 2) +
         Math.pow(clientY - pointerStartPos.current.y, 2)
       );
-      if (dist > 15) {
+      if (dist > 10) {
         setDragStarted(true);
       } else {
         return;
       }
     }
 
-    if (e.cancelable && (isFilling || (isSelecting && dragStarted))) e.preventDefault();
+    if (e.cancelable && (isFilling || isSelecting)) e.preventDefault();
 
     const el = document.elementFromPoint(clientX, clientY);
     const td = el?.closest('td');
@@ -262,11 +262,10 @@ export default function SheetLab({ onBack }) {
       const r = parseInt(td.getAttribute('data-row'));
       const c = parseInt(td.getAttribute('data-col'));
       if (!isNaN(r) && !isNaN(c)) {
-        if (isSelecting && dragStarted) {
+        if (isSelecting) {
           handleCellSelect(r, c, true);
         } else if (isFilling && fillRange) {
           const { startR, startC } = fillRange;
-          // Restrict to vertical OR horizontal
           if (Math.abs(r - startR) >= Math.abs(c - startC)) {
             setFillRange(prev => ({ ...prev, endR: r, endC: startC }));
           } else {
@@ -292,7 +291,7 @@ export default function SheetLab({ onBack }) {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-bg-dark text-slate-100 overflow-hidden fixed inset-0 z-50">
+    <div className="flex flex-col h-screen bg-bg-dark text-slate-100 overflow-hidden fixed inset-0 z-50 select-none">
       {/* Header */}
       <header className="px-6 py-4 flex items-center justify-between border-b border-white/5 bg-bg-dark/80 backdrop-blur-md">
         <div className="flex items-center gap-4">
@@ -384,6 +383,7 @@ export default function SheetLab({ onBack }) {
                         data-col={c}
                         onPointerDown={(e) => {
                           if (e.pointerType === 'mouse' && e.button !== 0) return;
+                          // Immediate selection
                           handleCellSelect(r, c);
                           setIsSelecting(true);
                           setDragStarted(false);
@@ -391,7 +391,7 @@ export default function SheetLab({ onBack }) {
                         }}
                         onPointerEnter={() => handleMouseEnter(r, c)}
                         className={cn(
-                          "min-w-[80px] min-h-[48px] h-12 border-b border-r border-white/5 text-sm transition-all relative outline-none cursor-cell active:bg-excel-green/20",
+                          "min-w-[100px] min-h-[48px] h-12 border-b border-r border-white/5 text-sm transition-all relative outline-none cursor-cell active:bg-excel-green/20",
                           isSelected && "ring-2 ring-inset ring-excel-green z-20 bg-excel-green/5",
                           isInSelection && !isSelected && "bg-excel-green/10",
                           !isInSelection && "hover:bg-white/[0.02]",
