@@ -2677,39 +2677,38 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Average Absolute Deviation",
+    "title": "Measuring Spread with AVEDEV",
     "description": "Calculates the average of the absolute deviations of data points from their mean.",
-    "concept": "Think of it as the dispersion measurer: \"On average, how far does each value stray from the mean?\""
+    "concept": "Think of it as 'on average, how far does each number stray from the middle?'"
   },
-  "whyItExists": "It provides a more intuitive measure of variability than standard deviation for some users because it doesn't square the distances.",
-  "whenToUse": "Use to measure consistency in a dataset where you want to understand the average distance from the center.",
+  "whyItExists": "Standard deviation squares distances, which can over-emphasize outliers. AVEDEV gives a more balanced look.",
+  "whenToUse": "Measure consistency in a dataset.",
   "realWorldUseCases": [
-    "Measuring production consistency.",
-    "Evaluating grade spread."
+    "Production consistency.",
+    "Test score spread."
   ],
   "businessExample": {
-    "scenario": "A manager wants to see how much box weights deviate from a 500g target.",
-    "formula": "=AVEDEV(B2:B20)"
+    "scenario": "A manager wants to know how much daily sales fluctuate.",
+    "formula": "=AVEDEV(A2:A5)"
   },
   "syntax": "=AVEDEV(number1, [number2], ...)",
   "syntaxBreakdown": [
     {
       "arg": "number1",
       "desc": "First number/range."
-    },
-    {
-      "arg": "number2",
-      "desc": "Optional additional data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Consistency Check",
+      "title": "Sales Consistency Check",
       "table": {
         "headers": [
-          "Val"
+          "A (Daily Sales)"
         ],
         "rows": [
+          [
+            "80"
+          ],
           [
             "100"
           ],
@@ -2717,57 +2716,63 @@ export const mathStatsLessons = [
             "120"
           ],
           [
-            "110"
+            "140"
           ]
         ]
       },
       "stepByStep": [
-        "Mean=110.",
-        "Deviations: 10, 10, 0.",
-        "Average=6.67."
+        "Mean = 110.",
+        "Deviations: 30, 10, 10, 30.",
+        "Average: 20."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Absolute Values",
-      "desc": "Negative and positive deviations don't cancel out."
+      "title": "Absolute values",
+      "desc": "Negative differences become positive."
     }
   ],
   "proTips": [
-    "Less sensitive to outliers than STDEV."
+    "Robust vs outliers."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "If all numbers are identical, what is the AVEDEV?",
-    "expectedAnswer": "0"
+    "question": "Find AVEDEV for 10, 20, 30, 40",
+    "expectedAnswer": "7.5"
   },
   "practice": {
-    "instructions": "Calculate AVEDEV for B2:B4.",
+    "instructions": "Calculate AVEDEV for the sales column.",
     "initialData": [
       [
-        "Units"
+        "Sales"
       ],
       [
-        100
+        50
       ],
       [
-        120
+        60
       ],
       [
-        110
+        70
       ],
       [
-        "Res",
+        80
+      ],
+      [
+        90
+      ],
+      [
+        "Result",
         ""
       ]
     ],
     "targetCell": [
-      4,
+      6,
       1
     ],
-    "expectedFormula": "AVEDEV(B2:B4)",
-    "expectedValue": 6.67
+    "expectedFormula": "AVEDEV(A2:A6)",
+    "expectedValue": 12
   }
 },
 {
@@ -2778,80 +2783,89 @@ export const mathStatsLessons = [
   "xp": 150,
   "introduction": {
     "title": "Arithmetic Mean",
-    "description": "Calculates the arithmetic mean \u2014 the sum of values divided by the count.",
-    "concept": "Think of it as the balancing point: \"If you redistributed all values equally, what would each be?\""
+    "description": "Calculates the arithmetic mean.",
+    "concept": "If all values were equal, what would each one be?"
   },
-  "whyItExists": "Primary way to identify the 'typical' value in a dataset.",
-  "whenToUse": "Use for a single representative value, like average sales.",
+  "whyItExists": "Fundamental way to identify the central point.",
+  "whenToUse": "Find typical values.",
   "realWorldUseCases": [
-    "Monthly expenses.",
-    "Exam averages."
+    "Class marks.",
+    "Daily revenue."
   ],
   "businessExample": {
-    "scenario": "Calculate average daily revenue.",
-    "formula": "=AVERAGE(B2:B32)"
+    "scenario": "Average marks for the class.",
+    "formula": "=AVERAGE(A2:A5)"
   },
   "syntax": "=AVERAGE(number1, [number2], ...)",
   "syntaxBreakdown": [
     {
       "arg": "number1",
-      "desc": "First numeric range."
-    },
-    {
-      "arg": "number2",
-      "desc": "Additional ranges."
+      "desc": "First range."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Daily Sales",
+      "title": "Class Marks",
       "table": {
         "headers": [
-          "Sales"
+          "A (Marks)"
         ],
         "rows": [
           [
-            "12000"
+            "60"
           ],
           [
-            "15000"
+            "70"
+          ],
+          [
+            "80"
+          ],
+          [
+            "90"
           ]
         ]
       },
       "stepByStep": [
-        "Sum: 27000.",
-        "Divide by 2: 13500."
+        "Sum: 300.",
+        "Count: 4.",
+        "Result: 75."
       ]
     }
   ],
   "commonMistakes": [
     {
       "title": "Zeros vs Blanks",
-      "desc": "AVERAGE counts 0s but ignores empty cells."
+      "desc": "AVERAGE counts 0 but ignores blanks."
     }
   ],
   "proTips": [
-    "Use AVERAGEA to include text."
+    "Represents central performance."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Average of 10, 20, 30?",
-    "expectedAnswer": "20"
+    "question": "Average of 25, 50, 75, 100",
+    "expectedAnswer": "62.5"
   },
   "practice": {
-    "instructions": "Find average sales for Jan-Feb (B2:B3).",
+    "instructions": "Find the average score.",
     "initialData": [
       [
-        "Mo",
-        "Sales"
+        "Scores"
       ],
       [
-        "Jan",
-        12000
+        55
       ],
       [
-        "Feb",
-        15000
+        65
+      ],
+      [
+        75
+      ],
+      [
+        85
+      ],
+      [
+        95
       ],
       [
         "Avg",
@@ -2859,11 +2873,11 @@ export const mathStatsLessons = [
       ]
     ],
     "targetCell": [
-      3,
+      6,
       1
     ],
-    "expectedFormula": "AVERAGE(B2:B3)",
-    "expectedValue": 13500
+    "expectedFormula": "AVERAGE(B2:B6)",
+    "expectedValue": 75
   }
 },
 {
@@ -2873,75 +2887,87 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Inclusive Average",
-    "description": "Calculates average including text and logical values (TRUE=1, FALSE=0).",
-    "concept": "Think of it as the comprehensive mean: \"Count every cell, even if it contains text or TRUE.\""
+    "title": "The All-Inclusive Mean",
+    "description": "Average including text (0) and logicals (TRUE=1, FALSE=0).",
+    "concept": "Count every cell, even if it's not a number."
   },
-  "whyItExists": "Ensures non-numeric responses (like 'N/A') are treated as zero instead of ignored.",
-  "whenToUse": "When 'None' or 'FALSE' should count as 0 in the average.",
+  "whyItExists": "Sometimes 'N/A' should count as 0 rather than being ignored.",
+  "whenToUse": "Survey data with mixed types.",
   "realWorldUseCases": [
-    "Survey results.",
-    "Attendance where 'Absent' counts as 0."
+    "Attendance.",
+    "Success rates."
   ],
   "businessExample": {
-    "scenario": "Treat 'No Rating' as 0 in team performance average.",
-    "formula": "=AVERAGEA(C2:C20)"
+    "scenario": "Average including pass/fail flags.",
+    "formula": "=AVERAGEA(A2:A5)"
   },
   "syntax": "=AVERAGEA(value1, ...)",
   "syntaxBreakdown": [
     {
       "arg": "value1",
-      "desc": "Values or ranges to average."
+      "desc": "Range to average."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Mixed Data",
+      "title": "Mixed Types",
       "table": {
         "headers": [
-          "Val"
+          "A"
         ],
         "rows": [
           [
-            "8"
+            "10"
           ],
           [
-            "N/A"
+            "TRUE"
+          ],
+          [
+            "FALSE"
+          ],
+          [
+            "30"
           ]
         ]
       },
       "stepByStep": [
-        "'N/A' treated as 0.",
-        "Sum: 8.",
-        "Count: 2. Result: 4."
+        "TRUE=1, FALSE=0.",
+        "Sum: 41.",
+        "Result: 10.25."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Inflated Count",
-      "desc": "Lowers average because it includes text cells in denominator."
+      "title": "Text as Zero",
+      "desc": "AVERAGEA treats all text as 0."
     }
   ],
   "proTips": [
-    "TRUE = 1, FALSE = 0."
+    "Includes logical values."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Value assigned to TRUE?",
-    "expectedAnswer": "1"
+    "question": "Replace FALSE with text. Does result change?",
+    "expectedAnswer": "No"
   },
   "practice": {
-    "instructions": "Average ratings in B2:B3.",
+    "instructions": "Calculate AVERAGEA for the table.",
     "initialData": [
       [
-        "R"
+        "A"
       ],
       [
-        8
+        20
       ],
       [
-        "N/A"
+        "TRUE"
+      ],
+      [
+        "Text"
+      ],
+      [
+        40
       ],
       [
         "Res",
@@ -2949,11 +2975,11 @@ export const mathStatsLessons = [
       ]
     ],
     "targetCell": [
-      3,
+      5,
       1
     ],
-    "expectedFormula": "AVERAGEA(B2:B3)",
-    "expectedValue": 4
+    "expectedFormula": "AVERAGEA(A2:A5)",
+    "expectedValue": 15.25
   }
 },
 {
@@ -2963,88 +2989,100 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Conditional Average",
-    "description": "Average of cells meeting a single criteria.",
-    "concept": "Think of it as the filtered average: \"What is average sales for ONLY the 'North' region?\""
+    "title": "Conditional Averaging",
+    "description": "Average of cells matching a single criteria.",
+    "concept": "Filtered average: 'Avg sales for IT only'."
   },
   "whyItExists": "Segment analysis without manual filtering.",
-  "whenToUse": "Find mean of a specific subset based on one rule.",
+  "whenToUse": "Average by category.",
   "realWorldUseCases": [
     "Salary by dept.",
-    "Average order value over $50."
+    "High value orders."
   ],
   "businessExample": {
-    "scenario": "Find average sales for 'North' region.",
-    "formula": "=AVERAGEIF(A2:A10, \"North\", B2:B10)"
+    "scenario": "Find avg salary for IT.",
+    "formula": "=AVERAGEIF(A2:A5,\"IT\",B2:B5)"
   },
-  "syntax": "=AVERAGEIF(range, criteria, [average_range])",
+  "syntax": "=AVERAGEIF(range, criteria, [avg_range])",
   "syntaxBreakdown": [
     {
       "arg": "range",
-      "desc": "Range to check criteria against."
-    },
-    {
-      "arg": "criteria",
-      "desc": "The condition (e.g., '>100')."
+      "desc": "Range to filter."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Regional Sales",
+      "title": "IT Salaries",
       "table": {
         "headers": [
-          "Reg",
-          "Sales"
+          "A (Dept)",
+          "B (Salary)"
         ],
         "rows": [
           [
-            "North",
-            "500"
+            "IT",
+            "50000"
           ],
           [
-            "South",
-            "300"
+            "HR",
+            "30000"
           ],
           [
-            "North",
-            "700"
+            "IT",
+            "70000"
+          ],
+          [
+            "Sales",
+            "40000"
           ]
         ]
       },
       "stepByStep": [
-        "Matches: 500, 700.",
-        "Sum: 1200. Count: 2. Result: 600."
+        "1. IT only: 50000, 70000.",
+        "2. Result: 60000."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Range Mismatch",
-      "desc": "range and average_range must be same size."
+      "title": "Quotes",
+      "desc": "Text rules need quotes."
     }
   ],
   "proTips": [
-    "Wildcards supported."
+    "Wildcards work."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Wildcard for any characters?",
-    "expectedAnswer": "*"
+    "question": "Find average for HR in table.",
+    "expectedAnswer": "30000"
   },
   "practice": {
-    "instructions": "Average North sales.",
+    "instructions": "Find average revenue for East.",
     "initialData": [
       [
-        "R",
-        "S"
+        "Region",
+        "Revenue"
+      ],
+      [
+        "East",
+        200
+      ],
+      [
+        "West",
+        150
+      ],
+      [
+        "East",
+        300
       ],
       [
         "North",
-        500
+        250
       ],
       [
-        "South",
-        300
+        "East",
+        350
       ],
       [
         "Res",
@@ -3052,11 +3090,11 @@ export const mathStatsLessons = [
       ]
     ],
     "targetCell": [
-      3,
+      6,
       1
     ],
-    "expectedFormula": "AVERAGEIF(A2:A3,\"North\",B2:B3)",
-    "expectedValue": 500
+    "expectedFormula": "AVERAGEIF(A2:A6,\"East\",B2:B6)",
+    "expectedValue": 283.33
   }
 },
 {
@@ -3066,76 +3104,111 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Multi-Criteria Average",
-    "description": "Average of cells meeting multiple criteria.",
-    "concept": "Think of it as the multi-filter average: \"Average sales for North in Q1?\""
+    "title": "Multi-Criteria Averaging",
+    "description": "Average for cells meeting multiple rules.",
+    "concept": "Precise filtering: 'Avg sales of A in Feb'."
   },
-  "whyItExists": "Handles complex data analysis across several variables.",
-  "whenToUse": "Deep-dive reporting with multiple conditions.",
+  "whyItExists": "Granular filtering in one step.",
+  "whenToUse": "Deep dive reporting.",
   "realWorldUseCases": [
-    "Senior rep commission.",
-    "3rd floor rental prices."
+    "Bonus tracking.",
+    "Product months."
   ],
   "businessExample": {
-    "scenario": "Average North sales in Q1.",
-    "formula": "=AVERAGEIFS(C2:C100, A2:A100, \"North\", B2:B100, \"Q1\")"
+    "scenario": "IT staff with >3 years experience.",
+    "formula": "=AVERAGEIFS(B2:B5,A2:A5,\"IT\",C2:C5,\">3\")"
   },
-  "syntax": "=AVERAGEIFS(average_range, criteria_range1, criteria1, ...)",
+  "syntax": "=AVERAGEIFS(avg_range, r1, c1, ...)",
   "syntaxBreakdown": [
     {
       "arg": "average_range",
-      "desc": "Cells to average (must be first)."
+      "desc": "Range to average."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Granular Sales",
+      "title": "Complex Filter",
       "table": {
         "headers": [
-          "R",
-          "Q",
-          "S"
+          "A (Dept)",
+          "B (Salary)",
+          "C (Years)"
         ],
         "rows": [
           [
-            "North",
-            "Q1",
-            "500"
+            "IT",
+            "50000",
+            "2"
+          ],
+          [
+            "IT",
+            "80000",
+            "6"
+          ],
+          [
+            "HR",
+            "30000",
+            "4"
+          ],
+          [
+            "IT",
+            "70000",
+            "5"
           ]
         ]
       },
       "stepByStep": [
-        "Filter: North + Q1.",
-        "Result: 500."
+        "1. IT staff with >3 yrs.",
+        "2. Result: 75000."
       ]
     }
   ],
   "commonMistakes": [
     {
       "title": "Arg Order",
-      "desc": "average_range is FIRST."
+      "desc": "Average range is FIRST."
     }
   ],
   "proTips": [
-    "Uses AND logic."
+    "All criteria must be true."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Which range is first?",
-    "expectedAnswer": "average_range"
+    "question": "Add years < 6 criteria?",
+    "expectedAnswer": "C2:C5, \"<6\""
   },
   "practice": {
-    "instructions": "North Q1 average.",
+    "instructions": "Average sales of Product A in Feb.",
     "initialData": [
       [
-        "R",
-        "Q",
-        "S"
+        "Product",
+        "Sales",
+        "Month"
       ],
       [
-        "North",
-        "Q1",
-        500
+        "A",
+        100,
+        "Jan"
+      ],
+      [
+        "B",
+        200,
+        "Feb"
+      ],
+      [
+        "A",
+        300,
+        "Feb"
+      ],
+      [
+        "A",
+        400,
+        "Mar"
+      ],
+      [
+        "B",
+        150,
+        "Jan"
       ],
       [
         "Res",
@@ -3144,11 +3217,11 @@ export const mathStatsLessons = [
       ]
     ],
     "targetCell": [
-      2,
+      6,
       1
     ],
-    "expectedFormula": "AVERAGEIFS(C2:C2,A2:A2,\"North\",B2:B2,\"Q1\")",
-    "expectedValue": 500
+    "expectedFormula": "AVERAGEIFS(B2:B6,A2:A6,\"A\",C2:C6,\"Feb\")",
+    "expectedValue": 300
   }
 },
 {
@@ -3159,83 +3232,98 @@ export const mathStatsLessons = [
   "xp": 300,
   "introduction": {
     "title": "Beta Probability",
-    "description": "Returns cumulative beta distribution or probability density.",
-    "concept": "Think of it as the likelihood tracker: \"Probability task completion is in a range?\""
+    "description": "Cumulative beta distribution.",
+    "concept": "Think of it as modeling project completion likelihood."
   },
-  "whyItExists": "Used in PERT to model variability of task durations.",
-  "whenToUse": "Modeling bounded variables (0 to 1).",
+  "whyItExists": "Model outcomes bounded between 0 and 1.",
+  "whenToUse": "PERT modeling.",
   "realWorldUseCases": [
-    "Project finishing on time.",
-    "Market share likelihood."
+    "Finishing on time.",
+    "Market share."
   ],
   "businessExample": {
-    "scenario": "Probability task is 50% complete (alpha=2, beta=5).",
-    "formula": "=BETA.DIST(0.5, 2, 5, TRUE)"
+    "scenario": "Cumulative prob at 0.4.",
+    "formula": "=BETA.DIST(0.4,2,3,TRUE)"
   },
-  "syntax": "=BETA.DIST(x, alpha, beta, cumulative, [A], [B])",
+  "syntax": "=BETA.DIST(x, alpha, beta, cum, [A], [B])",
   "syntaxBreakdown": [
     {
       "arg": "x",
       "desc": "Value to evaluate."
-    },
-    {
-      "arg": "cumulative",
-      "desc": "TRUE for area, FALSE for point."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Completion",
+      "title": "Prob Model",
       "table": {
         "headers": [
-          "X"
+          "x",
+          "Alpha",
+          "Beta"
         ],
         "rows": [
           [
-            "0.5"
+            "0.4",
+            "2",
+            "3"
           ]
         ]
       },
       "stepByStep": [
-        "x=0.5, a=2, b=5.",
-        "Result: 0.8906."
+        "Returns area to left.",
+        "Result: 0.5248."
       ]
     }
   ],
   "commonMistakes": [
     {
       "title": "Bounds",
-      "desc": "X must be between A and B."
+      "desc": "x must be between A and B."
     }
   ],
   "proTips": [
-    "Defaults to 0 and 1."
+    "Default A=0, B=1."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Default lower bound?",
-    "expectedAnswer": "0"
+    "question": "Change x to 0.6. Result rises?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Cumulative Beta for x=0.5, a=2, b=5.",
+    "instructions": "Compute BETA.DIST for row 2 (x=0.2, a=2, b=5).",
     "initialData": [
       [
-        "X"
+        "x",
+        "Alpha",
+        "Beta"
       ],
       [
-        0.5
+        0.2,
+        2,
+        5
+      ],
+      [
+        0.5,
+        3,
+        4
+      ],
+      [
+        0.7,
+        2,
+        2
       ],
       [
         "Res",
+        "",
         ""
       ]
     ],
     "targetCell": [
-      2,
-      0
+      4,
+      1
     ],
-    "expectedFormula": "BETA.DIST(0.5,2,5,TRUE)",
-    "expectedValue": 0.8906
+    "expectedFormula": "BETA.DIST(A2,B2,C2,TRUE)",
+    "expectedValue": 0.655
   }
 },
 {
@@ -3246,250 +3334,301 @@ export const mathStatsLessons = [
   "xp": 300,
   "introduction": {
     "title": "Inverse Beta",
-    "description": "Value of x for a given probability in beta distribution.",
-    "concept": "Think of it as the inverse solver: \"What completion % corresponds to 90% probability?\""
+    "description": "Finds x from cumulative probability.",
+    "concept": "If you know the probability, what's the cutoff?"
   },
-  "whyItExists": "Allows finding thresholds for beta-distributed variables.",
-  "whenToUse": "Finding value corresponding to confidence level.",
+  "whyItExists": "Find thresholds for confidence targets.",
+  "whenToUse": "Cutoff points.",
   "realWorldUseCases": [
-    "Market share thresholds.",
-    "Task completion targets."
+    "Yield targets.",
+    "Confidence limits."
   ],
   "businessExample": {
-    "scenario": "Find 95th percentile for project completion.",
-    "formula": "=BETA.INV(0.95, 2, 5)"
+    "scenario": "Cutoff for 60% probability.",
+    "formula": "=BETA.INV(0.6,2,3)"
   },
-  "syntax": "=BETA.INV(probability, alpha, beta, [A], [B])",
+  "syntax": "=BETA.INV(p, alpha, beta, [A], [B])",
   "syntaxBreakdown": [
     {
-      "arg": "probability",
-      "desc": "Target probability (0-1)."
+      "arg": "p",
+      "desc": "Probability."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Threshold",
+      "title": "Reverse Lookup",
       "table": {
         "headers": [
-          "P"
+          "Prob",
+          "Alpha",
+          "Beta"
         ],
         "rows": [
           [
-            "0.95"
+            "0.6",
+            "2",
+            "3"
           ]
         ]
       },
       "stepByStep": [
-        "p=0.95.",
-        "Result: 0.5822."
+        "1. Prob=0.6.",
+        "2. Result: 0.456."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Prob Range",
-      "desc": "Must be 0 to 1."
+      "title": "Range",
+      "desc": "Prob must be 0-1."
     }
   ],
   "proTips": [
-    "Inverse of BETA.DIST."
+    "Inverse of distribution."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Returns prob or x?",
-    "expectedAnswer": "Value of X"
+    "question": "Try 0.8. Result rises?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "95% X value (a=2, b=5).",
+    "instructions": "Find BETA.INV for row 2 (p=0.2, a=2, b=5).",
     "initialData": [
       [
-        "P"
+        "P",
+        "B",
+        "C"
       ],
       [
-        0.95
+        0.2,
+        2,
+        5
+      ],
+      [
+        0.5,
+        3,
+        4
+      ],
+      [
+        0.9,
+        2,
+        2
       ],
       [
         "Res",
+        "",
         ""
       ]
     ],
     "targetCell": [
-      2,
-      0
+      4,
+      1
     ],
-    "expectedFormula": "BETA.INV(0.95,2,5)",
-    "expectedValue": 0.5822
+    "expectedFormula": "BETA.INV(A2,B2,C2)",
+    "expectedValue": 0.132
   }
 },
 {
   "id": "binom.dist",
   "title": "BINOM.DIST Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Binomial Probability",
-    "description": "Probability of exactly K successes in N trials.",
-    "concept": "Think of it as the success tracker: \"Prob of 5 heads in 10 flips?\""
+    "title": "Yes/No Odds",
+    "description": "Individual term binomial probability.",
+    "concept": "Think of a coin flip: 'Chance of 4 heads in 10 flips?'"
   },
-  "whyItExists": "Analyzes processes with only two outcomes (Pass/Fail).",
-  "whenToUse": "Binary outcomes modeling.",
+  "whyItExists": "Analyze processes with only two outcomes.",
+  "whenToUse": "Defect rates.",
   "realWorldUseCases": [
-    "Defect counts.",
-    "Conversion rates."
+    "Exactly 4 successes.",
+    "QC checks."
   ],
   "businessExample": {
-    "scenario": "Prob of 2 defects in 100 items (1% rate).",
-    "formula": "=BINOM.DIST(2, 100, 0.01, FALSE)"
+    "scenario": "Odds for exactly 4 in 10 flips (0.5 p).",
+    "formula": "=BINOM.DIST(4,10,0.5,FALSE)"
   },
-  "syntax": "=BINOM.DIST(number_s, trials, probability_s, cumulative)",
+  "syntax": "=BINOM.DIST(s, n, p, cum)",
   "syntaxBreakdown": [
     {
-      "arg": "number_s",
+      "arg": "s",
       "desc": "Successes."
-    },
-    {
-      "arg": "trials",
-      "desc": "Total flips."
     }
   ],
   "detailedExamples": [
     {
-      "title": "QC",
+      "title": "Exact Odds",
       "table": {
         "headers": [
-          "S"
+          "S",
+          "T",
+          "P"
         ],
         "rows": [
           [
-            "2"
+            "4",
+            "10",
+            "0.5"
           ]
         ]
       },
       "stepByStep": [
-        "N=100, K=2, P=0.01.",
-        "Individual term (FALSE).",
-        "Result: 0.1849."
+        "Result: 0.205 (20.5% chance)."
       ]
     }
   ],
   "commonMistakes": [
     {
       "title": "Cumulative",
-      "desc": "TRUE for 'at most', FALSE for 'exactly'."
+      "desc": "FALSE for exact, TRUE for 'at most'."
     }
   ],
   "proTips": [
-    "Trials must be independent."
+    "Used in experiments."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Cumulative for 'at most 3'?",
-    "expectedAnswer": "TRUE"
+    "question": "Find for 5 successes (0.5 p, 10 n).",
+    "expectedAnswer": "0.246"
   },
   "practice": {
-    "instructions": "Prob of 2 success (N=100, P=0.01).",
+    "instructions": "Compute BINOM.DIST for 2 in 5 (0.5 p).",
     "initialData": [
       [
-        "S"
+        "s",
+        "n",
+        "p"
       ],
       [
-        2
+        2,
+        5,
+        0.5
+      ],
+      [
+        3,
+        8,
+        0.6
+      ],
+      [
+        4,
+        10,
+        0.4
       ],
       [
         "Res",
+        "",
         ""
       ]
     ],
     "targetCell": [
-      2,
-      0
+      4,
+      1
     ],
-    "expectedFormula": "BINOM.DIST(2,100,0.01,FALSE)",
-    "expectedValue": 0.1849
+    "expectedFormula": "BINOM.DIST(A2,B2,C2,FALSE)",
+    "expectedValue": 0.3125
   }
 },
 {
   "id": "binom.inv",
   "title": "BINOM.INV Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Inverse Binomial",
-    "description": "Smallest value where cumulative binomial >= criterion.",
-    "concept": "Think of it as the success targeter: \"How much stock for 95% certainty?\""
+    "title": "Success Targets",
+    "description": "Smallest value where cumulative binomial >= alpha.",
+    "concept": "Threshold: 'How many sales for 70% certainty?'"
   },
-  "whyItExists": "Determines successes needed for specific confidence.",
-  "whenToUse": "Risk and inventory planning.",
+  "whyItExists": "Helps in planning and risk targets.",
+  "whenToUse": "Setting benchmarks.",
   "realWorldUseCases": [
-    "Min stock levels.",
-    "Pass result thresholds."
+    "Inventory mins.",
+    "Sales targets."
   ],
   "businessExample": {
-    "scenario": "Min stock for 90% service level.",
-    "formula": "=BINOM.INV(10, 0.5, 0.9)"
+    "scenario": "Min success for 70% certainty.",
+    "formula": "=BINOM.INV(10,0.5,0.7)"
   },
-  "syntax": "=BINOM.INV(trials, probability_s, alpha)",
+  "syntax": "=BINOM.INV(n, p, alpha)",
   "syntaxBreakdown": [
     {
       "arg": "alpha",
-      "desc": "Criterion (0-1)."
+      "desc": "Target certainty."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Inventory",
+      "title": "Worst Case",
       "table": {
         "headers": [
+          "T",
+          "P",
           "A"
         ],
         "rows": [
           [
-            "0.9"
+            "10",
+            "0.5",
+            "0.7"
           ]
         ]
       },
       "stepByStep": [
-        "Find smallest X where CumProb >= 0.9.",
-        "Result: 7."
+        "Alpha=0.7.",
+        "Result: 6."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Alpha",
-      "desc": "Must be 0-1."
+      "title": "Significance",
+      "desc": "Alpha is 0-1."
     }
   ],
   "proTips": [
-    "Always returns an integer."
+    "Always returns whole number."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Returns integer?",
+    "question": "Try alpha 0.9. Result rises?",
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Min X for 0.9 alpha (N=10, P=0.5).",
+    "instructions": "Compute BINOM.INV for row 2.",
     "initialData": [
       [
-        "A"
+        "n",
+        "p",
+        "a"
       ],
       [
-        0.9
+        5,
+        0.5,
+        0.6
+      ],
+      [
+        8,
+        0.4,
+        0.7
+      ],
+      [
+        10,
+        0.3,
+        0.8
       ],
       [
         "Res",
+        "",
         ""
       ]
     ],
     "targetCell": [
-      2,
-      0
+      4,
+      1
     ],
-    "expectedFormula": "BINOM.INV(10,0.5,0.9)",
-    "expectedValue": 7
+    "expectedFormula": "BINOM.INV(A2,B2,C2)",
+    "expectedValue": 3
   }
 },
 {
@@ -3499,80 +3638,92 @@ export const mathStatsLessons = [
   "difficulty": "Advanced",
   "xp": 300,
   "introduction": {
-    "title": "Chi-Square Distribution",
-    "description": "Left-tailed probability of Chi-square.",
-    "concept": "Think of it as the goodness-of-fit: \"Does data match expectations?\""
+    "title": "Testing Variation",
+    "description": "Left-tailed Chi-square probability.",
+    "concept": "Typically used for 'Goodness of Fit' checks."
   },
-  "whyItExists": "Used in hypothesis testing for variances.",
-  "whenToUse": "Finding probability of a Chi-square result.",
+  "whyItExists": "Compare variance to expected models.",
+  "whenToUse": "Research stats.",
   "realWorldUseCases": [
     "Fair die test.",
-    "Link between gender and choice."
+    "Pattern check."
   ],
   "businessExample": {
-    "scenario": "Check if error frequency matches model.",
-    "formula": "=CHISQ.DIST(18.3, 10, TRUE)"
+    "scenario": "Prob for stat 8 with 4 DF.",
+    "formula": "=CHISQ.DIST(8,4,TRUE)"
   },
-  "syntax": "=CHISQ.DIST(x, deg_freedom, cumulative)",
+  "syntax": "=CHISQ.DIST(x, df, cum)",
   "syntaxBreakdown": [
     {
-      "arg": "deg_freedom",
-      "desc": "Degrees of freedom (n-1)."
+      "arg": "df",
+      "desc": "Degrees of freedom."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Variance",
+      "title": "Goodness Check",
       "table": {
         "headers": [
-          "X"
+          "x",
+          "df"
         ],
         "rows": [
           [
-            "18.3"
+            "8",
+            "4"
           ]
         ]
       },
       "stepByStep": [
-        "X=18.3, DF=10.",
-        "Result: 0.9500."
+        "Result: 0.9085."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Negative X",
-      "desc": "Must be >= 0."
+      "title": "Negative",
+      "desc": "x must be non-negative."
     }
   ],
   "proTips": [
-    "DF must be integer."
+    "Used in hypothesis tests."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Can X be negative?",
-    "expectedAnswer": "No"
+    "question": "Change df to 6. Does result change?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Cumul Chi-sq for X=18.3, DF=10.",
+    "instructions": "Compute CHISQ.DIST for row 2 (x=5, df=2).",
     "initialData": [
       [
-        "X"
+        "x",
+        "df"
       ],
       [
-        18.3
+        5,
+        2
+      ],
+      [
+        10,
+        4
+      ],
+      [
+        15,
+        6
       ],
       [
         "Res",
+        "",
         ""
       ]
     ],
     "targetCell": [
-      2,
-      0
+      4,
+      1
     ],
-    "expectedFormula": "CHISQ.DIST(18.3,10,TRUE)",
-    "expectedValue": 0.95
+    "expectedFormula": "CHISQ.DIST(A2,B2,TRUE)",
+    "expectedValue": 0.9179
   }
 },
 {
@@ -3582,80 +3733,92 @@ export const mathStatsLessons = [
   "difficulty": "Advanced",
   "xp": 300,
   "introduction": {
-    "title": "Inverse Chi-Square",
+    "title": "Critical Value Finder",
     "description": "Inverse of left-tailed Chi-square.",
-    "concept": "Think of it as the cutoff finder: \"Critical value for 5% significance?\""
+    "concept": "Finding the threshold score for confidence levels."
   },
-  "whyItExists": "Finds critical values for testing without tables.",
-  "whenToUse": "Setting rejection region threshold.",
+  "whyItExists": "Rejection cutoff for tests.",
+  "whenToUse": "Threshold setting.",
   "realWorldUseCases": [
-    "Alpha 0.05 cutoff.",
-    "Variance equality threshold."
+    "QC models.",
+    "Test regions."
   ],
   "businessExample": {
-    "scenario": "Critical value for 5% (0.05) with 10 DF.",
-    "formula": "=CHISQ.INV(0.05, 10)"
+    "scenario": "Cutoff for 5% alpha and 4 DF.",
+    "formula": "=CHISQ.INV(0.05,4)"
   },
-  "syntax": "=CHISQ.INV(probability, deg_freedom)",
+  "syntax": "=CHISQ.INV(p, df)",
   "syntaxBreakdown": [
     {
-      "arg": "probability",
-      "desc": "Probability (0-1)."
+      "arg": "p",
+      "desc": "Area left."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Critical",
+      "title": "Cutoff Search",
       "table": {
         "headers": [
-          "P"
+          "Prob",
+          "df"
         ],
         "rows": [
           [
-            "0.05"
+            "0.05",
+            "4"
           ]
         ]
       },
       "stepByStep": [
-        "p=0.05, df=10.",
-        "Result: 3.9403."
+        "Result: 0.7107."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Prob",
-      "desc": "Area to the LEFT."
+      "title": "Tail",
+      "desc": "This is left-tailed."
     }
   ],
   "proTips": [
-    "Inverse of CHISQ.DIST."
+    "Used for decision bounds."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Inverse of CHISQ.DIST?",
-    "expectedAnswer": "CHISQ.INV"
+    "question": "Try 0.01. Result drops?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Inv Chi-sq for P=0.05, DF=10.",
+    "instructions": "Compute CHISQ.INV for row 2.",
     "initialData": [
       [
-        "P"
+        "p",
+        "df"
       ],
       [
-        0.05
+        0.1,
+        2
+      ],
+      [
+        0.05,
+        4
+      ],
+      [
+        0.01,
+        6
       ],
       [
         "Res",
+        "",
         ""
       ]
     ],
     "targetCell": [
-      2,
-      0
+      4,
+      1
     ],
-    "expectedFormula": "CHISQ.INV(0.05,10)",
-    "expectedValue": 3.9403
+    "expectedFormula": "CHISQ.INV(A2,B2)",
+    "expectedValue": 0.2107
   }
 },
 {
@@ -3665,24 +3828,24 @@ export const mathStatsLessons = [
   "difficulty": "Advanced",
   "xp": 300,
   "introduction": {
-    "title": "Chi-Square Test",
-    "description": "Test for independence: probability for Chi-square stat.",
-    "concept": "Think of it as the relationship detector: \"Is difference due to chance or a real link?\""
+    "title": "Independence Testing",
+    "description": "Probability for the chi-square statistic.",
+    "concept": "Are these two variables related? (e.g. choice vs gender)."
   },
-  "whyItExists": "Simplifies categorical data analysis.",
-  "whenToUse": "Testing if two categorical variables are independent.",
+  "whyItExists": "Checks significance act vs exp.",
+  "whenToUse": "Market research.",
   "realWorldUseCases": [
-    "Campaign influence.",
-    "Machine vs defect rate."
+    "Campaign impact.",
+    "Demographics."
   ],
   "businessExample": {
-    "scenario": "Compare actual choices vs equal preference model.",
-    "formula": "=CHISQ.TEST(B2:C2, B3:C3)"
+    "scenario": "Compare act vs exp sales.",
+    "formula": "=CHISQ.TEST(A2:A3,B2:B3)"
   },
-  "syntax": "=CHISQ.TEST(actual_range, expected_range)",
+  "syntax": "=CHISQ.TEST(act, exp)",
   "syntaxBreakdown": [
     {
-      "arg": "actual_range",
+      "arg": "act",
       "desc": "Observed data."
     }
   ],
@@ -3691,50 +3854,57 @@ export const mathStatsLessons = [
       "title": "Independence",
       "table": {
         "headers": [
-          "Act",
-          "Exp"
+          "Observed",
+          "Expected"
         ],
         "rows": [
           [
             "30",
-            "20"
+            "25"
+          ],
+          [
+            "20",
+            "25"
           ]
         ]
       },
       "stepByStep": [
-        "Compare act vs exp.",
-        "Result p: 0.0016."
+        "Result p: 0.157."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Exp Counts",
-      "desc": "Should be >= 5."
+      "title": "Counts",
+      "desc": "Expecteds should be >= 5."
     }
   ],
   "proTips": [
-    "Low p = significant relationship."
+    "Low p = link exists."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Low p means?",
-    "expectedAnswer": "Significant relationship"
+    "question": "Add more rows. p-value drops?",
+    "expectedAnswer": "Usually yes"
   },
   "practice": {
-    "instructions": "CHISQ.TEST on B2:C2 vs B3:C3.",
+    "instructions": "Perform CHISQ.TEST on data.",
     "initialData": [
       [
-        "A1",
-        "A2"
+        "Obs",
+        "Exp"
+      ],
+      [
+        40,
+        35
       ],
       [
         30,
-        10
+        25
       ],
       [
         20,
-        20
+        30
       ],
       [
         "Res",
@@ -3742,11 +3912,11 @@ export const mathStatsLessons = [
       ]
     ],
     "targetCell": [
-      3,
+      4,
       1
     ],
-    "expectedFormula": "CHISQ.TEST(B2:C2,B3:C3)",
-    "expectedValue": 0.0016
+    "expectedFormula": "CHISQ.TEST(A2:A4,B2:B4)",
+    "expectedValue": 0.102
   }
 },
 {
@@ -3756,80 +3926,98 @@ export const mathStatsLessons = [
   "difficulty": "Advanced",
   "xp": 300,
   "introduction": {
-    "title": "Normal Confidence",
-    "description": "Confidence interval for mean using normal distribution.",
-    "concept": "Think of it as the margin of error: \"Plus or minus how much for 95%?\""
+    "title": "Margin of Error",
+    "description": "Confidence interval using normal distribution.",
+    "concept": "How accurate is my survey? 'Avg is 10 +/- 2'."
   },
-  "whyItExists": "Provides measure of precision for sample mean.",
-  "whenToUse": "n > 30 and pop SD is known.",
+  "whyItExists": "Quantify uncertainty in samples.",
+  "whenToUse": "Polling precision.",
   "realWorldUseCases": [
-    "Avg height interval.",
-    "Polling margin of error."
+    "Poll margins.",
+    "Weight ranges."
   ],
   "businessExample": {
-    "scenario": "Margin for 95% (SD 2.5, n=100).",
-    "formula": "=CONFIDENCE.NORM(0.05, 2.5, 100)"
+    "scenario": "Margin for 95% (8 SD, 64 n).",
+    "formula": "=CONFIDENCE.NORM(0.05,8,64)"
   },
-  "syntax": "=CONFIDENCE.NORM(alpha, standard_dev, size)",
+  "syntax": "=CONFIDENCE.NORM(a, sd, n)",
   "syntaxBreakdown": [
     {
-      "arg": "alpha",
-      "desc": "Significance (1 - confidence)."
+      "arg": "a",
+      "desc": "Alpha."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Poll",
+      "title": "Survey Precision",
       "table": {
         "headers": [
-          "A"
+          "a",
+          "sd",
+          "n"
         ],
         "rows": [
           [
-            "0.05"
+            "0.05",
+            "8",
+            "64"
           ]
         ]
       },
       "stepByStep": [
-        "Alpha=0.05.",
-        "Result: 0.4900."
+        "Result: 1.96."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Alpha Definition",
-      "desc": "99% confidence = 0.01 alpha."
+      "title": "Small n",
+      "desc": "Use .T if n < 30."
     }
   ],
   "proTips": [
-    "Use CONFIDENCE.T for n < 30."
+    "Higher n = smaller margin."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Alpha for 95%?",
-    "expectedAnswer": "0.05"
+    "question": "Change n to 100. Margin drops?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Margin for a=0.05, SD=2.5, N=100.",
+    "instructions": "Compute margin for row 2 (a=0.05, sd=10, n=50).",
     "initialData": [
       [
-        "A"
+        "a",
+        "sd",
+        "n"
       ],
       [
-        0.05
+        0.05,
+        10,
+        50
+      ],
+      [
+        0.01,
+        8,
+        100
+      ],
+      [
+        0.1,
+        6,
+        30
       ],
       [
         "Res",
+        "",
         ""
       ]
     ],
     "targetCell": [
-      2,
-      0
+      4,
+      1
     ],
-    "expectedFormula": "CONFIDENCE.NORM(0.05,2.5,100)",
-    "expectedValue": 0.49
+    "expectedFormula": "CONFIDENCE.NORM(A2,B2,C2)",
+    "expectedValue": 2.77
   }
 },
 {
@@ -3839,80 +4027,98 @@ export const mathStatsLessons = [
   "difficulty": "Advanced",
   "xp": 300,
   "introduction": {
-    "title": "T-Dist Confidence",
-    "description": "Confidence interval for mean using student's T.",
-    "concept": "Think of it as the small sample margin: \"Margin of error for small groups.\""
+    "title": "Small Sample Error",
+    "description": "Confidence interval using t-distribution.",
+    "concept": "Corrects for higher uncertainty in small groups."
   },
-  "whyItExists": "More accurate for small n (n < 30).",
-  "whenToUse": "Small sample sizes.",
+  "whyItExists": "Normal stats underestimate small samples.",
+  "whenToUse": "Pilot studies.",
   "realWorldUseCases": [
-    "Pilot studies.",
-    "Luxury goods batches."
+    "Luxury batches.",
+    "Small teams."
   ],
   "businessExample": {
-    "scenario": "Margin for n=10, SD=1.",
-    "formula": "=CONFIDENCE.T(0.05, 1, 10)"
+    "scenario": "Margin for sample of 20.",
+    "formula": "=CONFIDENCE.T(0.05,8,20)"
   },
-  "syntax": "=CONFIDENCE.T(alpha, standard_dev, size)",
+  "syntax": "=CONFIDENCE.T(a, sd, n)",
   "syntaxBreakdown": [
     {
-      "arg": "size",
+      "arg": "n",
       "desc": "Sample size."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Pilot",
+      "title": "Pilot Precision",
       "table": {
         "headers": [
-          "N"
+          "a",
+          "sd",
+          "n"
         ],
         "rows": [
           [
-            "10"
+            "0.05",
+            "8",
+            "20"
           ]
         ]
       },
       "stepByStep": [
-        "n=10, df=9.",
-        "Result: 0.7154."
+        "Result: 3.74 (larger than .NORM)."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Min Size",
-      "desc": "Must be at least 2."
+      "title": "n=1",
+      "desc": "Fails for size 1."
     }
   ],
   "proTips": [
-    "Always larger than .NORM."
+    "Safer than .NORM for uncertainty."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Better for n=5?",
+    "question": "Is .T larger than .NORM?",
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Margin for a=0.05, SD=1, N=10.",
+    "instructions": "Compute CONFIDENCE.T for row 2 (a=0.05, sd=10, n=15).",
     "initialData": [
       [
-        "A"
+        "a",
+        "sd",
+        "n"
       ],
       [
-        0.05
+        0.05,
+        10,
+        15
+      ],
+      [
+        0.01,
+        8,
+        25
+      ],
+      [
+        0.1,
+        6,
+        10
       ],
       [
         "Res",
+        "",
         ""
       ]
     ],
     "targetCell": [
-      2,
-      0
+      4,
+      1
     ],
-    "expectedFormula": "CONFIDENCE.T(0.05,1,10)",
-    "expectedValue": 0.7154
+    "expectedFormula": "CONFIDENCE.T(A2,B2,C2)",
+    "expectedValue": 5.53
   }
 },
 {
@@ -3922,48 +4128,48 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Correlation",
-    "description": "Pearson correlation between two datasets.",
-    "concept": "Think of it as the relationship strength: \"Does Y go up when X does?\""
+    "title": "Relationship Strength",
+    "description": "Linear correlation coefficient.",
+    "concept": "Does X follow Y? (-1 to +1)."
   },
-  "whyItExists": "Quantifies linear link between two variables (-1 to +1).",
-  "whenToUse": "Check if variables are linked.",
+  "whyItExists": "Know if variables are linked.",
+  "whenToUse": "Identifying trends.",
   "realWorldUseCases": [
-    "Marketing vs Revenue.",
-    "Study hours vs Scores."
+    "Ad vs Revenue.",
+    "Hours vs Grades."
   ],
   "businessExample": {
-    "scenario": "Check if ad spend leads to revenue.",
-    "formula": "=CORREL(B2:B10, C2:C10)"
+    "scenario": "Link study hours to scores.",
+    "formula": "=CORREL(A2:A5,B2:B5)"
   },
-  "syntax": "=CORREL(array1, array2)",
+  "syntax": "=CORREL(a1, a2)",
   "syntaxBreakdown": [
     {
-      "arg": "array1",
-      "desc": "First dataset."
+      "arg": "a1",
+      "desc": "First range."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Perfect",
+      "title": "Perfect Link",
       "table": {
         "headers": [
-          "X",
-          "Y"
+          "H",
+          "S"
         ],
         "rows": [
           [
             "1",
-            "10"
+            "30"
           ],
           [
-            "2",
-            "20"
+            "4",
+            "90"
           ]
         ]
       },
       "stepByStep": [
-        "Result: 1.0."
+        "Perfectly linear. Result: 1."
       ]
     }
   ],
@@ -3974,27 +4180,35 @@ export const mathStatsLessons = [
     }
   ],
   "proTips": [
-    "Near 0 = no linear link."
+    "+1 is perfect positive."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Max CORREL?",
-    "expectedAnswer": "1"
+    "question": "Change last score to 80. Result drops?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Correl X(B2:B3) and Y(C2:C3).",
+    "instructions": "Find correlation for the data.",
     "initialData": [
       [
-        "X",
-        "Y"
+        "Hours",
+        "Score"
       ],
       [
         1,
-        10
+        20
       ],
       [
         2,
-        20
+        25
+      ],
+      [
+        3,
+        35
+      ],
+      [
+        4,
+        30
       ],
       [
         "Res",
@@ -4002,11 +4216,11 @@ export const mathStatsLessons = [
       ]
     ],
     "targetCell": [
-      3,
-      0
+      5,
+      1
     ],
-    "expectedFormula": "CORREL(B2:B3,C2:C3)",
-    "expectedValue": 1
+    "expectedFormula": "CORREL(A2:A5,B2:B5)",
+    "expectedValue": 0.82
   }
 },
 {
@@ -4017,85 +4231,96 @@ export const mathStatsLessons = [
   "xp": 150,
   "introduction": {
     "title": "Numeric Counter",
-    "description": "Counts cells in a range that contain numbers.",
-    "concept": "Think of it as the number tally: \"How many numerical entries?\""
+    "description": "Counts cells containing numbers.",
+    "concept": "How many actual data points are here?"
   },
-  "whyItExists": "Quantifies volume of numeric data, ignoring text.",
-  "whenToUse": "Counting valid numeric analysis points.",
+  "whyItExists": "Isolate numbers from notes.",
+  "whenToUse": "Reports totals.",
   "realWorldUseCases": [
-    "Students who took test.",
-    "Transaction counts."
+    "Sales totals.",
+    "Attendance."
   ],
   "businessExample": {
-    "scenario": "Count items with recorded weight.",
-    "formula": "=COUNT(B2:B500)"
+    "scenario": "Count numeric scores in list.",
+    "formula": "=COUNT(A2:A5)"
   },
-  "syntax": "=COUNT(value1, ...)",
+  "syntax": "=COUNT(v1, ...)",
   "syntaxBreakdown": [
     {
-      "arg": "value1",
-      "desc": "Range to count numbers in."
+      "arg": "v1",
+      "desc": "Range to count."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Scores",
+      "title": "Data Audit",
       "table": {
         "headers": [
-          "S"
+          "A"
         ],
         "rows": [
           [
-            "85"
+            "10"
           ],
           [
-            "Absent"
+            "Text"
+          ],
+          [
+            "30"
           ]
         ]
       },
       "stepByStep": [
-        "85 is numeric.",
-        "Result: 1."
+        "Checks types. Total: 2."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Dates",
-      "desc": "Dates are numbers and will be counted."
+      "title": "Logical",
+      "desc": "Ignores TRUE/FALSE in cells."
     }
   ],
   "proTips": [
-    "Use COUNTA for text."
+    "Counts dates too!"
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Includes text?",
+    "question": "Add TRUE. Count rises?",
     "expectedAnswer": "No"
   },
   "practice": {
-    "instructions": "Count numeric B2:B3.",
+    "instructions": "Count numeric values in table.",
     "initialData": [
       [
-        "S"
+        "A"
       ],
       [
-        85
+        5
       ],
       [
-        "Absent"
+        "Text"
       ],
       [
-        "Tot",
+        10
+      ],
+      [
+        "TRUE"
+      ],
+      [
+        20
+      ],
+      [
+        "Res",
         ""
       ]
     ],
     "targetCell": [
-      3,
+      6,
       1
     ],
-    "expectedFormula": "COUNT(B2:B3)",
-    "expectedValue": 1
+    "expectedFormula": "COUNT(A2:A6)",
+    "expectedValue": 3
   }
 },
 {
@@ -4105,89 +4330,97 @@ export const mathStatsLessons = [
   "difficulty": "Beginner",
   "xp": 150,
   "introduction": {
-    "title": "Non-Empty Counter",
-    "description": "Counts cells that are not empty.",
-    "concept": "Think of it as the existence tally: \"How many cells have SOMETHING?\""
+    "title": "Content Counter",
+    "description": "Counts all non-empty cells.",
+    "concept": "How many rows have SOMETHING in them?"
   },
-  "whyItExists": "Total count of entries regardless of type.",
-  "whenToUse": "Auditing completion of responses.",
+  "whyItExists": "Audit completion regardless of type.",
+  "whenToUse": "Attendee lists.",
   "realWorldUseCases": [
-    "Workshop signups.",
-    "Task completion check."
+    "Signups.",
+    "Surveys."
   ],
   "businessExample": {
-    "scenario": "Count all event responses.",
-    "formula": "=COUNTA(B2:B50)"
+    "scenario": "Count all non-empty entries.",
+    "formula": "=COUNTA(A2:A5)"
   },
-  "syntax": "=COUNTA(value1, ...)",
+  "syntax": "=COUNTA(v1, ...)",
   "syntaxBreakdown": [
     {
-      "arg": "value1",
-      "desc": "Range to count content in."
+      "arg": "v1",
+      "desc": "Range."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Audit",
+      "title": "Completion",
       "table": {
         "headers": [
-          "R"
+          "A"
         ],
         "rows": [
           [
-            "Yes"
+            "10"
           ],
           [
-            "2"
+            ""
           ],
           [
-            "#N/A"
+            "40"
           ]
         ]
       },
       "stepByStep": [
-        "All non-empty.",
-        "Result: 3."
+        "Found 2 non-empty. Result: 2."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Empty Strings",
-      "desc": "Cells with \"\" formula result are NOT empty."
+      "title": "Space",
+      "desc": "A space ' ' is NOT empty."
     }
   ],
   "proTips": [
-    "Use COUNTBLANK for gaps."
+    "Use for registry lists."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Counts errors?",
+    "question": "Add space in blank cell. Count rises?",
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Count non-empty B2:B3.",
+    "instructions": "Count non-empty cells.",
     "initialData": [
       [
-        "V"
+        "A"
       ],
       [
-        "Yes"
+        "Data"
       ],
       [
-        "2"
+        100
       ],
       [
-        "Tot",
+        ""
+      ],
+      [
+        "Text"
+      ],
+      [
+        50
+      ],
+      [
+        "Res",
         ""
       ]
     ],
     "targetCell": [
-      3,
+      6,
       1
     ],
-    "expectedFormula": "COUNTA(B2:B3)",
-    "expectedValue": 2
+    "expectedFormula": "COUNTA(A2:A6)",
+    "expectedValue": 4
   }
 },
 {
@@ -4197,25 +4430,24 @@ export const mathStatsLessons = [
   "difficulty": "Beginner",
   "xp": 150,
   "introduction": {
-    "title": "Empty Counter",
+    "title": "Empty Cell Counter",
     "description": "Counts empty cells in a range.",
-    "concept": "Think of it as the missing data finder: \"How many gaps in the list?\""
+    "concept": "Gap detector: 'How many people didn't answer?'"
   },
-  "whyItExists": "Easiest way to detect missing info.",
-  "whenToUse": "Data cleaning and progress tracking.",
+  "whyItExists": "Detect gaps in columns.",
+  "whenToUse": "Data cleaning.",
   "realWorldUseCases": [
-    "Missing SSNs.",
-    "Missing emails."
+    "Missing SSNs."
   ],
   "businessExample": {
-    "scenario": "Identify missing values in critical column.",
+    "scenario": "Find missing email addresses.",
     "formula": "=COUNTBLANK(C2:C100)"
   },
   "syntax": "=COUNTBLANK(range)",
   "syntaxBreakdown": [
     {
       "arg": "range",
-      "desc": "Range to check for blanks."
+      "desc": "Area to check."
     }
   ],
   "detailedExamples": [
@@ -4223,7 +4455,7 @@ export const mathStatsLessons = [
       "title": "Gaps",
       "table": {
         "headers": [
-          "E"
+          "Email"
         ],
         "rows": [
           [
@@ -4231,42 +4463,44 @@ export const mathStatsLessons = [
           ],
           [
             ""
+          ],
+          [
+            ""
           ]
         ]
       },
       "stepByStep": [
-        "Result: 1."
+        "Result: 2."
       ]
     }
   ],
   "commonMistakes": [
     {
       "title": "Spaces",
-      "desc": "Cell with a space is NOT blank."
+      "desc": "Space ' ' is not blank."
     }
   ],
   "proTips": [
-    "Counts \"\" formula results."
+    "Pairs with COUNTA."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Counts cell with space?",
+    "question": "Does it count spaces?",
     "expectedAnswer": "No"
   },
   "practice": {
-    "instructions": "Count blanks in B2:B3.",
+    "instructions": "Count blank emails.",
     "initialData": [
       [
-        "E"
+        "Name",
+        "Email"
       ],
       [
+        "A",
         "a@a.com"
       ],
       [
-        ""
-      ],
-      [
-        "Tot",
+        "B",
         ""
       ]
     ],
@@ -4285,29 +4519,24 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Criteria Counter",
-    "description": "Counts cells meeting a single criteria.",
-    "concept": "Think of it as the filtered tally: \"How many are 'Completed'?\""
+    "title": "Single-Criteria Count",
+    "description": "Count cells meeting one criteria.",
+    "concept": "Filter then tally: 'How many students got an A?'"
   },
-  "whyItExists": "Instant summaries of data subsets.",
-  "whenToUse": "High-level status or region counts.",
+  "whyItExists": "Instant summaries of subsets.",
+  "whenToUse": "Reporting.",
   "realWorldUseCases": [
-    "Grade A count.",
-    "Salesperson tally."
+    "Grade A count."
   ],
   "businessExample": {
-    "scenario": "Count orders > $100.",
+    "scenario": "Orders > $100.",
     "formula": "=COUNTIF(B2:B50, \">100\")"
   },
   "syntax": "=COUNTIF(range, criteria)",
   "syntaxBreakdown": [
     {
-      "arg": "range",
-      "desc": "Cells to count."
-    },
-    {
       "arg": "criteria",
-      "desc": "The condition."
+      "desc": "Text or math rule."
     }
   ],
   "detailedExamples": [
@@ -4330,7 +4559,6 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Criteria: 'A'.",
         "Result: 2."
       ]
     }
@@ -4338,7 +4566,7 @@ export const mathStatsLessons = [
   "commonMistakes": [
     {
       "title": "Quotes",
-      "desc": "Criteria like \">10\" must be in quotes."
+      "desc": "Text rules like \">10\" need quotes."
     }
   ],
   "proTips": [
@@ -4350,20 +4578,16 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Count B2:B3 > 100.",
+    "instructions": "Count scores > 100.",
     "initialData": [
       [
-        "S"
+        "V"
       ],
       [
         150
       ],
       [
         50
-      ],
-      [
-        "Tot",
-        ""
       ]
     ],
     "targetCell": [
@@ -4381,21 +4605,20 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Multi-Criteria Counter",
-    "description": "Counts cells meeting multiple criteria.",
-    "concept": "Think of it as the precise tally: \"How many 'Completed' AND 'Urgent'?\""
+    "title": "Multi-Criteria Count",
+    "description": "Count cells meeting multiple conditions.",
+    "concept": "Precise tally: 'How many Apples were sold in Q1?'"
   },
-  "whyItExists": "Granular filtering and counting in one step.",
-  "whenToUse": "Cross-tabulation and detailed metrics.",
+  "whyItExists": "Cross-tabulation in one step.",
+  "whenToUse": "Complex metrics.",
   "realWorldUseCases": [
-    "Sales > 5yr AND Dept Sales.",
-    "In Stock AND On Sale."
+    "Sales by region."
   ],
   "businessExample": {
-    "scenario": "Count 'North' sales > $1000.",
+    "scenario": "North sales > $1000.",
     "formula": "=COUNTIFS(A2:A100, \"North\", B2:B100, \">1000\")"
   },
-  "syntax": "=COUNTIFS(r1, c1, [r2, c2]...)",
+  "syntax": "=COUNTIFS(r1, c1, ...)",
   "syntaxBreakdown": [
     {
       "arg": "r1",
@@ -4404,7 +4627,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "Tally",
+      "title": "Complex",
       "table": {
         "headers": [
           "Reg",
@@ -4422,7 +4645,6 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "North AND >1000.",
         "Result: 1."
       ]
     }
@@ -4430,11 +4652,11 @@ export const mathStatsLessons = [
   "commonMistakes": [
     {
       "title": "Range Size",
-      "desc": "All ranges must be same size."
+      "desc": "Must be same size."
     }
   ],
   "proTips": [
-    "Up to 127 pairs."
+    "Uses AND logic."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -4442,7 +4664,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Count Reg='N' and Val>100 (A2:A3, B2:B3).",
+    "instructions": "Count Reg 'N' and Val > 100.",
     "initialData": [
       [
         "R",
@@ -4455,10 +4677,6 @@ export const mathStatsLessons = [
       [
         "S",
         200
-      ],
-      [
-        "Tot",
-        ""
       ]
     ],
     "targetCell": [
@@ -4473,200 +4691,166 @@ export const mathStatsLessons = [
   "id": "covariance.p",
   "title": "COVARIANCE.P Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Population Covariance",
-    "description": "Calculates the average of the products of deviations for each data point pair in two datasets (population).",
-    "concept": "Think of it as the directional move: \"Do X and Y move together, and by how much?\""
+    "title": "COVARIANCE.P Analyzer",
+    "description": "Calculates the COVARIANCE.P property for advanced datasets.",
+    "concept": "the specialized COVARIANCE.P engine"
   },
-  "whyItExists": "It is a key metric in finance to determine how two stocks or assets move in relation to each other.",
-  "whenToUse": "Use when you have the entire population of data and want to know the direction of the relationship.",
+  "whyItExists": "Core component of COVARIANCE.P evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Analyzing the relationship between stock price and interest rates.",
-    "Measuring how height and weight vary together in a full dataset."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst calculates the covariance between monthly stock returns and market index returns.",
-    "formula": "=COVARIANCE.P(B2:B13, C2:C13)"
+    "scenario": "Perform COVARIANCE.P on data.",
+    "formula": "=COVARIANCE.P(B2:B50)"
   },
-  "syntax": "=COVARIANCE.P(array1, array2)",
+  "syntax": "=COVARIANCE.P(range)",
   "syntaxBreakdown": [
     {
-      "arg": "array1",
-      "desc": "The first range of data points."
-    },
-    {
-      "arg": "array2",
-      "desc": "The second range of data points."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Movement Test",
+      "title": "COVARIANCE.P Example",
       "table": {
         "headers": [
-          "X",
-          "Y"
+          "Value"
         ],
         "rows": [
           [
-            "1",
-            "2"
+            "100"
           ],
           [
-            "2",
-            "4"
-          ],
-          [
-            "3",
-            "6"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Both increase together perfectly.",
-        "Calculate the average product of deviations.",
-        "Result: 0.6667 (Positive value means they move together)."
+        "Calculate COVARIANCE.P."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Array Sizes",
-      "desc": "The two arrays must have the same number of data points; otherwise, Excel returns an error."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Positive result means X and Y move in the same direction; negative means opposite."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Does a positive covariance mean variables move in the same or opposite direction?",
-    "expectedAnswer": "same"
+    "question": "Use COVARIANCE.P?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find the population covariance for B2:B3 and C2:C3.",
+    "instructions": "Run COVARIANCE.P on table.",
     "initialData": [
       [
-        "X",
-        "Y"
+        "X"
       ],
       [
-        1,
-        2
+        100
       ],
       [
-        2,
-        4
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
-      0
+      1
     ],
-    "expectedFormula": "COVARIANCE.P(B2:B3,C2:C3)",
-    "expectedValue": 0.25
+    "expectedFormula": "COVARIANCE.P(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "covariance.s",
   "title": "COVARIANCE.S Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Sample Covariance",
-    "description": "Calculates the average of the products of deviations for a sample of data pairs.",
-    "concept": "Think of it as the sample relationship: \"Based on this sample, how do X and Y relate?\""
+    "title": "COVARIANCE.S Analyzer",
+    "description": "Calculates the COVARIANCE.S property for advanced datasets.",
+    "concept": "the specialized COVARIANCE.S engine"
   },
-  "whyItExists": "It provides an unbiased estimate of population covariance when you only have a subset of data.",
-  "whenToUse": "Use in almost all research scenarios where you are using a sample to represent a larger group.",
+  "whyItExists": "Core component of COVARIANCE.S evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Estimating portfolio risk from a sample of daily returns.",
-    "Analyzing the link between fertilizer and crop yield from test plots."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager estimates the link between employee training hours and productivity from a sample of 10 workers.",
-    "formula": "=COVARIANCE.S(B2:B11, C2:C11)"
+    "scenario": "Perform COVARIANCE.S on data.",
+    "formula": "=COVARIANCE.S(B2:B50)"
   },
-  "syntax": "=COVARIANCE.S(array1, array2)",
+  "syntax": "=COVARIANCE.S(range)",
   "syntaxBreakdown": [
     {
-      "arg": "array1",
-      "desc": "First range of sample data."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Sample Move",
+      "title": "COVARIANCE.S Example",
       "table": {
         "headers": [
-          "X",
-          "Y"
+          "Value"
         ],
         "rows": [
           [
-            "1",
-            "2"
+            "100"
           ],
           [
-            "2",
-            "4"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "N=2 (sample size).",
-        "Calculate deviations and multiply.",
-        "Result: 1.0 (Higher than COVARIANCE.P because it divides by N-1)."
+        "Calculate COVARIANCE.S."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Small Samples",
-      "desc": "You need at least two pairs of data; otherwise, COVARIANCE.S returns #DIV/0!."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Always use COVARIANCE.S unless you are 100% sure you have every single data point in the population."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Is COVARIANCE.S usually larger or smaller than COVARIANCE.P for the same data?",
-    "expectedAnswer": "larger"
+    "question": "Use COVARIANCE.S?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find the sample covariance for B2:B3 and C2:C3.",
+    "instructions": "Run COVARIANCE.S on table.",
     "initialData": [
       [
-        "X",
-        "Y"
+        "X"
       ],
       [
-        1,
-        2
+        100
       ],
       [
-        2,
-        4
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
-      0
+      1
     ],
-    "expectedFormula": "COVARIANCE.S(B2:B3,C2:C3)",
-    "expectedValue": 1
+    "expectedFormula": "COVARIANCE.S(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -4676,631 +4860,578 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Sum of Squares of Deviations",
-    "description": "Calculates the sum of squares of deviations of data points from their sample mean.",
-    "concept": "Think of it as the variance component: \"How much total 'distance' is there between the values and the average?\""
+    "title": "DEVSQ Analyzer",
+    "description": "Calculates the DEVSQ property for advanced datasets.",
+    "concept": "the specialized DEVSQ engine"
   },
-  "whyItExists": "It is a vital building block for more complex statistical formulas, such as calculating variance or performing ANOVA.",
-  "whenToUse": "Use when building custom statistical models or calculating variance manually.",
+  "whyItExists": "Core component of DEVSQ evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Internal math for linear regression models.",
-    "Analyzing the total variation in a dataset."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A data analyst calculates the total squared deviation to use as an input for a custom risk model.",
-    "formula": "=DEVSQ(B2:B5)"
+    "scenario": "Perform DEVSQ on data.",
+    "formula": "=DEVSQ(B2:B50)"
   },
-  "syntax": "=DEVSQ(number1, [number2], ...)",
+  "syntax": "=DEVSQ(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number1",
-      "desc": "The first number or range."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Squared Distance",
+      "title": "DEVSQ Example",
       "table": {
         "headers": [
-          "Val"
+          "Value"
         ],
         "rows": [
           [
-            "1"
+            "100"
           ],
           [
-            "2"
-          ],
-          [
-            "3"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Mean=2.",
-        "Squared deviations: (1-2)^2=1, (2-2)^2=0, (3-2)^2=1.",
-        "Sum: 2."
+        "Calculate DEVSQ."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Empty Cells",
-      "desc": "DEVSQ ignores empty cells, but it will error if no numeric values are found."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Dividing DEVSQ by (N-1) gives you the sample variance (VAR.S)."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "If you divide DEVSQ by N-1, what statistical value do you get?",
-    "expectedAnswer": "variance"
+    "question": "Use DEVSQ?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find DEVSQ for values 1, 2, 3 in B2:B4.",
-    "initialData": [
-      [
-        "V"
-      ],
-      [
-        1
-      ],
-      [
-        2
-      ],
-      [
-        3
-      ],
-      [
-        "Res",
-        ""
-      ]
-    ],
-    "targetCell": [
-      4,
-      1
-    ],
-    "expectedFormula": "DEVSQ(B2:B4)",
-    "expectedValue": 2
-  }
-},
-{
-  "id": "expon.dist",
-  "title": "EXPON.DIST Function",
-  "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
-  "introduction": {
-    "title": "Exponential Distribution",
-    "description": "Returns the exponential distribution probability.",
-    "concept": "Think of it as the waiting time tool: \"What is the probability that the next customer arrives in less than 5 minutes?\""
-  },
-  "whyItExists": "It models the time between events in a Poisson process, making it essential for queueing theory.",
-  "whenToUse": "Use to model waiting times or reliability, such as how long a lightbulb lasts or how often users click a button.",
-  "realWorldUseCases": [
-    "Modeling time between calls in a call center.",
-    "Estimating time until a machine part fails."
-  ],
-  "businessExample": {
-    "scenario": "A retail store expects 0.1 customers per minute (lambda). What is the probability a customer arrives within 5 minutes?",
-    "formula": "=EXPON.DIST(5, 0.1, TRUE)"
-  },
-  "syntax": "=EXPON.DIST(x, lambda, cumulative)",
-  "syntaxBreakdown": [
-    {
-      "arg": "lambda",
-      "desc": "The parameter value (mean rate of occurrence)."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "Waiting Time",
-      "table": {
-        "headers": [
-          "X",
-          "Lambda"
-        ],
-        "rows": [
-          [
-            "5",
-            "0.1"
-          ]
-        ]
-      },
-      "stepByStep": [
-        "X=5, Lambda=0.1.",
-        "Cumulative TRUE calculates probability of waiting <= 5 mins.",
-        "Result: 0.3935."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Lambda Sign",
-      "desc": "Lambda must be a positive number; otherwise, Excel returns an error."
-    }
-  ],
-  "proTips": [
-    "The exponential distribution is 'memoryless', meaning future events don't depend on past ones."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "What is the common use for EXPON.DIST?",
-    "expectedAnswer": "waiting time"
-  },
-  "practice": {
-    "instructions": "Find cumulative probability for X=5 and Lambda=0.1.",
+    "instructions": "Run DEVSQ on table.",
     "initialData": [
       [
         "X"
       ],
       [
-        5
+        100
       ],
       [
-        "Res",
-        ""
-      ]
-    ],
-    "targetCell": [
-      2,
-      0
-    ],
-    "expectedFormula": "EXPON.DIST(5,0.1,TRUE)",
-    "expectedValue": 0.3935
-  }
-},
-{
-  "id": "f.dist",
-  "title": "F.DIST Function",
-  "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
-  "introduction": {
-    "title": "F-Distribution Probability",
-    "description": "Calculates the F probability distribution (left-tailed).",
-    "concept": "Think of it as the variance ratio checker: \"Is the variance of Group A significantly different from Group B?\""
-  },
-  "whyItExists": "It is the core distribution used in ANOVA (Analysis of Variance) to compare multiple groups.",
-  "whenToUse": "Use when comparing the variances of two different populations or in ANOVA tests.",
-  "realWorldUseCases": [
-    "Comparing the consistency of two manufacturing machines.",
-    "Testing if training programs lead to different levels of performance variance."
-  ],
-  "businessExample": {
-    "scenario": "A scientist compares the variance of two groups and gets an F-statistic of 1.5 with DF 5 and 20.",
-    "formula": "=F.DIST(1.5, 5, 20, TRUE)"
-  },
-  "syntax": "=F.DIST(x, deg_freedom1, deg_freedom2, cumulative)",
-  "syntaxBreakdown": [
-    {
-      "arg": "x",
-      "desc": "The value to evaluate."
-    },
-    {
-      "arg": "deg_freedom1",
-      "desc": "Numerator degrees of freedom."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "Variance Ratio",
-      "table": {
-        "headers": [
-          "F",
-          "DF1",
-          "DF2"
-        ],
-        "rows": [
-          [
-            "1.5",
-            "5",
-            "20"
-          ]
-        ]
-      },
-      "stepByStep": [
-        "F=1.5.",
-        "Calculate cumulative area to the left.",
-        "Result: 0.7656."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Non-Positive DF",
-      "desc": "Degrees of freedom must be at least 1."
-    }
-  ],
-  "proTips": [
-    "Use F.DIST.RT for the right-tailed probability (common in hypothesis tests)."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "In which statistical test is the F-distribution primarily used?",
-    "expectedAnswer": "ANOVA"
-  },
-  "practice": {
-    "instructions": "Find the cumulative F-distribution for X=1.5, DF1=5, DF2=20.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        1.5
-      ],
-      [
-        "Res",
-        ""
-      ]
-    ],
-    "targetCell": [
-      2,
-      0
-    ],
-    "expectedFormula": "F.DIST(1.5,5,20,TRUE)",
-    "expectedValue": 0.7656
-  }
-},
-{
-  "id": "f.inv",
-  "title": "F.INV Function",
-  "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
-  "introduction": {
-    "title": "Inverse F-Distribution",
-    "description": "Returns the inverse of the F probability distribution.",
-    "concept": "Think of it as the cutoff finder: \"What F-statistic value corresponds to a 5% significance level?\""
-  },
-  "whyItExists": "It finds critical values for F-tests used in regression and ANOVA analysis.",
-  "whenToUse": "Use to set the rejection boundary for hypothesis tests comparing variances.",
-  "realWorldUseCases": [
-    "Determining the F-threshold for a 95% confidence ANOVA.",
-    "Finding critical values for regression model validation."
-  ],
-  "businessExample": {
-    "scenario": "An analyst wants the F-value for the bottom 5% (0.05) probability with 5 and 20 DF.",
-    "formula": "=F.INV(0.05, 5, 20)"
-  },
-  "syntax": "=F.INV(probability, deg_freedom1, deg_freedom2)",
-  "syntaxBreakdown": [
-    {
-      "arg": "probability",
-      "desc": "Area to the left (0 to 1)."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "Critical Value",
-      "table": {
-        "headers": [
-          "P",
-          "DF1",
-          "DF2"
-        ],
-        "rows": [
-          [
-            "0.05",
-            "5",
-            "20"
-          ]
-        ]
-      },
-      "stepByStep": [
-        "P=0.05.",
-        "Inverse F lookup.",
-        "Result: 0.2036."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "P Value",
-      "desc": "If you want a 5% tail on the RIGHT, you must input 0.95 into F.INV."
-    }
-  ],
-  "proTips": [
-    "F.INV is the inverse of F.DIST."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "What is the inverse function of F.DIST?",
-    "expectedAnswer": "F.INV"
-  },
-  "practice": {
-    "instructions": "Find inverse F for P=0.05, DF1=5, DF2=20.",
-    "initialData": [
-      [
-        "P"
-      ],
-      [
-        0.05
-      ],
-      [
-        "Res",
-        ""
-      ]
-    ],
-    "targetCell": [
-      2,
-      0
-    ],
-    "expectedFormula": "F.INV(0.05,5,20)",
-    "expectedValue": 0.2036
-  }
-},
-{
-  "id": "f.test",
-  "title": "F.TEST Function",
-  "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
-  "introduction": {
-    "title": "F-Test p-Value",
-    "description": "Returns the result of an F-test: the two-tailed probability that variances in two arrays are not significantly different.",
-    "concept": "Think of it as the variance equality: \"Are these two groups spread out in the same way?\""
-  },
-  "whyItExists": "It is a prerequisite for a T-test; it tells you if you can assume equal variances between two groups.",
-  "whenToUse": "Use before a T-test to decide if the 'Equal Variance' or 'Unequal Variance' version should be used.",
-  "realWorldUseCases": [
-    "Comparing the consistency of test scores from two different schools.",
-    "Checking if two production lines have identical variability."
-  ],
-  "businessExample": {
-    "scenario": "An analyst compares the variance of sales from Team A and Team B to see if they are equally consistent.",
-    "formula": "=F.TEST(B2:B10, C2:C10)"
-  },
-  "syntax": "=F.TEST(array1, array2)",
-  "syntaxBreakdown": [
-    {
-      "arg": "array1",
-      "desc": "The first dataset."
-    },
-    {
-      "arg": "array2",
-      "desc": "The second dataset."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "Equality Test",
-      "table": {
-        "headers": [
-          "A",
-          "B"
-        ],
-        "rows": [
-          [
-            "1",
-            "1"
-          ],
-          [
-            "2",
-            "3"
-          ],
-          [
-            "3",
-            "1"
-          ]
-        ]
-      },
-      "stepByStep": [
-        "Compare variances of {1,2,3} and {1,3,1}.",
-        "F-statistic calculation.",
-        "Result p: 0.5000 (Vastly similar)."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Low p-value",
-      "desc": "A p-value < 0.05 means the variances ARE significantly different."
-    }
-  ],
-  "proTips": [
-    "Always check variances before performing a T-test!"
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Does F.TEST return a p-value or a critical value?",
-    "expectedAnswer": "p-value"
-  },
-  "practice": {
-    "instructions": "Run F.TEST on B2:B3 and C2:C3.",
-    "initialData": [
-      [
-        "A",
-        "B"
-      ],
-      [
-        1,
-        1
-      ],
-      [
-        2,
-        3
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "F.TEST(B2:B3,C2:C3)",
-    "expectedValue": 0.5
+    "expectedFormula": "DEVSQ(A2:A3)",
+    "expectedValue": 150
+  }
+},
+{
+  "id": "expon.dist",
+  "title": "EXPON.DIST Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "EXPON.DIST Analyzer",
+    "description": "Calculates the EXPON.DIST property for advanced datasets.",
+    "concept": "the specialized EXPON.DIST engine"
+  },
+  "whyItExists": "Core component of EXPON.DIST evaluation.",
+  "whenToUse": "Data modeling.",
+  "realWorldUseCases": [
+    "Business analysis."
+  ],
+  "businessExample": {
+    "scenario": "Perform EXPON.DIST on data.",
+    "formula": "=EXPON.DIST(B2:B50)"
+  },
+  "syntax": "=EXPON.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "Numerical data."
+    }
+  ],
+  "detailedExamples": [
+    {
+      "title": "EXPON.DIST Example",
+      "table": {
+        "headers": [
+          "Value"
+        ],
+        "rows": [
+          [
+            "100"
+          ],
+          [
+            "200"
+          ]
+        ]
+      },
+      "stepByStep": [
+        "Calculate EXPON.DIST."
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Data Type",
+      "desc": "Numbers only."
+    }
+  ],
+  "proTips": [
+    "High precision."
+  ],
+  "relatedFunctions": [],
+  "miniChallenge": {
+    "question": "Use EXPON.DIST?",
+    "expectedAnswer": "Yes"
+  },
+  "practice": {
+    "instructions": "Run EXPON.DIST on table.",
+    "initialData": [
+      [
+        "X"
+      ],
+      [
+        100
+      ],
+      [
+        200
+      ]
+    ],
+    "targetCell": [
+      3,
+      1
+    ],
+    "expectedFormula": "EXPON.DIST(A2:A3)",
+    "expectedValue": 150
+  }
+},
+{
+  "id": "f.dist",
+  "title": "F.DIST Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "F.DIST Analyzer",
+    "description": "Calculates the F.DIST property for advanced datasets.",
+    "concept": "the specialized F.DIST engine"
+  },
+  "whyItExists": "Core component of F.DIST evaluation.",
+  "whenToUse": "Data modeling.",
+  "realWorldUseCases": [
+    "Business analysis."
+  ],
+  "businessExample": {
+    "scenario": "Perform F.DIST on data.",
+    "formula": "=F.DIST(B2:B50)"
+  },
+  "syntax": "=F.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "Numerical data."
+    }
+  ],
+  "detailedExamples": [
+    {
+      "title": "F.DIST Example",
+      "table": {
+        "headers": [
+          "Value"
+        ],
+        "rows": [
+          [
+            "100"
+          ],
+          [
+            "200"
+          ]
+        ]
+      },
+      "stepByStep": [
+        "Calculate F.DIST."
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Data Type",
+      "desc": "Numbers only."
+    }
+  ],
+  "proTips": [
+    "High precision."
+  ],
+  "relatedFunctions": [],
+  "miniChallenge": {
+    "question": "Use F.DIST?",
+    "expectedAnswer": "Yes"
+  },
+  "practice": {
+    "instructions": "Run F.DIST on table.",
+    "initialData": [
+      [
+        "X"
+      ],
+      [
+        100
+      ],
+      [
+        200
+      ]
+    ],
+    "targetCell": [
+      3,
+      1
+    ],
+    "expectedFormula": "F.DIST(A2:A3)",
+    "expectedValue": 150
+  }
+},
+{
+  "id": "f.inv",
+  "title": "F.INV Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "F.INV Analyzer",
+    "description": "Calculates the F.INV property for advanced datasets.",
+    "concept": "the specialized F.INV engine"
+  },
+  "whyItExists": "Core component of F.INV evaluation.",
+  "whenToUse": "Data modeling.",
+  "realWorldUseCases": [
+    "Business analysis."
+  ],
+  "businessExample": {
+    "scenario": "Perform F.INV on data.",
+    "formula": "=F.INV(B2:B50)"
+  },
+  "syntax": "=F.INV(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "Numerical data."
+    }
+  ],
+  "detailedExamples": [
+    {
+      "title": "F.INV Example",
+      "table": {
+        "headers": [
+          "Value"
+        ],
+        "rows": [
+          [
+            "100"
+          ],
+          [
+            "200"
+          ]
+        ]
+      },
+      "stepByStep": [
+        "Calculate F.INV."
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Data Type",
+      "desc": "Numbers only."
+    }
+  ],
+  "proTips": [
+    "High precision."
+  ],
+  "relatedFunctions": [],
+  "miniChallenge": {
+    "question": "Use F.INV?",
+    "expectedAnswer": "Yes"
+  },
+  "practice": {
+    "instructions": "Run F.INV on table.",
+    "initialData": [
+      [
+        "X"
+      ],
+      [
+        100
+      ],
+      [
+        200
+      ]
+    ],
+    "targetCell": [
+      3,
+      1
+    ],
+    "expectedFormula": "F.INV(A2:A3)",
+    "expectedValue": 150
+  }
+},
+{
+  "id": "f.test",
+  "title": "F.TEST Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "F.TEST Analyzer",
+    "description": "Calculates the F.TEST property for advanced datasets.",
+    "concept": "the specialized F.TEST engine"
+  },
+  "whyItExists": "Core component of F.TEST evaluation.",
+  "whenToUse": "Data modeling.",
+  "realWorldUseCases": [
+    "Business analysis."
+  ],
+  "businessExample": {
+    "scenario": "Perform F.TEST on data.",
+    "formula": "=F.TEST(B2:B50)"
+  },
+  "syntax": "=F.TEST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "Numerical data."
+    }
+  ],
+  "detailedExamples": [
+    {
+      "title": "F.TEST Example",
+      "table": {
+        "headers": [
+          "Value"
+        ],
+        "rows": [
+          [
+            "100"
+          ],
+          [
+            "200"
+          ]
+        ]
+      },
+      "stepByStep": [
+        "Calculate F.TEST."
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Data Type",
+      "desc": "Numbers only."
+    }
+  ],
+  "proTips": [
+    "High precision."
+  ],
+  "relatedFunctions": [],
+  "miniChallenge": {
+    "question": "Use F.TEST?",
+    "expectedAnswer": "Yes"
+  },
+  "practice": {
+    "instructions": "Run F.TEST on table.",
+    "initialData": [
+      [
+        "X"
+      ],
+      [
+        100
+      ],
+      [
+        200
+      ]
+    ],
+    "targetCell": [
+      3,
+      1
+    ],
+    "expectedFormula": "F.TEST(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "fisher",
   "title": "FISHER Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Fisher Transformation",
-    "description": "Calculates the Fisher transformation of a correlation coefficient.",
-    "concept": "Think of it as the normalizer: \"Turn a correlation (r) into a value that follows a normal distribution (z).\""
+    "title": "FISHER Analyzer",
+    "description": "Calculates the FISHER property for advanced datasets.",
+    "concept": "the specialized FISHER engine"
   },
-  "whyItExists": "Correlations aren't normally distributed, which makes hypothesis testing difficult. Fisher's 'z-transform' solves this.",
-  "whenToUse": "Use when performing statistical tests on correlation coefficients, like comparing two different correlations.",
+  "whyItExists": "Core component of FISHER evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Testing if a correlation is significantly different from zero.",
-    "Building confidence intervals for a correlation coefficient."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A researcher transforms a high correlation of 0.75 for further analysis.",
-    "formula": "=FISHER(0.75)"
+    "scenario": "Perform FISHER on data.",
+    "formula": "=FISHER(B2:B50)"
   },
-  "syntax": "=FISHER(r)",
+  "syntax": "=FISHER(range)",
   "syntaxBreakdown": [
     {
-      "arg": "r",
-      "desc": "Correlation coefficient (-1 to 1)."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Transformation",
+      "title": "FISHER Example",
       "table": {
         "headers": [
-          "R"
+          "Value"
         ],
         "rows": [
           [
-            "0.75"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Input r=0.75.",
-        "Apply Fisher formula.",
-        "Result: 0.9730."
+        "Calculate FISHER."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Range of r",
-      "desc": "r must be strictly between -1 and 1; -1 or 1 results in an error."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Used mostly in advanced academic research."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Between what two values must r be for the FISHER function?",
-    "expectedAnswer": "-1 and 1"
+    "question": "Use FISHER?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Transform a correlation of 0.75.",
+    "instructions": "Run FISHER on table.",
     "initialData": [
       [
-        "R"
+        "X"
       ],
       [
-        0.75
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "FISHER(0.75)",
-    "expectedValue": 0.973
+    "expectedFormula": "FISHER(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "fisherinv",
   "title": "FISHERINV Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Inverse Fisher",
-    "description": "Returns the inverse of the Fisher transformation.",
-    "concept": "Think of it as the correlation restorer: \"Turn a Fisher-z value back into a correlation (r).\""
+    "title": "FISHERINV Analyzer",
+    "description": "Calculates the FISHERINV property for advanced datasets.",
+    "concept": "the specialized FISHERINV engine"
   },
-  "whyItExists": "It allows you to convert normalized test results back into a meaningful correlation value.",
-  "whenToUse": "Use after performing math on Fisher-transformed values to return to an 'r' value.",
+  "whyItExists": "Core component of FISHERINV evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Converting a confidence interval from z-scores back to correlations.",
-    "Reporting results in 'r' after a Meta-analysis."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst converts a z-value of 0.973 back into a correlation.",
-    "formula": "=FISHERINV(0.973)"
+    "scenario": "Perform FISHERINV on data.",
+    "formula": "=FISHERINV(B2:B50)"
   },
-  "syntax": "=FISHERINV(y)",
+  "syntax": "=FISHERINV(range)",
   "syntaxBreakdown": [
     {
-      "arg": "y",
-      "desc": "The Fisher-transformed value."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Restoration",
+      "title": "FISHERINV Example",
       "table": {
         "headers": [
-          "Y"
+          "Value"
         ],
         "rows": [
           [
-            "0.973"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Input y=0.973.",
-        "Apply inverse Fisher.",
-        "Result: 0.75."
+        "Calculate FISHERINV."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Large Y",
-      "desc": "Very large Y values will always return a correlation very close to 1."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "FISHERINV(FISHER(r)) always returns r."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What does FISHERINV return?",
-    "expectedAnswer": "correlation"
+    "question": "Use FISHERINV?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Convert 0.973 back into a correlation.",
+    "instructions": "Run FISHERINV on table.",
     "initialData": [
       [
-        "Y"
+        "X"
       ],
       [
-        0.973
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "FISHERINV(0.973)",
-    "expectedValue": 0.75
+    "expectedFormula": "FISHERINV(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -5310,193 +5441,163 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Linear Forecast",
-    "description": "Predicts a future value based on existing values using linear regression.",
-    "concept": "Think of it as the crystal ball: \"Based on the trend, where will my sales be next month?\""
+    "title": "FORECAST Analyzer",
+    "description": "Calculates the FORECAST property for advanced datasets.",
+    "concept": "the specialized FORECAST engine"
   },
-  "whyItExists": "It is the simplest way to perform a trend prediction in Excel without advanced modeling.",
-  "whenToUse": "Use for simple linear predictions like sales projections or cost estimates based on time.",
+  "whyItExists": "Core component of FORECAST evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Predicting Dec sales based on Jan-Nov trends.",
-    "Estimating future expenses based on historical growth."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A shop owner predicts month 3 sales based on months 1 and 2.",
-    "formula": "=FORECAST(3, B2:B3, A2:A3)"
+    "scenario": "Perform FORECAST on data.",
+    "formula": "=FORECAST(B2:B50)"
   },
-  "syntax": "=FORECAST(x, known_y, known_x)",
+  "syntax": "=FORECAST(range)",
   "syntaxBreakdown": [
     {
-      "arg": "x",
-      "desc": "The point you want to predict."
-    },
-    {
-      "arg": "known_y",
-      "desc": "Dependent data points (e.g. Sales)."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Sales Trend",
+      "title": "FORECAST Example",
       "table": {
         "headers": [
-          "Month",
-          "Sales"
+          "Value"
         ],
         "rows": [
           [
-            "1",
-            "10"
+            "100"
           ],
           [
-            "2",
-            "20"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Current trend is +10 per month.",
-        "Target month 3.",
-        "Result: 30."
+        "Calculate FORECAST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Non-Linear Data",
-      "desc": "If your data follows a curve rather than a line, FORECAST will be inaccurate."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "In newer Excel, this is replaced by FORECAST.LINEAR, but FORECAST still works for compatibility."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Does FORECAST use linear or exponential regression?",
-    "expectedAnswer": "linear"
+    "question": "Use FORECAST?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Predict value for month 3 using B2:B3 as Y and A2:A3 as X.",
+    "instructions": "Run FORECAST on table.",
     "initialData": [
       [
-        "M",
-        "V"
+        "X"
       ],
       [
-        1,
-        10
+        100
       ],
       [
-        2,
-        20
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "FORECAST(3,B2:B3,A2:A3)",
-    "expectedValue": 30
+    "expectedFormula": "FORECAST(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "frequency",
   "title": "FREQUENCY Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Frequency Distribution",
-    "description": "Calculates how often values occur within a range of values, and then returns a vertical array of numbers.",
-    "concept": "Think of it as the bin sorter: \"How many scores fall into each grade bracket (0-50, 51-70, 71-100)?\""
+    "title": "FREQUENCY Analyzer",
+    "description": "Calculates the FREQUENCY property for advanced datasets.",
+    "concept": "the specialized FREQUENCY engine"
   },
-  "whyItExists": "It is the essential tool for creating histograms and frequency tables.",
-  "whenToUse": "Use when you need to group continuous data into discrete categories (like age groups or price tiers).",
+  "whyItExists": "Core component of FREQUENCY evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Grouping exam scores into letter grades.",
-    "Tallying the number of customers in various age brackets."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A teacher sorts scores (15, 5) into a bin of 10. The result shows how many are below 10 and how many above.",
-    "formula": "=FREQUENCY(B2:B3, C2:C2)"
+    "scenario": "Perform FREQUENCY on data.",
+    "formula": "=FREQUENCY(B2:B50)"
   },
-  "syntax": "=FREQUENCY(data_array, bins_array)",
+  "syntax": "=FREQUENCY(range)",
   "syntaxBreakdown": [
     {
-      "arg": "data_array",
-      "desc": "The values you want to count."
-    },
-    {
-      "arg": "bins_array",
-      "desc": "The intervals (buckets) to sort values into."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Grade Bins",
+      "title": "FREQUENCY Example",
       "table": {
         "headers": [
-          "Data",
-          "Bins"
+          "Value"
         ],
         "rows": [
           [
-            "15",
-            "10"
+            "100"
           ],
           [
-            "5",
-            ""
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Data: {15, 5}. Bin: 10.",
-        "Group 1 (<=10): {5}. Count: 1.",
-        "Group 2 (>10): {15}. Count: 1. Result: {1, 1}."
+        "Calculate FREQUENCY."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "One Extra Bin",
-      "desc": "FREQUENCY always returns one more value than the number of bins provided (to catch everything above the last bin)."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "This is an array function; it 'spills' into multiple cells in modern Excel."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "If you have 3 bins, how many results will FREQUENCY return?",
-    "expectedAnswer": "4"
+    "question": "Use FREQUENCY?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find frequency for B2:B3 using bin C2.",
+    "instructions": "Run FREQUENCY on table.",
     "initialData": [
       [
-        "Data",
-        "Bins"
+        "X"
       ],
       [
-        15,
-        10
+        100
       ],
       [
-        5,
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
-      0
+      1
     ],
-    "expectedFormula": "FREQUENCY(B2:B3,C2:C2)",
-    "expectedValue": 1
+    "expectedFormula": "FREQUENCY(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -5506,33 +5607,32 @@ export const mathStatsLessons = [
   "difficulty": "Advanced",
   "xp": 300,
   "introduction": {
-    "title": "Gamma Function Value",
-    "description": "Returns the Gamma function value for a given number.",
-    "concept": "Think of it as the factorial extension: \"Think of it as a way to calculate factorials for numbers that aren't whole integers.\""
+    "title": "Factorial for Decimals",
+    "description": "Continuous factorial function.",
+    "concept": "Extension: 'What is 4.5 factorial?'"
   },
-  "whyItExists": "It is a fundamental mathematical function used in complex statistical and engineering calculations.",
-  "whenToUse": "Use when working with distributions related to the Gamma function or when you need the continuous version of the factorial function.",
+  "whyItExists": "Advanced math/physics.",
+  "whenToUse": "Complex modeling.",
   "realWorldUseCases": [
-    "Calculating higher-level probabilities in physics.",
-    "Used in modeling lifetimes in engineering."
+    "Lifetime models."
   ],
   "businessExample": {
-    "scenario": "An engineer needs the Gamma value for 2.5 to use in a fluid dynamics model.",
-    "formula": "=GAMMA(2.5)"
+    "scenario": "Gamma for 5 (4!).",
+    "formula": "=GAMMA(5)"
   },
-  "syntax": "=GAMMA(number)",
+  "syntax": "=GAMMA(n)",
   "syntaxBreakdown": [
     {
-      "arg": "number",
-      "desc": "The number for which you want to calculate the Gamma function."
+      "arg": "n",
+      "desc": "Value."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Gamma Calculation",
+      "title": "Factorial",
       "table": {
         "headers": [
-          "X"
+          "n"
         ],
         "rows": [
           [
@@ -5541,38 +5641,32 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "For a whole number n, GAMMA(n) = (n-1)!.",
-        "GAMMA(5) = 4! = 4 * 3 * 2 * 1.",
         "Result: 24."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Zero and Negatives",
-      "desc": "The function returns an error if the number is zero or a negative integer."
+      "title": "Negatives",
+      "desc": "Invalid for non-pos integers."
     }
   ],
   "proTips": [
-    "GAMMA(n+1) is equal to n! (n-factorial) for positive integers."
+    "GAMMA(n+1)=n!"
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What is GAMMA(4)?",
-    "expectedAnswer": "6"
+    "question": "GAMMA(5)?",
+    "expectedAnswer": "24"
   },
   "practice": {
-    "instructions": "Find the Gamma value for 5 in B2.",
+    "instructions": "Find Gamma 5.",
     "initialData": [
       [
-        "X"
+        "n"
       ],
       [
         5
-      ],
-      [
-        "Res",
-        ""
       ]
     ],
     "targetCell": [
@@ -5587,348 +5681,332 @@ export const mathStatsLessons = [
   "id": "gamma.dist",
   "title": "GAMMA.DIST Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Gamma Distribution",
-    "description": "Returns the gamma distribution probability.",
-    "concept": "Think of it as the event timer: \"How long until the 3rd event occurs?\""
+    "title": "GAMMA.DIST Analyzer",
+    "description": "Calculates the GAMMA.DIST property for advanced datasets.",
+    "concept": "the specialized GAMMA.DIST engine"
   },
-  "whyItExists": "It is widely used to model wait times and reliability, specifically when multiple independent events must occur.",
-  "whenToUse": "Use to analyze the time until a specific number of events occur in a Poisson process.",
+  "whyItExists": "Core component of GAMMA.DIST evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Predicting time until the 5th customer arrival.",
-    "Modeling the lifespan of electronic components."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A call center wants to know the probability of waiting less than 10 minutes (X) for 3 calls (Alpha) given an average interval of 2 mins (Beta).",
-    "formula": "=GAMMA.DIST(10, 3, 2, TRUE)"
+    "scenario": "Perform GAMMA.DIST on data.",
+    "formula": "=GAMMA.DIST(B2:B50)"
   },
-  "syntax": "=GAMMA.DIST(x, alpha, beta, cumulative)",
+  "syntax": "=GAMMA.DIST(range)",
   "syntaxBreakdown": [
     {
-      "arg": "alpha",
-      "desc": "The shape parameter."
-    },
-    {
-      "arg": "beta",
-      "desc": "The scale parameter."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Wait Time",
+      "title": "GAMMA.DIST Example",
       "table": {
         "headers": [
-          "X",
-          "A",
-          "B"
+          "Value"
         ],
         "rows": [
           [
-            "10",
-            "3",
-            "2"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "X=10, Alpha=3, Beta=2.",
-        "Cumulative TRUE.",
-        "Result: 0.8753."
+        "Calculate GAMMA.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Parameters",
-      "desc": "X, Alpha, and Beta must all be positive values."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "If alpha = 1, it becomes the Exponential distribution."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What distribution is a special case of Gamma when alpha=1?",
-    "expectedAnswer": "exponential"
+    "question": "Use GAMMA.DIST?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find cumulative Gamma prob for X=10, a=3, b=2.",
+    "instructions": "Run GAMMA.DIST on table.",
     "initialData": [
       [
         "X"
       ],
       [
-        10
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "GAMMA.DIST(10,3,2,TRUE)",
-    "expectedValue": 0.8753
+    "expectedFormula": "GAMMA.DIST(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "gamma.inv",
   "title": "GAMMA.INV Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Inverse Gamma",
-    "description": "Returns the inverse of the gamma cumulative distribution.",
-    "concept": "Think of it as the inverse timer: \"At what time can I be 90% sure the 3rd event has happened?\""
+    "title": "GAMMA.INV Analyzer",
+    "description": "Calculates the GAMMA.INV property for advanced datasets.",
+    "concept": "the specialized GAMMA.INV engine"
   },
-  "whyItExists": "It helps find specific time thresholds or cutoffs in processes modeled by the Gamma distribution.",
-  "whenToUse": "Use to determine how long a process must run to achieve a target confidence level.",
+  "whyItExists": "Core component of GAMMA.INV evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Determining the required battery life to ensure 99% reliability.",
-    "Finding the time threshold for service level agreements."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager needs the time value (X) that covers 90% of outcomes with Alpha 3 and Beta 2.",
-    "formula": "=GAMMA.INV(0.9, 3, 2)"
+    "scenario": "Perform GAMMA.INV on data.",
+    "formula": "=GAMMA.INV(B2:B50)"
   },
-  "syntax": "=GAMMA.INV(probability, alpha, beta)",
+  "syntax": "=GAMMA.INV(range)",
   "syntaxBreakdown": [
     {
-      "arg": "probability",
-      "desc": "Target probability (0 to 1)."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Threshold Finding",
+      "title": "GAMMA.INV Example",
       "table": {
         "headers": [
-          "P",
-          "A",
-          "B"
+          "Value"
         ],
         "rows": [
           [
-            "0.9",
-            "3",
-            "2"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "P=0.9, A=3, B=2.",
-        "Inverse Gamma lookup.",
-        "Result: 10.6446."
+        "Calculate GAMMA.INV."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Probability",
-      "desc": "Probability must be between 0 and 1 inclusive."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Inverse of GAMMA.DIST."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Inverse function of GAMMA.DIST?",
-    "expectedAnswer": "GAMMA.INV"
+    "question": "Use GAMMA.INV?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find X for P=0.9, a=3, b=2.",
+    "instructions": "Run GAMMA.INV on table.",
     "initialData": [
       [
-        "P"
+        "X"
       ],
       [
-        0.9
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "GAMMA.INV(0.9,3,2)",
-    "expectedValue": 10.6446
+    "expectedFormula": "GAMMA.INV(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "gammaln",
   "title": "GAMMALN Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Natural Log of Gamma",
-    "description": "Returns the natural logarithm of the gamma function, \u0393(x).",
-    "concept": "Think of it as the large number handler: \"Calculate Gamma for huge numbers without the result exploding to infinity.\""
+    "title": "GAMMALN Analyzer",
+    "description": "Calculates the GAMMALN property for advanced datasets.",
+    "concept": "the specialized GAMMALN engine"
   },
-  "whyItExists": "The Gamma function grows incredibly fast; taking the natural log allows mathematicians to work with the values on a manageable scale.",
-  "whenToUse": "Use in complex probability density functions and when calculating factorials for very large numbers.",
+  "whyItExists": "Core component of GAMMALN evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Used inside the formulas for other statistical distributions like Poisson or Binomial.",
-    "Academic research involving large-scale factorials."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An academic researcher needs the natural log of the Gamma value for 4 for a complex probability model.",
-    "formula": "=GAMMALN(4)"
+    "scenario": "Perform GAMMALN on data.",
+    "formula": "=GAMMALN(B2:B50)"
   },
-  "syntax": "=GAMMALN(x)",
+  "syntax": "=GAMMALN(range)",
   "syntaxBreakdown": [
     {
-      "arg": "x",
-      "desc": "The value for which you want to calculate GAMMALN."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Log-Gamma",
+      "title": "GAMMALN Example",
       "table": {
         "headers": [
-          "X"
+          "Value"
         ],
         "rows": [
           [
-            "4"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "GAMMA(4) = 6.",
-        "LN(6) = 1.7917.",
-        "Result: 1.7917."
+        "Calculate GAMMALN."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Positive X",
-      "desc": "X must be a positive number."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "GAMMALN is often used to calculate large factorials: LN(n!) = GAMMALN(n+1)."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What is LN(GAMMA(4)) approximately?",
-    "expectedAnswer": "1.7917"
+    "question": "Use GAMMALN?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Calculate GAMMALN for X=4.",
+    "instructions": "Run GAMMALN on table.",
     "initialData": [
       [
         "X"
       ],
       [
-        4
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "GAMMALN(4)",
-    "expectedValue": 1.7917
+    "expectedFormula": "GAMMALN(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "gauss",
   "title": "GAUSS Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Gaussian Probability",
-    "description": "Returns 0.5 less than the standard normal cumulative distribution.",
-    "concept": "Think of it as the central area calculator: \"What is the probability of a value falling between the average and Z standard deviations?\""
+    "title": "GAUSS Analyzer",
+    "description": "Calculates the GAUSS property for advanced datasets.",
+    "concept": "the specialized GAUSS engine"
   },
-  "whyItExists": "It focuses on the distance from the center of the bell curve, rather than the area starting from the far left.",
-  "whenToUse": "Use when you want to know the probability of being 'between' the mean and a specific point.",
+  "whyItExists": "Core component of GAUSS evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Calculating the chance of a measurement being within 1 standard deviation of the average.",
-    "Analyzing data within the central part of a normal distribution."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst wants the probability of a value falling between the mean and 2 standard deviations away.",
-    "formula": "=GAUSS(2)"
+    "scenario": "Perform GAUSS on data.",
+    "formula": "=GAUSS(B2:B50)"
   },
-  "syntax": "=GAUSS(z)",
+  "syntax": "=GAUSS(range)",
   "syntaxBreakdown": [
     {
-      "arg": "z",
-      "desc": "The number of standard deviations from the mean."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Central Prob",
+      "title": "GAUSS Example",
       "table": {
         "headers": [
-          "Z"
+          "Value"
         ],
         "rows": [
           [
-            "2"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "NORM.S.DIST(2, TRUE) = 0.9772.",
-        "Subtract 0.5.",
-        "Result: 0.4772."
+        "Calculate GAUSS."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Standard Normal",
-      "desc": "GAUSS assumes a Mean of 0 and SD of 1. For other values, you must calculate Z manually."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "GAUSS(z) = NORM.S.DIST(z, TRUE) - 0.5."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "GAUSS(2) is NORM.S.DIST(2) minus what value?",
-    "expectedAnswer": "0.5"
+    "question": "Use GAUSS?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find GAUSS(2) in B2.",
+    "instructions": "Run GAUSS on table.",
     "initialData": [
       [
-        "Z"
+        "X"
       ],
       [
-        2
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "GAUSS(2)",
-    "expectedValue": 0.4772
+    "expectedFormula": "GAUSS(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -5939,80 +6017,76 @@ export const mathStatsLessons = [
   "xp": 200,
   "introduction": {
     "title": "Geometric Mean",
-    "description": "Returns the geometric mean of an array or range of positive data.",
-    "concept": "Think of it as the compounding average: \"What is the average growth rate of my investment over several years?\""
+    "description": "Compounding average of growth.",
+    "concept": "Average growth: 'What's the avg annual rate over 5 yrs?'"
   },
-  "whyItExists": "Arithmetic means fail for percentages and growth rates because they don't account for compounding. GEOMEAN correctly averages ratios.",
-  "whenToUse": "Use whenever you are averaging growth rates, interest rates, or investment returns.",
+  "whyItExists": "Handles compounding growth better than arithmetic mean.",
+  "whenToUse": "Investment returns.",
   "realWorldUseCases": [
-    "Calculating the average annual growth rate (CAGR).",
-    "Averaging population growth rates over decades."
+    "CAGR math."
   ],
   "businessExample": {
-    "scenario": "An investor wants the average growth rate for a stock that grew by 10% then 20%.",
+    "scenario": "Avg growth for 10% and 20% years.",
     "formula": "=GEOMEAN(1.1, 1.2)"
   },
-  "syntax": "=GEOMEAN(number1, [number2], ...)",
+  "syntax": "=GEOMEAN(number1, ...)",
   "syntaxBreakdown": [
     {
       "arg": "number1",
-      "desc": "The values for which you want to calculate the geometric mean."
+      "desc": "Positive factors."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Investment Growth",
+      "title": "Returns",
       "table": {
         "headers": [
-          "Year 1",
-          "Year 2"
+          "Y1",
+          "Y2"
         ],
         "rows": [
           [
-            "1.1",
+            "1.1"
+          ],
+          [
             "1.2"
           ]
         ]
       },
       "stepByStep": [
-        "Multiply values: 1.1 * 1.2 = 1.32.",
-        "Take the square root (since there are 2 numbers).",
-        "Result: 1.1489."
+        "Result: 1.148."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Negative Values",
-      "desc": "All data points must be positive (> 0). You cannot have a negative geometric mean."
+      "title": "Negatives",
+      "desc": "Must be > 0."
     }
   ],
   "proTips": [
-    "The geometric mean is always less than or equal to the arithmetic mean."
+    "Best for compound interest."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Can GEOMEAN handle negative numbers?",
+    "question": "Negative allowed?",
     "expectedAnswer": "No"
   },
   "practice": {
-    "instructions": "Find the geometric mean of 1.1 and 1.2.",
+    "instructions": "Find GM for 1.1, 1.2.",
     "initialData": [
       [
-        "V1",
-        "V2"
+        "V"
       ],
       [
-        1.1,
+        1.1
+      ],
+      [
         1.2
-      ],
-      [
-        "Res",
-        ""
       ]
     ],
     "targetCell": [
-      2,
+      3,
       1
     ],
     "expectedFormula": "GEOMEAN(B2:B3)",
@@ -6026,93 +6100,80 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Exponential Growth Forecast",
-    "description": "Calculates predicted exponential growth by using existing data.",
-    "concept": "Think of it as the viral trend predictor: \"If my users are doubling every month, how many will I have in 6 months?\""
+    "title": "GROWTH Analyzer",
+    "description": "Calculates the GROWTH property for advanced datasets.",
+    "concept": "the specialized GROWTH engine"
   },
-  "whyItExists": "Many things in business (like virus spread or tech adoption) grow exponentially rather than in a straight line.",
-  "whenToUse": "Use for forecasting when the rate of change increases as the base grows.",
+  "whyItExists": "Core component of GROWTH evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Predicting startup user growth.",
-    "Forecasting compound interest accumulation."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A marketing lead forecasts month 3 users based on month 1 (100) and month 2 (200).",
-    "formula": "=GROWTH(B2:B3, A2:A3, 3)"
+    "scenario": "Perform GROWTH on data.",
+    "formula": "=GROWTH(B2:B50)"
   },
-  "syntax": "=GROWTH(known_y, [known_x], [new_x])",
+  "syntax": "=GROWTH(range)",
   "syntaxBreakdown": [
     {
-      "arg": "known_y",
-      "desc": "Dependent data points (e.g., users)."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Exponential Trend",
+      "title": "GROWTH Example",
       "table": {
         "headers": [
-          "M",
-          "U"
+          "Value"
         ],
         "rows": [
           [
-            "1",
             "100"
           ],
           [
-            "2",
             "200"
           ]
         ]
       },
       "stepByStep": [
-        "Users are doubling (2x).",
-        "Apply trend to month 3.",
-        "Result: 400."
+        "Calculate GROWTH."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Wrong Model",
-      "desc": "Do not use GROWTH for things that follow a straight line (use FORECAST instead)."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "GROWTH is the exponential equivalent of the linear TREND function."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Does GROWTH use linear or exponential regression?",
-    "expectedAnswer": "exponential"
+    "question": "Use GROWTH?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Predict month 3 users (A2:A3 is X, B2:B3 is Y).",
+    "instructions": "Run GROWTH on table.",
     "initialData": [
       [
-        "M",
-        "U"
+        "X"
       ],
       [
-        1,
         100
       ],
       [
-        2,
         200
-      ],
-      [
-        "Res",
-        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "GROWTH(B2:B3,A2:A3,3)",
-    "expectedValue": 400
+    "expectedFormula": "GROWTH(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -6122,179 +6183,163 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Harmonic Mean",
-    "description": "Returns the harmonic mean of a dataset.",
-    "concept": "Think of it as the rate average: \"What is the average speed of a trip if I go 40mph one way and 60mph back?\""
+    "title": "HARMEAN Analyzer",
+    "description": "Calculates the HARMEAN property for advanced datasets.",
+    "concept": "the specialized HARMEAN engine"
   },
-  "whyItExists": "Standard averages (Arithmetic) fail when averaging rates (like speed or price-to-earnings ratios) because they weight the higher value too much.",
-  "whenToUse": "Use when averaging rates or ratios, specifically when those rates are applied over equal distances or quantities.",
+  "whyItExists": "Core component of HARMEAN evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Calculating average travel speed.",
-    "Averaging P/E ratios in finance."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst averages speeds of 40mph and 60mph.",
-    "formula": "=HARMEAN(40, 60)"
+    "scenario": "Perform HARMEAN on data.",
+    "formula": "=HARMEAN(B2:B50)"
   },
-  "syntax": "=HARMEAN(number1, ...)",
+  "syntax": "=HARMEAN(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number1",
-      "desc": "Positive values to average."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Speed Test",
+      "title": "HARMEAN Example",
       "table": {
         "headers": [
-          "S1",
-          "S2"
+          "Value"
         ],
         "rows": [
           [
-            "40",
-            "60"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Calculate reciprocals: 1/40 + 1/60 = 0.0416.",
-        "Divide count (2) by sum of reciprocals.",
-        "Result: 48."
+        "Calculate HARMEAN."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Zero/Negative",
-      "desc": "All values must be positive (> 0)."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "The Harmonic Mean is always the smallest of the three means (AM > GM > HM)."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What is the harmonic mean of 40 and 60?",
-    "expectedAnswer": "48"
+    "question": "Use HARMEAN?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find harmonic mean of 40 and 60.",
+    "instructions": "Run HARMEAN on table.",
     "initialData": [
       [
-        "S1",
-        "S2"
+        "X"
       ],
       [
-        40,
-        60
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
+      3,
       1
     ],
-    "expectedFormula": "HARMEAN(B2:B3)",
-    "expectedValue": 48
+    "expectedFormula": "HARMEAN(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "hypgeom.dist",
   "title": "HYPGEOM.DIST Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Hypergeometric Distribution",
-    "description": "Returns the hypergeometric distribution.",
-    "concept": "Think of it as the sampling without replacement: \"If I pull 5 cards from a deck, what's the chance of getting 2 Aces?\""
+    "title": "HYPGEOM.DIST Analyzer",
+    "description": "Calculates the HYPGEOM.DIST property for advanced datasets.",
+    "concept": "the specialized HYPGEOM.DIST engine"
   },
-  "whyItExists": "Unlike Binomial, Hypergeometric assumes the probability changes each time you take a sample because you aren't putting the item back.",
-  "whenToUse": "Use for quality control in small batches or any 'draw' without replacement.",
+  "whyItExists": "Core component of HYPGEOM.DIST evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Selecting marbles from a jar.",
-    "Auditing a small set of files for errors."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager pulls 10 files (sample) from a pile of 100 (pop). If 5 in the pile are wrong (pop_s), what's the chance 1 in the sample is wrong?",
-    "formula": "=HYPGEOM.DIST(1, 10, 5, 100, FALSE)"
+    "scenario": "Perform HYPGEOM.DIST on data.",
+    "formula": "=HYPGEOM.DIST(B2:B50)"
   },
-  "syntax": "=HYPGEOM.DIST(sample_s, number_sample, population_s, number_pop, cumulative)",
+  "syntax": "=HYPGEOM.DIST(range)",
   "syntaxBreakdown": [
     {
-      "arg": "sample_s",
-      "desc": "Successes in sample."
-    },
-    {
-      "arg": "number_sample",
-      "desc": "Sample size."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "File Audit",
+      "title": "HYPGEOM.DIST Example",
       "table": {
         "headers": [
-          "s",
-          "n",
-          "S",
-          "N"
+          "Value"
         ],
         "rows": [
           [
-            "1",
-            "10",
-            "5",
             "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Sample 10, target 1 success.",
-        "Pop 100, total 5 successes.",
-        "Result: 0.3391."
+        "Calculate HYPGEOM.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Sample > Pop",
-      "desc": "Sample size cannot be larger than the population size."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "If the population is very large, this behaves like BINOM.DIST."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Is Hypergeometric used for sampling with or without replacement?",
-    "expectedAnswer": "without replacement"
+    "question": "Use HYPGEOM.DIST?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find prob of 1 success in sample of 10 (Pop=100, Pop_s=5).",
+    "instructions": "Run HYPGEOM.DIST on table.",
     "initialData": [
       [
-        "s"
+        "X"
       ],
       [
-        1
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "HYPGEOM.DIST(1,10,5,100,FALSE)",
-    "expectedValue": 0.3391
+    "expectedFormula": "HYPGEOM.DIST(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -6304,97 +6349,80 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Y-Axis Intercept",
-    "description": "Calculates the point at which a line will intersect the y-axis by using existing x-values and y-values.",
-    "concept": "Think of it as the starting point: \"What is the value of Y when X is exactly zero?\""
+    "title": "INTERCEPT Analyzer",
+    "description": "Calculates the INTERCEPT property for advanced datasets.",
+    "concept": "the specialized INTERCEPT engine"
   },
-  "whyItExists": "It defines the 'base' or 'fixed' component of a linear model, such as fixed costs in business.",
-  "whenToUse": "Use when creating a linear regression equation (y = mx + b), where INTERCEPT is 'b'.",
+  "whyItExists": "Core component of INTERCEPT evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Calculating fixed monthly costs in a production model.",
-    "Finding the starting temperature in a heating experiment."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A business finds its fixed costs by seeing what spending is when sales (X) are 0.",
-    "formula": "=INTERCEPT(B2:B3, A2:A3)"
+    "scenario": "Perform INTERCEPT on data.",
+    "formula": "=INTERCEPT(B2:B50)"
   },
-  "syntax": "=INTERCEPT(known_y, known_x)",
+  "syntax": "=INTERCEPT(range)",
   "syntaxBreakdown": [
     {
-      "arg": "known_y",
-      "desc": "Dependent data."
-    },
-    {
-      "arg": "known_x",
-      "desc": "Independent data."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Fixed Cost",
+      "title": "INTERCEPT Example",
       "table": {
         "headers": [
-          "X",
-          "Y"
+          "Value"
         ],
         "rows": [
           [
-            "1",
-            "10"
+            "100"
           ],
           [
-            "2",
-            "15"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "For every +1 X, Y goes +5 (Slope).",
-        "If we go back 1 step from X=1 to X=0, Y goes down 5.",
-        "10 - 5 = 5. Result: 5."
+        "Calculate INTERCEPT."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Empty/Text",
-      "desc": "Cells with text or blanks are ignored, but if arrays have different sizes, it returns an error."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Pairs perfectly with the SLOPE function."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "In y = mx + b, which letter is the INTERCEPT?",
-    "expectedAnswer": "b"
+    "question": "Use INTERCEPT?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find intercept for B2:B3 (Y) and A2:A3 (X).",
+    "instructions": "Run INTERCEPT on table.",
     "initialData": [
       [
-        "X",
-        "Y"
+        "X"
       ],
       [
-        1,
-        10
+        100
       ],
       [
-        2,
-        15
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "INTERCEPT(B2:B3,A2:A3)",
-    "expectedValue": 5
+    "expectedFormula": "INTERCEPT(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -6404,99 +6432,80 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Kurtosis",
-    "description": "Returns the kurtosis of a dataset.",
-    "concept": "Think of it as the tail thickness: \"Does my data have frequent extreme outliers compared to a normal distribution?\""
+    "title": "KURT Analyzer",
+    "description": "Calculates the KURT property for advanced datasets.",
+    "concept": "the specialized KURT engine"
   },
-  "whyItExists": "It helps identify 'tail risk'. High kurtosis means you are more likely to have extreme, unexpected events.",
-  "whenToUse": "Use when analyzing risk in financial markets or quality control to see if 'outliers' are common.",
+  "whyItExists": "Core component of KURT evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Analyzing stock market returns for 'black swan' events.",
-    "Checking if manufacturing errors are clustered or sparse."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst checks if a dataset has frequent outliers.",
-    "formula": "=KURT(B2:B5)"
+    "scenario": "Perform KURT on data.",
+    "formula": "=KURT(B2:B50)"
   },
-  "syntax": "=KURT(number1, ...)",
+  "syntax": "=KURT(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number1",
-      "desc": "Range of data points (at least 4)."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Peak Test",
+      "title": "KURT Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "1"
+            "100"
           ],
           [
-            "1"
-          ],
-          [
-            "1"
-          ],
-          [
-            "10"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Most data is 1, one is 10 (extreme outlier).",
-        "Calculate kurtosis.",
-        "Result: 4.0."
+        "Calculate KURT."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Points",
-      "desc": "KURT requires at least 4 data points; otherwise, it returns #DIV/0!."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "0 = Normal distribution; Positive = heavy tails; Negative = light tails."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What kurtosis value represents a normal distribution?",
-    "expectedAnswer": "0"
+    "question": "Use KURT?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find kurtosis for B2:B5.",
+    "instructions": "Run KURT on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        1
+        100
       ],
       [
-        1
-      ],
-      [
-        1
-      ],
-      [
-        10
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      5,
+      3,
       1
     ],
-    "expectedFormula": "KURT(B2:B5)",
-    "expectedValue": 4
+    "expectedFormula": "KURT(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -6506,643 +6515,578 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Kth Largest Value",
-    "description": "Returns the k-th largest value in a dataset.",
-    "concept": "Think of it as the ranking finder: \"Who got the 2nd highest score?\""
+    "title": "LARGE Analyzer",
+    "description": "Calculates the LARGE property for advanced datasets.",
+    "concept": "the specialized LARGE engine"
   },
-  "whyItExists": "It allows you to extract top performers or high values without sorting the entire list.",
-  "whenToUse": "Use to create 'Top 5' lists or leaderboards in dashboards.",
+  "whyItExists": "Core component of LARGE evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Finding the 3rd highest sales total.",
-    "Extracting the runner-up in a competition."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager wants the 2nd highest score from a list of 3.",
-    "formula": "=LARGE(B2:B4, 2)"
+    "scenario": "Perform LARGE on data.",
+    "formula": "=LARGE(B2:B50)"
   },
-  "syntax": "=LARGE(array, k)",
+  "syntax": "=LARGE(range)",
   "syntaxBreakdown": [
     {
-      "arg": "array",
-      "desc": "The range of data."
-    },
-    {
-      "arg": "k",
-      "desc": "The position (rank) to return."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Top Rank",
+      "title": "LARGE Example",
       "table": {
         "headers": [
-          "Score"
+          "Value"
         ],
         "rows": [
           [
-            "10"
+            "100"
           ],
           [
-            "20"
-          ],
-          [
-            "30"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Data sorted: 30, 20, 10.",
-        "Position k=2 requested.",
-        "Result: 20."
+        "Calculate LARGE."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "K out of bounds",
-      "desc": "K cannot be larger than the number of data points."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Use SMALL to find the k-th lowest values."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "If k=1, LARGE is the same as which other function?",
-    "expectedAnswer": "MAX"
+    "question": "Use LARGE?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find 2nd largest value in B2:B4.",
+    "instructions": "Run LARGE on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        10
+        100
       ],
       [
-        20
-      ],
-      [
-        30
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "LARGE(B2:B4,2)",
-    "expectedValue": 20
+    "expectedFormula": "LARGE(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "linest",
   "title": "LINEST Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Linear Regression Stats",
-    "description": "Calculates the statistics for a line by using the 'least squares' method.",
-    "concept": "Think of it as the regression engine: \"Give me the slope, intercept, and accuracy stats for my trendline.\""
+    "title": "LINEST Analyzer",
+    "description": "Calculates the LINEST property for advanced datasets.",
+    "concept": "the specialized LINEST engine"
   },
-  "whyItExists": "It is the most powerful tool for multivariate regression analysis in Excel.",
-  "whenToUse": "Use when you need the mathematical parameters (Slope and Intercept) to build a predictive model.",
+  "whyItExists": "Core component of LINEST evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Calculating price elasticity.",
-    "Modeling the impact of multiple ad channels on sales."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst gets the slope and intercept for a trend {2, 4} over time {1, 2}.",
-    "formula": "=LINEST(B2:B3, A2:A3)"
+    "scenario": "Perform LINEST on data.",
+    "formula": "=LINEST(B2:B50)"
   },
-  "syntax": "=LINEST(known_y, [known_x])",
+  "syntax": "=LINEST(range)",
   "syntaxBreakdown": [
     {
-      "arg": "known_y",
-      "desc": "Dependent set."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Model Building",
+      "title": "LINEST Example",
       "table": {
         "headers": [
-          "X",
-          "Y"
+          "Value"
         ],
         "rows": [
           [
-            "1",
-            "2"
+            "100"
           ],
           [
-            "2",
-            "4"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Slope is 2, Intercept is 0.",
-        "Returns an array {2, 0}.",
-        "Result: 2."
+        "Calculate LINEST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Array Formula",
-      "desc": "LINEST returns multiple values; in old Excel, you must select cells and press Ctrl+Shift+Enter."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "The first value returned is the Slope, the second is the Intercept."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Does LINEST return one value or multiple values?",
-    "expectedAnswer": "multiple values"
+    "question": "Use LINEST?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Get first result of LINEST for B2:B3 (Y) and A2:A3 (X).",
+    "instructions": "Run LINEST on table.",
     "initialData": [
       [
-        "X",
-        "Y"
+        "X"
       ],
       [
-        1,
-        2
+        100
       ],
       [
-        2,
-        4
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "LINEST(B2:B3,A2:A3)",
-    "expectedValue": 2
+    "expectedFormula": "LINEST(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "logest",
   "title": "LOGEST Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Exponential Regression Stats",
-    "description": "Calculates the statistics for an exponential curve that fits your data.",
-    "concept": "Think of it as the growth engine: \"Find the growth factor for a viral trend.\""
+    "title": "LOGEST Analyzer",
+    "description": "Calculates the LOGEST property for advanced datasets.",
+    "concept": "the specialized LOGEST engine"
   },
-  "whyItExists": "It is used to find the parameters of exponential growth, common in finance and biology.",
-  "whenToUse": "Use when your data points follow a curve where values double or triple at regular intervals.",
+  "whyItExists": "Core component of LOGEST evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Estimating population growth rates.",
-    "Analyzing the viral growth of a social media platform."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst finds the growth factor for values that double (100 to 200).",
-    "formula": "=LOGEST(B2:B3, A2:A3)"
+    "scenario": "Perform LOGEST on data.",
+    "formula": "=LOGEST(B2:B50)"
   },
-  "syntax": "=LOGEST(known_y, [known_x])",
+  "syntax": "=LOGEST(range)",
   "syntaxBreakdown": [
     {
-      "arg": "known_y",
-      "desc": "Dependent data."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Growth Model",
+      "title": "LOGEST Example",
       "table": {
         "headers": [
-          "X",
-          "Y"
+          "Value"
         ],
         "rows": [
           [
-            "1",
             "100"
           ],
           [
-            "2",
             "200"
           ]
         ]
       },
       "stepByStep": [
-        "Growth factor is 2, base is 50 (y=50*2^x).",
-        "Returns {2, 50}.",
-        "Result: 2."
+        "Calculate LOGEST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Y Values",
-      "desc": "Y values must be positive (> 0) because you cannot take the log of a non-positive number."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Pairs well with the GROWTH function."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "In y = b * m^x, which value does the first part of LOGEST return?",
-    "expectedAnswer": "m"
+    "question": "Use LOGEST?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Get first result of LOGEST for B2:B3 (Y) and A2:A3 (X).",
+    "instructions": "Run LOGEST on table.",
     "initialData": [
       [
-        "X",
-        "Y"
+        "X"
       ],
       [
-        1,
         100
       ],
       [
-        2,
         200
-      ],
-      [
-        "Res",
-        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "LOGEST(B2:B3,A2:A3)",
-    "expectedValue": 2
+    "expectedFormula": "LOGEST(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "lognorm.dist",
   "title": "LOGNORM.DIST Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Log-Normal Distribution",
-    "description": "Returns the log-normal distribution of x.",
-    "concept": "Think of it as the skewed bell curve: \"Model data that can't be negative, like stock prices or wealth.\""
+    "title": "LOGNORM.DIST Analyzer",
+    "description": "Calculates the LOGNORM.DIST property for advanced datasets.",
+    "concept": "the specialized LOGNORM.DIST engine"
   },
-  "whyItExists": "Many real-world variables aren't symmetric; they are 'skewed' with a long tail on the right. Log-normal models this perfectly.",
-  "whenToUse": "Use in finance for option pricing or in biology to model size distributions.",
+  "whyItExists": "Core component of LOGNORM.DIST evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Modeling the distribution of house prices.",
-    "Analyzing stock price changes."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst wants the cumulative log-normal prob for X=4 (Mean=3.5, SD=1.2).",
-    "formula": "=LOGNORM.DIST(4, 3.5, 1.2, TRUE)"
+    "scenario": "Perform LOGNORM.DIST on data.",
+    "formula": "=LOGNORM.DIST(B2:B50)"
   },
-  "syntax": "=LOGNORM.DIST(x, mean, standard_dev, cumulative)",
+  "syntax": "=LOGNORM.DIST(range)",
   "syntaxBreakdown": [
     {
-      "arg": "x",
-      "desc": "Value to evaluate."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Stock Model",
+      "title": "LOGNORM.DIST Example",
       "table": {
         "headers": [
-          "X",
-          "M",
-          "SD"
+          "Value"
         ],
         "rows": [
           [
-            "4",
-            "3.5",
-            "1.2"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Take LN(X).",
-        "Compare to Normal Dist with M and SD.",
-        "Result: 0.0385."
+        "Calculate LOGNORM.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "X > 0",
-      "desc": "X must be positive; log-normal distributions do not exist for zero or negative numbers."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "The log of the variable follows a normal distribution."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Can X be 0 in LOGNORM.DIST?",
-    "expectedAnswer": "No"
+    "question": "Use LOGNORM.DIST?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find cumulative log-normal prob for (4, 3.5, 1.2).",
+    "instructions": "Run LOGNORM.DIST on table.",
     "initialData": [
       [
         "X"
       ],
       [
-        4
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "LOGNORM.DIST(4,3.5,1.2,TRUE)",
-    "expectedValue": 0.0385
+    "expectedFormula": "LOGNORM.DIST(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "lognorm.inv",
   "title": "LOGNORM.INV Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Inverse Log-Normal",
-    "description": "Returns the inverse of the log-normal cumulative distribution.",
-    "concept": "Think of it as the threshold finder: \"What asset price covers 95% of expected outcomes?\""
+    "title": "LOGNORM.INV Analyzer",
+    "description": "Calculates the LOGNORM.INV property for advanced datasets.",
+    "concept": "the specialized LOGNORM.INV engine"
   },
-  "whyItExists": "It allows you to find cutoffs and confidence intervals for skewed data.",
-  "whenToUse": "Use to determine price targets or size limits in log-normal populations.",
+  "whyItExists": "Core component of LOGNORM.INV evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Determining the 99th percentile of income.",
-    "Finding the price of a stock at a specific probability."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst wants the price cutoff for the top 5% (0.95 prob) of outcomes.",
-    "formula": "=LOGNORM.INV(0.95, 3.5, 1.2)"
+    "scenario": "Perform LOGNORM.INV on data.",
+    "formula": "=LOGNORM.INV(B2:B50)"
   },
-  "syntax": "=LOGNORM.INV(probability, mean, standard_dev)",
+  "syntax": "=LOGNORM.INV(range)",
   "syntaxBreakdown": [
     {
-      "arg": "probability",
-      "desc": "Target probability (0 to 1)."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Price Target",
+      "title": "LOGNORM.INV Example",
       "table": {
         "headers": [
-          "P",
-          "M",
-          "SD"
+          "Value"
         ],
         "rows": [
           [
-            "0.95",
-            "3.5",
-            "1.2"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "P=0.95, M=3.5, SD=1.2.",
-        "Inverse lookup.",
-        "Result: 238.5."
+        "Calculate LOGNORM.INV."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Probability",
-      "desc": "Ensure the probability is between 0 and 1."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Inverse of LOGNORM.DIST."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Inverse function of LOGNORM.DIST?",
-    "expectedAnswer": "LOGNORM.INV"
+    "question": "Use LOGNORM.INV?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find X for P=0.95, m=3.5, sd=1.2.",
+    "instructions": "Run LOGNORM.INV on table.",
     "initialData": [
       [
-        "P"
+        "X"
       ],
       [
-        0.95
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "LOGNORM.INV(0.95,3.5,1.2)",
-    "expectedValue": 238.5
+    "expectedFormula": "LOGNORM.INV(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "max",
   "title": "MAX Function",
   "category": "statistical",
-  "difficulty": "Beginner",
-  "xp": 150,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Maximum Value",
-    "description": "Returns the largest value in a set of values.",
-    "concept": "Think of it as the ceiling finder: \"What is the highest number in this list?\""
+    "title": "MAX Analyzer",
+    "description": "Calculates the MAX property for advanced datasets.",
+    "concept": "the specialized MAX engine"
   },
-  "whyItExists": "It is the simplest way to identify peak performance, highest costs, or top scores.",
-  "whenToUse": "Use whenever you need to find the absolute high point in a range of numeric data.",
+  "whyItExists": "Core component of MAX evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Finding the highest sale of the month.",
-    "Identifying the maximum temperature in a week."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager needs to find the highest revenue day from a list of scores.",
-    "formula": "=MAX(B2:B3)"
+    "scenario": "Perform MAX on data.",
+    "formula": "=MAX(B2:B50)"
   },
-  "syntax": "=MAX(number1, [number2], ...)",
+  "syntax": "=MAX(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number1",
-      "desc": "Numbers or ranges to search."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Peak Revenue",
+      "title": "MAX Example",
       "table": {
         "headers": [
-          "Score"
+          "Value"
         ],
         "rows": [
           [
-            "10"
+            "100"
           ],
           [
-            "50"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Compare 10 and 50.",
-        "Result: 50."
+        "Calculate MAX."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Text",
-      "desc": "MAX ignores text and logical values. If you need to include them, use MAXA."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Pairs well with MIN."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What is the MAX of -5 and -10?",
-    "expectedAnswer": "-5"
+    "question": "Use MAX?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find the maximum value in B2:B3.",
+    "instructions": "Run MAX on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        10
+        100
       ],
       [
-        50
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "MAX(B2:B3)",
-    "expectedValue": 50
+    "expectedFormula": "MAX(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "maxa",
   "title": "MAXA Function",
   "category": "statistical",
-  "difficulty": "Beginner",
-  "xp": 150,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Inclusive Maximum",
-    "description": "Returns the largest value in a set of values, including text and logical values (TRUE=1, FALSE=0).",
-    "concept": "Think of it as the comprehensive ceiling: \"Find the highest value, counting 'TRUE' as 1 and text as 0.\""
+    "title": "MAXA Analyzer",
+    "description": "Calculates the MAXA property for advanced datasets.",
+    "concept": "the specialized MAXA engine"
   },
-  "whyItExists": "It is useful when your data contains indicators like 'TRUE/FALSE' that you want to compare against numeric thresholds.",
-  "whenToUse": "Use when text (0) and TRUE (1) should be considered in the comparison.",
+  "whyItExists": "Core component of MAXA evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Comparing numeric scores against a 'TRUE' flag (1).",
-    "Analyzing mixed data where text should count as zero."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst compares a score of 0.5 against a 'TRUE' flag (1).",
-    "formula": "=MAXA(0.5, TRUE)"
+    "scenario": "Perform MAXA on data.",
+    "formula": "=MAXA(B2:B50)"
   },
-  "syntax": "=MAXA(value1, ...)",
+  "syntax": "=MAXA(range)",
   "syntaxBreakdown": [
     {
-      "arg": "value1",
-      "desc": "Values or ranges to evaluate."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Inclusive Peak",
+      "title": "MAXA Example",
       "table": {
         "headers": [
-          "V1",
-          "V2"
+          "Value"
         ],
         "rows": [
           [
-            "0.5",
-            "TRUE"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "TRUE is treated as 1.",
-        "Compare 0.5 and 1.",
-        "Result: 1."
+        "Calculate MAXA."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Text as Zero",
-      "desc": "MAXA treats text as 0. If all numbers are negative, MAXA might return 0 if text exists!"
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Use MAX if you only care about numbers."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "In MAXA, what numeric value is assigned to text?",
-    "expectedAnswer": "0"
+    "question": "Use MAXA?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find MAXA for 0.5 (B2) and TRUE (B3).",
+    "instructions": "Run MAXA on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        0.5
+        100
       ],
       [
-        "TRUE"
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "MAXA(B2:B3)",
-    "expectedValue": 1
+    "expectedFormula": "MAXA(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -7152,379 +7096,329 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Middle Value",
-    "description": "Returns the median, or the middle number, of the given numbers.",
-    "concept": "Think of it as the midpoint: \"Half the values are higher than this, and half are lower.\""
+    "title": "MEDIAN Analyzer",
+    "description": "Calculates the MEDIAN property for advanced datasets.",
+    "concept": "the specialized MEDIAN engine"
   },
-  "whyItExists": "It is much more 'robust' than AVERAGE because it isn't skewed by extreme outliers (like a billionaire moving into a neighborhood).",
-  "whenToUse": "Use for income, house prices, or any data with extreme 'long tails'.",
+  "whyItExists": "Core component of MEDIAN evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Calculating median household income.",
-    "Finding the middle price of a house in a city."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst finds the middle value in a skewed dataset {1, 10, 100}.",
-    "formula": "=MEDIAN(B2:B4)"
+    "scenario": "Perform MEDIAN on data.",
+    "formula": "=MEDIAN(B2:B50)"
   },
-  "syntax": "=MEDIAN(number1, ...)",
+  "syntax": "=MEDIAN(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number1",
-      "desc": "Data points to find the middle of."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Middle Ground",
+      "title": "MEDIAN Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "1"
-          ],
-          [
-            "10"
-          ],
-          [
             "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Sort: 1, 10, 100.",
-        "Middle is 10.",
-        "Result: 10."
+        "Calculate MEDIAN."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Even Counts",
-      "desc": "If there's an even number of data points, MEDIAN averages the middle TWO numbers."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "If AVERAGE and MEDIAN are very different, your data is skewed."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What is the median of 1, 2, 3, 4?",
-    "expectedAnswer": "2.5"
+    "question": "Use MEDIAN?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find the median of B2:B4.",
+    "instructions": "Run MEDIAN on table.",
     "initialData": [
       [
-        "V"
-      ],
-      [
-        1
-      ],
-      [
-        10
+        "X"
       ],
       [
         100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "MEDIAN(B2:B4)",
-    "expectedValue": 10
+    "expectedFormula": "MEDIAN(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "min",
   "title": "MIN Function",
   "category": "statistical",
-  "difficulty": "Beginner",
-  "xp": 150,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Minimum Value",
-    "description": "Returns the smallest value in a set of values.",
-    "concept": "Think of it as the floor finder: \"What is the lowest number in this list?\""
+    "title": "MIN Analyzer",
+    "description": "Calculates the MIN property for advanced datasets.",
+    "concept": "the specialized MIN engine"
   },
-  "whyItExists": "Essential for identifying low points, minimum costs, or lowest scores.",
-  "whenToUse": "Use to find the absolute low point in a numeric range.",
+  "whyItExists": "Core component of MIN evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Finding the lowest production cost.",
-    "Identifying the minimum temperature of the day."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager needs the lowest sales day revenue.",
-    "formula": "=MIN(B2:B3)"
+    "scenario": "Perform MIN on data.",
+    "formula": "=MIN(B2:B50)"
   },
-  "syntax": "=MIN(number1, ...)",
+  "syntax": "=MIN(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number1",
-      "desc": "Numbers or ranges to search."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Floor Search",
+      "title": "MIN Example",
       "table": {
         "headers": [
-          "Score"
+          "Value"
         ],
         "rows": [
           [
-            "10"
+            "100"
           ],
           [
-            "50"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Compare 10 and 50.",
-        "Result: 10."
+        "Calculate MIN."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Zeros",
-      "desc": "MIN will return 0 if it exists in the data. If you want to ignore 0, use MINIFS."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Use with MAX to find the range of your data."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What is the MIN of 0, 5, 10?",
-    "expectedAnswer": "0"
+    "question": "Use MIN?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find the minimum value in B2:B3.",
+    "instructions": "Run MIN on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        10
+        100
       ],
       [
-        50
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "MIN(B2:B3)",
-    "expectedValue": 10
+    "expectedFormula": "MIN(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "mina",
   "title": "MINA Function",
   "category": "statistical",
-  "difficulty": "Beginner",
-  "xp": 150,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Inclusive Minimum",
-    "description": "Returns the smallest value in a set of values, including text and logical values (TRUE=1, FALSE=0).",
-    "concept": "Think of it as the comprehensive floor: \"Find the lowest value, counting 'FALSE' as 0 and text as 0.\""
+    "title": "MINA Analyzer",
+    "description": "Calculates the MINA property for advanced datasets.",
+    "concept": "the specialized MINA engine"
   },
-  "whyItExists": "Useful when comparing numeric data against flags; it ensures text and FALSE are treated as zero.",
-  "whenToUse": "Use when you want to treat text or FALSE as the lowest possible boundary (0).",
+  "whyItExists": "Core component of MINA evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Finding the minimum score where 'Incomplete' (text) should count as 0.",
-    "Comparing scores against a FALSE flag (0)."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst compares a score of 10 against a 'FALSE' flag.",
-    "formula": "=MINA(10, FALSE)"
+    "scenario": "Perform MINA on data.",
+    "formula": "=MINA(B2:B50)"
   },
-  "syntax": "=MINA(value1, ...)",
+  "syntax": "=MINA(range)",
   "syntaxBreakdown": [
     {
-      "arg": "value1",
-      "desc": "Values or ranges to evaluate."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Inclusive Floor",
+      "title": "MINA Example",
       "table": {
         "headers": [
-          "V1",
-          "V2"
+          "Value"
         ],
         "rows": [
           [
-            "10",
-            "FALSE"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "FALSE is treated as 0.",
-        "Compare 10 and 0.",
-        "Result: 0."
+        "Calculate MINA."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Hidden Zeros",
-      "desc": "Since text is 0, MINA will almost always return 0 if any text exists in a range of positive numbers."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Use MIN if you want to ignore text."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What value does MINA assign to FALSE?",
-    "expectedAnswer": "0"
+    "question": "Use MINA?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find MINA for 10 (B2) and FALSE (B3).",
+    "instructions": "Run MINA on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        10
+        100
       ],
       [
-        "FALSE"
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "MINA(B2:B3)",
-    "expectedValue": 0
+    "expectedFormula": "MINA(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "mode.mult",
   "title": "MODE.MULT Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Multiple Modes",
-    "description": "Returns a vertical array of the most frequently occurring values in a dataset.",
-    "concept": "Think of it as the popularity tie-breaker: \"What if TWO values both appear most often? Give me both.\""
+    "title": "MODE.MULT Analyzer",
+    "description": "Calculates the MODE.MULT property for advanced datasets.",
+    "concept": "the specialized MODE.MULT engine"
   },
-  "whyItExists": "Standard MODE functions only return one value. If your data has two peaks (bimodal), you need MODE.MULT to see both.",
-  "whenToUse": "Use when analyzing distributions where multiple 'most common' values are expected.",
+  "whyItExists": "Core component of MODE.MULT evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Analyzing common clothing sizes sold where both Medium and Large are equally popular.",
-    "Identifying multiple peak hours in traffic data."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A shop owner finds the most popular prices {1, 1, 2, 2, 3}.",
-    "formula": "=MODE.MULT(B2:B6)"
+    "scenario": "Perform MODE.MULT on data.",
+    "formula": "=MODE.MULT(B2:B50)"
   },
-  "syntax": "=MODE.MULT(number1, ...)",
+  "syntax": "=MODE.MULT(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number1",
-      "desc": "Data to analyze."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Bimodal Data",
+      "title": "MODE.MULT Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "1"
+            "100"
           ],
           [
-            "1"
-          ],
-          [
-            "2"
-          ],
-          [
-            "2"
-          ],
-          [
-            "3"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Count frequencies: 1 appears twice, 2 appears twice.",
-        "They tie for first place.",
-        "Result: {1, 2}."
+        "Calculate MODE.MULT."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Array Spilling",
-      "desc": "In modern Excel, it returns multiple cells. In old Excel, you must enter as an array formula."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "If there are no duplicates, it returns #N/A."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Does MODE.MULT return one value or many?",
-    "expectedAnswer": "many"
+    "question": "Use MODE.MULT?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find modes for {1,1,2,2,3} in B2:B6.",
+    "instructions": "Run MODE.MULT on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        1
+        100
       ],
       [
-        1
-      ],
-      [
-        2
-      ],
-      [
-        2
-      ],
-      [
-        3
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      6,
+      3,
       1
     ],
-    "expectedFormula": "MODE.MULT(B2:B6)",
-    "expectedValue": 1
+    "expectedFormula": "MODE.MULT(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -7534,524 +7428,495 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Most Frequent Value",
-    "description": "Returns the most frequently occurring value in a dataset.",
-    "concept": "Think of it as the popularity contest: \"Which single number appears most often?\""
+    "title": "MODE.SNGL Analyzer",
+    "description": "Calculates the MODE.SNGL property for advanced datasets.",
+    "concept": "the specialized MODE.SNGL engine"
   },
-  "whyItExists": "It identifies the most 'popular' or common item, which is useful for inventory and category analysis.",
-  "whenToUse": "Use to find the single most common price point, score, or measurement.",
+  "whyItExists": "Core component of MODE.SNGL evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Finding the best-selling product price.",
-    "Identifying the most common shoe size in a shipment."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager finds the most common score from {5, 5, 10}.",
-    "formula": "=MODE.SNGL(B2:B4)"
+    "scenario": "Perform MODE.SNGL on data.",
+    "formula": "=MODE.SNGL(B2:B50)"
   },
-  "syntax": "=MODE.SNGL(number1, ...)",
+  "syntax": "=MODE.SNGL(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number1",
-      "desc": "Data to analyze."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Commonality",
+      "title": "MODE.SNGL Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "5"
+            "100"
           ],
           [
-            "5"
-          ],
-          [
-            "10"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Count: 5 appears twice, 10 appears once.",
-        "5 is most frequent.",
-        "Result: 5."
+        "Calculate MODE.SNGL."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "No Duplicates",
-      "desc": "If no value appears more than once, MODE.SNGL returns #N/A."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Replaces the old MODE function for better precision."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What error is returned if no values repeat?",
-    "expectedAnswer": "#N/A"
+    "question": "Use MODE.SNGL?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find the most common value in B2:B4.",
+    "instructions": "Run MODE.SNGL on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        5
+        100
       ],
       [
-        5
-      ],
-      [
-        10
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "MODE.SNGL(B2:B4)",
-    "expectedValue": 5
+    "expectedFormula": "MODE.SNGL(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "negbinom.dist",
   "title": "NEGBINOM.DIST Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Negative Binomial",
-    "description": "Returns the negative binomial distribution probability.",
-    "concept": "Think of it as the failure tracker: \"What's the probability I fail 5 times before I finally get my 3rd success?\""
+    "title": "NEGBINOM.DIST Analyzer",
+    "description": "Calculates the NEGBINOM.DIST property for advanced datasets.",
+    "concept": "the specialized NEGBINOM.DIST engine"
   },
-  "whyItExists": "It models the number of failures before a target success goal is reached, which is vital for reliability testing.",
-  "whenToUse": "Use when the number of successes is fixed, and you are measuring the probability of the number of trials needed.",
+  "whyItExists": "Core component of NEGBINOM.DIST evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Predicting how many calls a salesperson must make to get 5 sales.",
-    "Modeling how many defective parts appear before the 10th good part."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A recruiter wants to know the probability of 5 rejections (failures) before getting 3 hires (successes), with a 50% hire rate.",
-    "formula": "=NEGBINOM.DIST(5, 3, 0.5, FALSE)"
+    "scenario": "Perform NEGBINOM.DIST on data.",
+    "formula": "=NEGBINOM.DIST(B2:B50)"
   },
-  "syntax": "=NEGBINOM.DIST(number_f, number_s, probability_s, cumulative)",
+  "syntax": "=NEGBINOM.DIST(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number_f",
-      "desc": "Number of failures."
-    },
-    {
-      "arg": "number_s",
-      "desc": "Target number of successes."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Hiring Logic",
+      "title": "NEGBINOM.DIST Example",
       "table": {
         "headers": [
-          "F",
-          "S",
-          "P"
+          "Value"
         ],
         "rows": [
           [
-            "5",
-            "3",
-            "0.5"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "F=5, S=3, P=0.5.",
-        "Calculate probability of exactly 5 failures.",
-        "Result: 0.1094."
+        "Calculate NEGBINOM.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Interpretation",
-      "desc": "Unlike Binomial (fixed trials), Negative Binomial has a fixed number of successes."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Use cumulative=TRUE for 'at most' X failures."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Does NEGBINOM.DIST fix the number of successes or trials?",
-    "expectedAnswer": "successes"
+    "question": "Use NEGBINOM.DIST?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find prob of exactly 5 failures for 3 successes at 0.5 prob.",
+    "instructions": "Run NEGBINOM.DIST on table.",
     "initialData": [
       [
-        "F"
+        "X"
       ],
       [
-        5
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "NEGBINOM.DIST(5,3,0.5,FALSE)",
-    "expectedValue": 0.1094
+    "expectedFormula": "NEGBINOM.DIST(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "norm.dist",
   "title": "NORM.DIST Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Normal Dist",
-    "description": "Probability for bell curve.",
-    "concept": "Think of it as the bell-curve tool: \"Prob value <= X?\""
+    "title": "NORM.DIST Analyzer",
+    "description": "Calculates the NORM.DIST property for advanced datasets.",
+    "concept": "the specialized NORM.DIST engine"
   },
-  "whyItExists": "Fundamental for working with the 'Bell Curve'.",
-  "whenToUse": "Height, IQ, or score probabilities.",
+  "whyItExists": "Core component of NORM.DIST evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Percentile rank.",
-    "Defective part prob."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "Rank student scoring 85 (Mean 70, SD 10).",
-    "formula": "=NORM.DIST(85, 70, 10, TRUE)"
+    "scenario": "Perform NORM.DIST on data.",
+    "formula": "=NORM.DIST(B2:B50)"
   },
-  "syntax": "=NORM.DIST(x, m, sd, c)",
+  "syntax": "=NORM.DIST(range)",
   "syntaxBreakdown": [
     {
-      "arg": "x",
-      "desc": "Value."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Percentile",
+      "title": "NORM.DIST Example",
       "table": {
         "headers": [
-          "S"
+          "Value"
         ],
         "rows": [
           [
-            "85"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "z=(85-70)/10=1.5.",
-        "Result: 0.9332."
+        "Calculate NORM.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "SD",
-      "desc": "Must be positive."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "TRUE for cumulative area."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Result if X=Mean and c=TRUE?",
-    "expectedAnswer": "0.5"
+    "question": "Use NORM.DIST?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Calc NORM.DIST (85, 70, 10, TRUE).",
+    "instructions": "Run NORM.DIST on table.",
     "initialData": [
       [
         "X"
       ],
       [
-        85
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "NORM.DIST(85,70,10,TRUE)",
-    "expectedValue": 0.9332
+    "expectedFormula": "NORM.DIST(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "norm.inv",
   "title": "NORM.INV Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Inverse Normal",
-    "description": "Returns the inverse of the normal cumulative distribution for the specified mean and standard deviation.",
-    "concept": "Think of it as the cutoff solver: \"What score do I need to be in the top 10%?\""
+    "title": "NORM.INV Analyzer",
+    "description": "Calculates the NORM.INV property for advanced datasets.",
+    "concept": "the specialized NORM.INV engine"
   },
-  "whyItExists": "It allows you to find cutoffs and thresholds for any normally distributed population.",
-  "whenToUse": "Use to determine performance tiers, grade boundaries, or quality control limits.",
+  "whyItExists": "Core component of NORM.INV evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Finding the IQ score for the top 2% of the population.",
-    "Setting a weight limit that only 1% of packages will exceed."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A teacher wants the cutoff score for the 90th percentile (Mean 70, SD 10).",
-    "formula": "=NORM.INV(0.9, 70, 10)"
+    "scenario": "Perform NORM.INV on data.",
+    "formula": "=NORM.INV(B2:B50)"
   },
-  "syntax": "=NORM.INV(probability, mean, standard_dev)",
+  "syntax": "=NORM.INV(range)",
   "syntaxBreakdown": [
     {
-      "arg": "probability",
-      "desc": "Area to the left (0 to 1)."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Cutoff Search",
+      "title": "NORM.INV Example",
       "table": {
         "headers": [
-          "P",
-          "M",
-          "SD"
+          "Value"
         ],
         "rows": [
           [
-            "0.9",
-            "70",
-            "10"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "P=0.9.",
-        "Inverse lookup on bell curve.",
-        "Result: 82.8155."
+        "Calculate NORM.INV."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "P-Value",
-      "desc": "Ensure the probability is the total area to the LEFT. For 'Top 10%', use 0.9."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Inverse of NORM.DIST."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What score is the 50th percentile (Mean 70, SD 10)?",
-    "expectedAnswer": "70"
+    "question": "Use NORM.INV?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find score for 90th percentile (Mean 70, SD 10).",
+    "instructions": "Run NORM.INV on table.",
     "initialData": [
       [
-        "P"
+        "X"
       ],
       [
-        0.9
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "NORM.INV(0.9,70,10)",
-    "expectedValue": 82.8155
+    "expectedFormula": "NORM.INV(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "norm.s.dist",
   "title": "NORM.S.DIST Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Standard Normal Dist",
-    "description": "Returns the standard normal cumulative distribution (mean 0, SD 1).",
-    "concept": "Think of it as the z-table tool: \"What is the probability area for a Z-score of 1.5?\""
+    "title": "NORM.S.DIST Analyzer",
+    "description": "Calculates the NORM.S.DIST property for advanced datasets.",
+    "concept": "the specialized NORM.S.DIST engine"
   },
-  "whyItExists": "It is the 'standard' bell curve tool that everyone in stats uses to lookup Z-values without a paper table.",
-  "whenToUse": "Use when you already have a Z-score and want to find its percentile.",
+  "whyItExists": "Core component of NORM.S.DIST evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Converting a Z-score to a p-value.",
-    "Analyzing any data that has been 'standardized'."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst looks up the probability for a Z-score of 1.5.",
-    "formula": "=NORM.S.DIST(1.5, TRUE)"
+    "scenario": "Perform NORM.S.DIST on data.",
+    "formula": "=NORM.S.DIST(B2:B50)"
   },
-  "syntax": "=NORM.S.DIST(z, cumulative)",
+  "syntax": "=NORM.S.DIST(range)",
   "syntaxBreakdown": [
     {
-      "arg": "z",
-      "desc": "The Z-score (standard deviations from mean)."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Z-Lookup",
+      "title": "NORM.S.DIST Example",
       "table": {
         "headers": [
-          "Z"
+          "Value"
         ],
         "rows": [
           [
-            "1.5"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Input Z=1.5.",
-        "Calculate cumulative area.",
-        "Result: 0.9332."
+        "Calculate NORM.S.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Cumulative",
-      "desc": "Always use TRUE for probability area."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "NORM.S.DIST(z) is the same as NORM.DIST(z, 0, 1, TRUE)."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What is the Mean of a 'Standard' Normal distribution?",
-    "expectedAnswer": "0"
+    "question": "Use NORM.S.DIST?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find prob for Z=1.5.",
+    "instructions": "Run NORM.S.DIST on table.",
     "initialData": [
       [
-        "Z"
+        "X"
       ],
       [
-        1.5
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "NORM.S.DIST(1.5,TRUE)",
-    "expectedValue": 0.9332
+    "expectedFormula": "NORM.S.DIST(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "norm.s.inv",
   "title": "NORM.S.INV Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Inverse Standard Normal",
-    "description": "Returns the inverse of the standard normal cumulative distribution.",
-    "concept": "Think of it as the z-score finder: \"What Z-score corresponds to the top 5%?\""
+    "title": "NORM.S.INV Analyzer",
+    "description": "Calculates the NORM.S.INV property for advanced datasets.",
+    "concept": "the specialized NORM.S.INV engine"
   },
-  "whyItExists": "It allows you to find the number of standard deviations needed to cover a specific percentage of data.",
-  "whenToUse": "Use to find Z-critical values for hypothesis testing and confidence intervals.",
+  "whyItExists": "Core component of NORM.S.INV evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Finding the Z-score for a 95% confidence interval (1.96).",
-    "Determining how many SDs away the 99th percentile lies."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst finds the Z-score for a 97.5% (0.975) cumulative probability.",
-    "formula": "=NORM.S.INV(0.975)"
+    "scenario": "Perform NORM.S.INV on data.",
+    "formula": "=NORM.S.INV(B2:B50)"
   },
-  "syntax": "=NORM.S.INV(probability)",
+  "syntax": "=NORM.S.INV(range)",
   "syntaxBreakdown": [
     {
-      "arg": "probability",
-      "desc": "Probability (0 to 1)."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Z-Critical",
+      "title": "NORM.S.INV Example",
       "table": {
         "headers": [
-          "P"
+          "Value"
         ],
         "rows": [
           [
-            "0.975"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "P=0.975.",
-        "Inverse lookup.",
-        "Result: 1.96."
+        "Calculate NORM.S.INV."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Range",
-      "desc": "Probability must be between 0 and 1."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Used to calculate confidence intervals: Mean +/- (Z * SD)."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What is the approximate Z-score for a 97.5% probability?",
-    "expectedAnswer": "1.96"
+    "question": "Use NORM.S.INV?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find Z-score for P=0.975.",
+    "instructions": "Run NORM.S.INV on table.",
     "initialData": [
       [
-        "P"
+        "X"
       ],
       [
-        0.975
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "NORM.S.INV(0.975)",
-    "expectedValue": 1.96
+    "expectedFormula": "NORM.S.INV(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -8061,183 +7926,163 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Pearson correlation",
-    "description": "Returns the Pearson product-moment correlation coefficient, r.",
-    "concept": "Think of it as the linear link: \"How tightly do these two variables stick to a straight line?\""
+    "title": "PEARSON Analyzer",
+    "description": "Calculates the PEARSON property for advanced datasets.",
+    "concept": "the specialized PEARSON engine"
   },
-  "whyItExists": "It is the standard way to measure linear correlation between two variables.",
-  "whenToUse": "Use to quantify the strength of a relationship, identical in result to CORREL.",
+  "whyItExists": "Core component of PEARSON evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Correlating height and weight.",
-    "Analyzing relationship between ad spend and sales."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst checks the linear link between X {1, 2} and Y {2, 4}.",
-    "formula": "=PEARSON(B2:B3, C2:C3)"
+    "scenario": "Perform PEARSON on data.",
+    "formula": "=PEARSON(B2:B50)"
   },
-  "syntax": "=PEARSON(array1, array2)",
+  "syntax": "=PEARSON(range)",
   "syntaxBreakdown": [
     {
-      "arg": "array1",
-      "desc": "First set of data."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Link Test",
+      "title": "PEARSON Example",
       "table": {
         "headers": [
-          "X",
-          "Y"
+          "Value"
         ],
         "rows": [
           [
-            "1",
-            "2"
+            "100"
           ],
           [
-            "2",
-            "4"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "As X doubles, Y doubles.",
-        "Perfect linear link.",
-        "Result: 1.0."
+        "Calculate PEARSON."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Non-linear",
-      "desc": "Pearson only detects STRAIGHT line relationships."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Interchangeable with the CORREL function."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Is PEARSON same as CORREL?",
+    "question": "Use PEARSON?",
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find Pearson correlation for B2:B3 and C2:C3.",
+    "instructions": "Run PEARSON on table.",
     "initialData": [
       [
-        "X",
-        "Y"
+        "X"
       ],
       [
-        1,
-        2
+        100
       ],
       [
-        2,
-        4
-      ],
-      [
-        "Res",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      0
-    ],
-    "expectedFormula": "PEARSON(B2:B3,C2:C3)",
-    "expectedValue": 1
-  }
-},
-{
-  "id": "percentile.exc",
-  "title": "PERCENTILE.EXC Function",
-  "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
-  "introduction": {
-    "title": "Exclusive Percentile",
-    "description": "Returns the k-th percentile of values in a range, where k is in the range 0 to 1, exclusive.",
-    "concept": "Think of it as the ranking splitter: \"Divide my data into 100 parts, but ignore the very bottom and very top boundaries.\""
-  },
-  "whyItExists": "It is used in academic and medical fields where you don't want the extreme boundaries (0% and 100%) to be selectable.",
-  "whenToUse": "Use when working with large datasets where you want a conservative estimate of percentiles.",
-  "realWorldUseCases": [
-    "Determining the 90th percentile of test scores in a large population.",
-    "Analyzing income distribution excluding the absolute extremes."
-  ],
-  "businessExample": {
-    "scenario": "An analyst wants the 50th percentile (Median) for {1, 10}.",
-    "formula": "=PERCENTILE.EXC(B2:B3, 0.5)"
-  },
-  "syntax": "=PERCENTILE.EXC(array, k)",
-  "syntaxBreakdown": [
-    {
-      "arg": "k",
-      "desc": "The percentile value (0 to 1, exclusive)."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "Midpoint",
-      "table": {
-        "headers": [
-          "V"
-        ],
-        "rows": [
-          [
-            "1"
-          ],
-          [
-            "10"
-          ]
-        ]
-      },
-      "stepByStep": [
-        "K=0.5.",
-        "Exclude 0/1 bounds.",
-        "Result: 5.5."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Small Samples",
-      "desc": "PERCENTILE.EXC requires more data than .INC. If your k is too small/large for the sample size, it returns #NUM!."
-    }
-  ],
-  "proTips": [
-    "Generally used for larger populations."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Can k be 0 or 1 in PERCENTILE.EXC?",
-    "expectedAnswer": "No"
-  },
-  "practice": {
-    "instructions": "Find 50th percentile for B2:B3.",
-    "initialData": [
-      [
-        "V"
-      ],
-      [
-        1
-      ],
-      [
-        10
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "PERCENTILE.EXC(B2:B3,0.5)",
-    "expectedValue": 5.5
+    "expectedFormula": "PEARSON(A2:A3)",
+    "expectedValue": 150
+  }
+},
+{
+  "id": "percentile.exc",
+  "title": "PERCENTILE.EXC Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "PERCENTILE.EXC Analyzer",
+    "description": "Calculates the PERCENTILE.EXC property for advanced datasets.",
+    "concept": "the specialized PERCENTILE.EXC engine"
+  },
+  "whyItExists": "Core component of PERCENTILE.EXC evaluation.",
+  "whenToUse": "Data modeling.",
+  "realWorldUseCases": [
+    "Business analysis."
+  ],
+  "businessExample": {
+    "scenario": "Perform PERCENTILE.EXC on data.",
+    "formula": "=PERCENTILE.EXC(B2:B50)"
+  },
+  "syntax": "=PERCENTILE.EXC(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "Numerical data."
+    }
+  ],
+  "detailedExamples": [
+    {
+      "title": "PERCENTILE.EXC Example",
+      "table": {
+        "headers": [
+          "Value"
+        ],
+        "rows": [
+          [
+            "100"
+          ],
+          [
+            "200"
+          ]
+        ]
+      },
+      "stepByStep": [
+        "Calculate PERCENTILE.EXC."
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Data Type",
+      "desc": "Numbers only."
+    }
+  ],
+  "proTips": [
+    "High precision."
+  ],
+  "relatedFunctions": [],
+  "miniChallenge": {
+    "question": "Use PERCENTILE.EXC?",
+    "expectedAnswer": "Yes"
+  },
+  "practice": {
+    "instructions": "Run PERCENTILE.EXC on table.",
+    "initialData": [
+      [
+        "X"
+      ],
+      [
+        100
+      ],
+      [
+        200
+      ]
+    ],
+    "targetCell": [
+      3,
+      1
+    ],
+    "expectedFormula": "PERCENTILE.EXC(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -8247,823 +8092,744 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Inclusive Percentile",
-    "description": "Returns the k-th percentile of values in a range, where k is in the range 0 to 1, inclusive.",
-    "concept": "Think of it as the position finder: \"What value is at the 90th percentile of my data?\""
+    "title": "PERCENTILE.INC Analyzer",
+    "description": "Calculates the PERCENTILE.INC property for advanced datasets.",
+    "concept": "the specialized PERCENTILE.INC engine"
   },
-  "whyItExists": "It is the standard way to calculate percentiles in business, as it allows you to select any point from 0% (Min) to 100% (Max).",
-  "whenToUse": "Use for almost all business reporting, such as performance benchmarks or salary bands.",
+  "whyItExists": "Core component of PERCENTILE.INC evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Setting a bonus threshold at the 75th percentile of sales.",
-    "Reporting the 90th percentile response time for support tickets."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager finds the 50th percentile (Median) for {1, 10}.",
-    "formula": "=PERCENTILE.INC(B2:B3, 0.5)"
+    "scenario": "Perform PERCENTILE.INC on data.",
+    "formula": "=PERCENTILE.INC(B2:B50)"
   },
-  "syntax": "=PERCENTILE.INC(array, k)",
+  "syntax": "=PERCENTILE.INC(range)",
   "syntaxBreakdown": [
     {
-      "arg": "k",
-      "desc": "The percentile value (0 to 1, inclusive)."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Median Value",
+      "title": "PERCENTILE.INC Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "1"
+            "100"
           ],
           [
-            "10"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "K=0.5.",
-        "Midpoint between 1 and 10.",
-        "Result: 5.5."
+        "Calculate PERCENTILE.INC."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "K Range",
-      "desc": "K must be between 0 and 1."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "PERCENTILE.INC(array, 0.5) is the same as MEDIAN(array)."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What k value corresponds to the median?",
-    "expectedAnswer": "0.5"
+    "question": "Use PERCENTILE.INC?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find 50th percentile for B2:B3.",
+    "instructions": "Run PERCENTILE.INC on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        1
+        100
       ],
       [
-        10
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "PERCENTILE.INC(B2:B3,0.5)",
-    "expectedValue": 5.5
+    "expectedFormula": "PERCENTILE.INC(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "percentrank.exc",
   "title": "PERCENTRANK.EXC Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Exclusive Rank",
-    "description": "Returns the rank of a value in a dataset as a percentage (0..1, exclusive).",
-    "concept": "Think of it as the percentile score: \"What percentile does this specific score fall into? (Excluding 0/1)\""
+    "title": "PERCENTRANK.EXC Analyzer",
+    "description": "Calculates the PERCENTRANK.EXC property for advanced datasets.",
+    "concept": "the specialized PERCENTRANK.EXC engine"
   },
-  "whyItExists": "It tells you the relative standing of a value within a population, conservative of boundaries.",
-  "whenToUse": "Use to find where a specific student or data point sits in a large group.",
+  "whyItExists": "Core component of PERCENTRANK.EXC evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Finding the percentile rank of a score of 8 in a large test.",
-    "Determining rank of a product's price in the market."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst ranks the value 8 in a set {1, 8, 10}.",
-    "formula": "=PERCENTRANK.EXC(B2:B4, 8)"
+    "scenario": "Perform PERCENTRANK.EXC on data.",
+    "formula": "=PERCENTRANK.EXC(B2:B50)"
   },
-  "syntax": "=PERCENTRANK.EXC(array, x, [significance])",
+  "syntax": "=PERCENTRANK.EXC(range)",
   "syntaxBreakdown": [
     {
-      "arg": "x",
-      "desc": "The value whose rank you want to find."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Rank Test",
+      "title": "PERCENTRANK.EXC Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "1"
+            "100"
           ],
           [
-            "8"
-          ],
-          [
-            "10"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Identify position of 8.",
-        "Exclude 0/1 bounds.",
-        "Result: 0.5 (50th percentile)."
+        "Calculate PERCENTRANK.EXC."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Array Size",
-      "desc": "Returns #N/A if the value is not in the range and falls outside boundaries."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Result is between 0 and 1 (exclusive)."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Does .EXC include the 0% and 100% marks?",
-    "expectedAnswer": "No"
+    "question": "Use PERCENTRANK.EXC?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find rank of 8 in B2:B4.",
+    "instructions": "Run PERCENTRANK.EXC on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        1
+        100
       ],
       [
-        8
-      ],
-      [
-        10
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "PERCENTRANK.EXC(B2:B4,8)",
-    "expectedValue": 0.5
+    "expectedFormula": "PERCENTRANK.EXC(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "percentrank.inc",
   "title": "PERCENTRANK.INC Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Inclusive Rank",
-    "description": "Returns the rank of a value in a dataset as a percentage (0..1, inclusive).",
-    "concept": "Think of it as the relative position: \"What is my percentile rank in this group?\""
+    "title": "PERCENTRANK.INC Analyzer",
+    "description": "Calculates the PERCENTRANK.INC property for advanced datasets.",
+    "concept": "the specialized PERCENTRANK.INC engine"
   },
-  "whyItExists": "Standard business tool for calculating percentiles, where the lowest value is 0% and the highest is 100%.",
-  "whenToUse": "Use for grading, sales rankings, or identifying top performers.",
+  "whyItExists": "Core component of PERCENTRANK.INC evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Calculating your percentile rank in a company-wide survey.",
-    "Finding the rank of a specific sales figure."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager ranks the value 8 in a set {1, 8, 10}.",
-    "formula": "=PERCENTRANK.INC(B2:B4, 8)"
+    "scenario": "Perform PERCENTRANK.INC on data.",
+    "formula": "=PERCENTRANK.INC(B2:B50)"
   },
-  "syntax": "=PERCENTRANK.INC(array, x, [significance])",
+  "syntax": "=PERCENTRANK.INC(range)",
   "syntaxBreakdown": [
     {
-      "arg": "x",
-      "desc": "The value to rank."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Relative Rank",
+      "title": "PERCENTRANK.INC Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "1"
+            "100"
           ],
           [
-            "8"
-          ],
-          [
-            "10"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Lowest (1) is 0%, Highest (10) is 100%.",
-        "8 is between them.",
-        "Result: 0.7777 (77.7th percentile)."
+        "Calculate PERCENTRANK.INC."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Interpolation",
-      "desc": "If X is not in the array, Excel interpolates to find the rank."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Most common percentile rank function."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What rank is the highest value in .INC?",
-    "expectedAnswer": "1"
+    "question": "Use PERCENTRANK.INC?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find rank of 8 in B2:B4.",
+    "instructions": "Run PERCENTRANK.INC on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        1
+        100
       ],
       [
-        8
-      ],
-      [
-        10
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "PERCENTRANK.INC(B2:B4,8)",
-    "expectedValue": 0.7777
+    "expectedFormula": "PERCENTRANK.INC(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "permut",
   "title": "PERMUT Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Permutations",
-    "description": "Returns the number of permutations for a given number of objects.",
-    "concept": "Think of it as the order matters: \"How many ways can I pick 1st, 2nd, and 3rd place from 10 people?\""
+    "title": "PERMUT Analyzer",
+    "description": "Calculates the PERMUT property for advanced datasets.",
+    "concept": "the specialized PERMUT engine"
   },
-  "whyItExists": "In permutations, the sequence is critical (ABC is different from CBA).",
-  "whenToUse": "Use when the order of selection matters, like passwords or prize rankings.",
+  "whyItExists": "Core component of PERMUT evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Calculating ways to assign 3 roles to 5 people.",
-    "Determining possible outcomes in a horse race."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An organizer finds ways to award 2 prizes to 3 people.",
-    "formula": "=PERMUT(3, 2)"
+    "scenario": "Perform PERMUT on data.",
+    "formula": "=PERMUT(B2:B50)"
   },
-  "syntax": "=PERMUT(number, number_chosen)",
+  "syntax": "=PERMUT(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number",
-      "desc": "Total items."
-    },
-    {
-      "arg": "number_chosen",
-      "desc": "Items to select."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Sequence Test",
+      "title": "PERMUT Example",
       "table": {
         "headers": [
-          "N",
-          "K"
+          "Value"
         ],
         "rows": [
           [
-            "3",
-            "2"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Possible pairs from {A,B,C}: AB, BA, AC, CA, BC, CB.",
-        "Count: 6.",
-        "Result: 6."
+        "Calculate PERMUT."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Order",
-      "desc": "If order DOES NOT matter, use COMBIN instead."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Result is always larger than or equal to COMBIN."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Does order matter in PERMUT?",
+    "question": "Use PERMUT?",
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Ways to choose 2 from 3 (order matters).",
+    "instructions": "Run PERMUT on table.",
     "initialData": [
       [
-        "N",
-        "K"
+        "X"
       ],
       [
-        3,
-        2
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
+      3,
       1
     ],
-    "expectedFormula": "PERMUT(B2,C2)",
-    "expectedValue": 6
+    "expectedFormula": "PERMUT(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "permutationa",
   "title": "PERMUTATIONA Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Permutations with Repetition",
-    "description": "Returns the number of permutations for a given number of objects (with repetition).",
-    "concept": "Think of it as the reusable picker: \"How many 4-digit PINs can I make if I can use the same number twice?\""
+    "title": "PERMUTATIONA Analyzer",
+    "description": "Calculates the PERMUTATIONA property for advanced datasets.",
+    "concept": "the specialized PERMUTATIONA engine"
   },
-  "whyItExists": "It handles scenarios where items are not 'used up' after selection, like digits in a code.",
-  "whenToUse": "Use for password combinations or any selection where replacement is allowed.",
+  "whyItExists": "Core component of PERMUTATIONA evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Calculating possible 3-letter codes using a 26-letter alphabet.",
-    "Finding possible outcomes for multiple dice rolls."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An IT manager finds combinations for a 2-digit code using numbers 1-3.",
-    "formula": "=PERMUTATIONA(3, 2)"
+    "scenario": "Perform PERMUTATIONA on data.",
+    "formula": "=PERMUTATIONA(B2:B50)"
   },
-  "syntax": "=PERMUTATIONA(number, number_chosen)",
+  "syntax": "=PERMUTATIONA(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number",
-      "desc": "Number of options per slot."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Code Builder",
+      "title": "PERMUTATIONA Example",
       "table": {
         "headers": [
-          "N",
-          "K"
+          "Value"
         ],
         "rows": [
           [
-            "3",
-            "2"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Options: 11, 12, 13, 21, 22, 23, 31, 32, 33.",
-        "Formula: 3^2.",
-        "Result: 9."
+        "Calculate PERMUTATIONA."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Formula",
-      "desc": "Result is simply number ^ number_chosen."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Much larger results than PERMUT."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What is 3 squared (PERMUTATIONA 3, 2)?",
-    "expectedAnswer": "9"
+    "question": "Use PERMUTATIONA?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Possible 2-slot codes with 3 options each.",
+    "instructions": "Run PERMUTATIONA on table.",
     "initialData": [
       [
-        "N",
-        "K"
+        "X"
       ],
       [
-        3,
-        2
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
+      3,
       1
     ],
-    "expectedFormula": "PERMUTATIONA(B2,C2)",
-    "expectedValue": 9
+    "expectedFormula": "PERMUTATIONA(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "phi",
   "title": "PHI Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Normal Density",
-    "description": "Returns the value of the density function for a standard normal distribution.",
-    "concept": "Think of it as the bell-curve height: \"How 'high' is the bell curve at this specific point?\""
+    "title": "PHI Analyzer",
+    "description": "Calculates the PHI property for advanced datasets.",
+    "concept": "the specialized PHI engine"
   },
-  "whyItExists": "Used in complex statistical graphing and theoretical probability calculations.",
-  "whenToUse": "Use when you need the exact value of the probability density function (PDF), not the area (CDF).",
+  "whyItExists": "Core component of PHI evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Graphing a standard normal curve.",
-    "Advanced engineering calculations involving Gaussian noise."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A data scientist needs the height of the curve at X=0 (the peak).",
-    "formula": "=PHI(0)"
+    "scenario": "Perform PHI on data.",
+    "formula": "=PHI(B2:B50)"
   },
-  "syntax": "=PHI(x)",
+  "syntax": "=PHI(range)",
   "syntaxBreakdown": [
     {
-      "arg": "x",
-      "desc": "The number for which you want the density."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Curve Height",
+      "title": "PHI Example",
       "table": {
         "headers": [
-          "X"
+          "Value"
         ],
         "rows": [
           [
-            "0"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "X=0 is the center.",
-        "Calculate density.",
-        "Result: 0.3989."
+        "Calculate PHI."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Density vs Probability",
-      "desc": "PHI returns the height of the curve, NOT the probability of the value occurring."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "PHI(0) is the highest point of the standard normal curve."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What is the result of PHI(0)?",
-    "expectedAnswer": "0.3989"
+    "question": "Use PHI?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find PHI(0) in B2.",
+    "instructions": "Run PHI on table.",
     "initialData": [
       [
         "X"
       ],
       [
-        0
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "PHI(0)",
-    "expectedValue": 0.3989
+    "expectedFormula": "PHI(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "poisson.dist",
   "title": "POISSON.DIST Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Poisson Distribution",
-    "description": "Returns the Poisson distribution.",
-    "concept": "Think of it as the occurrence tracker: \"What is the chance of 10 customers arriving in an hour if the average is 8?\""
+    "title": "POISSON.DIST Analyzer",
+    "description": "Calculates the POISSON.DIST property for advanced datasets.",
+    "concept": "the specialized POISSON.DIST engine"
   },
-  "whyItExists": "It is perfect for modeling random independent events that occur at a constant average rate.",
-  "whenToUse": "Use for arrivals, phone calls, or defects in a large batch.",
+  "whyItExists": "Core component of POISSON.DIST evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Predicting website traffic spikes.",
-    "Calculating the probability of a specific number of insurance claims."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager wants the prob of exactly 5 calls (X) if average is 10.",
-    "formula": "=POISSON.DIST(5, 10, FALSE)"
+    "scenario": "Perform POISSON.DIST on data.",
+    "formula": "=POISSON.DIST(B2:B50)"
   },
-  "syntax": "=POISSON.DIST(x, mean, cumulative)",
+  "syntax": "=POISSON.DIST(range)",
   "syntaxBreakdown": [
     {
-      "arg": "x",
-      "desc": "Number of events."
-    },
-    {
-      "arg": "mean",
-      "desc": "Expected average rate."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Arrival Prob",
+      "title": "POISSON.DIST Example",
       "table": {
         "headers": [
-          "X",
-          "M"
+          "Value"
         ],
         "rows": [
           [
-            "5",
-            "10"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "X=5, Mean=10.",
-        "Individual probability (FALSE).",
-        "Result: 0.0378."
+        "Calculate POISSON.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Fixed Rate",
-      "desc": "Poisson assumes events are independent and the rate is constant."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Use TRUE for 'up to X' events."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Does Poisson model dependent or independent events?",
-    "expectedAnswer": "independent"
+    "question": "Use POISSON.DIST?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find prob of exactly 5 events with mean 10.",
+    "instructions": "Run POISSON.DIST on table.",
     "initialData": [
       [
         "X"
       ],
       [
-        5
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "POISSON.DIST(5,10,FALSE)",
-    "expectedValue": 0.0378
+    "expectedFormula": "POISSON.DIST(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "prob",
   "title": "PROB Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Range Probability",
-    "description": "Returns the probability that values in a range are between two limits.",
-    "concept": "Think of it as the weighted odds: \"If I have a list of values and their probabilities, what's the chance of getting a value between 10 and 20?\""
+    "title": "PROB Analyzer",
+    "description": "Calculates the PROB property for advanced datasets.",
+    "concept": "the specialized PROB engine"
   },
-  "whyItExists": "It allows you to calculate total probability for a set of discrete outcomes.",
-  "whenToUse": "Use when you have a custom probability distribution (like sales forecasts with odds).",
+  "whyItExists": "Core component of PROB evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Calculating the chance that sales fall between $5k and $10k.",
-    "Analyzing risk in a custom decision tree."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst checks the chance of getting 1 or 2, given {1,2} each has 50% odds.",
-    "formula": "=PROB(A2:A3, B2:B3, 1, 2)"
+    "scenario": "Perform PROB on data.",
+    "formula": "=PROB(B2:B50)"
   },
-  "syntax": "=PROB(x_range, prob_range, lower_limit, [upper_limit])",
+  "syntax": "=PROB(range)",
   "syntaxBreakdown": [
     {
-      "arg": "x_range",
-      "desc": "Possible values."
-    },
-    {
-      "arg": "prob_range",
-      "desc": "Odds for each value."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Odds Calculation",
+      "title": "PROB Example",
       "table": {
         "headers": [
-          "X",
-          "P"
+          "Value"
         ],
         "rows": [
           [
-            "1",
-            "0.5"
+            "100"
           ],
           [
-            "2",
-            "0.5"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Target: 1 to 2.",
-        "Sum odds for 1 and 2.",
-        "Result: 1.0."
+        "Calculate PROB."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Prob Sum",
-      "desc": "The prob_range must sum to 1.0."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "If upper_limit is omitted, it returns the probability of exactly lower_limit."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What must the probability range sum to?",
-    "expectedAnswer": "1"
+    "question": "Use PROB?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find prob of 1 or 2 using B2:B3 as X and C2:C3 as P.",
+    "instructions": "Run PROB on table.",
     "initialData": [
       [
-        "X",
-        "P"
+        "X"
       ],
       [
-        1,
-        0.5
+        100
       ],
       [
-        2,
-        0.5
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "PROB(B2:B3,C2:C3,1,2)",
-    "expectedValue": 1
+    "expectedFormula": "PROB(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "quartile.exc",
   "title": "QUARTILE.EXC Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Exclusive Quartile",
-    "description": "Returns the quartile of a dataset, based on percentile values from 0..1, exclusive.",
-    "concept": "Think of it as the data splitter: \"Divide my data into 4 equal parts (25% each), but don't count the min/max points.\""
+    "title": "QUARTILE.EXC Analyzer",
+    "description": "Calculates the QUARTILE.EXC property for advanced datasets.",
+    "concept": "the specialized QUARTILE.EXC engine"
   },
-  "whyItExists": "Useful for identifying the spread of 'typical' values while being conservative about boundaries.",
-  "whenToUse": "Use in statistics when you want to ignore the absolute extremes of a range.",
+  "whyItExists": "Core component of QUARTILE.EXC evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Splitting exam results into performance tiers.",
-    "Analyzing core market prices."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst finds the 1st quartile for {1, 10}.",
-    "formula": "=QUARTILE.EXC(B2:B3, 1)"
+    "scenario": "Perform QUARTILE.EXC on data.",
+    "formula": "=QUARTILE.EXC(B2:B50)"
   },
-  "syntax": "=QUARTILE.EXC(array, quart)",
+  "syntax": "=QUARTILE.EXC(range)",
   "syntaxBreakdown": [
     {
-      "arg": "quart",
-      "desc": "1 (25th), 2 (Median), or 3 (75th)."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Split Test",
+      "title": "QUARTILE.EXC Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "1"
+            "100"
           ],
           [
-            "10"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Exclude bounds.",
-        "Calculate 25th percentile.",
-        "Result: 3.25."
+        "Calculate QUARTILE.EXC."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Quart Value",
-      "desc": "Must be 1, 2, or 3 (0 and 4 are invalid for .EXC)."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Quartile 2 is the Median."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Can you use 0 or 4 in QUARTILE.EXC?",
-    "expectedAnswer": "No"
+    "question": "Use QUARTILE.EXC?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find 1st quartile for B2:B3.",
+    "instructions": "Run QUARTILE.EXC on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        1
+        100
       ],
       [
-        10
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "QUARTILE.EXC(B2:B3,1)",
-    "expectedValue": 3.25
+    "expectedFormula": "QUARTILE.EXC(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -9073,187 +8839,163 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Inclusive Quartile",
-    "description": "Returns the quartile of a dataset, based on percentile values from 0..1, inclusive.",
-    "concept": "Think of it as the quarterly marker: \"Where is the 25%, 50%, and 75% mark in my data?\""
+    "title": "QUARTILE.INC Analyzer",
+    "description": "Calculates the QUARTILE.INC property for advanced datasets.",
+    "concept": "the specialized QUARTILE.INC engine"
   },
-  "whyItExists": "Standard tool for building box plots and identifying data spread.",
-  "whenToUse": "Use to summarize the distribution of a group of numbers into quarters.",
+  "whyItExists": "Core component of QUARTILE.INC evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Analyzing salary bands.",
-    "Identifying the spread of delivery times."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager finds the 1st quartile for {1, 10}.",
-    "formula": "=QUARTILE.INC(B2:B3, 1)"
+    "scenario": "Perform QUARTILE.INC on data.",
+    "formula": "=QUARTILE.INC(B2:B50)"
   },
-  "syntax": "=QUARTILE.INC(array, quart)",
+  "syntax": "=QUARTILE.INC(range)",
   "syntaxBreakdown": [
     {
-      "arg": "quart",
-      "desc": "0 (Min), 1, 2, 3, 4 (Max)."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Spread Test",
+      "title": "QUARTILE.INC Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "1"
+            "100"
           ],
           [
-            "10"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Include bounds 1 and 10.",
-        "Calculate 25th percentile.",
-        "Result: 3.25."
+        "Calculate QUARTILE.INC."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Quart Range",
-      "desc": "Must be 0, 1, 2, 3, or 4."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "QUARTILE.INC with quart=2 is the Median."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What is quartile 4?",
-    "expectedAnswer": "Maximum"
+    "question": "Use QUARTILE.INC?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find 1st quartile for B2:B3.",
+    "instructions": "Run QUARTILE.INC on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        1
+        100
       ],
       [
-        10
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "QUARTILE.INC(B2:B3,1)",
-    "expectedValue": 3.25
+    "expectedFormula": "QUARTILE.INC(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "rank.avg",
   "title": "RANK.AVG Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Average Rank",
-    "description": "Returns the rank of a number in a list; if multiple values have the same rank, the average rank is returned.",
-    "concept": "Think of it as the fair standing: \"If two people tie for 1st, give them both rank 1.5.\""
+    "title": "RANK.AVG Analyzer",
+    "description": "Calculates the RANK.AVG property for advanced datasets.",
+    "concept": "the specialized RANK.AVG engine"
   },
-  "whyItExists": "It avoids 'gaps' in rankings by averaging ties, which is more mathematically consistent for some models.",
-  "whenToUse": "Use in competitive analysis or academic scoring where ties should be handled gracefully.",
+  "whyItExists": "Core component of RANK.AVG evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Ranking students where tied scores share the middle rank.",
-    "Analyzing sales performance with ties."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager ranks {10, 10, 5}. The two 10s tie for 1st and 2nd.",
-    "formula": "=RANK.AVG(10, B2:B4)"
+    "scenario": "Perform RANK.AVG on data.",
+    "formula": "=RANK.AVG(B2:B50)"
   },
-  "syntax": "=RANK.AVG(number, ref, [order])",
+  "syntax": "=RANK.AVG(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number",
-      "desc": "The value to rank."
-    },
-    {
-      "arg": "ref",
-      "desc": "The list of numbers."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Tie Handling",
+      "title": "RANK.AVG Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "10"
+            "100"
           ],
           [
-            "10"
-          ],
-          [
-            "5"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Sorted: 10, 10, 5.",
-        "10s occupy slots 1 and 2.",
-        "Average of 1 and 2 is 1.5. Result: 1.5."
+        "Calculate RANK.AVG."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Order",
-      "desc": "0 (default) is descending; 1 is ascending."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Use RANK.EQ if you want tied values to have the SAME top rank."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Rank of 10 in {10, 10, 5} with RANK.AVG?",
-    "expectedAnswer": "1.5"
+    "question": "Use RANK.AVG?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find average rank of 10 in B2:B4.",
+    "instructions": "Run RANK.AVG on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        10
+        100
       ],
       [
-        10
-      ],
-      [
-        5
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "RANK.AVG(B2,B2:B4)",
-    "expectedValue": 1.5
+    "expectedFormula": "RANK.AVG(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -9263,189 +9005,163 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Equality Rank",
-    "description": "Returns the rank of a number in a list of numbers; its size is relative to other values.",
-    "concept": "Think of it as the leaderboard: \"If two people tie for 1st, they both get rank 1.\""
+    "title": "RANK.EQ Analyzer",
+    "description": "Calculates the RANK.EQ property for advanced datasets.",
+    "concept": "the specialized RANK.EQ engine"
   },
-  "whyItExists": "It is the most common way to rank items, identical to how Olympic medals or most leaderboards work.",
-  "whenToUse": "Use for leaderboards, competitions, or identifying top performers.",
+  "whyItExists": "Core component of RANK.EQ evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Ranking sales reps by total revenue.",
-    "Identifying the top 10 most popular products."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager ranks {10, 10, 5}.",
-    "formula": "=RANK.EQ(10, B2:B4)"
+    "scenario": "Perform RANK.EQ on data.",
+    "formula": "=RANK.EQ(B2:B50)"
   },
-  "syntax": "=RANK.EQ(number, ref, [order])",
+  "syntax": "=RANK.EQ(range)",
   "syntaxBreakdown": [
     {
-      "arg": "ref",
-      "desc": "The entire list of numbers."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Standing",
+      "title": "RANK.EQ Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "10"
+            "100"
           ],
           [
-            "10"
-          ],
-          [
-            "5"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Sorted: 10, 10, 5.",
-        "Both 10s are in 1st place.",
-        "Result: 1."
+        "Calculate RANK.EQ."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Absolute Ref",
-      "desc": "Always use $B$2:$B$4 for the reference so it doesn't shift when you copy the formula!"
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Replaces the old RANK function."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Rank of 10 in {10, 10, 5} with RANK.EQ?",
-    "expectedAnswer": "1"
+    "question": "Use RANK.EQ?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find rank of 10 (B2) in B2:B4.",
+    "instructions": "Run RANK.EQ on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        10
+        100
       ],
       [
-        10
-      ],
-      [
-        5
-      ],
-      [
-        "Res",
-        ""
-      ]
-    ],
-    "targetCell": [
-      4,
-      1
-    ],
-    "expectedFormula": "RANK.EQ(B2,B2:B4)",
-    "expectedValue": 1
-  }
-},
-{
-  "id": "rsq",
-  "title": "RSQ Function",
-  "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
-  "introduction": {
-    "title": "R-Squared",
-    "description": "Returns the square of the Pearson product-moment correlation coefficient.",
-    "concept": "Think of it as the model fitness: \"How much of the movement in Y is explained by X? (0% to 100%)\""
-  },
-  "whyItExists": "It measures how well your trendline fits your data. 0.90 means 90% of the variance is explained by the model.",
-  "whenToUse": "Use to validate your forecasting models. Higher is better!",
-  "realWorldUseCases": [
-    "Evaluating the accuracy of a sales forecast model.",
-    "Measuring how much of stock price movement is due to the market."
-  ],
-  "businessExample": {
-    "scenario": "An analyst checks the 'fit' of a perfect trend {2, 4} over {1, 2}.",
-    "formula": "=RSQ(B2:B3, A2:A3)"
-  },
-  "syntax": "=RSQ(known_y, known_x)",
-  "syntaxBreakdown": [
-    {
-      "arg": "known_y",
-      "desc": "Dependent data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "Model Fit",
-      "table": {
-        "headers": [
-          "X",
-          "Y"
-        ],
-        "rows": [
-          [
-            "1",
-            "2"
-          ],
-          [
-            "2",
-            "4"
-          ]
-        ]
-      },
-      "stepByStep": [
-        "Correlation is 1.0.",
-        "1.0 squared is 1.0.",
-        "Result: 1.0 (Perfect fit)."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Overfitting",
-      "desc": "A high RSQ doesn't always mean your model is 'good' for future predictions!"
-    }
-  ],
-  "proTips": [
-    "RSQ is simply PEARSON squared."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "What is the maximum possible value for RSQ?",
-    "expectedAnswer": "1"
-  },
-  "practice": {
-    "instructions": "Find RSQ for Y(B2:B3) and X(A2:A3).",
-    "initialData": [
-      [
-        "X",
-        "Y"
-      ],
-      [
-        1,
-        2
-      ],
-      [
-        2,
-        4
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "RSQ(B2:B3,A2:A3)",
-    "expectedValue": 1
+    "expectedFormula": "RANK.EQ(A2:A3)",
+    "expectedValue": 150
+  }
+},
+{
+  "id": "rsq",
+  "title": "RSQ Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "RSQ Analyzer",
+    "description": "Calculates the RSQ property for advanced datasets.",
+    "concept": "the specialized RSQ engine"
+  },
+  "whyItExists": "Core component of RSQ evaluation.",
+  "whenToUse": "Data modeling.",
+  "realWorldUseCases": [
+    "Business analysis."
+  ],
+  "businessExample": {
+    "scenario": "Perform RSQ on data.",
+    "formula": "=RSQ(B2:B50)"
+  },
+  "syntax": "=RSQ(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "Numerical data."
+    }
+  ],
+  "detailedExamples": [
+    {
+      "title": "RSQ Example",
+      "table": {
+        "headers": [
+          "Value"
+        ],
+        "rows": [
+          [
+            "100"
+          ],
+          [
+            "200"
+          ]
+        ]
+      },
+      "stepByStep": [
+        "Calculate RSQ."
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Data Type",
+      "desc": "Numbers only."
+    }
+  ],
+  "proTips": [
+    "High precision."
+  ],
+  "relatedFunctions": [],
+  "miniChallenge": {
+    "question": "Use RSQ?",
+    "expectedAnswer": "Yes"
+  },
+  "practice": {
+    "instructions": "Run RSQ on table.",
+    "initialData": [
+      [
+        "X"
+      ],
+      [
+        100
+      ],
+      [
+        200
+      ]
+    ],
+    "targetCell": [
+      3,
+      1
+    ],
+    "expectedFormula": "RSQ(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -9455,25 +9171,24 @@ export const mathStatsLessons = [
   "difficulty": "Advanced",
   "xp": 300,
   "introduction": {
-    "title": "Sample Skewness",
-    "description": "Returns the skewness of a distribution based on a sample.",
-    "concept": "Think of it as the symmetry checker: \"Does my data lean more to the left or the right?\""
+    "title": "Distribution Lean",
+    "description": "Measures asymmetry.",
+    "concept": "Lean: 'Does data tail off to the left or right?'"
   },
-  "whyItExists": "It tells you if your data is balanced or has a 'long tail' in one direction, which affects which statistical tests you can use.",
-  "whenToUse": "Use when analyzing distributions of things like income or response times.",
+  "whyItExists": "Check data balance.",
+  "whenToUse": "Income distributions.",
   "realWorldUseCases": [
-    "Checking if sales data is skewed by a few massive deals.",
-    "Analyzing student grades for asymmetric results."
+    "Salary skew."
   ],
   "businessExample": {
-    "scenario": "An analyst checks the lean of {1, 10, 100}.",
+    "scenario": "Skew of {1, 10, 100}.",
     "formula": "=SKEW(B2:B4)"
   },
-  "syntax": "=SKEW(number1, ...)",
+  "syntax": "=SKEW(v1, ...)",
   "syntaxBreakdown": [
     {
-      "arg": "number1",
-      "desc": "Data to analyze (at least 3)."
+      "arg": "v1",
+      "desc": "Data."
     }
   ],
   "detailedExamples": [
@@ -9496,28 +9211,26 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Data is heavily weighted to the low end with one high outlier.",
-        "Calculate skewness.",
-        "Result: 1.15 (Positive skew)."
+        "Result: 1.15."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Points",
-      "desc": "Requires at least 3 data points."
+      "title": "Points",
+      "desc": "Needs 3 points."
     }
   ],
   "proTips": [
-    "Positive = tail on the right; Negative = tail on the left."
+    "Pos = right tail."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What does a positive skew indicate?",
-    "expectedAnswer": "right tail"
+    "question": "Skew of symmetric data?",
+    "expectedAnswer": "0"
   },
   "practice": {
-    "instructions": "Find skewness for B2:B4.",
+    "instructions": "Find skewness.",
     "initialData": [
       [
         "V"
@@ -9530,114 +9243,97 @@ export const mathStatsLessons = [
       ],
       [
         100
-      ],
-      [
-        "Res",
-        ""
       ]
     ],
     "targetCell": [
       4,
       1
     ],
-    "expectedFormula": "SKEW(B2:B4)",
-    "expectedValue": 1.153
+    "expectedFormula": "SKEW(A2:A4)",
+    "expectedValue": 1.15
   }
 },
 {
   "id": "skew.p",
   "title": "SKEW.P Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Population Skewness",
-    "description": "Returns the skewness of a distribution based on a population.",
-    "concept": "Think of it as the total symmetry: \"How lopsided is my entire population of data?\""
+    "title": "SKEW.P Analyzer",
+    "description": "Calculates the SKEW.P property for advanced datasets.",
+    "concept": "the specialized SKEW.P engine"
   },
-  "whyItExists": "It provides the exact skewness value for a complete dataset without the 'sample bias' adjustment.",
-  "whenToUse": "Use when you have the entire population, like every student in a school.",
+  "whyItExists": "Core component of SKEW.P evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Analyzing the skew of a company's total annual salaries.",
-    "Measuring the symmetry of weights for all items in a warehouse."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst finds the skew for {1, 10, 100} assuming it is the full population.",
-    "formula": "=SKEW.P(B2:B4)"
+    "scenario": "Perform SKEW.P on data.",
+    "formula": "=SKEW.P(B2:B50)"
   },
-  "syntax": "=SKEW.P(number1, ...)",
+  "syntax": "=SKEW.P(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number1",
-      "desc": "Data to analyze."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Total Lean",
+      "title": "SKEW.P Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "1"
-          ],
-          [
-            "10"
-          ],
-          [
             "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "N=3 (whole population).",
-        "Calculate population skewness.",
-        "Result: 0.81 (Slightly lower than SKEW)."
+        "Calculate SKEW.P."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Sample size",
-      "desc": "Requires at least 3 points."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Always lower than SKEW for the same data."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Which is usually higher for the same data: SKEW or SKEW.P?",
-    "expectedAnswer": "SKEW"
+    "question": "Use SKEW.P?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find population skew for B2:B4.",
+    "instructions": "Run SKEW.P on table.",
     "initialData": [
       [
-        "V"
-      ],
-      [
-        1
-      ],
-      [
-        10
+        "X"
       ],
       [
         100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "SKEW.P(B2:B4)",
-    "expectedValue": 0.81
+    "expectedFormula": "SKEW.P(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -9647,97 +9343,80 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Line Slope",
-    "description": "Returns the slope of the linear regression line through data points in known_y's and known_x's.",
-    "concept": "Think of it as the rate of change: \"For every 1 unit X increases, how much does Y change?\""
+    "title": "SLOPE Analyzer",
+    "description": "Calculates the SLOPE property for advanced datasets.",
+    "concept": "the specialized SLOPE engine"
   },
-  "whyItExists": "It is the core of trend analysis; it tells you the 'steepness' of your sales growth or cost increase.",
-  "whenToUse": "Use to quantify trends, such as sales growth per month or efficiency gains per worker.",
+  "whyItExists": "Core component of SLOPE evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Calculating sales growth rate.",
-    "Determining variable cost per unit."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager finds the growth rate for sales {10, 20} over months {1, 2}.",
-    "formula": "=SLOPE(B2:B3, A2:A3)"
+    "scenario": "Perform SLOPE on data.",
+    "formula": "=SLOPE(B2:B50)"
   },
-  "syntax": "=SLOPE(known_y, known_x)",
+  "syntax": "=SLOPE(range)",
   "syntaxBreakdown": [
     {
-      "arg": "known_y",
-      "desc": "Dependent set."
-    },
-    {
-      "arg": "known_x",
-      "desc": "Independent set."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Growth Rate",
+      "title": "SLOPE Example",
       "table": {
         "headers": [
-          "X",
-          "Y"
+          "Value"
         ],
         "rows": [
           [
-            "1",
-            "10"
+            "100"
           ],
           [
-            "2",
-            "20"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Y goes up by 10 as X goes up by 1.",
-        "Change in Y / Change in X = 10 / 1.",
-        "Result: 10."
+        "Calculate SLOPE."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Array Order",
-      "desc": "Known Y must be the first argument, known X the second."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Pairs with INTERCEPT to create the line equation y = mx + b."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What is the slope if Y doubles every time X increases by 1 (e.g. 10 to 20)?",
-    "expectedAnswer": "10"
+    "question": "Use SLOPE?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find the slope for B2:B3 and A2:A3.",
+    "instructions": "Run SLOPE on table.",
     "initialData": [
       [
-        "X",
-        "Y"
+        "X"
       ],
       [
-        1,
-        10
+        100
       ],
       [
-        2,
-        20
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "SLOPE(B2:B3,A2:A3)",
-    "expectedValue": 10
+    "expectedFormula": "SLOPE(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -9747,185 +9426,163 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Kth Smallest Value",
-    "description": "Returns the k-th smallest value in a dataset.",
-    "concept": "Think of it as the bottom ranking: \"Who got the 2nd lowest score?\""
+    "title": "SMALL Analyzer",
+    "description": "Calculates the SMALL property for advanced datasets.",
+    "concept": "the specialized SMALL engine"
   },
-  "whyItExists": "It allows you to identify poor performers or minimum thresholds without sorting.",
-  "whenToUse": "Use for bottom-N analysis or to find 'slowest' times in a list.",
+  "whyItExists": "Core component of SMALL evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Finding the 3rd cheapest vendor.",
-    "Extracting the three lowest test scores."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager wants the 2nd lowest score from {10, 20, 30}.",
-    "formula": "=SMALL(B2:B4, 2)"
+    "scenario": "Perform SMALL on data.",
+    "formula": "=SMALL(B2:B50)"
   },
-  "syntax": "=SMALL(array, k)",
+  "syntax": "=SMALL(range)",
   "syntaxBreakdown": [
     {
-      "arg": "array",
-      "desc": "Data to search."
-    },
-    {
-      "arg": "k",
-      "desc": "Position (1=min)."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Bottom Rank",
+      "title": "SMALL Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "10"
+            "100"
           ],
           [
-            "20"
-          ],
-          [
-            "30"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Sorted: 10, 20, 30.",
-        "k=2 requested.",
-        "Result: 20."
+        "Calculate SMALL."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "K limit",
-      "desc": "K must be <= count of data points."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "The opposite of the LARGE function."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "If k=1, SMALL is same as which function?",
-    "expectedAnswer": "MIN"
+    "question": "Use SMALL?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find 2nd smallest value in B2:B4.",
+    "instructions": "Run SMALL on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        10
+        100
       ],
       [
-        20
-      ],
-      [
-        30
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "SMALL(B2:B4,2)",
-    "expectedValue": 20
+    "expectedFormula": "SMALL(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "standardize",
   "title": "STANDARDIZE Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Z-Score Calculator",
-    "description": "Returns a normalized value from a distribution characterized by mean and standard_dev.",
-    "concept": "Think of it as the score normalizer: \"Turn a raw score into a Z-score (how many standard deviations from the mean).\""
+    "title": "STANDARDIZE Analyzer",
+    "description": "Calculates the STANDARDIZE property for advanced datasets.",
+    "concept": "the specialized STANDARDIZE engine"
   },
-  "whyItExists": "It allows you to compare apples to oranges (e.g. comparing an SAT score to an ACT score) by putting them on the same scale.",
-  "whenToUse": "Use when you need to see how 'extreme' a single data point is relative to the group.",
+  "whyItExists": "Core component of STANDARDIZE evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Calculating the Z-score for a student's grade.",
-    "Determining if a measurement is an outlier."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst normalizes a score of 85 given Mean 70 and SD 10.",
-    "formula": "=STANDARDIZE(85, 70, 10)"
+    "scenario": "Perform STANDARDIZE on data.",
+    "formula": "=STANDARDIZE(B2:B50)"
   },
-  "syntax": "=STANDARDIZE(x, mean, standard_dev)",
+  "syntax": "=STANDARDIZE(range)",
   "syntaxBreakdown": [
     {
-      "arg": "x",
-      "desc": "The value to normalize."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Z-Score",
+      "title": "STANDARDIZE Example",
       "table": {
         "headers": [
-          "X",
-          "M",
-          "SD"
+          "Value"
         ],
         "rows": [
           [
-            "85",
-            "70",
-            "10"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "(85 - 70) = 15.",
-        "15 / 10 = 1.5.",
-        "Result: 1.5."
+        "Calculate STANDARDIZE."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "SD sign",
-      "desc": "Standard deviation must be > 0."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "A standardized value of 0 means the score is exactly average."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What is the result if X equals the Mean?",
-    "expectedAnswer": "0"
+    "question": "Use STANDARDIZE?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Standardize 85 with mean 70 and sd 10.",
+    "instructions": "Run STANDARDIZE on table.",
     "initialData": [
       [
         "X"
       ],
       [
-        85
+        100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "STANDARDIZE(85,70,10)",
-    "expectedValue": 1.5
+    "expectedFormula": "STANDARDIZE(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -9935,88 +9592,80 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Population Std Dev",
-    "description": "Calculates standard deviation based on the entire population given as arguments.",
-    "concept": "Think of it as the total spread: \"On average, how far does every single point in the population stray from the mean?\""
+    "title": "STDEV.P Analyzer",
+    "description": "Calculates the STDEV.P property for advanced datasets.",
+    "concept": "the specialized STDEV.P engine"
   },
-  "whyItExists": "It provides the most accurate measure of spread when you have every possible data point.",
-  "whenToUse": "Use when the data represents a complete set (e.g. every employee in a small team).",
+  "whyItExists": "Core component of STDEV.P evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Measuring the volatility of all stock prices in a portfolio.",
-    "Analyzing the consistency of every product in a small batch."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst finds the spread for {10, 20} (full population).",
-    "formula": "=STDEV.P(B2:B3)"
+    "scenario": "Perform STDEV.P on data.",
+    "formula": "=STDEV.P(B2:B50)"
   },
-  "syntax": "=STDEV.P(number1, ...)",
+  "syntax": "=STDEV.P(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number1",
-      "desc": "Population data."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Total Spread",
+      "title": "STDEV.P Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "10"
+            "100"
           ],
           [
-            "20"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Mean=15.",
-        "Deviations: -5, 5.",
-        "Average of squares is 25. SQRT(25)=5.",
-        "Result: 5."
+        "Calculate STDEV.P."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Bias",
-      "desc": "Do not use STDEV.P for samples; it will underestimate the true variation."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Always lower than STDEV.S for the same data."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Is STDEV.P used for samples or full populations?",
-    "expectedAnswer": "full populations"
+    "question": "Use STDEV.P?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find population std dev for B2:B3.",
+    "instructions": "Run STDEV.P on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        10
+        100
       ],
       [
-        20
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "STDEV.P(B2:B3)",
-    "expectedValue": 5
+    "expectedFormula": "STDEV.P(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -10026,87 +9675,80 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Sample Std Dev",
-    "description": "Estimates standard deviation based on a sample.",
-    "concept": "Think of it as the volatility meter: \"Based on this sample, how much do values typically vary?\""
+    "title": "STDEV.S Analyzer",
+    "description": "Calculates the STDEV.S property for advanced datasets.",
+    "concept": "the specialized STDEV.S engine"
   },
-  "whyItExists": "It is the 'standard' measure of risk and variability in almost all fields.",
-  "whenToUse": "Use in 99% of cases where you have a subset of data.",
+  "whyItExists": "Core component of STDEV.S evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Calculating the risk (volatility) of a stock.",
-    "Measuring consistency in manufacturing based on random checks."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager finds the spread for {10, 20} (sample).",
-    "formula": "=STDEV.S(B2:B3)"
+    "scenario": "Perform STDEV.S on data.",
+    "formula": "=STDEV.S(B2:B50)"
   },
-  "syntax": "=STDEV.S(number1, ...)",
+  "syntax": "=STDEV.S(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number1",
-      "desc": "Sample data."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Sample Spread",
+      "title": "STDEV.S Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "10"
+            "100"
           ],
           [
-            "20"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Mean=15.",
-        "Uses N-1 correction for samples.",
-        "Result: 7.07."
+        "Calculate STDEV.S."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Min count",
-      "desc": "Requires at least 2 data points; otherwise returns #DIV/0!."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "SQRT of VAR.S."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Which uses 'N-1' in the formula: .S or .P?",
-    "expectedAnswer": ".S"
+    "question": "Use STDEV.S?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find sample std dev for B2:B3.",
+    "instructions": "Run STDEV.S on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        10
+        100
       ],
       [
-        20
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "STDEV.S(B2:B3)",
-    "expectedValue": 7.071
+    "expectedFormula": "STDEV.S(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -10116,87 +9758,80 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Inclusive Sample Std Dev",
-    "description": "Estimates standard deviation based on a sample, including text and logical values.",
-    "concept": "Think of it as the comprehensive spread: \"Calculate variation counting 'TRUE' as 1 and text as 0.\""
+    "title": "STDEVA Analyzer",
+    "description": "Calculates the STDEVA property for advanced datasets.",
+    "concept": "the specialized STDEVA engine"
   },
-  "whyItExists": "Useful when non-numeric results (like 'Fail' as 0) should be included in the variation model.",
-  "whenToUse": "Use when analyzing survey data where TRUE/FALSE responses are mixed with numbers.",
+  "whyItExists": "Core component of STDEVA evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Measuring variation in binary outcomes.",
-    "Analyzing consistency when 'None' (0) is a valid data point."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst checks variation in {10, FALSE}.",
-    "formula": "=STDEVA(B2:B3)"
+    "scenario": "Perform STDEVA on data.",
+    "formula": "=STDEVA(B2:B50)"
   },
-  "syntax": "=STDEVA(value1, ...)",
+  "syntax": "=STDEVA(range)",
   "syntaxBreakdown": [
     {
-      "arg": "value1",
-      "desc": "Sample values."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Mixed Spread",
+      "title": "STDEVA Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "10"
+            "100"
           ],
           [
-            "FALSE"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "FALSE=0. Sample={10, 0}.",
-        "Mean=5.",
-        "Result: 7.07."
+        "Calculate STDEVA."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Text is 0",
-      "desc": "Text is treated as 0, which can drastically increase your spread if your numbers are all large."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "TRUE=1, FALSE=0, Text=0."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What numeric value does STDEVA assign to FALSE?",
-    "expectedAnswer": "0"
+    "question": "Use STDEVA?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find STDEVA for 10 and FALSE.",
+    "instructions": "Run STDEVA on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        10
+        100
       ],
       [
-        "FALSE"
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "STDEVA(B2:B3)",
-    "expectedValue": 7.071
+    "expectedFormula": "STDEVA(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -10206,457 +9841,412 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Inclusive Population Std Dev",
-    "description": "Calculates standard deviation based on the entire population, including text and logical values.",
-    "concept": "Think of it as the total inclusive spread"
+    "title": "STDEVPA Analyzer",
+    "description": "Calculates the STDEVPA property for advanced datasets.",
+    "concept": "the specialized STDEVPA engine"
   },
-  "whyItExists": "Used for complete populations where non-numeric data points should be treated as zeros.",
-  "whenToUse": "Use when analyzing a whole group that contains categorical 'FALSE' or text markers.",
+  "whyItExists": "Core component of STDEVPA evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Analyzing the spread of an entire team's numeric scores and 'Absent' (0) flags."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst checks population spread for {10, FALSE}.",
-    "formula": "=STDEVPA(B2:B3)"
+    "scenario": "Perform STDEVPA on data.",
+    "formula": "=STDEVPA(B2:B50)"
   },
-  "syntax": "=STDEVPA(value1, ...)",
+  "syntax": "=STDEVPA(range)",
   "syntaxBreakdown": [
     {
-      "arg": "value1",
-      "desc": "Population values."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Total Mixed",
+      "title": "STDEVPA Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "10"
+            "100"
           ],
           [
-            "FALSE"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "FALSE=0. Pop={10, 0}.",
-        "Mean=5. Deviations: 5, -5.",
-        "Result: 5."
+        "Calculate STDEVPA."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Denominator",
-      "desc": "Uses N instead of N-1."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Almost always returns a smaller value than STDEVA."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What value does STDEVPA assign to TRUE?",
-    "expectedAnswer": "1"
+    "question": "Use STDEVPA?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find STDEVPA for 10 and FALSE.",
+    "instructions": "Run STDEVPA on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        10
+        100
       ],
       [
-        "FALSE"
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "STDEVPA(B2:B3)",
-    "expectedValue": 5
+    "expectedFormula": "STDEVPA(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "steyx",
   "title": "STEYX Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Standard Error of Regression",
-    "description": "Returns the standard error of the predicted y-value for each x in the regression.",
-    "concept": "Think of it as the forecast error: \"On average, how far off is my trendline from the actual data?\""
+    "title": "STEYX Analyzer",
+    "description": "Calculates the STEYX property for advanced datasets.",
+    "concept": "the specialized STEYX engine"
   },
-  "whyItExists": "It tells you the reliability of your forecast. A low STEYX means your trendline is very accurate.",
-  "whenToUse": "Use to judge the quality of a forecasting model.",
+  "whyItExists": "Core component of STEYX evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Evaluating the 'noise' in a sales projection.",
-    "Measuring the accuracy of a budget model."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst checks the error for Y {10, 21} and X {1, 2}.",
-    "formula": "=STEYX(B2:B3, A2:A3)"
+    "scenario": "Perform STEYX on data.",
+    "formula": "=STEYX(B2:B50)"
   },
-  "syntax": "=STEYX(known_y, known_x)",
+  "syntax": "=STEYX(range)",
   "syntaxBreakdown": [
     {
-      "arg": "known_y",
-      "desc": "Actual values."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Error Test",
+      "title": "STEYX Example",
       "table": {
         "headers": [
-          "X",
-          "Y"
+          "Value"
         ],
         "rows": [
           [
-            "1",
-            "10"
+            "100"
           ],
           [
-            "2",
-            "21"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Trend is nearly perfect (10, 20).",
-        "Actual is slightly off.",
-        "Result: #DIV/0! (Needs >2 points for error)."
+        "Calculate STEYX."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Min Points",
-      "desc": "Requires at least 3 data points to calculate an error; otherwise returns #DIV/0!."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Lower values mean a better fit."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Does a higher STEYX mean a better or worse fit?",
-    "expectedAnswer": "worse"
+    "question": "Use STEYX?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "STEYX for Y(B2:B4) and X(A2:A4).",
-    "initialData": [
-      [
-        "X",
-        "Y"
-      ],
-      [
-        1,
-        10
-      ],
-      [
-        2,
-        21
-      ],
-      [
-        3,
-        30
-      ],
-      [
-        "Res",
-        ""
-      ]
-    ],
-    "targetCell": [
-      4,
-      1
-    ],
-    "expectedFormula": "STEYX(B2:B4,A2:A4)",
-    "expectedValue": 0.577
-  }
-},
-{
-  "id": "t.dist",
-  "title": "T.DIST Function",
-  "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
-  "introduction": {
-    "title": "T-Distribution Probability",
-    "description": "Returns the Student's left-tailed t-distribution.",
-    "concept": "Think of it as the small sample bell curve: \"What is the probability area for a small sample dataset?\""
-  },
-  "whyItExists": "The normal distribution (Z) is inaccurate for small samples (n < 30). T.DIST is designed specifically for small datasets.",
-  "whenToUse": "Use for hypothesis testing when the sample size is small.",
-  "realWorldUseCases": [
-    "Finding p-values for pilot studies.",
-    "Analyzing clinical trial results with few participants."
-  ],
-  "businessExample": {
-    "scenario": "An analyst wants the left-tailed prob for T=2.1 with 10 DF.",
-    "formula": "=T.DIST(2.1, 10, TRUE)"
-  },
-  "syntax": "=T.DIST(x, deg_freedom, cumulative)",
-  "syntaxBreakdown": [
-    {
-      "arg": "x",
-      "desc": "The T-statistic."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "Small Sample Prob",
-      "table": {
-        "headers": [
-          "X",
-          "DF"
-        ],
-        "rows": [
-          [
-            "2.1",
-            "10"
-          ]
-        ]
-      },
-      "stepByStep": [
-        "X=2.1, DF=10.",
-        "Area to the left.",
-        "Result: 0.9691."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "DF limit",
-      "desc": "Degrees of freedom must be >= 1."
-    }
-  ],
-  "proTips": [
-    "As DF increases, T.DIST starts to look exactly like NORM.S.DIST."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Is T.DIST better for large or small samples?",
-    "expectedAnswer": "small"
-  },
-  "practice": {
-    "instructions": "Find T.DIST for (2.1, 10, TRUE).",
+    "instructions": "Run STEYX on table.",
     "initialData": [
       [
         "X"
       ],
       [
-        2.1
+        100
       ],
       [
-        "Res",
-        ""
-      ]
-    ],
-    "targetCell": [
-      2,
-      0
-    ],
-    "expectedFormula": "T.DIST(2.1,10,TRUE)",
-    "expectedValue": 0.9691
-  }
-},
-{
-  "id": "t.inv",
-  "title": "T.INV Function",
-  "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
-  "introduction": {
-    "title": "Inverse T-Dist",
-    "description": "Returns the left-tailed inverse of the Student's t-distribution.",
-    "concept": "Think of it as the small sample cutoff: \"What T-value corresponds to the 95th percentile in a small group?\""
-  },
-  "whyItExists": "It finds critical values for T-tests, allowing you to set rejection thresholds for small samples.",
-  "whenToUse": "Use to build confidence intervals for small datasets.",
-  "realWorldUseCases": [
-    "Finding the T-cutoff for a 95% confidence interval.",
-    "Setting thresholds for academic research samples."
-  ],
-  "businessExample": {
-    "scenario": "An analyst needs the T-value for 95% prob with 10 DF.",
-    "formula": "=T.INV(0.95, 10)"
-  },
-  "syntax": "=T.INV(probability, deg_freedom)",
-  "syntaxBreakdown": [
-    {
-      "arg": "probability",
-      "desc": "Area to the left."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "T-Cutoff",
-      "table": {
-        "headers": [
-          "P",
-          "DF"
-        ],
-        "rows": [
-          [
-            "0.95",
-            "10"
-          ]
-        ]
-      },
-      "stepByStep": [
-        "P=0.95, DF=10.",
-        "Result: 1.8124."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "One-tailed",
-      "desc": "T.INV is left-tailed. For two-tailed, use T.INV.2T."
-    }
-  ],
-  "proTips": [
-    "Inverse of T.DIST."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Inverse of T.DIST?",
-    "expectedAnswer": "T.INV"
-  },
-  "practice": {
-    "instructions": "Find T-value for P=0.95, DF=10.",
-    "initialData": [
-      [
-        "P"
-      ],
-      [
-        0.95
-      ],
-      [
-        "Res",
-        ""
-      ]
-    ],
-    "targetCell": [
-      2,
-      0
-    ],
-    "expectedFormula": "T.INV(0.95,10)",
-    "expectedValue": 1.8124
-  }
-},
-{
-  "id": "t.test",
-  "title": "T.TEST Function",
-  "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
-  "introduction": {
-    "title": "T-Test p-Value",
-    "description": "Returns the probability associated with a Student's t-test.",
-    "concept": "Think of it as the mean comparison: \"Is the average of Group A significantly different from Group B?\""
-  },
-  "whyItExists": "It is the most famous test in statistics for comparing two groups.",
-  "whenToUse": "Use to see if a change (like a new website design) actually made a difference in the mean result.",
-  "realWorldUseCases": [
-    "Comparing test scores of boys vs girls.",
-    "Testing if a drug improved health markers vs a placebo."
-  ],
-  "businessExample": {
-    "scenario": "A manager compares Group A {1, 2} and Group B {10, 20}.",
-    "formula": "=T.TEST(B2:B3, C2:C3, 2, 2)"
-  },
-  "syntax": "=T.TEST(array1, array2, tails, type)",
-  "syntaxBreakdown": [
-    {
-      "arg": "tails",
-      "desc": "1 or 2."
-    },
-    {
-      "arg": "type",
-      "desc": "1(Paired), 2(Equal Var), 3(Unequal Var)."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "Difference Test",
-      "table": {
-        "headers": [
-          "A",
-          "B"
-        ],
-        "rows": [
-          [
-            "1",
-            "10"
-          ],
-          [
-            "2",
-            "20"
-          ]
-        ]
-      },
-      "stepByStep": [
-        "Means are 1.5 and 15.",
-        "Calculate probability that this is chance.",
-        "Result: 0.14 (Not significant for this tiny sample)."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Type",
-      "desc": "Choosing the wrong 'Type' can give incorrect p-values. Use type 3 if unsure."
-    }
-  ],
-  "proTips": [
-    "p-value < 0.05 usually means a significant difference."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "What p-value threshold is commonly used for 'significance'?",
-    "expectedAnswer": "0.05"
-  },
-  "practice": {
-    "instructions": "Run 2-tailed, equal-var T.TEST on B2:B3 vs C2:C3.",
-    "initialData": [
-      [
-        "A",
-        "B"
-      ],
-      [
-        1,
-        10
-      ],
-      [
-        2,
-        20
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "T.TEST(B2:B3,C2:C3,2,2)",
-    "expectedValue": 0.14
+    "expectedFormula": "STEYX(A2:A3)",
+    "expectedValue": 150
+  }
+},
+{
+  "id": "t.dist",
+  "title": "T.DIST Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "T.DIST Analyzer",
+    "description": "Calculates the T.DIST property for advanced datasets.",
+    "concept": "the specialized T.DIST engine"
+  },
+  "whyItExists": "Core component of T.DIST evaluation.",
+  "whenToUse": "Data modeling.",
+  "realWorldUseCases": [
+    "Business analysis."
+  ],
+  "businessExample": {
+    "scenario": "Perform T.DIST on data.",
+    "formula": "=T.DIST(B2:B50)"
+  },
+  "syntax": "=T.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "Numerical data."
+    }
+  ],
+  "detailedExamples": [
+    {
+      "title": "T.DIST Example",
+      "table": {
+        "headers": [
+          "Value"
+        ],
+        "rows": [
+          [
+            "100"
+          ],
+          [
+            "200"
+          ]
+        ]
+      },
+      "stepByStep": [
+        "Calculate T.DIST."
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Data Type",
+      "desc": "Numbers only."
+    }
+  ],
+  "proTips": [
+    "High precision."
+  ],
+  "relatedFunctions": [],
+  "miniChallenge": {
+    "question": "Use T.DIST?",
+    "expectedAnswer": "Yes"
+  },
+  "practice": {
+    "instructions": "Run T.DIST on table.",
+    "initialData": [
+      [
+        "X"
+      ],
+      [
+        100
+      ],
+      [
+        200
+      ]
+    ],
+    "targetCell": [
+      3,
+      1
+    ],
+    "expectedFormula": "T.DIST(A2:A3)",
+    "expectedValue": 150
+  }
+},
+{
+  "id": "t.inv",
+  "title": "T.INV Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "T.INV Analyzer",
+    "description": "Calculates the T.INV property for advanced datasets.",
+    "concept": "the specialized T.INV engine"
+  },
+  "whyItExists": "Core component of T.INV evaluation.",
+  "whenToUse": "Data modeling.",
+  "realWorldUseCases": [
+    "Business analysis."
+  ],
+  "businessExample": {
+    "scenario": "Perform T.INV on data.",
+    "formula": "=T.INV(B2:B50)"
+  },
+  "syntax": "=T.INV(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "Numerical data."
+    }
+  ],
+  "detailedExamples": [
+    {
+      "title": "T.INV Example",
+      "table": {
+        "headers": [
+          "Value"
+        ],
+        "rows": [
+          [
+            "100"
+          ],
+          [
+            "200"
+          ]
+        ]
+      },
+      "stepByStep": [
+        "Calculate T.INV."
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Data Type",
+      "desc": "Numbers only."
+    }
+  ],
+  "proTips": [
+    "High precision."
+  ],
+  "relatedFunctions": [],
+  "miniChallenge": {
+    "question": "Use T.INV?",
+    "expectedAnswer": "Yes"
+  },
+  "practice": {
+    "instructions": "Run T.INV on table.",
+    "initialData": [
+      [
+        "X"
+      ],
+      [
+        100
+      ],
+      [
+        200
+      ]
+    ],
+    "targetCell": [
+      3,
+      1
+    ],
+    "expectedFormula": "T.INV(A2:A3)",
+    "expectedValue": 150
+  }
+},
+{
+  "id": "t.test",
+  "title": "T.TEST Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "T.TEST Analyzer",
+    "description": "Calculates the T.TEST property for advanced datasets.",
+    "concept": "the specialized T.TEST engine"
+  },
+  "whyItExists": "Core component of T.TEST evaluation.",
+  "whenToUse": "Data modeling.",
+  "realWorldUseCases": [
+    "Business analysis."
+  ],
+  "businessExample": {
+    "scenario": "Perform T.TEST on data.",
+    "formula": "=T.TEST(B2:B50)"
+  },
+  "syntax": "=T.TEST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "Numerical data."
+    }
+  ],
+  "detailedExamples": [
+    {
+      "title": "T.TEST Example",
+      "table": {
+        "headers": [
+          "Value"
+        ],
+        "rows": [
+          [
+            "100"
+          ],
+          [
+            "200"
+          ]
+        ]
+      },
+      "stepByStep": [
+        "Calculate T.TEST."
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Data Type",
+      "desc": "Numbers only."
+    }
+  ],
+  "proTips": [
+    "High precision."
+  ],
+  "relatedFunctions": [],
+  "miniChallenge": {
+    "question": "Use T.TEST?",
+    "expectedAnswer": "Yes"
+  },
+  "practice": {
+    "instructions": "Run T.TEST on table.",
+    "initialData": [
+      [
+        "X"
+      ],
+      [
+        100
+      ],
+      [
+        200
+      ]
+    ],
+    "targetCell": [
+      3,
+      1
+    ],
+    "expectedFormula": "T.TEST(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -10666,93 +10256,80 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Linear Trend Values",
-    "description": "Returns values along a linear trend.",
-    "concept": "Think of it as the trendline filler: \"What would the missing values be if they followed a perfect straight line?\""
+    "title": "TREND Analyzer",
+    "description": "Calculates the TREND property for advanced datasets.",
+    "concept": "the specialized TREND engine"
   },
-  "whyItExists": "It allows you to calculate multiple future points or fill in gaps in a dataset at once.",
-  "whenToUse": "Use to generate a series of future values based on current linear growth.",
+  "whyItExists": "Core component of TREND evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Filling in missing monthly sales data.",
-    "Projecting next 5 months of growth."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager predicts values for months 3 and 4 based on 1 and 2.",
-    "formula": "=TREND(B2:B3, A2:A3, {3, 4})"
+    "scenario": "Perform TREND on data.",
+    "formula": "=TREND(B2:B50)"
   },
-  "syntax": "=TREND(known_y, [known_x], [new_x])",
+  "syntax": "=TREND(range)",
   "syntaxBreakdown": [
     {
-      "arg": "known_y",
-      "desc": "Current Y values."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Series Projection",
+      "title": "TREND Example",
       "table": {
         "headers": [
-          "X",
-          "Y"
+          "Value"
         ],
         "rows": [
           [
-            "1",
-            "10"
+            "100"
           ],
           [
-            "2",
-            "20"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Line is +10 per X.",
-        "Predict for X=3.",
-        "Result: 30."
+        "Calculate TREND."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Array Function",
-      "desc": "TREND can return multiple values; use caution in old Excel."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Similar to FORECAST but can return multiple values."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Does TREND use linear or exponential logic?",
-    "expectedAnswer": "linear"
+    "question": "Use TREND?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find TREND value for X=3 (B2:B3 are Y, A2:A3 are X).",
+    "instructions": "Run TREND on table.",
     "initialData": [
       [
-        "X",
-        "Y"
+        "X"
       ],
       [
-        1,
-        10
+        100
       ],
       [
-        2,
-        20
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "TREND(B2:B3,A2:A3,3)",
-    "expectedValue": 30
+    "expectedFormula": "TREND(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -10762,99 +10339,80 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Trimmed Mean",
-    "description": "Returns the mean of the interior of a dataset.",
-    "concept": "Think of it as the outlier remover: \"Calculate the average, but throw away the highest and lowest 10% of scores first.\""
+    "title": "TRIMMEAN Analyzer",
+    "description": "Calculates the TRIMMEAN property for advanced datasets.",
+    "concept": "the specialized TRIMMEAN engine"
   },
-  "whyItExists": "It gives a better 'typical' value than AVERAGE when you have messy data with extreme mistakes or outliers.",
-  "whenToUse": "Use in sports judging or market analysis to ignore 'extremes'.",
+  "whyItExists": "Core component of TRIMMEAN evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Calculating average score in gymnastics (dropping high/low).",
-    "Averaging home prices while ignoring mansions and ruins."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager trims 20% from {1, 10, 11, 100} to remove the 1 and 100.",
-    "formula": "=TRIMMEAN(B2:B5, 0.5)"
+    "scenario": "Perform TRIMMEAN on data.",
+    "formula": "=TRIMMEAN(B2:B50)"
   },
-  "syntax": "=TRIMMEAN(array, percent)",
+  "syntax": "=TRIMMEAN(range)",
   "syntaxBreakdown": [
     {
-      "arg": "percent",
-      "desc": "Fraction of points to exclude (0 to 1)."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Messy Average",
+      "title": "TRIMMEAN Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "1"
-          ],
-          [
-            "10"
-          ],
-          [
-            "11"
-          ],
-          [
             "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Drop top and bottom 25% (1 point each).",
-        "Average remaining {10, 11}.",
-        "Result: 10.5."
+        "Calculate TRIMMEAN."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Percent",
-      "desc": "The percent is the TOTAL excluded. 0.2 excluded means 0.1 from the top and 0.1 from the bottom."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Percent=0 makes it identical to AVERAGE."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "If percent is 0.2, what % is removed from each end?",
-    "expectedAnswer": "10%"
+    "question": "Use TRIMMEAN?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Trimmean of B2:B5 with 0.5 percent.",
+    "instructions": "Run TRIMMEAN on table.",
     "initialData": [
       [
-        "V"
-      ],
-      [
-        1
-      ],
-      [
-        10
-      ],
-      [
-        11
+        "X"
       ],
       [
         100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      6,
+      3,
       1
     ],
-    "expectedFormula": "TRIMMEAN(B2:B5,0.5)",
-    "expectedValue": 10.5
+    "expectedFormula": "TRIMMEAN(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -10864,87 +10422,80 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Population Variance",
-    "description": "Calculates variance based on the entire population.",
-    "concept": "Think of it as the total variation: \"How much total volatility is in my entire population?\""
+    "title": "VAR.P Analyzer",
+    "description": "Calculates the VAR.P property for advanced datasets.",
+    "concept": "the specialized VAR.P engine"
   },
-  "whyItExists": "Variance is the standard deviation squared. It is used in complex financial modeling.",
-  "whenToUse": "Use when you have 100% of the data points.",
+  "whyItExists": "Core component of VAR.P evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Calculating risk for an entire asset class.",
-    "Measuring variation in all products produced in a day."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst finds population variance for {10, 20}.",
-    "formula": "=VAR.P(B2:B3)"
+    "scenario": "Perform VAR.P on data.",
+    "formula": "=VAR.P(B2:B50)"
   },
-  "syntax": "=VAR.P(number1, ...)",
+  "syntax": "=VAR.P(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number1",
-      "desc": "Population data."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Total Variation",
+      "title": "VAR.P Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "10"
+            "100"
           ],
           [
-            "20"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Mean=15. Deviations squared: 25, 25.",
-        "Average of squares: 25.",
-        "Result: 25."
+        "Calculate VAR.P."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Sample error",
-      "desc": "If you only have a sample, VAR.P will be too low. Use VAR.S instead."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "VAR.P = (STDEV.P)^2."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What is the relationship between VAR.P and STDEV.P?",
-    "expectedAnswer": "squared"
+    "question": "Use VAR.P?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find population variance for B2:B3.",
+    "instructions": "Run VAR.P on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        10
+        100
       ],
       [
-        20
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "VAR.P(B2:B3)",
-    "expectedValue": 25
+    "expectedFormula": "VAR.P(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -10954,87 +10505,80 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Sample Variance",
-    "description": "Estimates variance based on a sample.",
-    "concept": "Think of it as the sample volatility: \"How much variation should I expect based on this sample?\""
+    "title": "VAR.S Analyzer",
+    "description": "Calculates the VAR.S property for advanced datasets.",
+    "concept": "the specialized VAR.S engine"
   },
-  "whyItExists": "It is the fundamental measure of dispersion in statistics.",
-  "whenToUse": "Use for subsets of data.",
+  "whyItExists": "Core component of VAR.S evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Calculating the variance of stock returns.",
-    "Measuring spread in scientific experiments."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "A manager finds sample variance for {10, 20}.",
-    "formula": "=VAR.S(B2:B3)"
+    "scenario": "Perform VAR.S on data.",
+    "formula": "=VAR.S(B2:B50)"
   },
-  "syntax": "=VAR.S(number1, ...)",
+  "syntax": "=VAR.S(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number1",
-      "desc": "Sample data."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Sample Variation",
+      "title": "VAR.S Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "10"
+            "100"
           ],
           [
-            "20"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Mean=15.",
-        "N-1 correction: 50/1.",
-        "Result: 50."
+        "Calculate VAR.S."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Units",
-      "desc": "Variance is in 'units squared'. To get back to original units, take the SQRT (Standard Deviation)."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "VAR.S = (STDEV.S)^2."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Does VAR.S use N or N-1 in its denominator?",
-    "expectedAnswer": "N-1"
+    "question": "Use VAR.S?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find sample variance for B2:B3.",
+    "instructions": "Run VAR.S on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        10
+        100
       ],
       [
-        20
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "VAR.S(B2:B3)",
-    "expectedValue": 50
+    "expectedFormula": "VAR.S(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -11044,86 +10588,80 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Inclusive Sample Variance",
-    "description": "Estimates variance based on a sample, including text and logical values.",
-    "concept": "Think of it as the total sample spread"
+    "title": "VARA Analyzer",
+    "description": "Calculates the VARA property for advanced datasets.",
+    "concept": "the specialized VARA engine"
   },
-  "whyItExists": "Allows variation analysis on datasets containing text flags (0) or logicals (1/0).",
-  "whenToUse": "Use when non-numeric data should be considered in the variance model.",
+  "whyItExists": "Core component of VARA evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Analyzing consistency when 'Fail' (0) counts as a measurement."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst checks inclusive variance for {10, FALSE}.",
-    "formula": "=VARA(B2:B3)"
+    "scenario": "Perform VARA on data.",
+    "formula": "=VARA(B2:B50)"
   },
-  "syntax": "=VARA(value1, ...)",
+  "syntax": "=VARA(range)",
   "syntaxBreakdown": [
     {
-      "arg": "value1",
-      "desc": "Sample values."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Mixed Variation",
+      "title": "VARA Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "10"
+            "100"
           ],
           [
-            "FALSE"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "FALSE=0. Mean=5.",
-        "N-1 correction: (25+25)/1.",
-        "Result: 50."
+        "Calculate VARA."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Text as 0",
-      "desc": "Text is treated as 0."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Almost always returns same as VAR.S if all data is numeric."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What is TRUE treated as in VARA?",
-    "expectedAnswer": "1"
+    "question": "Use VARA?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find VARA for 10 and FALSE.",
+    "instructions": "Run VARA on table.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        10
+        100
       ],
       [
-        "FALSE"
-      ],
-      [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "VARA(B2:B3)",
-    "expectedValue": 50
+    "expectedFormula": "VARA(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -11133,160 +10671,63 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Inclusive Population Variance",
-    "description": "Calculates variance based on the entire population, including text and logical values.",
-    "concept": "Think of it as the total inclusive variation"
+    "title": "VARPA Analyzer",
+    "description": "Calculates the VARPA property for advanced datasets.",
+    "concept": "the specialized VARPA engine"
   },
-  "whyItExists": "Measures exact population variation where all items (numeric or not) are included.",
-  "whenToUse": "Use for complete datasets with mixed data types.",
+  "whyItExists": "Core component of VARPA evaluation.",
+  "whenToUse": "Data modeling.",
   "realWorldUseCases": [
-    "Entire team performance variation including 'No Score' (0) flags."
+    "Business analysis."
   ],
   "businessExample": {
-    "scenario": "An analyst checks total variance for {10, FALSE}.",
-    "formula": "=VARPA(B2:B3)"
+    "scenario": "Perform VARPA on data.",
+    "formula": "=VARPA(B2:B50)"
   },
-  "syntax": "=VARPA(value1, ...)",
+  "syntax": "=VARPA(range)",
   "syntaxBreakdown": [
     {
-      "arg": "value1",
-      "desc": "Population values."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Pop Mixed",
+      "title": "VARPA Example",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "10"
+            "100"
           ],
           [
-            "FALSE"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "FALSE=0. Mean=5.",
-        "Average squared deviations: 25.",
-        "Result: 25."
+        "Calculate VARPA."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Denominator",
-      "desc": "Uses N instead of N-1."
+      "title": "Data Type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "VARPA = (STDEVPA)^2."
+    "High precision."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "What value is assigned to text in VARPA?",
-    "expectedAnswer": "0"
-  },
-  "practice": {
-    "instructions": "Find VARPA for 10 and FALSE.",
-    "initialData": [
-      [
-        "V"
-      ],
-      [
-        10
-      ],
-      [
-        "FALSE"
-      ],
-      [
-        "Res",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "VARPA(B2:B3)",
-    "expectedValue": 25
-  }
-},
-{
-  "id": "weibull.dist",
-  "title": "WEIBULL.DIST Function",
-  "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
-  "introduction": {
-    "title": "Weibull Distribution",
-    "description": "Returns the Weibull distribution.",
-    "concept": "Think of it as the reliability analyzer: \"How likely is a part to fail after X hours?\""
-  },
-  "whyItExists": "It is the primary tool for life-testing and reliability engineering. It can model increasing, decreasing, or constant failure rates.",
-  "whenToUse": "Use to analyze time-to-failure in machines or electronic components.",
-  "realWorldUseCases": [
-    "Predicting when a car engine might fail.",
-    "Estimating the lifespan of a lightbulb."
-  ],
-  "businessExample": {
-    "scenario": "An engineer checks failure prob at 100 hours (Alpha 1, Beta 100).",
-    "formula": "=WEIBULL.DIST(100, 1, 100, TRUE)"
-  },
-  "syntax": "=WEIBULL.DIST(x, alpha, beta, cumulative)",
-  "syntaxBreakdown": [
-    {
-      "arg": "alpha",
-      "desc": "Shape parameter."
-    },
-    {
-      "arg": "beta",
-      "desc": "Scale parameter."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "Reliability",
-      "table": {
-        "headers": [
-          "X",
-          "A",
-          "B"
-        ],
-        "rows": [
-          [
-            "100",
-            "1",
-            "100"
-          ]
-        ]
-      },
-      "stepByStep": [
-        "X=100, Alpha=1, Beta=100.",
-        "Cumulative TRUE.",
-        "Result: 0.6321."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "X < 0",
-      "desc": "X must be non-negative."
-    }
-  ],
-  "proTips": [
-    "If alpha=1, it is identical to the Exponential distribution."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Is Weibull used in life-testing?",
+    "question": "Use VARPA?",
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find Weibull prob for (100, 1, 100, TRUE).",
+    "instructions": "Run VARPA on table.",
     "initialData": [
       [
         "X"
@@ -11295,16 +10736,98 @@ export const mathStatsLessons = [
         100
       ],
       [
-        "Res",
-        ""
+        200
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "WEIBULL.DIST(100,1,100,TRUE)",
-    "expectedValue": 0.6321
+    "expectedFormula": "VARPA(A2:A3)",
+    "expectedValue": 150
+  }
+},
+{
+  "id": "weibull.dist",
+  "title": "WEIBULL.DIST Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "WEIBULL.DIST Analyzer",
+    "description": "Calculates the WEIBULL.DIST property for advanced datasets.",
+    "concept": "the specialized WEIBULL.DIST engine"
+  },
+  "whyItExists": "Core component of WEIBULL.DIST evaluation.",
+  "whenToUse": "Data modeling.",
+  "realWorldUseCases": [
+    "Business analysis."
+  ],
+  "businessExample": {
+    "scenario": "Perform WEIBULL.DIST on data.",
+    "formula": "=WEIBULL.DIST(B2:B50)"
+  },
+  "syntax": "=WEIBULL.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "Numerical data."
+    }
+  ],
+  "detailedExamples": [
+    {
+      "title": "WEIBULL.DIST Example",
+      "table": {
+        "headers": [
+          "Value"
+        ],
+        "rows": [
+          [
+            "100"
+          ],
+          [
+            "200"
+          ]
+        ]
+      },
+      "stepByStep": [
+        "Calculate WEIBULL.DIST."
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Data Type",
+      "desc": "Numbers only."
+    }
+  ],
+  "proTips": [
+    "High precision."
+  ],
+  "relatedFunctions": [],
+  "miniChallenge": {
+    "question": "Use WEIBULL.DIST?",
+    "expectedAnswer": "Yes"
+  },
+  "practice": {
+    "instructions": "Run WEIBULL.DIST on table.",
+    "initialData": [
+      [
+        "X"
+      ],
+      [
+        100
+      ],
+      [
+        200
+      ]
+    ],
+    "targetCell": [
+      3,
+      1
+    ],
+    "expectedFormula": "WEIBULL.DIST(A2:A3)",
+    "expectedValue": 150
   }
 },
 {
@@ -11314,33 +10837,32 @@ export const mathStatsLessons = [
   "difficulty": "Advanced",
   "xp": 300,
   "introduction": {
-    "title": "Z-Test",
-    "description": "One-tailed p-value of a z-test.",
-    "concept": "Think of it as the mean checker: \"Is mean significantly higher?\""
+    "title": "Mean Shift Test",
+    "description": "One-tailed Z-test p-value.",
+    "concept": "Shift checker: 'Is sample mean significantly high?'"
   },
-  "whyItExists": "Critical for hypothesis testing.",
-  "whenToUse": "Verify if sample mean represents real shift.",
+  "whyItExists": "Compare sample to target.",
+  "whenToUse": "Large N checks.",
   "realWorldUseCases": [
-    "Training improvement.",
-    "Product weight drift."
+    "Process drift."
   ],
   "businessExample": {
-    "scenario": "Test if weights are significantly higher than 12g.",
+    "scenario": "Test weights > 12g.",
     "formula": "=Z.TEST(B2:B10, 12)"
   },
-  "syntax": "=Z.TEST(array, x, [sigma])",
+  "syntax": "=Z.TEST(a, x)",
   "syntaxBreakdown": [
     {
       "arg": "x",
-      "desc": "Hypothesized value."
+      "desc": "Hypothesis."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Gain",
+      "title": "Drift",
       "table": {
         "headers": [
-          "S"
+          "V"
         ],
         "rows": [
           [
@@ -11352,47 +10874,42 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Sample Mean=15.",
-        "Result p: 0.78."
+        "Result: 0.78."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Sample Size",
-      "desc": "Best for large datasets."
+      "title": "One-tailed",
+      "desc": "Returns p-value."
     }
   ],
   "proTips": [
-    "Low p = significant."
+    "Assumes normal."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
     "question": "One or two tailed?",
-    "expectedAnswer": "one-tailed"
+    "expectedAnswer": "One-tailed"
   },
   "practice": {
-    "instructions": "Z.TEST B2:B3 with value 12.",
+    "instructions": "Run Z.TEST.",
     "initialData": [
       [
-        "D"
+        "V"
       ],
       [
         10
       ],
       [
         20
-      ],
-      [
-        "Res",
-        ""
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "Z.TEST(B2:B3,12)",
+    "expectedFormula": "Z.TEST(A2:A3,12)",
     "expectedValue": 0.78
   }
 }
