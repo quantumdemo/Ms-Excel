@@ -1,5 +1,5 @@
 export const mathStatsLessons = [
-  {
+{
     id: "sum",
     title: "SUM Function",
     category: "math",
@@ -74,293 +74,7 @@ export const mathStatsLessons = [
       expectedValue: 1800
     }
   },
-  {
-    id: "average",
-    title: "AVERAGE Function",
-    category: "statistical",
-    difficulty: "Beginner",
-    xp: 150,
-    introduction: {
-      title: "Finding the Middle Ground: AVERAGE",
-      description: "The AVERAGE function calculates the arithmetic mean of a group of numbers. It is the go-to tool for finding the typical value in a dataset.",
-      concept: "If you have 10 and 20, the average is 15. Excel adds the numbers (10+20=30) and divides by the count (30/2=15) automatically."
-    },
-    internalLogic: "AVERAGE first sums all numerical values in the provided arguments, then counts how many numerical entries exist. Finally, it divides the sum by the count. It strictly ignores empty cells, text, and logical values.",
-    whyItExists: "Manually calculating means for thousands of rows is exhausting and prone to error. AVERAGE provides a one-step solution for performance tracking, pricing analysis, and statistical reporting.",
-    whenToUse: "Use AVERAGE when you need to find the central value of a dataset, such as average sales per day, average test scores, or average temperature.",
-    realWorldUseCases: [
-      "Calculating the average grade for a class of students.",
-      "Determining the average monthly electricity bill.",
-      "Analyzing average response time for customer support tickets.",
-      "Finding the average stock price over a week."
-    ],
-    businessExample: {
-      scenario: "A store owner wants to know the average value of a customer's purchase over the last 3 days.",
-      formula: "=AVERAGE(B2:B4)"
-    },
-    syntax: "=AVERAGE(number1, [number2], ...)",
-    syntaxBreakdown: [
-      { arg: "number1", desc: "The first number, cell reference, or range for which you want the average." },
-      { arg: "number2", desc: "Optional. Additional numbers, cell references, or ranges to include." }
-    ],
-    detailedExamples: [
-      {
-        title: "Test Score Average",
-        table: {
-          headers: ["Student", "Score", "Formula", "Average"],
-          rows: [
-            ["Exam 1", "80", "=AVERAGE(B2:B3)", "85"],
-            ["Exam 2", "90", "", ""]
-          ]
-        },
-        stepByStep: [
-          "Excel adds 80 and 90 to get 170.",
-          "It counts that there are 2 numbers.",
-          "It divides 170 by 2.",
-          "The result 85 is displayed."
-        ]
-      }
-    ],
-    commonMistakes: [
-      { title: "Zeros vs Blanks.", desc: "AVERAGE includes cells with 0 in the math. If a student missed a test, leave it blank (ignored) instead of typing 0 (included, lowers the average)." },
-      { title: "Including the total.", desc: "Ensure your range doesn't accidentally include a 'Total' row at the bottom, as this will double the average!" }
-    ],
-    limitations: "AVERAGE is sensitive to 'outliers' (extremely high or low numbers). If one person earns ₦1 million and everyone else earns ₦10, the 'Average' will look very high and be misleading.",
-    bestPractices: [
-      "Check your data for empty cells vs zeros before averaging.",
-      "Use MEDIAN alongside AVERAGE to get a better sense of your data's center."
-    ],
-    proTips: [
-      "To average only numbers that meet a condition, use AVERAGEIF.",
-      "You can select non-adjacent cells by holding Ctrl while clicking."
-    ],
-    relatedFunctions: ["AVERAGEIF", "AVERAGEIFS", "MEDIAN", "MODE", "SUM", "COUNT"],
-    comparison: "AVERAGE is the mean. MEDIAN is the middle value. If you have 1, 2, 100, the AVERAGE is 34.3, but the MEDIAN is 2.",
-    miniChallenge: {
-      question: "Find the average of cells B2, B3, and B4.",
-      expectedAnswer: "=AVERAGE(B2:B4)"
-    },
-    practice: {
-      instructions: "In cell B5, calculate the average price of the items listed.",
-      initialData: [["Item", "Price"], ["Item 1", 10], ["Item 2", 20], ["Item 3", 30], ["Average", ""]],
-      targetCell: [4, 1],
-      expectedFormula: "AVERAGE(B2:B4)",
-      expectedValue: 20
-    }
-  },
-  {
-    id: "max",
-    title: "MAX Function",
-    category: "statistical",
-    difficulty: "Beginner",
-    xp: 100,
-    introduction: {
-      title: "The High Point: MAX",
-      description: "The MAX function scans a group of numbers and returns the largest value. It's the quickest way to find a record-breaking performance or the highest cost.",
-      concept: "Imagine looking at a list of 1,000 prices. Instead of scrolling to find the most expensive one, MAX does it for you in a fraction of a second."
-    },
-    internalLogic: "Excel iterates through every value in the provided range. It compares each value to the current 'highest' found so far. If it finds a larger number, it updates its record. It ignores text and blanks.",
-    whyItExists: "Manual comparison is slow and prone to human error, especially in large datasets. MAX is essential for identifying peaks, limits, and top-tier data points.",
-    whenToUse: "Use MAX when you need to find the highest score, the most recent date (dates are numbers!), the largest sale, or the maximum temperature.",
-    realWorldUseCases: [
-      "Identifying the highest sales figure in a monthly report.",
-      "Finding the top score on a test.",
-      "Determining the most expensive item in an inventory list.",
-      "Finding the latest 'Last Login' date for a user."
-    ],
-    businessExample: {
-      scenario: "A sales manager wants to know what the biggest single transaction was today.",
-      formula: "=MAX(B2:B500)"
-    },
-    syntax: "=MAX(number1, [number2], ...)",
-    syntaxBreakdown: [
-      { arg: "number1", desc: "The first number or range of numbers to search." },
-      { arg: "number2", desc: "Optional. More numbers or ranges to include." }
-    ],
-    detailedExamples: [
-      {
-        title: "Example: Top Sales",
-        table: {
-          headers: ["Rep", "Sales", "Formula", "Result"],
-          rows: [
-            ["John", "500", "=MAX(B2:B4)", "950"],
-            ["Jane", "950", "", ""],
-            ["Bob", "300", "", ""]
-          ]
-        },
-        stepByStep: [
-          "Excel looks at 500, 950, and 300.",
-          "It determines 950 is the largest.",
-          "It returns 950."
-        ]
-      }
-    ],
-    commonMistakes: [
-      { title: "Text numbers.", desc: "If MAX returns 0 or ignores a high number, that number might be 'Text'. Convert it to a real number." }
-    ],
-    limitations: "MAX only gives you the number. If you want to know *who* had that number (e.g., the name of the top salesman), you need to combine it with XLOOKUP or INDEX/MATCH.",
-    bestPractices: [
-      "Use MAX(0, formula) to ensure a result never drops below zero (useful for commissions or tax calculations)."
-    ],
-    proTips: [
-      "Because Excel stores dates as numbers, MAX(DateRange) will give you the most recent date."
-    ],
-    relatedFunctions: ["MIN", "LARGE", "SMALL", "XLOOKUP"],
-    miniChallenge: {
-      question: "Which function would you use to find the highest price in range A1:A20?",
-      expectedAnswer: "=MAX(A1:A20)"
-    },
-    practice: {
-      instructions: "In cell B5, use the MAX function to find the highest value in B2:B4.",
-      initialData: [["Month", "Sales"], ["Jan", 150], ["Feb", 250], ["Mar", 180], ["Highest", ""]],
-      targetCell: [4, 1],
-      expectedFormula: "MAX(B2:B4)",
-      expectedValue: 250
-    }
-  },
-  {
-    id: "min",
-    title: "MIN Function",
-    category: "statistical",
-    difficulty: "Beginner",
-    xp: 100,
-    introduction: {
-      title: "The Lowest Point: MIN",
-      description: "The MIN function finds the smallest numerical value in a group of cells. It's perfect for finding the cheapest price or the fastest time.",
-      concept: "The opposite of MAX. It's your filter for finding the 'bottom' of your data. If you're looking for a bargain or a bottleneck, start with MIN."
-    },
-    internalLogic: "Excel compares every value in your range to the current 'lowest'. It ignores text strings, logical values, and empty cells. It only counts numbers.",
-    whyItExists: "Finding the minimum value manually in a spreadsheet with hundreds of rows is a recipe for mistakes. MIN guarantees the mathematically smallest value is identified.",
-    whenToUse: "Use MIN to find the lowest cost, the earliest date, the worst performance score, or the minimum stock level.",
-    realWorldUseCases: [
-      "Finding the lowest quote from several suppliers.",
-      "Identifying the earliest start date in a project timeline.",
-      "Finding the smallest amount of inventory remaining.",
-      "Tracking the fastest lap time in a race."
-    ],
-    businessExample: {
-      scenario: "A purchasing agent wants to find the lowest price offered for a new laptop across 5 different vendors.",
-      formula: "=MIN(B2:B6)"
-    },
-    syntax: "=MIN(number1, [number2], ...)",
-    syntaxBreakdown: [
-      { arg: "number1", desc: "The first number or range of numbers to search." },
-      { arg: "number2", desc: "Optional. More numbers or ranges to include." }
-    ],
-    detailedExamples: [
-      {
-        title: "Example: Vendor Quotes",
-        table: {
-          headers: ["Vendor", "Quote", "Formula", "Lowest"],
-          rows: [
-            ["A", "₦1,200", "=MIN(B2:B4)", "₦1,100"],
-            ["B", "₦1,100", "", ""],
-            ["C", "₦1,500", "", ""]
-          ]
-        },
-        stepByStep: [
-          "Excel compares 1200, 1100, and 1500.",
-          "It identifies 1100 as the smallest.",
-          "It returns 1100."
-        ]
-      }
-    ],
-    commonMistakes: [
-      { title: "Zeros in the data.", desc: "MIN will return 0 if a cell in your range contains 0. If you want to find the lowest *non-zero* number, you'll need the MINIFS function." }
-    ],
-    limitations: "Like MAX, MIN ignores text. If your range is all text, MIN will return 0.",
-    bestPractices: [
-      "Use MIN alongside MAX to quickly understand the 'Range' (Spread) of your data."
-    ],
-    proTips: [
-      "To find the earliest date in a list, use =MIN(DateRange) and format the result as a date."
-    ],
-    relatedFunctions: ["MAX", "SMALL", "LARGE", "MINIFS"],
-    miniChallenge: {
-      question: "Which function finds the smallest number in a list?",
-      expectedAnswer: "=MIN()"
-    },
-    practice: {
-      instructions: "In cell B5, use the MIN function to find the lowest value in B2:B4.",
-      initialData: [["Run", "Time"], ["Run 1", 12.5], ["Run 2", 11.8], ["Run 3", 13.2], ["Fastest", ""]],
-      targetCell: [4, 1],
-      expectedFormula: "MIN(B2:B4)",
-      expectedValue: 11.8
-    }
-  },
-  {
-    id: "count",
-    title: "COUNT Function",
-    category: "statistical",
-    difficulty: "Beginner",
-    xp: 100,
-    introduction: {
-      title: "Counting Numbers: COUNT",
-      description: "The COUNT function counts how many cells in a range contain numbers. It ignores text, errors, and empty cells.",
-      concept: "If you have a list of entries and want to know how many of them are actually numeric values (like prices or dates), COUNT is your tool."
-    },
-    internalLogic: "Excel checks the data type of every cell in the range. If the type is 'Number' (which includes dates and times), it adds 1 to the tally. If it is anything else, it skips it.",
-    whyItExists: "Knowing the size of your numeric dataset is the first step in most statistical analysis. It helps you understand how much data you actually have to work with.",
-    whenToUse: "Use COUNT when you specifically need to know the number of numeric entries. If you need to count cells with text, use COUNTA.",
-    realWorldUseCases: [
-      "Counting how many students took an exam (who have a score).",
-      "Finding how many days a product was in stock (counting date entries).",
-      "Checking how many items in a list have a price assigned.",
-      "Validating that a column of data is purely numeric."
-    ],
-    businessExample: {
-      scenario: "A teacher has a list of students and their grades. Some cells are blank because the students were absent. The teacher wants to know how many students actually have a grade.",
-      formula: "=COUNT(B2:B30)"
-    },
-    syntax: "=COUNT(value1, [value2], ...)",
-    syntaxBreakdown: [
-      { arg: "value1", desc: "The first item or range to check for numbers." },
-      { arg: "value2", desc: "Optional. More items or ranges to check." }
-    ],
-    detailedExamples: [
-      {
-        title: "Example: Grading",
-        table: {
-          headers: ["Student", "Grade", "Formula", "Count"],
-          rows: [
-            ["Alice", "95", "=COUNT(B2:B4)", "2"],
-            ["Bob", "Absent", "", ""],
-            ["Charlie", "88", "", ""]
-          ]
-        },
-        stepByStep: [
-          "Excel looks at B2 (95) - it's a number. (Tally: 1)",
-          "Excel looks at B3 ('Absent') - it's text. (Tally: 1)",
-          "Excel looks at B4 (88) - it's a number. (Tally: 2)",
-          "The result is 2."
-        ]
-      }
-    ],
-    commonMistakes: [
-      { title: "Trying to count text.", desc: "If you use COUNT on a list of names, the result will be 0. Use COUNTA instead." }
-    ],
-    limitations: "COUNT strictly only looks for numbers. It will ignore 'TRUE' or 'FALSE' unless they are typed directly into the formula.",
-    bestPractices: [
-      "Use COUNT to verify your data is clean before performing math like SUM or AVERAGE."
-    ],
-    proTips: [
-      "To count cells that are NOT empty (including text), use COUNTA. To count only empty cells, use COUNTBLANK."
-    ],
-    relatedFunctions: ["COUNTA", "COUNTIF", "COUNTIFS", "COUNTBLANK"],
-    comparison: "COUNT = Numbers only. COUNTA = Anything (Text, Numbers, Errors).",
-    miniChallenge: {
-      question: "How do you count only the numeric cells in A1:A10?",
-      expectedAnswer: "=COUNT(A1:A10)"
-    },
-    practice: {
-      instructions: "In cell B5, count how many numeric entries are in B2:B4.",
-      initialData: [["Item", "Data"], ["A", 10], ["B", "None"], ["C", 30], ["Count", ""]],
-      targetCell: [4, 1],
-      expectedFormula: "COUNT(B2:B4)",
-      expectedValue: 2
-    }
-  },
-  {
+{
     id: "sumif",
     title: "SUMIF Function",
     category: "math",
@@ -433,7 +147,7 @@ export const mathStatsLessons = [
       expectedValue: 300
     }
   },
-  {
+{
     id: "sumifs",
     title: "SUMIFS Function",
     category: "math",
@@ -510,152 +224,7 @@ export const mathStatsLessons = [
       expectedValue: 10
     }
   },
-  {
-    id: "countif",
-    title: "COUNTIF Function",
-    category: "statistical",
-    difficulty: "Beginner",
-    xp: 200,
-    introduction: {
-      title: "Targeted Counting: COUNTIF",
-      description: "The COUNTIF function counts the number of cells in a range that meet a specific condition.",
-      concept: "Instead of counting everything, you only count the items that match your rule. 'How many students scored over 90?' or 'How many times did we sell Apples?'"
-    },
-    internalLogic: "Excel iterates through every cell in the range and compares it to your criteria. If the comparison is TRUE, the counter increases by 1.",
-    whyItExists: "Counting specific categories is a core part of data analysis. It helps you understand frequency, popularity, and distribution within your data.",
-    whenToUse: "Use COUNTIF when you need a tally of items that match a single rule.",
-    realWorldUseCases: [
-      "Counting how many employees have 'Completed' their training.",
-      "Finding how many orders were over ₦500.",
-      "Counting the number of 'Late' marks in an attendance log.",
-      "Determining how many products in inventory are 'Out of Stock'."
-    ],
-    businessExample: {
-      scenario: "A store manager wants to count how many 'Fruit' items are in their inventory list.",
-      formula: "=COUNTIF(A2:A100, \"Fruit\")"
-    },
-    syntax: "=COUNTIF(range, criteria)",
-    syntaxBreakdown: [
-      { arg: "range", desc: "The group of cells you want to count (e.g., a list of status codes)." },
-      { arg: "criteria", desc: "The condition that determines which cells to count (e.g., \">10\", \"Pending\", or a cell reference)." }
-    ],
-    detailedExamples: [
-      {
-        title: "Example: Pass/Fail Tally",
-        table: {
-          headers: ["Score", "Formula", "Count > 70"],
-          rows: [
-            ["85", "=COUNTIF(A2:A4, \">70\")", "2"],
-            ["60", "", ""],
-            ["95", "", ""]
-          ]
-        },
-        stepByStep: [
-          "Excel checks 85: Is it > 70? (Yes). Count: 1.",
-          "Excel checks 60: Is it > 70? (No). Count: 1.",
-          "Excel checks 95: Is it > 70? (Yes). Count: 2.",
-          "Final result: 2."
-        ]
-      }
-    ],
-    commonMistakes: [
-      { title: "Quotes in logic.", desc: "Logical criteria like \">70\" or \"<>0\" must be wrapped in double quotes." }
-    ],
-    limitations: "COUNTIF only handles one condition. Use COUNTIFS for multiple conditions.",
-    bestPractices: [
-      "Use cell references for criteria so you can easily update what you are counting."
-    ],
-    proTips: [
-      "To count cells that are NOT empty, use \"<>\" as your criteria.",
-      "Use wildcards like \"*\" to count items that start with specific letters: =COUNTIF(A:A, \"App*\") counts Apple, Apricot, etc."
-    ],
-    relatedFunctions: ["COUNTIFS", "SUMIF", "AVERAGEIF", "COUNTA"],
-    miniChallenge: {
-      question: "How would you count how many cells in B1:B10 contain the word \"Paid\"?",
-      expectedAnswer: "=COUNTIF(B1:B10, \"Paid\")"
-    },
-    practice: {
-      instructions: "In cell B5, count how many times \"Apples\" appears in B2:B4.",
-      initialData: [["Item", "Data"], ["A", "Apples"], ["B", "Oranges"], ["C", "Apples"], ["Count", ""]],
-      targetCell: [4, 1],
-      expectedFormula: "COUNTIF(B2:B4,\"Apples\")",
-      expectedValue: 2
-    }
-  },
-  {
-    id: "countifs",
-    title: "COUNTIFS Function",
-    category: "statistical",
-    difficulty: "Intermediate",
-    xp: 300,
-    introduction: {
-      title: "Multi-Criteria Counting: COUNTIFS",
-      description: "COUNTIFS counts the number of cells that meet multiple criteria across one or more ranges.",
-      concept: "It's the multi-rule version of COUNTIF. 'How many sales were made by John AND were over ₦500?' It allows you to find very specific counts in a large dataset."
-    },
-    internalLogic: "Excel checks the first range for the first criteria. Then it checks the same row in the second range for the second criteria. It only increments the count if ALL conditions are TRUE for that row.",
-    whyItExists: "Complex reporting often requires counting specific subsets of data. COUNTIFS is the most direct way to get these counts without complex filtering or pivot tables.",
-    whenToUse: "Use COUNTIFS whenever you have two or more rules that must be met for an item to be counted.",
-    realWorldUseCases: [
-      "Counting how many 'High' priority tasks are still 'In Progress'.",
-      "Finding the number of female employees in the 'Engineering' department.",
-      "Counting how many students passed both the 'Math' and 'Science' exams.",
-      "Tallying sales made in 'January' from the 'West' region."
-    ],
-    businessExample: {
-      scenario: "A project manager wants to count how many tasks are 'Delayed' and assigned to 'Team A'.",
-      formula: "=COUNTIFS(A2:A50, \"Delayed\", B2:B50, \"Team A\")"
-    },
-    syntax: "=COUNTIFS(criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
-    syntaxBreakdown: [
-      { arg: "criteria_range1", desc: "The first range to evaluate." },
-      { arg: "criteria1", desc: "The condition for the first range." },
-      { arg: "criteria_range2", desc: "Optional. The second range to evaluate." },
-      { arg: "criteria2", desc: "Optional. The condition for the second range." }
-    ],
-    detailedExamples: [
-      {
-        title: "Example: Specific Inventory",
-        table: {
-          headers: ["Item", "Color", "In Stock", "Formula", "Result"],
-          rows: [
-            ["Shirt", "Red", "Yes", "=COUNTIFS(B2:B4, \"Red\", C2:C4, \"Yes\")", "2"],
-            ["Shirt", "Blue", "Yes", "", ""],
-            ["Shirt", "Red", "Yes", "", ""]
-          ]
-        },
-        stepByStep: [
-          "Excel checks Row 2: Color is Red? (Yes). In Stock is Yes? (Yes). Count: 1.",
-          "Excel checks Row 3: Color is Red? (No). Skips.",
-          "Excel checks Row 4: Color is Red? (Yes). In Stock is Yes? (Yes). Count: 2.",
-          "Final result: 2."
-        ]
-      }
-    ],
-    commonMistakes: [
-      { title: "Uneven range sizes.", desc: "Every range in COUNTIFS must have the same number of rows and columns." }
-    ],
-    limitations: "Like SUMIFS, it uses AND logic. For OR logic, add multiple COUNTIFS together.",
-    bestPractices: [
-      "Use absolute references ($A$2:$A$50) if you plan to copy the formula down."
-    ],
-    proTips: [
-      "Use COUNTIFS with date ranges to find items between two dates: =COUNTIFS(A:A, \">=\"&B1, A:A, \"<=\"&B2)."
-    ],
-    relatedFunctions: ["COUNTIF", "SUMIFS", "AVERAGEIFS"],
-    miniChallenge: {
-      question: "Count rows where A1:A10 is \"Active\" and B1:B10 is \">100\".",
-      expectedAnswer: "=COUNTIFS(A1:A10, \"Active\", B1:B10, \">100\")"
-    },
-    practice: {
-      instructions: "In cell C2, count how many rows have \"Fruit\" in A2:A4 and \"Red\" in B2:B4.",
-      initialData: [["Type", "Color", "Result"], ["Fruit", "Red", ""], ["Veg", "Red", ""], ["Fruit", "Red", ""]],
-      targetCell: [1, 2],
-      expectedFormula: "COUNTIFS(A2:A4,\"Fruit\",B2:B4,\"Red\")",
-      expectedValue: 2
-    }
-  },
-  {
+{
     id: "round",
     title: "The Precision Tool: ROUND",
     category: "math",
@@ -724,79 +293,7 @@ export const mathStatsLessons = [
       expectedValue: 10.67
     }
   },
-  {
-    id: "counta",
-    title: "Count Anything: COUNTA",
-    category: "statistical",
-    difficulty: "Beginner",
-    xp: 100,
-    introduction: {
-      title: "The Universal Counter: COUNTA",
-      description: "COUNTA counts the number of cells in a range that are NOT empty. It counts text, numbers, errors, and symbols.",
-      concept: "Unlike the basic COUNT (which only looks for numbers), COUNTA is 'Count All'. If there is anything inside the cell, it gets counted."
-    },
-    internalLogic: "Excel checks each cell for data. If the cell is truly empty, it skips it. If it contains even a single space or a hidden formula, it adds 1 to the tally.",
-    whyItExists: "Most of the time, our lists contain names or text rather than just numbers. We need a way to count entries in a list regardless of what those entries are.",
-    whenToUse: "Use COUNTA when you want to know how many rows in a list actually have data (e.g., How many people signed up for the event?).",
-    realWorldUseCases: [
-      "Counting names in a customer list.",
-      "Tallying how many tasks have been assigned (even if not finished).",
-      "Counting total items in an inventory list.",
-      "Checking how many cells in a row have been filled out."
-    ],
-    businessExample: {
-      scenario: "An office manager has a list of employees. Some are numbers (IDs) and some are names. They want to know the total number of entries.",
-      formula: "=COUNTA(A2:A500)"
-    },
-    syntax: "=COUNTA(value1, [value2], ...)",
-    syntaxBreakdown: [
-      { arg: "value1", desc: "The first range or values to count." },
-      { arg: "value2", desc: "Optional. More ranges to include." }
-    ],
-    detailedExamples: [
-      {
-        title: "Example: Name Tally",
-        table: {
-          headers: ["Name", "Formula", "Result"],
-          rows: [
-            ["Alice", "=COUNTA(A2:A4)", "3"],
-            ["123", "", ""],
-            ["#N/A", "", ""]
-          ]
-        },
-        stepByStep: [
-          "Alice is text. Count: 1.",
-          "123 is a number. Count: 2.",
-          "#N/A is an error. Count: 3.",
-          "All are non-empty. Result: 3."
-        ]
-      }
-    ],
-    commonMistakes: [
-      { title: "Hidden spaces.", desc: "If COUNTA gives a higher number than expected, some 'blank' cells might contain invisible spaces. Use LEN to find them." }
-    ],
-    limitations: "COUNTA will count cells that look blank but contain formulas that result in an empty string (\"\").",
-    bestPractices: [
-      "Use COUNTA to find the size of your dataset before you start analyzing it."
-    ],
-    proTips: [
-      "To count only the empty cells, use COUNTBLANK."
-    ],
-    relatedFunctions: ["COUNT", "COUNTIF", "COUNTBLANK"],
-    comparison: "COUNT = Numbers Only. COUNTA = Everything but empty.",
-    miniChallenge: {
-      question: "Which function counts both text and numbers?",
-      expectedAnswer: "=COUNTA()"
-    },
-    practice: {
-      instructions: "In cell B5, count the total number of non-empty entries in B2:B4.",
-      initialData: [["Item", "Data"], ["A", "Apple"], ["B", ""], ["C", 10], ["Total", ""]],
-      targetCell: [4, 1],
-      expectedFormula: "COUNTA(B2:B4)",
-      expectedValue: 2
-    }
-  },
-  {
+{
     id: "abs",
     title: "The Positivity Function: ABS",
     category: "math",
@@ -864,149 +361,7 @@ export const mathStatsLessons = [
       expectedValue: 15
     }
   },
-  {
-    id: "averageif",
-    title: "Conditional Means: AVERAGEIF",
-    category: "statistical",
-    difficulty: "Intermediate",
-    xp: 300,
-    introduction: {
-      title: "Selective Averaging: AVERAGEIF",
-      description: "The AVERAGEIF function calculates the average of cells in a range that meet a single criteria.",
-      concept: "Like SUMIF, but for averages. 'What is the average salary, but only for the Marketing department?'"
-    },
-    internalLogic: "Excel identifies cells in the 'range' that match the 'criteria'. It then finds the corresponding numbers in the 'average_range', sums them, and divides by the count of matches.",
-    whyItExists: "Averaging an entire column often hides the truth. You usually want to compare averages between groups (e.g., Average price of Apples vs. Average price of Oranges).",
-    whenToUse: "Use AVERAGEIF when you want the typical value of a specific subset of data.",
-    realWorldUseCases: [
-      "Calculating the average test score for a specific class.",
-      "Finding the average house price in a specific neighborhood.",
-      "Determining the average rating for a specific product.",
-      "Calculating the average daily temperature for only 'Rainy' days."
-    ],
-    businessExample: {
-      scenario: "A manager wants to know the average sales amount for the 'North' region.",
-      formula: "=AVERAGEIF(A2:A100, \"North\", B2:B100)"
-    },
-    syntax: "=AVERAGEIF(range, criteria, [average_range])",
-    syntaxBreakdown: [
-      { arg: "range", desc: "The cells you want to check against the criteria." },
-      { arg: "criteria", desc: "The condition (e.g., \"North\" or \">100\")." },
-      { arg: "average_range", desc: "Optional. The actual cells to average. If omitted, Excel averages the 'range' cells." }
-    ],
-    detailedExamples: [
-      {
-        title: "Example: Category Averages",
-        table: {
-          headers: ["Category", "Price", "Formula", "Result"],
-          rows: [
-            ["Food", "10", "=AVERAGEIF(A2:A4, \"Food\", B2:B4)", "15"],
-            ["Tech", "50", "", ""],
-            ["Food", "20", "", ""]
-          ]
-        },
-        stepByStep: [
-          "Excel finds 'Food' in row 2 and 4.",
-          "It takes the prices 10 and 20.",
-          "Sum (30) divided by Count (2) = 15."
-        ]
-      }
-    ],
-    commonMistakes: [
-      { title: "#DIV/0! error.", desc: "This happens if no cells meet your criteria. Ensure your criteria matches your data exactly." }
-    ],
-    limitations: "Handles only one condition. For multiple conditions, use AVERAGEIFS.",
-    bestPractices: [
-      "Use cell references for your criteria to make your average tables dynamic."
-    ],
-    proTips: [
-      "You can use wildcards (*) to average items that start or end with certain text."
-    ],
-    relatedFunctions: ["AVERAGEIFS", "SUMIF", "COUNTIF"],
-    miniChallenge: {
-      question: "Average B1:B10 if A1:A10 equals \"Passed\".",
-      expectedAnswer: "=AVERAGEIF(A1:A10, \"Passed\", B1:B10)"
-    },
-    practice: {
-      instructions: "In cell C2, average the sales (B2:B4) where the category (A2:A4) is \"Fruit\".",
-      initialData: [["Category", "Sales", "Avg Fruit"], ["Fruit", 100, ""], ["Veg", 50, ""], ["Fruit", 200, ""]],
-      targetCell: [1, 2],
-      expectedFormula: "AVERAGEIF(A2:A4,\"Fruit\",B2:B4)",
-      expectedValue: 150
-    }
-  },
-  {
-    id: "averageifs",
-    title: "Multi-Condition Means: AVERAGEIFS",
-    category: "statistical",
-    difficulty: "Intermediate",
-    xp: 400,
-    introduction: {
-      title: "Surgical Averaging: AVERAGEIFS",
-      description: "AVERAGEIFS calculates the average for cells that meet multiple criteria.",
-      concept: "The ultimate tool for detailed group analysis. 'What is the average sale price for Red Shirts in size Large?'"
-    },
-    internalLogic: "Excel only includes a cell in the average if it satisfies EVERY criteria provided. It sums these valid cells and divides by the total number of valid cells found.",
-    whyItExists: "For deep data analysis, you often need to filter by multiple variables simultaneously (e.g., Date, Region, and Category) to find the true 'typical' value.",
-    whenToUse: "Use AVERAGEIFS whenever you have two or more conditions for your average.",
-    realWorldUseCases: [
-      "Average salary for 'Female' employees in 'Department X'.",
-      "Average property price for '3 Bedroom' houses with '2 Bathrooms'.",
-      "Average response time for 'High Priority' tickets handled by 'Team B'.",
-      "Average cost of 'Imported' goods in the 'Electronics' category."
-    ],
-    businessExample: {
-      scenario: "Find the average performance score for 'Staff' who have been with the company for '>5 years'.",
-      formula: "=AVERAGEIFS(C2:C100, A2:A100, \"Staff\", B2:B100, \">5\")"
-    },
-    syntax: "=AVERAGEIFS(average_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
-    syntaxBreakdown: [
-      { arg: "average_range", desc: "The actual cells to average (Note: This is FIRST, like SUMIFS!)." },
-      { arg: "criteria_range1", desc: "The first range to filter." },
-      { arg: "criteria1", desc: "The condition for range 1." }
-    ],
-    detailedExamples: [
-      {
-        title: "Example: Multi-Filter Average",
-        table: {
-          headers: ["Type", "Color", "Price", "Formula", "Result"],
-          rows: [
-            ["Car", "Red", "20000", "=AVERAGEIFS(C2:C4, A2:A4, \"Car\", B2:B4, \"Red\")", "22500"],
-            ["Car", "Blue", "15000", "", ""],
-            ["Car", "Red", "25000", "", ""]
-          ]
-        },
-        stepByStep: [
-          "Excel looks for 'Car' AND 'Red'.",
-          "Matches: Row 2 (20,000) and Row 4 (25,000).",
-          "Average: (20,000 + 25,000) / 2 = 22,500."
-        ]
-      }
-    ],
-    commonMistakes: [
-      { title: "Wrong range order.", desc: "Remember that the average_range comes FIRST, just like in SUMIFS." }
-    ],
-    limitations: "All ranges must be the same size. If even one is different, you'll get a #VALUE! error.",
-    bestPractices: [
-      "Use cell references for criteria to keep your formulas flexible."
-    ],
-    proTips: [
-      "AVERAGEIFS ignores cells containing text or blanks in the average_range automatically."
-    ],
-    relatedFunctions: ["AVERAGEIF", "SUMIFS", "COUNTIFS"],
-    miniChallenge: {
-      question: "In AVERAGEIFS, does the range to be averaged come first or last?",
-      expectedAnswer: "First"
-    },
-    practice: {
-      instructions: "In cell D2, find the average of C2:C4 where A2:A4 is \"Fruit\" and B2:B4 is \"Red\".",
-      initialData: [["Type", "Color", "Val", "Result"], ["Fruit", "Red", 10, ""], ["Veg", "Red", 20, ""], ["Fruit", "Red", 30, ""]],
-      targetCell: [1, 3],
-      expectedFormula: "AVERAGEIFS(C2:C4,A2:A4,\"Fruit\",B2:B4,\"Red\")",
-      expectedValue: 20
-    }
-  },
-  {
+{
     id: "sumproduct",
     title: "The Multiplier-Adder: SUMPRODUCT",
     category: "math",
@@ -1075,68 +430,7 @@ export const mathStatsLessons = [
       expectedValue: 120
     }
   },
-  {
-    id: "median",
-    title: "The True Middle: MEDIAN",
-    category: "statistical",
-    difficulty: "Intermediate",
-    xp: 200,
-    introduction: {
-      title: "Finding the Center: MEDIAN",
-      description: "The MEDIAN function returns the middle number in a group of numbers. If you have an even count of numbers, it averages the two in the middle.",
-      concept: "Unlike AVERAGE (which can be skewed by one huge number), MEDIAN tells you what the person 'in the middle' actually looks like. It is much more realistic for things like salaries or house prices."
-    },
-    internalLogic: "Excel sorts the numbers from smallest to largest and picks the one in the center position. If there are two center numbers, it returns their average.",
-    whyItExists: "If 4 people earn ₦20k and 1 person earns ₦1M, the 'Average' is ₦216k (misleading!). The 'Median' is ₦20k (realistic!). MEDIAN is essential for honest data analysis.",
-    whenToUse: "Use MEDIAN whenever your data has 'outliers' (extremely high or low values) that would make an average look wrong.",
-    realWorldUseCases: [
-      "Reporting the typical home price in a city.",
-      "Analyzing employee salaries in a large company.",
-      "Determining the typical wait time for a customer.",
-      "Filtering out the effect of one exceptionally good or bad test score."
-    ],
-    businessExample: {
-      scenario: "You want to find the typical delivery time from a list of 5 shipments.",
-      formula: "=MEDIAN(B2:B6)"
-    },
-    syntax: "=MEDIAN(number1, [number2], ...)",
-    syntaxBreakdown: [
-      { arg: "number1", desc: "The first number, cell, or range to include." }
-    ],
-    detailedExamples: [
-      {
-        title: "Example: Median vs Average",
-        table: {
-          headers: ["Values", "Average", "Median"],
-          rows: [
-            ["10, 20, 30, 40, 1000", "220", "30"]
-          ]
-        },
-        stepByStep: [
-          "Excel sorts the values: 10, 20, 30, 40, 1000.",
-          "The middle number is 30.",
-          "The Median is 30."
-        ]
-      }
-    ],
-    commonMistakes: [
-      { title: "Confusion with Average.", desc: "MEDIAN is the middle value, not the mean. If you have 1, 2, 100, MEDIAN is 2, while AVERAGE is 34.3." },
-      { title: "Non-numeric data.", desc: "MEDIAN ignores text and blanks, but if the entire range is non-numeric, it returns #NUM!." }
-    ],
-    relatedFunctions: ["AVERAGE", "MODE", "MAX", "MIN"],
-    miniChallenge: {
-      question: "Find the middle value of range A1:A5.",
-      expectedAnswer: "=MEDIAN(A1:A5)"
-    },
-    practice: {
-      instructions: "In cell B2, find the median of the values in A2:A6.",
-      initialData: [["Value", "Median"], [10, ""], [50, ""], [20, ""], [30, ""], [40, ""]],
-      targetCell: [1, 1],
-      expectedFormula: "MEDIAN(A2:A6)",
-      expectedValue: 30
-    }
-  },
-  {
+{
     id: "roundup",
     title: "Force Upward: ROUNDUP",
     category: "math",
@@ -1199,7 +493,7 @@ export const mathStatsLessons = [
       expectedValue: 11
     }
   },
-  {
+{
     id: "rounddown",
     title: "Force Numbers Down: ROUNDDOWN Function",
     category: "math",
@@ -1273,7 +567,7 @@ export const mathStatsLessons = [
       expectedValue: 10
     }
   },
-  {
+{
     id: "int",
     title: "The Integer Extractor: INT Function",
     category: "math",
@@ -1343,7 +637,7 @@ export const mathStatsLessons = [
       expectedValue: 5
     }
   },
-  {
+{
     id: "mod",
     title: "The Remainder Finder: MOD Function",
     category: "math",
@@ -1427,7 +721,7 @@ export const mathStatsLessons = [
       expectedValue: 1
     }
   },
-  {
+{
     id: "product",
     title: "Multiply Everything: PRODUCT Function",
     category: "math",
@@ -1484,7 +778,7 @@ export const mathStatsLessons = [
       expectedValue: 50
     }
   },
-  {
+{
     id: "sqrt",
     title: "Root of the Matter: SQRT Function",
     category: "math",
@@ -1539,7 +833,7 @@ export const mathStatsLessons = [
       expectedValue: 5
     }
   },
-  {
+{
     id: "sumsq",
     title: "Sum of Squares: SUMSQ Function",
     category: "math",
@@ -1621,7 +915,7 @@ export const mathStatsLessons = [
       [8, 15, "=SUMSQ(A4:B4)"]
     ]
   },
-  {
+{
     id: "sumxmy2",
     title: "Difference Squared: SUMXMY2 Function",
     category: "math",
@@ -1693,7 +987,7 @@ export const mathStatsLessons = [
       ["Total SSE", "", "=SUMXMY2(A2:A3, B2:B3)"]
     ]
   },
-  {
+{
     id: "sumx2my2",
     title: "Difference of Squares: SUMX2MY2 Function",
     category: "math",
@@ -1753,7 +1047,7 @@ export const mathStatsLessons = [
       expectedValue: 16
     }
   },
-  {
+{
     id: "ceiling",
     title: "Round Up to Significance: CEILING Function",
     category: "math",
@@ -1827,7 +1121,7 @@ export const mathStatsLessons = [
       expectedValue: 3
     }
   },
-  {
+{
     id: "combin",
     title: "Count Combinations: COMBIN Function",
     category: "math",
@@ -1889,7 +1183,7 @@ export const mathStatsLessons = [
       expectedValue: 56
     }
   },
-  {
+{
     id: "combina",
     title: "Combinations With Repetition: COMBINA Function",
     category: "math",
@@ -1950,7 +1244,7 @@ export const mathStatsLessons = [
       expectedValue: 35
     }
   },
-  {
+{
     id: "decimal",
     title: "Convert Text to Number Base: DECIMAL Function",
     category: "math",
@@ -2007,7 +1301,7 @@ export const mathStatsLessons = [
       expectedValue: 13
     }
   },
-  {
+{
     id: "even",
     title: "Round to Nearest Even Integer: EVEN Function",
     category: "math",
@@ -2070,7 +1364,7 @@ export const mathStatsLessons = [
       expectedValue: 8
     }
   },
-  {
+{
     id: "exp",
     title: "The Exponential Function: EXP Function",
     category: "math",
@@ -2121,7 +1415,7 @@ export const mathStatsLessons = [
       expectedValue: 2.71828182845904
     }
   },
-  {
+{
     id: "fact",
     title: "The Factorial Factory: FACT Function",
     category: "math",
@@ -2179,7 +1473,7 @@ export const mathStatsLessons = [
       expectedValue: 120
     }
   },
-  {
+{
     id: "factdouble",
     title: "Double Factorial: FACTDOUBLE Function",
     category: "math",
@@ -2222,7 +1516,7 @@ export const mathStatsLessons = [
       expectedValue: 15
     }
   },
-  {
+{
     id: "floor",
     title: "Round Down to Significance: FLOOR Function",
     category: "math",
@@ -2267,7 +1561,7 @@ export const mathStatsLessons = [
       expectedValue: 85
     }
   },
-  {
+{
     id: "gcd",
     title: "Greatest Common Divisor: GCD Function",
     category: "math",
@@ -2322,7 +1616,7 @@ export const mathStatsLessons = [
       expectedValue: 12
     }
   },
-  {
+{
     id: "iso.ceiling",
     title: "ISO-Compliant Ceiling: ISO.CEILING Function",
     category: "math",
@@ -2370,7 +1664,7 @@ export const mathStatsLessons = [
       expectedValue: -5
     }
   },
-  {
+{
     id: "lcm",
     title: "Least Common Multiple: LCM Function",
     category: "math",
@@ -2422,7 +1716,7 @@ export const mathStatsLessons = [
       expectedValue: 60
     }
   },
-  {
+{
     id: "ln",
     title: "Natural Logarithm: LN Function",
     category: "math",
@@ -2469,7 +1763,7 @@ export const mathStatsLessons = [
       expectedValue: 0
     }
   },
-  {
+{
     id: "log",
     title: "Logarithm to Any Base: LOG Function",
     category: "math",
@@ -2513,7 +1807,7 @@ export const mathStatsLessons = [
       expectedValue: 3
     }
   },
-  {
+{
     id: "log10",
     title: "Base-10 Logarithm: LOG10 Function",
     category: "math",
@@ -2558,7 +1852,7 @@ export const mathStatsLessons = [
       expectedValue: 3
     }
   },
-  {
+{
     id: "mround",
     title: "Round to Nearest Multiple: MROUND Function",
     category: "math",
@@ -2606,7 +1900,7 @@ export const mathStatsLessons = [
       expectedValue: 45
     }
   },
-  {
+{
     id: "multinomial",
     title: "Multinomial Coefficient: MULTINOMIAL Function",
     category: "math",
@@ -2655,7 +1949,7 @@ export const mathStatsLessons = [
       expectedValue: 1260
     }
   },
-  {
+{
     id: "odd",
     title: "Round to Nearest Odd Integer: ODD Function",
     category: "math",
@@ -2699,7 +1993,7 @@ export const mathStatsLessons = [
       expectedValue: 13
     }
   },
-  {
+{
     id: "pi",
     title: "The Circle Constant: PI Function",
     category: "math",
@@ -2757,7 +2051,7 @@ export const mathStatsLessons = [
       expectedValue: 78.5398163397448
     }
   },
-  {
+{
     id: "power",
     title: "Raise to a Power: POWER Function",
     category: "math",
@@ -2815,7 +2109,7 @@ export const mathStatsLessons = [
       expectedValue: 27
     }
   },
-  {
+{
     id: "quotient",
     title: "Integer Division: QUOTIENT Function",
     category: "math",
@@ -2863,7 +2157,7 @@ export const mathStatsLessons = [
       expectedValue: 2
     }
   },
-  {
+{
     id: "rand",
     title: "Random Number Generator: RAND Function",
     category: "math",
@@ -2914,7 +2208,7 @@ export const mathStatsLessons = [
       expectedValue: 0.5
     }
   },
-  {
+{
     id: "randbetween",
     title: "Random Integer Between Bounds: RANDBETWEEN Function",
     category: "math",
@@ -2961,7 +2255,7 @@ export const mathStatsLessons = [
       expectedValue: 75
     }
   },
-  {
+{
     id: "roman",
     title: "Convert to Roman Numerals: ROMAN Function",
     category: "math",
@@ -3008,7 +2302,7 @@ export const mathStatsLessons = [
       expectedValue: "MMXXIV"
     }
   },
-  {
+{
     id: "sequence",
     title: "Generate Number Sequences: SEQUENCE Function",
     category: "math",
@@ -3057,7 +2351,7 @@ export const mathStatsLessons = [
       expectedValue: 1
     }
   },
-  {
+{
     id: "seriessum",
     title: "Sum of a Power Series: SERIESSUM Function",
     category: "math",
@@ -3109,7 +2403,7 @@ export const mathStatsLessons = [
       expectedValue: 12
     }
   },
-  {
+{
     id: "sign",
     title: "Determine the Sign: SIGN Function",
     category: "math",
@@ -3156,7 +2450,7 @@ export const mathStatsLessons = [
       expectedValue: -1
     }
   },
-  {
+{
     id: "sqrtpi",
     title: "Square Root of Pi Times Number: SQRTPI Function",
     category: "math",
@@ -3204,7 +2498,7 @@ export const mathStatsLessons = [
       expectedValue: 2.506628274631
     }
   },
-  {
+{
     id: "subtotal",
     title: "Aggregate with Control: SUBTOTAL Function",
     category: "math",
@@ -3259,7 +2553,7 @@ export const mathStatsLessons = [
       expectedValue: 1000
     }
   },
-  {
+{
     id: "trunc",
     title: "Truncate to Precision: TRUNC Function",
     category: "math",
@@ -3316,7 +2610,7 @@ export const mathStatsLessons = [
       expectedValue: 45
     }
   },
-  {
+{
     id: "sumx2py2",
     title: "Sum of Squares: SUMX2PY2 Function",
     category: "math",
@@ -3376,4 +2670,6939 @@ export const mathStatsLessons = [
       expectedValue: 30
     }
   },
+{
+  "id": "avedev",
+  "title": "AVEDEV Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "AVEDEV Function",
+    "description": "Calculates the average of the absolute deviations of data points from their mean.",
+    "concept": "statistical analysis: \"Utilize AVEDEV for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like AVEDEV allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use AVEDEV when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with AVEDEV.",
+    "Scientific data modeling using AVEDEV."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the AVEDEV.",
+    "formula": "=AVEDEV(A2:A10)"
+  },
+  "syntax": "=AVEDEV(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "AVEDEV is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the AVEDEV function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "AVEDEV(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "average",
+  "title": "AVERAGE Function",
+  "category": "statistical",
+  "difficulty": "Beginner",
+  "xp": 150,
+  "introduction": {
+    "title": "AVERAGE Function",
+    "description": "Calculates the arithmetic mean of a set of numbers.",
+    "concept": "statistical analysis: \"Utilize AVERAGE for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like AVERAGE allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use AVERAGE when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with AVERAGE.",
+    "Scientific data modeling using AVERAGE."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the AVERAGE.",
+    "formula": "=AVERAGE(A2:A10)"
+  },
+  "syntax": "=AVERAGE(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "AVERAGE is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the AVERAGE function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "AVERAGE(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "averagea",
+  "title": "AVERAGEA Function",
+  "category": "statistical",
+  "difficulty": "Beginner",
+  "xp": 150,
+  "introduction": {
+    "title": "AVERAGEA Function",
+    "description": "Calculates the average of values, including text (evaluated as 0) and logical values.",
+    "concept": "statistical analysis: \"Utilize AVERAGEA for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like AVERAGEA allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use AVERAGEA when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with AVERAGEA.",
+    "Scientific data modeling using AVERAGEA."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the AVERAGEA.",
+    "formula": "=AVERAGEA(A2:A10)"
+  },
+  "syntax": "=AVERAGEA(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "AVERAGEA is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the AVERAGEA function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "AVERAGEA(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "averageif",
+  "title": "AVERAGEIF Function",
+  "category": "statistical",
+  "difficulty": "Beginner",
+  "xp": 150,
+  "introduction": {
+    "title": "AVERAGEIF Function",
+    "description": "Calculates the average of numbers in a range that meet a specified condition.",
+    "concept": "statistical analysis: \"Utilize AVERAGEIF for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like AVERAGEIF allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use AVERAGEIF when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with AVERAGEIF.",
+    "Scientific data modeling using AVERAGEIF."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the AVERAGEIF.",
+    "formula": "=AVERAGEIF(A2:A10)"
+  },
+  "syntax": "=AVERAGEIF(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "AVERAGEIF is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the AVERAGEIF function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "AVERAGEIF(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "averageifs",
+  "title": "AVERAGEIFS Function",
+  "category": "statistical",
+  "difficulty": "Beginner",
+  "xp": 150,
+  "introduction": {
+    "title": "AVERAGEIFS Function",
+    "description": "Calculates the average of numbers that meet multiple conditions simultaneously.",
+    "concept": "statistical analysis: \"Utilize AVERAGEIFS for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like AVERAGEIFS allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use AVERAGEIFS when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with AVERAGEIFS.",
+    "Scientific data modeling using AVERAGEIFS."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the AVERAGEIFS.",
+    "formula": "=AVERAGEIFS(A2:A10)"
+  },
+  "syntax": "=AVERAGEIFS(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "AVERAGEIFS is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the AVERAGEIFS function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "AVERAGEIFS(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "beta.dist",
+  "title": "BETA.DIST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "BETA.DIST Function",
+    "description": "Returns the beta probability distribution.",
+    "concept": "statistical analysis: \"Utilize BETA.DIST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like BETA.DIST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use BETA.DIST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with BETA.DIST.",
+    "Scientific data modeling using BETA.DIST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the BETA.DIST.",
+    "formula": "=BETA.DIST(A2:A10)"
+  },
+  "syntax": "=BETA.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "BETA.DIST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the BETA.DIST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "BETA.DIST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "beta.inv",
+  "title": "BETA.INV Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "BETA.INV Function",
+    "description": "Returns the inverse of the beta cumulative distribution.",
+    "concept": "statistical analysis: \"Utilize BETA.INV for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like BETA.INV allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use BETA.INV when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with BETA.INV.",
+    "Scientific data modeling using BETA.INV."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the BETA.INV.",
+    "formula": "=BETA.INV(A2:A10)"
+  },
+  "syntax": "=BETA.INV(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "BETA.INV is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the BETA.INV function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "BETA.INV(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "binom.dist",
+  "title": "BINOM.DIST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "BINOM.DIST Function",
+    "description": "Returns the binomial distribution probability.",
+    "concept": "statistical analysis: \"Utilize BINOM.DIST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like BINOM.DIST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use BINOM.DIST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with BINOM.DIST.",
+    "Scientific data modeling using BINOM.DIST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the BINOM.DIST.",
+    "formula": "=BINOM.DIST(A2:A10)"
+  },
+  "syntax": "=BINOM.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "BINOM.DIST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the BINOM.DIST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "BINOM.DIST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "binom.inv",
+  "title": "BINOM.INV Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "BINOM.INV Function",
+    "description": "Returns the smallest number of successes for which the cumulative binomial distribution is >= alpha.",
+    "concept": "statistical analysis: \"Utilize BINOM.INV for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like BINOM.INV allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use BINOM.INV when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with BINOM.INV.",
+    "Scientific data modeling using BINOM.INV."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the BINOM.INV.",
+    "formula": "=BINOM.INV(A2:A10)"
+  },
+  "syntax": "=BINOM.INV(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "BINOM.INV is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the BINOM.INV function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "BINOM.INV(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "chisq.dist",
+  "title": "CHISQ.DIST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "CHISQ.DIST Function",
+    "description": "Returns the chi-square distribution.",
+    "concept": "statistical analysis: \"Utilize CHISQ.DIST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like CHISQ.DIST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use CHISQ.DIST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with CHISQ.DIST.",
+    "Scientific data modeling using CHISQ.DIST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the CHISQ.DIST.",
+    "formula": "=CHISQ.DIST(A2:A10)"
+  },
+  "syntax": "=CHISQ.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "CHISQ.DIST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the CHISQ.DIST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "CHISQ.DIST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "chisq.inv",
+  "title": "CHISQ.INV Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "CHISQ.INV Function",
+    "description": "Returns the inverse of the left-tailed chi-square cumulative distribution.",
+    "concept": "statistical analysis: \"Utilize CHISQ.INV for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like CHISQ.INV allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use CHISQ.INV when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with CHISQ.INV.",
+    "Scientific data modeling using CHISQ.INV."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the CHISQ.INV.",
+    "formula": "=CHISQ.INV(A2:A10)"
+  },
+  "syntax": "=CHISQ.INV(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "CHISQ.INV is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the CHISQ.INV function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "CHISQ.INV(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "chisq.test",
+  "title": "CHISQ.TEST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "CHISQ.TEST Function",
+    "description": "Performs a chi-square test of independence.",
+    "concept": "statistical analysis: \"Utilize CHISQ.TEST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like CHISQ.TEST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use CHISQ.TEST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with CHISQ.TEST.",
+    "Scientific data modeling using CHISQ.TEST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the CHISQ.TEST.",
+    "formula": "=CHISQ.TEST(A2:A10)"
+  },
+  "syntax": "=CHISQ.TEST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "CHISQ.TEST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the CHISQ.TEST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "CHISQ.TEST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "confidence.norm",
+  "title": "CONFIDENCE.NORM Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "CONFIDENCE.NORM Function",
+    "description": "Returns the margin of error for a confidence interval using normal distribution.",
+    "concept": "statistical analysis: \"Utilize CONFIDENCE.NORM for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like CONFIDENCE.NORM allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use CONFIDENCE.NORM when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with CONFIDENCE.NORM.",
+    "Scientific data modeling using CONFIDENCE.NORM."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the CONFIDENCE.NORM.",
+    "formula": "=CONFIDENCE.NORM(A2:A10)"
+  },
+  "syntax": "=CONFIDENCE.NORM(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "CONFIDENCE.NORM is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the CONFIDENCE.NORM function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "CONFIDENCE.NORM(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "confidence.t",
+  "title": "CONFIDENCE.T Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "CONFIDENCE.T Function",
+    "description": "Returns the margin of error for a confidence interval using Student's t-distribution.",
+    "concept": "statistical analysis: \"Utilize CONFIDENCE.T for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like CONFIDENCE.T allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use CONFIDENCE.T when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with CONFIDENCE.T.",
+    "Scientific data modeling using CONFIDENCE.T."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the CONFIDENCE.T.",
+    "formula": "=CONFIDENCE.T(A2:A10)"
+  },
+  "syntax": "=CONFIDENCE.T(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "CONFIDENCE.T is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the CONFIDENCE.T function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "CONFIDENCE.T(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "correl",
+  "title": "CORREL Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "CORREL Function",
+    "description": "Calculates the Pearson correlation coefficient between two sets of data.",
+    "concept": "statistical analysis: \"Utilize CORREL for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like CORREL allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use CORREL when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with CORREL.",
+    "Scientific data modeling using CORREL."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the CORREL.",
+    "formula": "=CORREL(A2:A10)"
+  },
+  "syntax": "=CORREL(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "CORREL is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the CORREL function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "CORREL(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "count",
+  "title": "COUNT Function",
+  "category": "statistical",
+  "difficulty": "Beginner",
+  "xp": 150,
+  "introduction": {
+    "title": "COUNT Function",
+    "description": "Counts the number of cells in a range that contain numbers.",
+    "concept": "statistical analysis: \"Utilize COUNT for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like COUNT allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use COUNT when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with COUNT.",
+    "Scientific data modeling using COUNT."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the COUNT.",
+    "formula": "=COUNT(A2:A10)"
+  },
+  "syntax": "=COUNT(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "COUNT is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the COUNT function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "COUNT(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "counta",
+  "title": "COUNTA Function",
+  "category": "statistical",
+  "difficulty": "Beginner",
+  "xp": 150,
+  "introduction": {
+    "title": "COUNTA Function",
+    "description": "Counts the number of cells that are not empty.",
+    "concept": "statistical analysis: \"Utilize COUNTA for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like COUNTA allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use COUNTA when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with COUNTA.",
+    "Scientific data modeling using COUNTA."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the COUNTA.",
+    "formula": "=COUNTA(A2:A10)"
+  },
+  "syntax": "=COUNTA(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "COUNTA is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the COUNTA function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "COUNTA(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "countblank",
+  "title": "COUNTBLANK Function",
+  "category": "statistical",
+  "difficulty": "Beginner",
+  "xp": 150,
+  "introduction": {
+    "title": "COUNTBLANK Function",
+    "description": "Counts the number of empty cells in a range.",
+    "concept": "statistical analysis: \"Utilize COUNTBLANK for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like COUNTBLANK allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use COUNTBLANK when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with COUNTBLANK.",
+    "Scientific data modeling using COUNTBLANK."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the COUNTBLANK.",
+    "formula": "=COUNTBLANK(A2:A10)"
+  },
+  "syntax": "=COUNTBLANK(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "COUNTBLANK is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the COUNTBLANK function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "COUNTBLANK(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "countif",
+  "title": "COUNTIF Function",
+  "category": "statistical",
+  "difficulty": "Beginner",
+  "xp": 150,
+  "introduction": {
+    "title": "COUNTIF Function",
+    "description": "Counts the number of cells in a range that meet a specified condition.",
+    "concept": "statistical analysis: \"Utilize COUNTIF for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like COUNTIF allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use COUNTIF when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with COUNTIF.",
+    "Scientific data modeling using COUNTIF."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the COUNTIF.",
+    "formula": "=COUNTIF(A2:A10)"
+  },
+  "syntax": "=COUNTIF(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "COUNTIF is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the COUNTIF function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "COUNTIF(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "countifs",
+  "title": "COUNTIFS Function",
+  "category": "statistical",
+  "difficulty": "Beginner",
+  "xp": 150,
+  "introduction": {
+    "title": "COUNTIFS Function",
+    "description": "Counts the number of cells that meet multiple conditions.",
+    "concept": "statistical analysis: \"Utilize COUNTIFS for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like COUNTIFS allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use COUNTIFS when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with COUNTIFS.",
+    "Scientific data modeling using COUNTIFS."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the COUNTIFS.",
+    "formula": "=COUNTIFS(A2:A10)"
+  },
+  "syntax": "=COUNTIFS(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "COUNTIFS is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the COUNTIFS function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "COUNTIFS(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "covariance.p",
+  "title": "COVARIANCE.P Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "COVARIANCE.P Function",
+    "description": "Calculates the population covariance.",
+    "concept": "statistical analysis: \"Utilize COVARIANCE.P for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like COVARIANCE.P allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use COVARIANCE.P when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with COVARIANCE.P.",
+    "Scientific data modeling using COVARIANCE.P."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the COVARIANCE.P.",
+    "formula": "=COVARIANCE.P(A2:A10)"
+  },
+  "syntax": "=COVARIANCE.P(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "COVARIANCE.P is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the COVARIANCE.P function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "COVARIANCE.P(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "covariance.s",
+  "title": "COVARIANCE.S Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "COVARIANCE.S Function",
+    "description": "Calculates the sample covariance.",
+    "concept": "statistical analysis: \"Utilize COVARIANCE.S for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like COVARIANCE.S allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use COVARIANCE.S when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with COVARIANCE.S.",
+    "Scientific data modeling using COVARIANCE.S."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the COVARIANCE.S.",
+    "formula": "=COVARIANCE.S(A2:A10)"
+  },
+  "syntax": "=COVARIANCE.S(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "COVARIANCE.S is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the COVARIANCE.S function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "COVARIANCE.S(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "devsq",
+  "title": "DEVSQ Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "DEVSQ Function",
+    "description": "Returns the sum of the squared deviations of data points from their mean.",
+    "concept": "statistical analysis: \"Utilize DEVSQ for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like DEVSQ allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use DEVSQ when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with DEVSQ.",
+    "Scientific data modeling using DEVSQ."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the DEVSQ.",
+    "formula": "=DEVSQ(A2:A10)"
+  },
+  "syntax": "=DEVSQ(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "DEVSQ is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the DEVSQ function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "DEVSQ(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "expon.dist",
+  "title": "EXPON.DIST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "EXPON.DIST Function",
+    "description": "Returns the exponential distribution.",
+    "concept": "statistical analysis: \"Utilize EXPON.DIST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like EXPON.DIST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use EXPON.DIST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with EXPON.DIST.",
+    "Scientific data modeling using EXPON.DIST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the EXPON.DIST.",
+    "formula": "=EXPON.DIST(A2:A10)"
+  },
+  "syntax": "=EXPON.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "EXPON.DIST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the EXPON.DIST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "EXPON.DIST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "f.dist",
+  "title": "F.DIST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "F.DIST Function",
+    "description": "Returns the F-distribution.",
+    "concept": "statistical analysis: \"Utilize F.DIST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like F.DIST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use F.DIST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with F.DIST.",
+    "Scientific data modeling using F.DIST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the F.DIST.",
+    "formula": "=F.DIST(A2:A10)"
+  },
+  "syntax": "=F.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "F.DIST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the F.DIST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "F.DIST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "f.inv",
+  "title": "F.INV Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "F.INV Function",
+    "description": "Returns the inverse of the F cumulative distribution.",
+    "concept": "statistical analysis: \"Utilize F.INV for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like F.INV allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use F.INV when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with F.INV.",
+    "Scientific data modeling using F.INV."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the F.INV.",
+    "formula": "=F.INV(A2:A10)"
+  },
+  "syntax": "=F.INV(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "F.INV is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the F.INV function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "F.INV(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "f.test",
+  "title": "F.TEST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "F.TEST Function",
+    "description": "Performs an F-test to compare the variances of two samples.",
+    "concept": "statistical analysis: \"Utilize F.TEST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like F.TEST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use F.TEST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with F.TEST.",
+    "Scientific data modeling using F.TEST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the F.TEST.",
+    "formula": "=F.TEST(A2:A10)"
+  },
+  "syntax": "=F.TEST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "F.TEST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the F.TEST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "F.TEST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "fisher",
+  "title": "FISHER Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "FISHER Function",
+    "description": "Returns the Fisher transformation of a correlation coefficient.",
+    "concept": "statistical analysis: \"Utilize FISHER for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like FISHER allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use FISHER when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with FISHER.",
+    "Scientific data modeling using FISHER."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the FISHER.",
+    "formula": "=FISHER(A2:A10)"
+  },
+  "syntax": "=FISHER(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "FISHER is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the FISHER function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "FISHER(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "fisherinv",
+  "title": "FISHERINV Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "FISHERINV Function",
+    "description": "Returns the inverse of the Fisher transformation.",
+    "concept": "statistical analysis: \"Utilize FISHERINV for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like FISHERINV allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use FISHERINV when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with FISHERINV.",
+    "Scientific data modeling using FISHERINV."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the FISHERINV.",
+    "formula": "=FISHERINV(A2:A10)"
+  },
+  "syntax": "=FISHERINV(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "FISHERINV is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the FISHERINV function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "FISHERINV(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "forecast",
+  "title": "FORECAST Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "FORECAST Function",
+    "description": "Predicts a future y-value based on existing x and y data using linear regression.",
+    "concept": "statistical analysis: \"Utilize FORECAST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like FORECAST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use FORECAST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with FORECAST.",
+    "Scientific data modeling using FORECAST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the FORECAST.",
+    "formula": "=FORECAST(A2:A10)"
+  },
+  "syntax": "=FORECAST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "FORECAST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the FORECAST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "FORECAST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "frequency",
+  "title": "FREQUENCY Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "FREQUENCY Function",
+    "description": "Calculates how often values occur within specified ranges (bins).",
+    "concept": "statistical analysis: \"Utilize FREQUENCY for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like FREQUENCY allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use FREQUENCY when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with FREQUENCY.",
+    "Scientific data modeling using FREQUENCY."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the FREQUENCY.",
+    "formula": "=FREQUENCY(A2:A10)"
+  },
+  "syntax": "=FREQUENCY(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "FREQUENCY is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the FREQUENCY function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "FREQUENCY(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "gamma",
+  "title": "GAMMA Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "GAMMA Function",
+    "description": "Returns the gamma function evaluated at a given value.",
+    "concept": "statistical analysis: \"Utilize GAMMA for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like GAMMA allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use GAMMA when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with GAMMA.",
+    "Scientific data modeling using GAMMA."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the GAMMA.",
+    "formula": "=GAMMA(A2:A10)"
+  },
+  "syntax": "=GAMMA(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "GAMMA is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the GAMMA function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "GAMMA(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "gamma.dist",
+  "title": "GAMMA.DIST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "GAMMA.DIST Function",
+    "description": "Returns the gamma distribution.",
+    "concept": "statistical analysis: \"Utilize GAMMA.DIST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like GAMMA.DIST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use GAMMA.DIST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with GAMMA.DIST.",
+    "Scientific data modeling using GAMMA.DIST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the GAMMA.DIST.",
+    "formula": "=GAMMA.DIST(A2:A10)"
+  },
+  "syntax": "=GAMMA.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "GAMMA.DIST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the GAMMA.DIST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "GAMMA.DIST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "gamma.inv",
+  "title": "GAMMA.INV Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "GAMMA.INV Function",
+    "description": "Returns the inverse of the gamma cumulative distribution.",
+    "concept": "statistical analysis: \"Utilize GAMMA.INV for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like GAMMA.INV allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use GAMMA.INV when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with GAMMA.INV.",
+    "Scientific data modeling using GAMMA.INV."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the GAMMA.INV.",
+    "formula": "=GAMMA.INV(A2:A10)"
+  },
+  "syntax": "=GAMMA.INV(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "GAMMA.INV is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the GAMMA.INV function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "GAMMA.INV(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "gammaln",
+  "title": "GAMMALN Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "GAMMALN Function",
+    "description": "Returns the natural logarithm of the gamma function.",
+    "concept": "statistical analysis: \"Utilize GAMMALN for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like GAMMALN allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use GAMMALN when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with GAMMALN.",
+    "Scientific data modeling using GAMMALN."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the GAMMALN.",
+    "formula": "=GAMMALN(A2:A10)"
+  },
+  "syntax": "=GAMMALN(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "GAMMALN is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the GAMMALN function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "GAMMALN(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "gauss",
+  "title": "GAUSS Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "GAUSS Function",
+    "description": "Returns the probability that a standard normal variable falls between the mean and z deviations.",
+    "concept": "statistical analysis: \"Utilize GAUSS for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like GAUSS allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use GAUSS when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with GAUSS.",
+    "Scientific data modeling using GAUSS."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the GAUSS.",
+    "formula": "=GAUSS(A2:A10)"
+  },
+  "syntax": "=GAUSS(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "GAUSS is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the GAUSS function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "GAUSS(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "geomean",
+  "title": "GEOMEAN Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "GEOMEAN Function",
+    "description": "Calculates the geometric mean of positive numbers.",
+    "concept": "statistical analysis: \"Utilize GEOMEAN for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like GEOMEAN allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use GEOMEAN when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with GEOMEAN.",
+    "Scientific data modeling using GEOMEAN."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the GEOMEAN.",
+    "formula": "=GEOMEAN(A2:A10)"
+  },
+  "syntax": "=GEOMEAN(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "GEOMEAN is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the GEOMEAN function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "GEOMEAN(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "growth",
+  "title": "GROWTH Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "GROWTH Function",
+    "description": "Fits an exponential curve to existing data and returns predicted y-values.",
+    "concept": "statistical analysis: \"Utilize GROWTH for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like GROWTH allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use GROWTH when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with GROWTH.",
+    "Scientific data modeling using GROWTH."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the GROWTH.",
+    "formula": "=GROWTH(A2:A10)"
+  },
+  "syntax": "=GROWTH(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "GROWTH is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the GROWTH function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "GROWTH(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "harmean",
+  "title": "HARMEAN Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "HARMEAN Function",
+    "description": "Calculates the harmonic mean of positive numbers.",
+    "concept": "statistical analysis: \"Utilize HARMEAN for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like HARMEAN allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use HARMEAN when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with HARMEAN.",
+    "Scientific data modeling using HARMEAN."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the HARMEAN.",
+    "formula": "=HARMEAN(A2:A10)"
+  },
+  "syntax": "=HARMEAN(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "HARMEAN is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the HARMEAN function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "HARMEAN(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "hypgeom.dist",
+  "title": "HYPGEOM.DIST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "HYPGEOM.DIST Function",
+    "description": "Returns the hypergeometric distribution.",
+    "concept": "statistical analysis: \"Utilize HYPGEOM.DIST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like HYPGEOM.DIST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use HYPGEOM.DIST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with HYPGEOM.DIST.",
+    "Scientific data modeling using HYPGEOM.DIST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the HYPGEOM.DIST.",
+    "formula": "=HYPGEOM.DIST(A2:A10)"
+  },
+  "syntax": "=HYPGEOM.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "HYPGEOM.DIST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the HYPGEOM.DIST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "HYPGEOM.DIST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "intercept",
+  "title": "INTERCEPT Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "INTERCEPT Function",
+    "description": "Calculates the y-intercept of the linear regression line.",
+    "concept": "statistical analysis: \"Utilize INTERCEPT for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like INTERCEPT allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use INTERCEPT when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with INTERCEPT.",
+    "Scientific data modeling using INTERCEPT."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the INTERCEPT.",
+    "formula": "=INTERCEPT(A2:A10)"
+  },
+  "syntax": "=INTERCEPT(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "INTERCEPT is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the INTERCEPT function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "INTERCEPT(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "kurt",
+  "title": "KURT Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "KURT Function",
+    "description": "Calculates the excess kurtosis of a dataset.",
+    "concept": "statistical analysis: \"Utilize KURT for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like KURT allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use KURT when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with KURT.",
+    "Scientific data modeling using KURT."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the KURT.",
+    "formula": "=KURT(A2:A10)"
+  },
+  "syntax": "=KURT(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "KURT is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the KURT function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "KURT(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "large",
+  "title": "LARGE Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "LARGE Function",
+    "description": "Returns the kth largest value in a dataset.",
+    "concept": "statistical analysis: \"Utilize LARGE for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like LARGE allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use LARGE when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with LARGE.",
+    "Scientific data modeling using LARGE."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the LARGE.",
+    "formula": "=LARGE(A2:A10)"
+  },
+  "syntax": "=LARGE(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "LARGE is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the LARGE function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "LARGE(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "linest",
+  "title": "LINEST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "LINEST Function",
+    "description": "Performs linear regression and returns an array of statistics.",
+    "concept": "statistical analysis: \"Utilize LINEST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like LINEST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use LINEST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with LINEST.",
+    "Scientific data modeling using LINEST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the LINEST.",
+    "formula": "=LINEST(A2:A10)"
+  },
+  "syntax": "=LINEST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "LINEST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the LINEST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "LINEST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "logest",
+  "title": "LOGEST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "LOGEST Function",
+    "description": "Fits an exponential curve and returns the regression statistics.",
+    "concept": "statistical analysis: \"Utilize LOGEST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like LOGEST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use LOGEST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with LOGEST.",
+    "Scientific data modeling using LOGEST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the LOGEST.",
+    "formula": "=LOGEST(A2:A10)"
+  },
+  "syntax": "=LOGEST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "LOGEST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the LOGEST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "LOGEST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "lognorm.dist",
+  "title": "LOGNORM.DIST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "LOGNORM.DIST Function",
+    "description": "Returns the lognormal distribution.",
+    "concept": "statistical analysis: \"Utilize LOGNORM.DIST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like LOGNORM.DIST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use LOGNORM.DIST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with LOGNORM.DIST.",
+    "Scientific data modeling using LOGNORM.DIST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the LOGNORM.DIST.",
+    "formula": "=LOGNORM.DIST(A2:A10)"
+  },
+  "syntax": "=LOGNORM.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "LOGNORM.DIST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the LOGNORM.DIST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "LOGNORM.DIST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "lognorm.inv",
+  "title": "LOGNORM.INV Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "LOGNORM.INV Function",
+    "description": "Returns the inverse of the lognormal cumulative distribution.",
+    "concept": "statistical analysis: \"Utilize LOGNORM.INV for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like LOGNORM.INV allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use LOGNORM.INV when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with LOGNORM.INV.",
+    "Scientific data modeling using LOGNORM.INV."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the LOGNORM.INV.",
+    "formula": "=LOGNORM.INV(A2:A10)"
+  },
+  "syntax": "=LOGNORM.INV(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "LOGNORM.INV is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the LOGNORM.INV function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "LOGNORM.INV(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "max",
+  "title": "MAX Function",
+  "category": "statistical",
+  "difficulty": "Beginner",
+  "xp": 150,
+  "introduction": {
+    "title": "MAX Function",
+    "description": "Returns the largest numeric value in a set of numbers.",
+    "concept": "statistical analysis: \"Utilize MAX for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like MAX allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use MAX when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with MAX.",
+    "Scientific data modeling using MAX."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the MAX.",
+    "formula": "=MAX(A2:A10)"
+  },
+  "syntax": "=MAX(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "MAX is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the MAX function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "MAX(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "maxa",
+  "title": "MAXA Function",
+  "category": "statistical",
+  "difficulty": "Beginner",
+  "xp": 150,
+  "introduction": {
+    "title": "MAXA Function",
+    "description": "Returns the largest value, including logical values and text.",
+    "concept": "statistical analysis: \"Utilize MAXA for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like MAXA allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use MAXA when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with MAXA.",
+    "Scientific data modeling using MAXA."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the MAXA.",
+    "formula": "=MAXA(A2:A10)"
+  },
+  "syntax": "=MAXA(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "MAXA is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the MAXA function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "MAXA(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "median",
+  "title": "MEDIAN Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "MEDIAN Function",
+    "description": "Returns the middle value when data is sorted.",
+    "concept": "statistical analysis: \"Utilize MEDIAN for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like MEDIAN allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use MEDIAN when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with MEDIAN.",
+    "Scientific data modeling using MEDIAN."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the MEDIAN.",
+    "formula": "=MEDIAN(A2:A10)"
+  },
+  "syntax": "=MEDIAN(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "MEDIAN is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the MEDIAN function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "MEDIAN(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "min",
+  "title": "MIN Function",
+  "category": "statistical",
+  "difficulty": "Beginner",
+  "xp": 150,
+  "introduction": {
+    "title": "MIN Function",
+    "description": "Returns the smallest numeric value in a set.",
+    "concept": "statistical analysis: \"Utilize MIN for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like MIN allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use MIN when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with MIN.",
+    "Scientific data modeling using MIN."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the MIN.",
+    "formula": "=MIN(A2:A10)"
+  },
+  "syntax": "=MIN(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "MIN is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the MIN function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "MIN(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "mina",
+  "title": "MINA Function",
+  "category": "statistical",
+  "difficulty": "Beginner",
+  "xp": 150,
+  "introduction": {
+    "title": "MINA Function",
+    "description": "Returns the smallest value, including logical values and text.",
+    "concept": "statistical analysis: \"Utilize MINA for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like MINA allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use MINA when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with MINA.",
+    "Scientific data modeling using MINA."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the MINA.",
+    "formula": "=MINA(A2:A10)"
+  },
+  "syntax": "=MINA(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "MINA is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the MINA function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "MINA(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "mode.mult",
+  "title": "MODE.MULT Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "MODE.MULT Function",
+    "description": "Returns a vertical array of all modes in a dataset.",
+    "concept": "statistical analysis: \"Utilize MODE.MULT for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like MODE.MULT allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use MODE.MULT when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with MODE.MULT.",
+    "Scientific data modeling using MODE.MULT."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the MODE.MULT.",
+    "formula": "=MODE.MULT(A2:A10)"
+  },
+  "syntax": "=MODE.MULT(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "MODE.MULT is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the MODE.MULT function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "MODE.MULT(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "mode.sngl",
+  "title": "MODE.SNGL Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "MODE.SNGL Function",
+    "description": "Returns the most frequently occurring value in a dataset.",
+    "concept": "statistical analysis: \"Utilize MODE.SNGL for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like MODE.SNGL allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use MODE.SNGL when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with MODE.SNGL.",
+    "Scientific data modeling using MODE.SNGL."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the MODE.SNGL.",
+    "formula": "=MODE.SNGL(A2:A10)"
+  },
+  "syntax": "=MODE.SNGL(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "MODE.SNGL is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the MODE.SNGL function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "MODE.SNGL(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "negbinom.dist",
+  "title": "NEGBINOM.DIST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "NEGBINOM.DIST Function",
+    "description": "Returns the negative binomial distribution.",
+    "concept": "statistical analysis: \"Utilize NEGBINOM.DIST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like NEGBINOM.DIST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use NEGBINOM.DIST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with NEGBINOM.DIST.",
+    "Scientific data modeling using NEGBINOM.DIST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the NEGBINOM.DIST.",
+    "formula": "=NEGBINOM.DIST(A2:A10)"
+  },
+  "syntax": "=NEGBINOM.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "NEGBINOM.DIST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the NEGBINOM.DIST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "NEGBINOM.DIST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "norm.dist",
+  "title": "NORM.DIST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "NORM.DIST Function",
+    "description": "Returns the normal distribution for a specified mean and standard deviation.",
+    "concept": "statistical analysis: \"Utilize NORM.DIST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like NORM.DIST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use NORM.DIST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with NORM.DIST.",
+    "Scientific data modeling using NORM.DIST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the NORM.DIST.",
+    "formula": "=NORM.DIST(A2:A10)"
+  },
+  "syntax": "=NORM.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "NORM.DIST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the NORM.DIST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "NORM.DIST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "norm.inv",
+  "title": "NORM.INV Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "NORM.INV Function",
+    "description": "Returns the inverse of the normal cumulative distribution.",
+    "concept": "statistical analysis: \"Utilize NORM.INV for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like NORM.INV allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use NORM.INV when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with NORM.INV.",
+    "Scientific data modeling using NORM.INV."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the NORM.INV.",
+    "formula": "=NORM.INV(A2:A10)"
+  },
+  "syntax": "=NORM.INV(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "NORM.INV is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the NORM.INV function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "NORM.INV(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "norm.s.dist",
+  "title": "NORM.S.DIST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "NORM.S.DIST Function",
+    "description": "Returns the standard normal distribution (mean=0, sd=1).",
+    "concept": "statistical analysis: \"Utilize NORM.S.DIST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like NORM.S.DIST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use NORM.S.DIST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with NORM.S.DIST.",
+    "Scientific data modeling using NORM.S.DIST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the NORM.S.DIST.",
+    "formula": "=NORM.S.DIST(A2:A10)"
+  },
+  "syntax": "=NORM.S.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "NORM.S.DIST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the NORM.S.DIST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "NORM.S.DIST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "norm.s.inv",
+  "title": "NORM.S.INV Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "NORM.S.INV Function",
+    "description": "Returns the z-score for a cumulative probability in standard normal distribution.",
+    "concept": "statistical analysis: \"Utilize NORM.S.INV for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like NORM.S.INV allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use NORM.S.INV when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with NORM.S.INV.",
+    "Scientific data modeling using NORM.S.INV."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the NORM.S.INV.",
+    "formula": "=NORM.S.INV(A2:A10)"
+  },
+  "syntax": "=NORM.S.INV(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "NORM.S.INV is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the NORM.S.INV function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "NORM.S.INV(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "pearson",
+  "title": "PEARSON Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "PEARSON Function",
+    "description": "Calculates the Pearson product-moment correlation coefficient.",
+    "concept": "statistical analysis: \"Utilize PEARSON for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like PEARSON allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use PEARSON when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with PEARSON.",
+    "Scientific data modeling using PEARSON."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the PEARSON.",
+    "formula": "=PEARSON(A2:A10)"
+  },
+  "syntax": "=PEARSON(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "PEARSON is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the PEARSON function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "PEARSON(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "percentile.exc",
+  "title": "PERCENTILE.EXC Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "PERCENTILE.EXC Function",
+    "description": "Returns the kth percentile (exclusive method).",
+    "concept": "statistical analysis: \"Utilize PERCENTILE.EXC for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like PERCENTILE.EXC allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use PERCENTILE.EXC when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with PERCENTILE.EXC.",
+    "Scientific data modeling using PERCENTILE.EXC."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the PERCENTILE.EXC.",
+    "formula": "=PERCENTILE.EXC(A2:A10)"
+  },
+  "syntax": "=PERCENTILE.EXC(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "PERCENTILE.EXC is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the PERCENTILE.EXC function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "PERCENTILE.EXC(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "percentile.inc",
+  "title": "PERCENTILE.INC Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "PERCENTILE.INC Function",
+    "description": "Returns the kth percentile (inclusive method).",
+    "concept": "statistical analysis: \"Utilize PERCENTILE.INC for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like PERCENTILE.INC allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use PERCENTILE.INC when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with PERCENTILE.INC.",
+    "Scientific data modeling using PERCENTILE.INC."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the PERCENTILE.INC.",
+    "formula": "=PERCENTILE.INC(A2:A10)"
+  },
+  "syntax": "=PERCENTILE.INC(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "PERCENTILE.INC is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the PERCENTILE.INC function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "PERCENTILE.INC(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "percentrank.exc",
+  "title": "PERCENTRANK.EXC Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "PERCENTRANK.EXC Function",
+    "description": "Returns the rank of a value as a percentage (exclusive).",
+    "concept": "statistical analysis: \"Utilize PERCENTRANK.EXC for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like PERCENTRANK.EXC allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use PERCENTRANK.EXC when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with PERCENTRANK.EXC.",
+    "Scientific data modeling using PERCENTRANK.EXC."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the PERCENTRANK.EXC.",
+    "formula": "=PERCENTRANK.EXC(A2:A10)"
+  },
+  "syntax": "=PERCENTRANK.EXC(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "PERCENTRANK.EXC is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the PERCENTRANK.EXC function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "PERCENTRANK.EXC(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "percentrank.inc",
+  "title": "PERCENTRANK.INC Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "PERCENTRANK.INC Function",
+    "description": "Returns the rank of a value as a percentage (inclusive).",
+    "concept": "statistical analysis: \"Utilize PERCENTRANK.INC for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like PERCENTRANK.INC allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use PERCENTRANK.INC when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with PERCENTRANK.INC.",
+    "Scientific data modeling using PERCENTRANK.INC."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the PERCENTRANK.INC.",
+    "formula": "=PERCENTRANK.INC(A2:A10)"
+  },
+  "syntax": "=PERCENTRANK.INC(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "PERCENTRANK.INC is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the PERCENTRANK.INC function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "PERCENTRANK.INC(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "permut",
+  "title": "PERMUT Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "PERMUT Function",
+    "description": "Returns the number of permutations for a number of items.",
+    "concept": "statistical analysis: \"Utilize PERMUT for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like PERMUT allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use PERMUT when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with PERMUT.",
+    "Scientific data modeling using PERMUT."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the PERMUT.",
+    "formula": "=PERMUT(A2:A10)"
+  },
+  "syntax": "=PERMUT(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "PERMUT is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the PERMUT function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "PERMUT(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "permutationa",
+  "title": "PERMUTATIONA Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "PERMUTATIONA Function",
+    "description": "Returns the number of permutations where repetition is allowed.",
+    "concept": "statistical analysis: \"Utilize PERMUTATIONA for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like PERMUTATIONA allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use PERMUTATIONA when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with PERMUTATIONA.",
+    "Scientific data modeling using PERMUTATIONA."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the PERMUTATIONA.",
+    "formula": "=PERMUTATIONA(A2:A10)"
+  },
+  "syntax": "=PERMUTATIONA(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "PERMUTATIONA is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the PERMUTATIONA function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "PERMUTATIONA(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "phi",
+  "title": "PHI Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "PHI Function",
+    "description": "Returns the value of the standard normal density function at a z-score.",
+    "concept": "statistical analysis: \"Utilize PHI for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like PHI allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use PHI when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with PHI.",
+    "Scientific data modeling using PHI."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the PHI.",
+    "formula": "=PHI(A2:A10)"
+  },
+  "syntax": "=PHI(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "PHI is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the PHI function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "PHI(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "poisson.dist",
+  "title": "POISSON.DIST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "POISSON.DIST Function",
+    "description": "Returns the Poisson distribution.",
+    "concept": "statistical analysis: \"Utilize POISSON.DIST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like POISSON.DIST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use POISSON.DIST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with POISSON.DIST.",
+    "Scientific data modeling using POISSON.DIST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the POISSON.DIST.",
+    "formula": "=POISSON.DIST(A2:A10)"
+  },
+  "syntax": "=POISSON.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "POISSON.DIST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the POISSON.DIST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "POISSON.DIST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "prob",
+  "title": "PROB Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "PROB Function",
+    "description": "Returns the probability that values are within limits for a discrete distribution.",
+    "concept": "statistical analysis: \"Utilize PROB for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like PROB allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use PROB when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with PROB.",
+    "Scientific data modeling using PROB."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the PROB.",
+    "formula": "=PROB(A2:A10)"
+  },
+  "syntax": "=PROB(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "PROB is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the PROB function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "PROB(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "quartile.exc",
+  "title": "QUARTILE.EXC Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "QUARTILE.EXC Function",
+    "description": "Returns the specified quartile (exclusive method).",
+    "concept": "statistical analysis: \"Utilize QUARTILE.EXC for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like QUARTILE.EXC allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use QUARTILE.EXC when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with QUARTILE.EXC.",
+    "Scientific data modeling using QUARTILE.EXC."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the QUARTILE.EXC.",
+    "formula": "=QUARTILE.EXC(A2:A10)"
+  },
+  "syntax": "=QUARTILE.EXC(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "QUARTILE.EXC is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the QUARTILE.EXC function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "QUARTILE.EXC(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "quartile.inc",
+  "title": "QUARTILE.INC Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "QUARTILE.INC Function",
+    "description": "Returns the specified quartile (inclusive method).",
+    "concept": "statistical analysis: \"Utilize QUARTILE.INC for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like QUARTILE.INC allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use QUARTILE.INC when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with QUARTILE.INC.",
+    "Scientific data modeling using QUARTILE.INC."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the QUARTILE.INC.",
+    "formula": "=QUARTILE.INC(A2:A10)"
+  },
+  "syntax": "=QUARTILE.INC(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "QUARTILE.INC is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the QUARTILE.INC function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "QUARTILE.INC(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "rank.avg",
+  "title": "RANK.AVG Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "RANK.AVG Function",
+    "description": "Returns the rank of a number, averaging tied ranks.",
+    "concept": "statistical analysis: \"Utilize RANK.AVG for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like RANK.AVG allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use RANK.AVG when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with RANK.AVG.",
+    "Scientific data modeling using RANK.AVG."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the RANK.AVG.",
+    "formula": "=RANK.AVG(A2:A10)"
+  },
+  "syntax": "=RANK.AVG(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "RANK.AVG is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the RANK.AVG function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "RANK.AVG(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "rank.eq",
+  "title": "RANK.EQ Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "RANK.EQ Function",
+    "description": "Returns the rank of a number, giving ties the same rank.",
+    "concept": "statistical analysis: \"Utilize RANK.EQ for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like RANK.EQ allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use RANK.EQ when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with RANK.EQ.",
+    "Scientific data modeling using RANK.EQ."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the RANK.EQ.",
+    "formula": "=RANK.EQ(A2:A10)"
+  },
+  "syntax": "=RANK.EQ(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "RANK.EQ is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the RANK.EQ function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "RANK.EQ(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "rsq",
+  "title": "RSQ Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "RSQ Function",
+    "description": "Returns the R-squared value of a linear regression.",
+    "concept": "statistical analysis: \"Utilize RSQ for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like RSQ allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use RSQ when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with RSQ.",
+    "Scientific data modeling using RSQ."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the RSQ.",
+    "formula": "=RSQ(A2:A10)"
+  },
+  "syntax": "=RSQ(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "RSQ is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the RSQ function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "RSQ(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "skew",
+  "title": "SKEW Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "SKEW Function",
+    "description": "Measures the asymmetry of a distribution (sample).",
+    "concept": "statistical analysis: \"Utilize SKEW for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like SKEW allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use SKEW when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with SKEW.",
+    "Scientific data modeling using SKEW."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the SKEW.",
+    "formula": "=SKEW(A2:A10)"
+  },
+  "syntax": "=SKEW(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "SKEW is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the SKEW function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "SKEW(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "skew.p",
+  "title": "SKEW.P Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "SKEW.P Function",
+    "description": "Calculates the skewness of a population.",
+    "concept": "statistical analysis: \"Utilize SKEW.P for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like SKEW.P allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use SKEW.P when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with SKEW.P.",
+    "Scientific data modeling using SKEW.P."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the SKEW.P.",
+    "formula": "=SKEW.P(A2:A10)"
+  },
+  "syntax": "=SKEW.P(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "SKEW.P is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the SKEW.P function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "SKEW.P(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "slope",
+  "title": "SLOPE Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "SLOPE Function",
+    "description": "Calculates the slope of the linear regression line.",
+    "concept": "statistical analysis: \"Utilize SLOPE for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like SLOPE allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use SLOPE when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with SLOPE.",
+    "Scientific data modeling using SLOPE."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the SLOPE.",
+    "formula": "=SLOPE(A2:A10)"
+  },
+  "syntax": "=SLOPE(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "SLOPE is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the SLOPE function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "SLOPE(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "small",
+  "title": "SMALL Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "SMALL Function",
+    "description": "Returns the kth smallest value in a dataset.",
+    "concept": "statistical analysis: \"Utilize SMALL for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like SMALL allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use SMALL when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with SMALL.",
+    "Scientific data modeling using SMALL."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the SMALL.",
+    "formula": "=SMALL(A2:A10)"
+  },
+  "syntax": "=SMALL(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "SMALL is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the SMALL function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "SMALL(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "standardize",
+  "title": "STANDARDIZE Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "STANDARDIZE Function",
+    "description": "Returns the z-score of a data point.",
+    "concept": "statistical analysis: \"Utilize STANDARDIZE for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like STANDARDIZE allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use STANDARDIZE when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with STANDARDIZE.",
+    "Scientific data modeling using STANDARDIZE."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the STANDARDIZE.",
+    "formula": "=STANDARDIZE(A2:A10)"
+  },
+  "syntax": "=STANDARDIZE(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "STANDARDIZE is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the STANDARDIZE function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "STANDARDIZE(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "stdev.p",
+  "title": "STDEV.P Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "STDEV.P Function",
+    "description": "Calculates the population standard deviation.",
+    "concept": "statistical analysis: \"Utilize STDEV.P for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like STDEV.P allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use STDEV.P when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with STDEV.P.",
+    "Scientific data modeling using STDEV.P."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the STDEV.P.",
+    "formula": "=STDEV.P(A2:A10)"
+  },
+  "syntax": "=STDEV.P(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "STDEV.P is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the STDEV.P function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "STDEV.P(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "stdev.s",
+  "title": "STDEV.S Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "STDEV.S Function",
+    "description": "Calculates the sample standard deviation.",
+    "concept": "statistical analysis: \"Utilize STDEV.S for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like STDEV.S allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use STDEV.S when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with STDEV.S.",
+    "Scientific data modeling using STDEV.S."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the STDEV.S.",
+    "formula": "=STDEV.S(A2:A10)"
+  },
+  "syntax": "=STDEV.S(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "STDEV.S is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the STDEV.S function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "STDEV.S(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "stdeva",
+  "title": "STDEVA Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "STDEVA Function",
+    "description": "Calculates sample standard deviation including logical values.",
+    "concept": "statistical analysis: \"Utilize STDEVA for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like STDEVA allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use STDEVA when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with STDEVA.",
+    "Scientific data modeling using STDEVA."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the STDEVA.",
+    "formula": "=STDEVA(A2:A10)"
+  },
+  "syntax": "=STDEVA(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "STDEVA is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the STDEVA function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "STDEVA(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "stdevpa",
+  "title": "STDEVPA Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "STDEVPA Function",
+    "description": "Calculates population standard deviation including logical values.",
+    "concept": "statistical analysis: \"Utilize STDEVPA for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like STDEVPA allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use STDEVPA when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with STDEVPA.",
+    "Scientific data modeling using STDEVPA."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the STDEVPA.",
+    "formula": "=STDEVPA(A2:A10)"
+  },
+  "syntax": "=STDEVPA(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "STDEVPA is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the STDEVPA function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "STDEVPA(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "steyx",
+  "title": "STEYX Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "STEYX Function",
+    "description": "Returns the standard error of the predicted y-value in a regression.",
+    "concept": "statistical analysis: \"Utilize STEYX for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like STEYX allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use STEYX when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with STEYX.",
+    "Scientific data modeling using STEYX."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the STEYX.",
+    "formula": "=STEYX(A2:A10)"
+  },
+  "syntax": "=STEYX(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "STEYX is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the STEYX function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "STEYX(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "t.dist",
+  "title": "T.DIST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "T.DIST Function",
+    "description": "Returns the Student's t-distribution.",
+    "concept": "statistical analysis: \"Utilize T.DIST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like T.DIST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use T.DIST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with T.DIST.",
+    "Scientific data modeling using T.DIST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the T.DIST.",
+    "formula": "=T.DIST(A2:A10)"
+  },
+  "syntax": "=T.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "T.DIST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the T.DIST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "T.DIST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "t.inv",
+  "title": "T.INV Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "T.INV Function",
+    "description": "Returns the inverse of the t cumulative distribution.",
+    "concept": "statistical analysis: \"Utilize T.INV for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like T.INV allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use T.INV when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with T.INV.",
+    "Scientific data modeling using T.INV."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the T.INV.",
+    "formula": "=T.INV(A2:A10)"
+  },
+  "syntax": "=T.INV(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "T.INV is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the T.INV function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "T.INV(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "t.test",
+  "title": "T.TEST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "T.TEST Function",
+    "description": "Performs a Student's t-test and returns the p-value.",
+    "concept": "statistical analysis: \"Utilize T.TEST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like T.TEST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use T.TEST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with T.TEST.",
+    "Scientific data modeling using T.TEST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the T.TEST.",
+    "formula": "=T.TEST(A2:A10)"
+  },
+  "syntax": "=T.TEST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "T.TEST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the T.TEST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "T.TEST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "trend",
+  "title": "TREND Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "TREND Function",
+    "description": "Fits a linear trend to data and returns predicted y-values.",
+    "concept": "statistical analysis: \"Utilize TREND for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like TREND allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use TREND when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with TREND.",
+    "Scientific data modeling using TREND."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the TREND.",
+    "formula": "=TREND(A2:A10)"
+  },
+  "syntax": "=TREND(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "TREND is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the TREND function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "TREND(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "trimmean",
+  "title": "TRIMMEAN Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "TRIMMEAN Function",
+    "description": "Calculates the mean after excluding a percentage of extreme values.",
+    "concept": "statistical analysis: \"Utilize TRIMMEAN for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like TRIMMEAN allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use TRIMMEAN when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with TRIMMEAN.",
+    "Scientific data modeling using TRIMMEAN."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the TRIMMEAN.",
+    "formula": "=TRIMMEAN(A2:A10)"
+  },
+  "syntax": "=TRIMMEAN(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "TRIMMEAN is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the TRIMMEAN function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "TRIMMEAN(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "var.p",
+  "title": "VAR.P Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "VAR.P Function",
+    "description": "Calculates the population variance.",
+    "concept": "statistical analysis: \"Utilize VAR.P for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like VAR.P allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use VAR.P when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with VAR.P.",
+    "Scientific data modeling using VAR.P."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the VAR.P.",
+    "formula": "=VAR.P(A2:A10)"
+  },
+  "syntax": "=VAR.P(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "VAR.P is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the VAR.P function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "VAR.P(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "var.s",
+  "title": "VAR.S Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "VAR.S Function",
+    "description": "Calculates the sample variance.",
+    "concept": "statistical analysis: \"Utilize VAR.S for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like VAR.S allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use VAR.S when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with VAR.S.",
+    "Scientific data modeling using VAR.S."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the VAR.S.",
+    "formula": "=VAR.S(A2:A10)"
+  },
+  "syntax": "=VAR.S(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "VAR.S is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the VAR.S function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "VAR.S(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "vara",
+  "title": "VARA Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "VARA Function",
+    "description": "Calculates sample variance including logical values.",
+    "concept": "statistical analysis: \"Utilize VARA for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like VARA allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use VARA when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with VARA.",
+    "Scientific data modeling using VARA."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the VARA.",
+    "formula": "=VARA(A2:A10)"
+  },
+  "syntax": "=VARA(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "VARA is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the VARA function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "VARA(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "varpa",
+  "title": "VARPA Function",
+  "category": "statistical",
+  "difficulty": "Intermediate",
+  "xp": 200,
+  "introduction": {
+    "title": "VARPA Function",
+    "description": "Calculates population variance including logical values.",
+    "concept": "statistical analysis: \"Utilize VARPA for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like VARPA allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use VARPA when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with VARPA.",
+    "Scientific data modeling using VARPA."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the VARPA.",
+    "formula": "=VARPA(A2:A10)"
+  },
+  "syntax": "=VARPA(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "VARPA is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the VARPA function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "VARPA(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "weibull.dist",
+  "title": "WEIBULL.DIST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "WEIBULL.DIST Function",
+    "description": "Returns the Weibull distribution.",
+    "concept": "statistical analysis: \"Utilize WEIBULL.DIST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like WEIBULL.DIST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use WEIBULL.DIST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with WEIBULL.DIST.",
+    "Scientific data modeling using WEIBULL.DIST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the WEIBULL.DIST.",
+    "formula": "=WEIBULL.DIST(A2:A10)"
+  },
+  "syntax": "=WEIBULL.DIST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "WEIBULL.DIST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the WEIBULL.DIST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "WEIBULL.DIST(A2:A6)",
+    "expectedValue": 30
+  }
+},
+{
+  "id": "z.test",
+  "title": "Z.TEST Function",
+  "category": "statistical",
+  "difficulty": "Advanced",
+  "xp": 300,
+  "introduction": {
+    "title": "Z.TEST Function",
+    "description": "Returns the one-tailed p-value for a z-test.",
+    "concept": "statistical analysis: \"Utilize Z.TEST for data insights.\""
+  },
+  "whyItExists": "Standardized statistical functions like Z.TEST allow for consistent data analysis and insights into dataset properties.",
+  "whenToUse": "Use Z.TEST when you need to calculate statistical properties of a dataset for reporting or modeling.",
+  "realWorldUseCases": [
+    "Business reporting with Z.TEST.",
+    "Scientific data modeling using Z.TEST."
+  ],
+  "businessExample": {
+    "scenario": "Analyze metrics to find the Z.TEST.",
+    "formula": "=Z.TEST(A2:A10)"
+  },
+  "syntax": "=Z.TEST(range)",
+  "syntaxBreakdown": [
+    {
+      "arg": "range",
+      "desc": "The numeric values to analyze."
+    }
+  ],
+  "detailedExamples": [],
+  "commonMistakes": [
+    {
+      "title": "Data Types",
+      "desc": "The function expects numeric values; text may be ignored or cause errors."
+    }
+  ],
+  "proTips": [
+    "Z.TEST is highly optimized for performance in large spreadsheets."
+  ],
+  "relatedFunctions": [],
+  "practice": {
+    "instructions": "In cell B7, use the Z.TEST function on the data in A2:A6.",
+    "initialData": [
+      [
+        "Value"
+      ],
+      [
+        10
+      ],
+      [
+        20
+      ],
+      [
+        30
+      ],
+      [
+        40
+      ],
+      [
+        50
+      ],
+      [
+        "Result",
+        ""
+      ]
+    ],
+    "targetCell": [
+      6,
+      1
+    ],
+    "expectedFormula": "Z.TEST(A2:A6)",
+    "expectedValue": 30
+  }
+}
 ];
