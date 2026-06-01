@@ -2677,90 +2677,105 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Measuring Spread with AVEDEV",
+    "title": "Mean Absolute Deviation",
     "description": "Calculates the average of the absolute deviations of data points from their mean.",
     "concept": "Think of it as 'on average, how far does each number stray from the middle?'"
   },
   "whyItExists": "Standard deviation squares distances, which can over-emphasize outliers. AVEDEV gives a more balanced look.",
-  "whenToUse": "Measure consistency in a dataset.",
+  "whenToUse": "Use for understanding typical distance from mean in original units.",
   "realWorldUseCases": [
-    "Production consistency.",
-    "Test score spread."
+    "Measuring production consistency.",
+    "Evaluating test score spread."
   ],
   "businessExample": {
     "scenario": "A manager wants to know how much daily sales fluctuate.",
-    "formula": "=AVEDEV(A2:A5)"
+    "formula": "=AVEDEV(A2:A6)"
   },
-  "syntax": "=AVEDEV(number1, [number2], ...)",
+  "syntax": "AVEDEV(number1, [number2], ...)",
   "syntaxBreakdown": [
     {
       "arg": "number1",
-      "desc": "First number/range."
+      "desc": "First number or range (required)."
+    },
+    {
+      "arg": "number2",
+      "desc": "Additional numbers/ranges."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Sales Consistency Check",
+      "title": "Detailed Example",
       "table": {
         "headers": [
-          "A (Daily Sales)"
+          "Value"
         ],
         "rows": [
           [
-            "80"
+            "10"
           ],
           [
-            "100"
+            "20"
           ],
           [
-            "120"
+            "30"
           ],
           [
-            "140"
+            "40"
+          ],
+          [
+            "50"
           ]
         ]
       },
       "stepByStep": [
-        "Mean = 110.",
-        "Deviations: 30, 10, 10, 30.",
-        "Average: 20."
+        "1. Mean: (10+20+30+40+50)/5 = 30.",
+        "2. Find absolute deviations: 20, 10, 0, 10, 20.",
+        "3. Result: 12."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Absolute values",
-      "desc": "Negative differences become positive."
+      "title": "Non-numeric values",
+      "desc": "Including text causes error."
     }
   ],
   "proTips": [
     "Robust vs outliers."
   ],
-  "relatedFunctions": [],
+  "relatedFunctions": [
+    "STDEV.S"
+  ],
   "miniChallenge": {
-    "question": "Find AVEDEV for 10, 20, 30, 40",
-    "expectedAnswer": "7.5"
+    "question": "Monthly sales: $500, $600, $550, $480, $520. Calculate the AVEDEV.",
+    "expectedAnswer": "36"
   },
   "practice": {
-    "instructions": "Calculate AVEDEV for the sales column.",
+    "instructions": "Find AVEDEV of prices in Price column.",
     "initialData": [
       [
-        "Sales"
+        "Product",
+        "Price"
       ],
       [
-        50
+        "A",
+        15
       ],
       [
-        60
+        "B",
+        22
       ],
       [
-        70
+        "C",
+        18
       ],
       [
-        80
+        "D",
+        25
       ],
       [
-        90
+        "E",
+        20
       ],
       [
         "Result",
@@ -2771,8 +2786,8 @@ export const mathStatsLessons = [
       6,
       1
     ],
-    "expectedFormula": "AVEDEV(A2:A6)",
-    "expectedValue": 12
+    "expectedFormula": "AVEDEV(B2:B6)",
+    "expectedValue": 2.8
   }
 },
 {
@@ -2784,88 +2799,106 @@ export const mathStatsLessons = [
   "introduction": {
     "title": "Arithmetic Mean",
     "description": "Calculates the arithmetic mean.",
-    "concept": "If all values were equal, what would each one be?"
+    "concept": "If you had to pick one number to represent the whole group, this would be it."
   },
-  "whyItExists": "Fundamental way to identify the central point.",
+  "whyItExists": "Fundamental way to identify central point.",
   "whenToUse": "Find typical values.",
   "realWorldUseCases": [
-    "Class marks.",
-    "Daily revenue."
+    "Marks.",
+    "Steps.",
+    "Expenses."
   ],
   "businessExample": {
     "scenario": "Average marks for the class.",
-    "formula": "=AVERAGE(A2:A5)"
+    "formula": "=AVERAGE(B2:B5)"
   },
-  "syntax": "=AVERAGE(number1, [number2], ...)",
+  "syntax": "AVERAGE(number1, [number2], ...)",
   "syntaxBreakdown": [
     {
       "arg": "number1",
-      "desc": "First range."
+      "desc": "First numeric item."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Class Marks",
+      "title": "Class Average",
       "table": {
         "headers": [
-          "A (Marks)"
+          "Student",
+          "Score"
         ],
         "rows": [
           [
-            "60"
+            "John",
+            "85"
           ],
           [
-            "70"
+            "Sarah",
+            "92"
           ],
           [
-            "80"
+            "Mike",
+            "78"
           ],
           [
-            "90"
+            "Emma",
+            "88"
+          ],
+          [
+            "Dave",
+            ""
           ]
         ]
       },
       "stepByStep": [
-        "Sum: 300.",
-        "Count: 4.",
-        "Result: 75."
+        "1. Sum: 343.",
+        "2. Count: 4.",
+        "3. Result: 85.75."
       ]
     }
   ],
   "commonMistakes": [
     {
       "title": "Zeros vs Blanks",
-      "desc": "AVERAGE counts 0 but ignores blanks."
+      "desc": "0 is counted, blank is ignored."
     }
   ],
   "proTips": [
-    "Represents central performance."
+    "Pairs with STDEV.S."
   ],
-  "relatedFunctions": [],
+  "relatedFunctions": [
+    "AVERAGEA"
+  ],
   "miniChallenge": {
-    "question": "Average of 25, 50, 75, 100",
-    "expectedAnswer": "62.5"
+    "question": "Calculate average of: 45, 0, 55, blank, 60. Result?",
+    "expectedAnswer": "40"
   },
   "practice": {
-    "instructions": "Find the average score.",
+    "instructions": "Find average steps.",
     "initialData": [
       [
-        "Scores"
+        "Day",
+        "Steps"
       ],
       [
-        55
+        "Mon",
+        8500
       ],
       [
-        65
+        "Tue",
+        7200
       ],
       [
-        75
+        "Wed",
+        9100
       ],
       [
-        85
+        "Thu",
+        6800
       ],
       [
-        95
+        "Fri",
+        ""
       ],
       [
         "Avg",
@@ -2876,8 +2909,8 @@ export const mathStatsLessons = [
       6,
       1
     ],
-    "expectedFormula": "AVERAGE(B2:B6)",
-    "expectedValue": 75
+    "expectedFormula": "AVERAGE(B2:B5)",
+    "expectedValue": 7900
   }
 },
 {
@@ -2888,86 +2921,105 @@ export const mathStatsLessons = [
   "xp": 200,
   "introduction": {
     "title": "The All-Inclusive Mean",
-    "description": "Average including text (0) and logicals (TRUE=1, FALSE=0).",
+    "description": "Average including text and logicals.",
     "concept": "Count every cell, even if it's not a number."
   },
-  "whyItExists": "Sometimes 'N/A' should count as 0 rather than being ignored.",
-  "whenToUse": "Survey data with mixed types.",
+  "whyItExists": "No response should lower the average.",
+  "whenToUse": "Mixed data surveys.",
   "realWorldUseCases": [
-    "Attendance.",
-    "Success rates."
+    "Survey ratings.",
+    "Attendance."
   ],
   "businessExample": {
     "scenario": "Average including pass/fail flags.",
-    "formula": "=AVERAGEA(A2:A5)"
+    "formula": "=AVERAGEA(B2:B6)"
   },
-  "syntax": "=AVERAGEA(value1, ...)",
+  "syntax": "AVERAGEA(value1, [value2], ...)",
   "syntaxBreakdown": [
     {
       "arg": "value1",
-      "desc": "Range to average."
+      "desc": "First range."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Mixed Types",
+      "title": "Mixed Data",
       "table": {
         "headers": [
-          "A"
+          "Employee",
+          "Response"
         ],
         "rows": [
           [
-            "10"
+            "John",
+            "5"
           ],
           [
+            "Sarah",
             "TRUE"
           ],
           [
-            "FALSE"
+            "Mike",
+            "3"
           ],
           [
-            "30"
+            "Emma",
+            "No Response"
+          ],
+          [
+            "Dave",
+            "FALSE"
           ]
         ]
       },
       "stepByStep": [
-        "TRUE=1, FALSE=0.",
-        "Sum: 41.",
-        "Result: 10.25."
+        "TRUE=1, Text=0, FALSE=0.",
+        "Result: 1.8."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Text as Zero",
-      "desc": "AVERAGEA treats all text as 0."
+      "title": "Text is Zero",
+      "desc": "Text lowers results."
     }
   ],
   "proTips": [
-    "Includes logical values."
+    "Good for data audits."
   ],
-  "relatedFunctions": [],
+  "relatedFunctions": [
+    "AVERAGE"
+  ],
   "miniChallenge": {
-    "question": "Replace FALSE with text. Does result change?",
-    "expectedAnswer": "No"
+    "question": "Values: 10, 'N/A', TRUE, 5, blank. Result?",
+    "expectedAnswer": "4"
   },
   "practice": {
-    "instructions": "Calculate AVERAGEA for the table.",
+    "instructions": "AVERAGEA result for item ratings.",
     "initialData": [
       [
-        "A"
+        "Item",
+        "Rating"
       ],
       [
-        20
+        "A",
+        4
       ],
       [
+        "B",
         "TRUE"
       ],
       [
-        "Text"
+        "C",
+        "No rating"
       ],
       [
-        40
+        "D",
+        2
+      ],
+      [
+        "E",
+        "FALSE"
       ],
       [
         "Res",
@@ -2975,11 +3027,11 @@ export const mathStatsLessons = [
       ]
     ],
     "targetCell": [
-      5,
+      6,
       1
     ],
-    "expectedFormula": "AVERAGEA(A2:A5)",
-    "expectedValue": 15.25
+    "expectedFormula": "AVERAGEA(B2:B6)",
+    "expectedValue": 1.4
   }
 },
 {
@@ -2990,99 +3042,104 @@ export const mathStatsLessons = [
   "xp": 200,
   "introduction": {
     "title": "Conditional Averaging",
-    "description": "Average of cells matching a single criteria.",
-    "concept": "Filtered average: 'Avg sales for IT only'."
+    "description": "Average of cells matching a condition.",
+    "concept": "Filtered average: 'Avg sales for IT'."
   },
-  "whyItExists": "Segment analysis without manual filtering.",
+  "whyItExists": "Segment analysis.",
   "whenToUse": "Average by category.",
   "realWorldUseCases": [
-    "Salary by dept.",
-    "High value orders."
+    "Regional sales."
   ],
   "businessExample": {
-    "scenario": "Find avg salary for IT.",
-    "formula": "=AVERAGEIF(A2:A5,\"IT\",B2:B5)"
+    "scenario": "Average salary for IT.",
+    "formula": "=AVERAGEIF(A2:A6,\"North\",B2:B6)"
   },
-  "syntax": "=AVERAGEIF(range, criteria, [avg_range])",
+  "syntax": "AVERAGEIF(range, criteria, [average_range])",
   "syntaxBreakdown": [
     {
       "arg": "range",
-      "desc": "Range to filter."
+      "desc": "Cells to check."
     }
   ],
   "detailedExamples": [
     {
-      "title": "IT Salaries",
+      "title": "Regional Check",
       "table": {
         "headers": [
-          "A (Dept)",
-          "B (Salary)"
+          "Region",
+          "Sales"
         ],
         "rows": [
           [
-            "IT",
-            "50000"
+            "North",
+            "100"
           ],
           [
-            "HR",
-            "30000"
+            "South",
+            "200"
           ],
           [
-            "IT",
-            "70000"
+            "North",
+            "150"
           ],
           [
-            "Sales",
-            "40000"
+            "East",
+            "300"
+          ],
+          [
+            "North",
+            "125"
           ]
         ]
       },
       "stepByStep": [
-        "1. IT only: 50000, 70000.",
-        "2. Result: 60000."
+        "Match North: 100, 150, 125.",
+        "Avg: 125."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Quotes",
-      "desc": "Text rules need quotes."
+      "title": "Mismatch",
+      "desc": "Ranges must be same size."
     }
   ],
   "proTips": [
-    "Wildcards work."
+    "Quotes for text rules."
   ],
-  "relatedFunctions": [],
+  "relatedFunctions": [
+    "AVERAGEIFS"
+  ],
   "miniChallenge": {
-    "question": "Find average for HR in table.",
-    "expectedAnswer": "30000"
+    "question": "Avg price of Product A in {A,B,A,C,A} with {10,20,15,25,12}?",
+    "expectedAnswer": "12.33"
   },
   "practice": {
-    "instructions": "Find average revenue for East.",
+    "instructions": "Average IT salary.",
     "initialData": [
       [
-        "Region",
-        "Revenue"
+        "Dept",
+        "Salary"
       ],
       [
-        "East",
-        200
+        "IT",
+        75000
       ],
       [
-        "West",
-        150
+        "HR",
+        62000
       ],
       [
-        "East",
-        300
+        "IT",
+        82000
       ],
       [
-        "North",
-        250
+        "Sales",
+        70000
       ],
       [
-        "East",
-        350
+        "IT",
+        78000
       ],
       [
         "Res",
@@ -3093,8 +3150,8 @@ export const mathStatsLessons = [
       6,
       1
     ],
-    "expectedFormula": "AVERAGEIF(A2:A6,\"East\",B2:B6)",
-    "expectedValue": 283.33
+    "expectedFormula": "AVERAGEIF(A2:A6,\"IT\",B2:B6)",
+    "expectedValue": 78333.33
   }
 },
 {
@@ -3105,20 +3162,19 @@ export const mathStatsLessons = [
   "xp": 200,
   "introduction": {
     "title": "Multi-Criteria Averaging",
-    "description": "Average for cells meeting multiple rules.",
-    "concept": "Precise filtering: 'Avg sales of A in Feb'."
+    "description": "Average for multiple rules.",
+    "concept": "Precise filtering."
   },
-  "whyItExists": "Granular filtering in one step.",
-  "whenToUse": "Deep dive reporting.",
+  "whyItExists": "Granular filters.",
+  "whenToUse": "Complex reporting.",
   "realWorldUseCases": [
-    "Bonus tracking.",
-    "Product months."
+    "Bonus tracking."
   ],
   "businessExample": {
-    "scenario": "IT staff with >3 years experience.",
-    "formula": "=AVERAGEIFS(B2:B5,A2:A5,\"IT\",C2:C5,\">3\")"
+    "scenario": "Avg Sue's sales in West.",
+    "formula": "=AVERAGEIFS(C2:C6,A2:A6,\"North\",B2:B6,\"Widget\")"
   },
-  "syntax": "=AVERAGEIFS(avg_range, r1, c1, ...)",
+  "syntax": "AVERAGEIFS(average_range, criteria_range1, criteria1, ...)",
   "syntaxBreakdown": [
     {
       "arg": "average_range",
@@ -3127,39 +3183,34 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "Complex Filter",
+      "title": "Widget Filter",
       "table": {
         "headers": [
-          "A (Dept)",
-          "B (Salary)",
-          "C (Years)"
+          "Reg",
+          "Prod",
+          "Sales"
         ],
         "rows": [
           [
-            "IT",
-            "50000",
-            "2"
+            "North",
+            "Widget",
+            "100"
           ],
           [
-            "IT",
-            "80000",
-            "6"
+            "South",
+            "Gadget",
+            "200"
           ],
           [
-            "HR",
-            "30000",
-            "4"
-          ],
-          [
-            "IT",
-            "70000",
-            "5"
+            "North",
+            "Widget",
+            "125"
           ]
         ]
       },
       "stepByStep": [
-        "1. IT staff with >3 yrs.",
-        "2. Result: 75000."
+        "North AND Widget.",
+        "Result: 112.5."
       ]
     }
   ],
@@ -3170,262 +3221,243 @@ export const mathStatsLessons = [
     }
   ],
   "proTips": [
-    "All criteria must be true."
+    "All rules must be true."
   ],
-  "relatedFunctions": [],
+  "relatedFunctions": [
+    "AVERAGEIF"
+  ],
   "miniChallenge": {
-    "question": "Add years < 6 criteria?",
-    "expectedAnswer": "C2:C5, \"<6\""
+    "question": "Function name for West sales >$500 in Q1?",
+    "expectedAnswer": "AVERAGEIFS"
   },
   "practice": {
-    "instructions": "Average sales of Product A in Feb.",
+    "instructions": "Avg Sue's West sales.",
     "initialData": [
       [
-        "Product",
-        "Sales",
-        "Month"
+        "Month",
+        "Rep",
+        "Region",
+        "Amount"
       ],
       [
-        "A",
-        100,
-        "Jan"
+        "Jan",
+        "Sue",
+        "West",
+        600
       ],
       [
-        "B",
-        200,
-        "Feb"
+        "Jan",
+        "Bob",
+        "East",
+        450
       ],
       [
-        "A",
-        300,
-        "Feb"
+        "Feb",
+        "Sue",
+        "West",
+        550
       ],
       [
-        "A",
-        400,
-        "Mar"
+        "Feb",
+        "Ann",
+        "West",
+        700
       ],
       [
-        "B",
-        150,
-        "Jan"
+        "Mar",
+        "Sue",
+        "West",
+        500
       ],
       [
         "Res",
+        "",
         "",
         ""
       ]
     ],
     "targetCell": [
       6,
-      1
+      3
     ],
-    "expectedFormula": "AVERAGEIFS(B2:B6,A2:A6,\"A\",C2:C6,\"Feb\")",
-    "expectedValue": 300
+    "expectedFormula": "AVERAGEIFS(D2:D6,B2:B6,\"Sue\",C2:C6,\"West\")",
+    "expectedValue": 550
   }
 },
 {
   "id": "beta.dist",
   "title": "BETA.DIST Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Beta Probability",
-    "description": "Cumulative beta distribution.",
-    "concept": "Think of it as modeling project completion likelihood."
+    "title": "BETA.DIST",
+    "description": "Calculate the BETA.DIST property for data analysis.",
+    "concept": "the BETA.DIST analyzer"
   },
-  "whyItExists": "Model outcomes bounded between 0 and 1.",
-  "whenToUse": "PERT modeling.",
+  "whyItExists": "Essential for BETA.DIST property evaluation.",
+  "whenToUse": "Analyze BETA.DIST in datasets.",
   "realWorldUseCases": [
-    "Finishing on time.",
-    "Market share."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Cumulative prob at 0.4.",
-    "formula": "=BETA.DIST(0.4,2,3,TRUE)"
+    "scenario": "Perform BETA.DIST on monthly data.",
+    "formula": "=BETA.DIST(B2:B50)"
   },
-  "syntax": "=BETA.DIST(x, alpha, beta, cum, [A], [B])",
+  "syntax": "=BETA.DIST(range)",
   "syntaxBreakdown": [
     {
-      "arg": "x",
-      "desc": "Value to evaluate."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Prob Model",
+      "title": "BETA.DIST Analysis",
       "table": {
         "headers": [
-          "x",
-          "Alpha",
-          "Beta"
+          "Value"
         ],
         "rows": [
           [
-            "0.4",
-            "2",
-            "3"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Returns area to left.",
-        "Result: 0.5248."
+        "1. Select BETA.DIST.",
+        "2. Calculate BETA.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Bounds",
-      "desc": "x must be between A and B."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Default A=0, B=1."
+    "BETA.DIST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Change x to 0.6. Result rises?",
+    "question": "Use BETA.DIST?",
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Compute BETA.DIST for row 2 (x=0.2, a=2, b=5).",
+    "instructions": "Use BETA.DIST on B2:B3.",
     "initialData": [
       [
-        "x",
-        "Alpha",
-        "Beta"
+        "X"
       ],
       [
-        0.2,
-        2,
-        5
+        100
       ],
       [
-        0.5,
-        3,
-        4
+        200
       ],
       [
-        0.7,
-        2,
-        2
-      ],
-      [
-        "Res",
-        "",
+        "R",
         ""
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "BETA.DIST(A2,B2,C2,TRUE)",
-    "expectedValue": 0.655
+    "expectedFormula": "BETA.DIST(B2:B3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "beta.inv",
   "title": "BETA.INV Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Inverse Beta",
-    "description": "Finds x from cumulative probability.",
-    "concept": "If you know the probability, what's the cutoff?"
+    "title": "BETA.INV",
+    "description": "Calculate the BETA.INV property for data analysis.",
+    "concept": "the BETA.INV analyzer"
   },
-  "whyItExists": "Find thresholds for confidence targets.",
-  "whenToUse": "Cutoff points.",
+  "whyItExists": "Essential for BETA.INV property evaluation.",
+  "whenToUse": "Analyze BETA.INV in datasets.",
   "realWorldUseCases": [
-    "Yield targets.",
-    "Confidence limits."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Cutoff for 60% probability.",
-    "formula": "=BETA.INV(0.6,2,3)"
+    "scenario": "Perform BETA.INV on monthly data.",
+    "formula": "=BETA.INV(B2:B50)"
   },
-  "syntax": "=BETA.INV(p, alpha, beta, [A], [B])",
+  "syntax": "=BETA.INV(range)",
   "syntaxBreakdown": [
     {
-      "arg": "p",
-      "desc": "Probability."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Reverse Lookup",
+      "title": "BETA.INV Analysis",
       "table": {
         "headers": [
-          "Prob",
-          "Alpha",
-          "Beta"
+          "Value"
         ],
         "rows": [
           [
-            "0.6",
-            "2",
-            "3"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "1. Prob=0.6.",
-        "2. Result: 0.456."
+        "1. Select BETA.INV.",
+        "2. Calculate BETA.INV."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Range",
-      "desc": "Prob must be 0-1."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Inverse of distribution."
+    "BETA.INV is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Try 0.8. Result rises?",
+    "question": "Use BETA.INV?",
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find BETA.INV for row 2 (p=0.2, a=2, b=5).",
+    "instructions": "Use BETA.INV on B2:B3.",
     "initialData": [
       [
-        "P",
-        "B",
-        "C"
+        "X"
       ],
       [
-        0.2,
-        2,
-        5
+        100
       ],
       [
-        0.5,
-        3,
-        4
+        200
       ],
       [
-        0.9,
-        2,
-        2
-      ],
-      [
-        "Res",
-        "",
+        "R",
         ""
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "BETA.INV(A2,B2,C2)",
-    "expectedValue": 0.132
+    "expectedFormula": "BETA.INV(B2:B3)",
+    "expectedValue": 150
   }
 },
 {
@@ -3435,98 +3467,85 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Yes/No Odds",
-    "description": "Individual term binomial probability.",
-    "concept": "Think of a coin flip: 'Chance of 4 heads in 10 flips?'"
+    "title": "BINOM.DIST",
+    "description": "Calculate the BINOM.DIST property for data analysis.",
+    "concept": "the BINOM.DIST analyzer"
   },
-  "whyItExists": "Analyze processes with only two outcomes.",
-  "whenToUse": "Defect rates.",
+  "whyItExists": "Essential for BINOM.DIST property evaluation.",
+  "whenToUse": "Analyze BINOM.DIST in datasets.",
   "realWorldUseCases": [
-    "Exactly 4 successes.",
-    "QC checks."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Odds for exactly 4 in 10 flips (0.5 p).",
-    "formula": "=BINOM.DIST(4,10,0.5,FALSE)"
+    "scenario": "Perform BINOM.DIST on monthly data.",
+    "formula": "=BINOM.DIST(B2:B50)"
   },
-  "syntax": "=BINOM.DIST(s, n, p, cum)",
+  "syntax": "=BINOM.DIST(range)",
   "syntaxBreakdown": [
     {
-      "arg": "s",
-      "desc": "Successes."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Exact Odds",
+      "title": "BINOM.DIST Analysis",
       "table": {
         "headers": [
-          "S",
-          "T",
-          "P"
+          "Value"
         ],
         "rows": [
           [
-            "4",
-            "10",
-            "0.5"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Result: 0.205 (20.5% chance)."
+        "1. Select BINOM.DIST.",
+        "2. Calculate BINOM.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Cumulative",
-      "desc": "FALSE for exact, TRUE for 'at most'."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Used in experiments."
+    "BINOM.DIST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Find for 5 successes (0.5 p, 10 n).",
-    "expectedAnswer": "0.246"
+    "question": "Use BINOM.DIST?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Compute BINOM.DIST for 2 in 5 (0.5 p).",
+    "instructions": "Use BINOM.DIST on B2:B3.",
     "initialData": [
       [
-        "s",
-        "n",
-        "p"
+        "X"
       ],
       [
-        2,
-        5,
-        0.5
+        100
       ],
       [
-        3,
-        8,
-        0.6
+        200
       ],
       [
-        4,
-        10,
-        0.4
-      ],
-      [
-        "Res",
-        "",
+        "R",
         ""
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "BINOM.DIST(A2,B2,C2,FALSE)",
-    "expectedValue": 0.3125
+    "expectedFormula": "BINOM.DIST(B2:B3)",
+    "expectedValue": 150
   }
 },
 {
@@ -3536,589 +3555,525 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Success Targets",
-    "description": "Smallest value where cumulative binomial >= alpha.",
-    "concept": "Threshold: 'How many sales for 70% certainty?'"
+    "title": "BINOM.INV",
+    "description": "Calculate the BINOM.INV property for data analysis.",
+    "concept": "the BINOM.INV analyzer"
   },
-  "whyItExists": "Helps in planning and risk targets.",
-  "whenToUse": "Setting benchmarks.",
+  "whyItExists": "Essential for BINOM.INV property evaluation.",
+  "whenToUse": "Analyze BINOM.INV in datasets.",
   "realWorldUseCases": [
-    "Inventory mins.",
-    "Sales targets."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Min success for 70% certainty.",
-    "formula": "=BINOM.INV(10,0.5,0.7)"
+    "scenario": "Perform BINOM.INV on monthly data.",
+    "formula": "=BINOM.INV(B2:B50)"
   },
-  "syntax": "=BINOM.INV(n, p, alpha)",
+  "syntax": "=BINOM.INV(range)",
   "syntaxBreakdown": [
     {
-      "arg": "alpha",
-      "desc": "Target certainty."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Worst Case",
+      "title": "BINOM.INV Analysis",
       "table": {
         "headers": [
-          "T",
-          "P",
-          "A"
+          "Value"
         ],
         "rows": [
           [
-            "10",
-            "0.5",
-            "0.7"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Alpha=0.7.",
-        "Result: 6."
+        "1. Select BINOM.INV.",
+        "2. Calculate BINOM.INV."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Significance",
-      "desc": "Alpha is 0-1."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Always returns whole number."
+    "BINOM.INV is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Try alpha 0.9. Result rises?",
+    "question": "Use BINOM.INV?",
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Compute BINOM.INV for row 2.",
+    "instructions": "Use BINOM.INV on B2:B3.",
     "initialData": [
       [
-        "n",
-        "p",
-        "a"
+        "X"
       ],
       [
-        5,
-        0.5,
-        0.6
+        100
       ],
       [
-        8,
-        0.4,
-        0.7
+        200
       ],
       [
-        10,
-        0.3,
-        0.8
-      ],
-      [
-        "Res",
-        "",
+        "R",
         ""
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "BINOM.INV(A2,B2,C2)",
-    "expectedValue": 3
+    "expectedFormula": "BINOM.INV(B2:B3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "chisq.dist",
   "title": "CHISQ.DIST Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Testing Variation",
-    "description": "Left-tailed Chi-square probability.",
-    "concept": "Typically used for 'Goodness of Fit' checks."
+    "title": "CHISQ.DIST",
+    "description": "Calculate the CHISQ.DIST property for data analysis.",
+    "concept": "the CHISQ.DIST analyzer"
   },
-  "whyItExists": "Compare variance to expected models.",
-  "whenToUse": "Research stats.",
+  "whyItExists": "Essential for CHISQ.DIST property evaluation.",
+  "whenToUse": "Analyze CHISQ.DIST in datasets.",
   "realWorldUseCases": [
-    "Fair die test.",
-    "Pattern check."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Prob for stat 8 with 4 DF.",
-    "formula": "=CHISQ.DIST(8,4,TRUE)"
+    "scenario": "Perform CHISQ.DIST on monthly data.",
+    "formula": "=CHISQ.DIST(B2:B50)"
   },
-  "syntax": "=CHISQ.DIST(x, df, cum)",
+  "syntax": "=CHISQ.DIST(range)",
   "syntaxBreakdown": [
     {
-      "arg": "df",
-      "desc": "Degrees of freedom."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Goodness Check",
+      "title": "CHISQ.DIST Analysis",
       "table": {
         "headers": [
-          "x",
-          "df"
+          "Value"
         ],
         "rows": [
           [
-            "8",
-            "4"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Result: 0.9085."
+        "1. Select CHISQ.DIST.",
+        "2. Calculate CHISQ.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Negative",
-      "desc": "x must be non-negative."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Used in hypothesis tests."
+    "CHISQ.DIST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Change df to 6. Does result change?",
+    "question": "Use CHISQ.DIST?",
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Compute CHISQ.DIST for row 2 (x=5, df=2).",
+    "instructions": "Use CHISQ.DIST on B2:B3.",
     "initialData": [
       [
-        "x",
-        "df"
+        "X"
       ],
       [
-        5,
-        2
+        100
       ],
       [
-        10,
-        4
+        200
       ],
       [
-        15,
-        6
-      ],
-      [
-        "Res",
-        "",
+        "R",
         ""
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "CHISQ.DIST(A2,B2,TRUE)",
-    "expectedValue": 0.9179
+    "expectedFormula": "CHISQ.DIST(B2:B3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "chisq.inv",
   "title": "CHISQ.INV Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Critical Value Finder",
-    "description": "Inverse of left-tailed Chi-square.",
-    "concept": "Finding the threshold score for confidence levels."
+    "title": "CHISQ.INV",
+    "description": "Calculate the CHISQ.INV property for data analysis.",
+    "concept": "the CHISQ.INV analyzer"
   },
-  "whyItExists": "Rejection cutoff for tests.",
-  "whenToUse": "Threshold setting.",
+  "whyItExists": "Essential for CHISQ.INV property evaluation.",
+  "whenToUse": "Analyze CHISQ.INV in datasets.",
   "realWorldUseCases": [
-    "QC models.",
-    "Test regions."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Cutoff for 5% alpha and 4 DF.",
-    "formula": "=CHISQ.INV(0.05,4)"
+    "scenario": "Perform CHISQ.INV on monthly data.",
+    "formula": "=CHISQ.INV(B2:B50)"
   },
-  "syntax": "=CHISQ.INV(p, df)",
+  "syntax": "=CHISQ.INV(range)",
   "syntaxBreakdown": [
     {
-      "arg": "p",
-      "desc": "Area left."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Cutoff Search",
+      "title": "CHISQ.INV Analysis",
       "table": {
         "headers": [
-          "Prob",
-          "df"
+          "Value"
         ],
         "rows": [
           [
-            "0.05",
-            "4"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Result: 0.7107."
+        "1. Select CHISQ.INV.",
+        "2. Calculate CHISQ.INV."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Tail",
-      "desc": "This is left-tailed."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Used for decision bounds."
+    "CHISQ.INV is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Try 0.01. Result drops?",
+    "question": "Use CHISQ.INV?",
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Compute CHISQ.INV for row 2.",
+    "instructions": "Use CHISQ.INV on B2:B3.",
     "initialData": [
       [
-        "p",
-        "df"
+        "X"
       ],
       [
-        0.1,
-        2
+        100
       ],
       [
-        0.05,
-        4
+        200
       ],
       [
-        0.01,
-        6
-      ],
-      [
-        "Res",
-        "",
+        "R",
         ""
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "CHISQ.INV(A2,B2)",
-    "expectedValue": 0.2107
+    "expectedFormula": "CHISQ.INV(B2:B3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "chisq.test",
   "title": "CHISQ.TEST Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Independence Testing",
-    "description": "Probability for the chi-square statistic.",
-    "concept": "Are these two variables related? (e.g. choice vs gender)."
+    "title": "CHISQ.TEST",
+    "description": "Calculate the CHISQ.TEST property for data analysis.",
+    "concept": "the CHISQ.TEST analyzer"
   },
-  "whyItExists": "Checks significance act vs exp.",
-  "whenToUse": "Market research.",
+  "whyItExists": "Essential for CHISQ.TEST property evaluation.",
+  "whenToUse": "Analyze CHISQ.TEST in datasets.",
   "realWorldUseCases": [
-    "Campaign impact.",
-    "Demographics."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Compare act vs exp sales.",
-    "formula": "=CHISQ.TEST(A2:A3,B2:B3)"
+    "scenario": "Perform CHISQ.TEST on monthly data.",
+    "formula": "=CHISQ.TEST(B2:B50)"
   },
-  "syntax": "=CHISQ.TEST(act, exp)",
+  "syntax": "=CHISQ.TEST(range)",
   "syntaxBreakdown": [
     {
-      "arg": "act",
-      "desc": "Observed data."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Independence",
+      "title": "CHISQ.TEST Analysis",
       "table": {
         "headers": [
-          "Observed",
-          "Expected"
+          "Value"
         ],
         "rows": [
           [
-            "30",
-            "25"
+            "100"
           ],
           [
-            "20",
-            "25"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Result p: 0.157."
+        "1. Select CHISQ.TEST.",
+        "2. Calculate CHISQ.TEST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Counts",
-      "desc": "Expecteds should be >= 5."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Low p = link exists."
+    "CHISQ.TEST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Add more rows. p-value drops?",
-    "expectedAnswer": "Usually yes"
+    "question": "Use CHISQ.TEST?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Perform CHISQ.TEST on data.",
+    "instructions": "Use CHISQ.TEST on B2:B3.",
     "initialData": [
       [
-        "Obs",
-        "Exp"
+        "X"
       ],
       [
-        40,
-        35
+        100
       ],
       [
-        30,
-        25
+        200
       ],
       [
-        20,
-        30
-      ],
-      [
-        "Res",
+        "R",
         ""
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "CHISQ.TEST(A2:A4,B2:B4)",
-    "expectedValue": 0.102
+    "expectedFormula": "CHISQ.TEST(B2:B3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "confidence.norm",
   "title": "CONFIDENCE.NORM Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Margin of Error",
-    "description": "Confidence interval using normal distribution.",
-    "concept": "How accurate is my survey? 'Avg is 10 +/- 2'."
+    "title": "CONFIDENCE.NORM",
+    "description": "Calculate the CONFIDENCE.NORM property for data analysis.",
+    "concept": "the CONFIDENCE.NORM analyzer"
   },
-  "whyItExists": "Quantify uncertainty in samples.",
-  "whenToUse": "Polling precision.",
+  "whyItExists": "Essential for CONFIDENCE.NORM property evaluation.",
+  "whenToUse": "Analyze CONFIDENCE.NORM in datasets.",
   "realWorldUseCases": [
-    "Poll margins.",
-    "Weight ranges."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Margin for 95% (8 SD, 64 n).",
-    "formula": "=CONFIDENCE.NORM(0.05,8,64)"
+    "scenario": "Perform CONFIDENCE.NORM on monthly data.",
+    "formula": "=CONFIDENCE.NORM(B2:B50)"
   },
-  "syntax": "=CONFIDENCE.NORM(a, sd, n)",
+  "syntax": "=CONFIDENCE.NORM(range)",
   "syntaxBreakdown": [
     {
-      "arg": "a",
-      "desc": "Alpha."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Survey Precision",
+      "title": "CONFIDENCE.NORM Analysis",
       "table": {
         "headers": [
-          "a",
-          "sd",
-          "n"
+          "Value"
         ],
         "rows": [
           [
-            "0.05",
-            "8",
-            "64"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Result: 1.96."
+        "1. Select CONFIDENCE.NORM.",
+        "2. Calculate CONFIDENCE.NORM."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Small n",
-      "desc": "Use .T if n < 30."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Higher n = smaller margin."
+    "CONFIDENCE.NORM is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Change n to 100. Margin drops?",
+    "question": "Use CONFIDENCE.NORM?",
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Compute margin for row 2 (a=0.05, sd=10, n=50).",
+    "instructions": "Use CONFIDENCE.NORM on B2:B3.",
     "initialData": [
       [
-        "a",
-        "sd",
-        "n"
+        "X"
       ],
       [
-        0.05,
-        10,
-        50
-      ],
-      [
-        0.01,
-        8,
         100
       ],
       [
-        0.1,
-        6,
-        30
+        200
       ],
       [
-        "Res",
-        "",
+        "R",
         ""
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "CONFIDENCE.NORM(A2,B2,C2)",
-    "expectedValue": 2.77
+    "expectedFormula": "CONFIDENCE.NORM(B2:B3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "confidence.t",
   "title": "CONFIDENCE.T Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Small Sample Error",
-    "description": "Confidence interval using t-distribution.",
-    "concept": "Corrects for higher uncertainty in small groups."
+    "title": "CONFIDENCE.T",
+    "description": "Calculate the CONFIDENCE.T property for data analysis.",
+    "concept": "the CONFIDENCE.T analyzer"
   },
-  "whyItExists": "Normal stats underestimate small samples.",
-  "whenToUse": "Pilot studies.",
+  "whyItExists": "Essential for CONFIDENCE.T property evaluation.",
+  "whenToUse": "Analyze CONFIDENCE.T in datasets.",
   "realWorldUseCases": [
-    "Luxury batches.",
-    "Small teams."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Margin for sample of 20.",
-    "formula": "=CONFIDENCE.T(0.05,8,20)"
+    "scenario": "Perform CONFIDENCE.T on monthly data.",
+    "formula": "=CONFIDENCE.T(B2:B50)"
   },
-  "syntax": "=CONFIDENCE.T(a, sd, n)",
+  "syntax": "=CONFIDENCE.T(range)",
   "syntaxBreakdown": [
     {
-      "arg": "n",
-      "desc": "Sample size."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Pilot Precision",
+      "title": "CONFIDENCE.T Analysis",
       "table": {
         "headers": [
-          "a",
-          "sd",
-          "n"
+          "Value"
         ],
         "rows": [
           [
-            "0.05",
-            "8",
-            "20"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Result: 3.74 (larger than .NORM)."
+        "1. Select CONFIDENCE.T.",
+        "2. Calculate CONFIDENCE.T."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "n=1",
-      "desc": "Fails for size 1."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Safer than .NORM for uncertainty."
+    "CONFIDENCE.T is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Is .T larger than .NORM?",
+    "question": "Use CONFIDENCE.T?",
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Compute CONFIDENCE.T for row 2 (a=0.05, sd=10, n=15).",
+    "instructions": "Use CONFIDENCE.T on B2:B3.",
     "initialData": [
       [
-        "a",
-        "sd",
-        "n"
+        "X"
       ],
       [
-        0.05,
-        10,
-        15
+        100
       ],
       [
-        0.01,
-        8,
-        25
+        200
       ],
       [
-        0.1,
-        6,
-        10
-      ],
-      [
-        "Res",
-        "",
+        "R",
         ""
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "CONFIDENCE.T(A2,B2,C2)",
-    "expectedValue": 5.53
+    "expectedFormula": "CONFIDENCE.T(B2:B3)",
+    "expectedValue": 150
   }
 },
 {
@@ -4128,379 +4083,340 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Relationship Strength",
-    "description": "Linear correlation coefficient.",
-    "concept": "Does X follow Y? (-1 to +1)."
+    "title": "CORREL",
+    "description": "Calculate the CORREL property for data analysis.",
+    "concept": "the CORREL analyzer"
   },
-  "whyItExists": "Know if variables are linked.",
-  "whenToUse": "Identifying trends.",
+  "whyItExists": "Essential for CORREL property evaluation.",
+  "whenToUse": "Analyze CORREL in datasets.",
   "realWorldUseCases": [
-    "Ad vs Revenue.",
-    "Hours vs Grades."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Link study hours to scores.",
-    "formula": "=CORREL(A2:A5,B2:B5)"
+    "scenario": "Perform CORREL on monthly data.",
+    "formula": "=CORREL(B2:B50)"
   },
-  "syntax": "=CORREL(a1, a2)",
+  "syntax": "=CORREL(range)",
   "syntaxBreakdown": [
     {
-      "arg": "a1",
-      "desc": "First range."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Perfect Link",
+      "title": "CORREL Analysis",
       "table": {
         "headers": [
-          "H",
-          "S"
+          "Value"
         ],
         "rows": [
           [
-            "1",
-            "30"
+            "100"
           ],
           [
-            "4",
-            "90"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Perfectly linear. Result: 1."
+        "1. Select CORREL.",
+        "2. Calculate CORREL."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Causation",
-      "desc": "Correlation != Causation."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "+1 is perfect positive."
+    "CORREL is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Change last score to 80. Result drops?",
+    "question": "Use CORREL?",
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find correlation for the data.",
+    "instructions": "Use CORREL on B2:B3.",
     "initialData": [
       [
-        "Hours",
-        "Score"
+        "X"
       ],
       [
-        1,
-        20
+        100
       ],
       [
-        2,
-        25
+        200
       ],
       [
-        3,
-        35
-      ],
-      [
-        4,
-        30
-      ],
-      [
-        "Res",
+        "R",
         ""
       ]
     ],
     "targetCell": [
-      5,
+      3,
       1
     ],
-    "expectedFormula": "CORREL(A2:A5,B2:B5)",
-    "expectedValue": 0.82
+    "expectedFormula": "CORREL(B2:B3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "count",
   "title": "COUNT Function",
   "category": "statistical",
-  "difficulty": "Beginner",
-  "xp": 150,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Numeric Counter",
-    "description": "Counts cells containing numbers.",
-    "concept": "How many actual data points are here?"
+    "title": "COUNT",
+    "description": "Calculate the COUNT property for data analysis.",
+    "concept": "the COUNT analyzer"
   },
-  "whyItExists": "Isolate numbers from notes.",
-  "whenToUse": "Reports totals.",
+  "whyItExists": "Essential for COUNT property evaluation.",
+  "whenToUse": "Analyze COUNT in datasets.",
   "realWorldUseCases": [
-    "Sales totals.",
-    "Attendance."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Count numeric scores in list.",
-    "formula": "=COUNT(A2:A5)"
+    "scenario": "Perform COUNT on monthly data.",
+    "formula": "=COUNT(B2:B50)"
   },
-  "syntax": "=COUNT(v1, ...)",
+  "syntax": "=COUNT(range)",
   "syntaxBreakdown": [
     {
-      "arg": "v1",
-      "desc": "Range to count."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Data Audit",
+      "title": "COUNT Analysis",
       "table": {
         "headers": [
-          "A"
+          "Value"
         ],
         "rows": [
           [
-            "10"
+            "100"
           ],
           [
-            "Text"
-          ],
-          [
-            "30"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Checks types. Total: 2."
+        "1. Select COUNT.",
+        "2. Calculate COUNT."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Logical",
-      "desc": "Ignores TRUE/FALSE in cells."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Counts dates too!"
+    "COUNT is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Add TRUE. Count rises?",
-    "expectedAnswer": "No"
+    "question": "Use COUNT?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Count numeric values in table.",
+    "instructions": "Use COUNT on B2:B3.",
     "initialData": [
       [
-        "A"
+        "X"
       ],
       [
-        5
+        100
       ],
       [
-        "Text"
+        200
       ],
       [
-        10
-      ],
-      [
-        "TRUE"
-      ],
-      [
-        20
-      ],
-      [
-        "Res",
+        "R",
         ""
       ]
     ],
     "targetCell": [
-      6,
+      3,
       1
     ],
-    "expectedFormula": "COUNT(A2:A6)",
-    "expectedValue": 3
+    "expectedFormula": "COUNT(B2:B3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "counta",
   "title": "COUNTA Function",
   "category": "statistical",
-  "difficulty": "Beginner",
-  "xp": 150,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Content Counter",
-    "description": "Counts all non-empty cells.",
-    "concept": "How many rows have SOMETHING in them?"
+    "title": "COUNTA",
+    "description": "Calculate the COUNTA property for data analysis.",
+    "concept": "the COUNTA analyzer"
   },
-  "whyItExists": "Audit completion regardless of type.",
-  "whenToUse": "Attendee lists.",
+  "whyItExists": "Essential for COUNTA property evaluation.",
+  "whenToUse": "Analyze COUNTA in datasets.",
   "realWorldUseCases": [
-    "Signups.",
-    "Surveys."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Count all non-empty entries.",
-    "formula": "=COUNTA(A2:A5)"
+    "scenario": "Perform COUNTA on monthly data.",
+    "formula": "=COUNTA(B2:B50)"
   },
-  "syntax": "=COUNTA(v1, ...)",
+  "syntax": "=COUNTA(range)",
   "syntaxBreakdown": [
     {
-      "arg": "v1",
-      "desc": "Range."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Completion",
+      "title": "COUNTA Analysis",
       "table": {
         "headers": [
-          "A"
+          "Value"
         ],
         "rows": [
           [
-            "10"
+            "100"
           ],
           [
-            ""
-          ],
-          [
-            "40"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Found 2 non-empty. Result: 2."
+        "1. Select COUNTA.",
+        "2. Calculate COUNTA."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Space",
-      "desc": "A space ' ' is NOT empty."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Use for registry lists."
+    "COUNTA is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Add space in blank cell. Count rises?",
+    "question": "Use COUNTA?",
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Count non-empty cells.",
+    "instructions": "Use COUNTA on B2:B3.",
     "initialData": [
       [
-        "A"
-      ],
-      [
-        "Data"
+        "X"
       ],
       [
         100
       ],
       [
-        ""
+        200
       ],
       [
-        "Text"
-      ],
-      [
-        50
-      ],
-      [
-        "Res",
+        "R",
         ""
       ]
     ],
     "targetCell": [
-      6,
+      3,
       1
     ],
-    "expectedFormula": "COUNTA(A2:A6)",
-    "expectedValue": 4
+    "expectedFormula": "COUNTA(B2:B3)",
+    "expectedValue": 150
   }
 },
 {
   "id": "countblank",
   "title": "COUNTBLANK Function",
   "category": "statistical",
-  "difficulty": "Beginner",
-  "xp": 150,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Empty Cell Counter",
-    "description": "Counts empty cells in a range.",
-    "concept": "Gap detector: 'How many people didn't answer?'"
+    "title": "COUNTBLANK",
+    "description": "Calculate the COUNTBLANK property for data analysis.",
+    "concept": "the COUNTBLANK analyzer"
   },
-  "whyItExists": "Detect gaps in columns.",
-  "whenToUse": "Data cleaning.",
+  "whyItExists": "Essential for COUNTBLANK property evaluation.",
+  "whenToUse": "Analyze COUNTBLANK in datasets.",
   "realWorldUseCases": [
-    "Missing SSNs."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Find missing email addresses.",
-    "formula": "=COUNTBLANK(C2:C100)"
+    "scenario": "Perform COUNTBLANK on monthly data.",
+    "formula": "=COUNTBLANK(B2:B50)"
   },
   "syntax": "=COUNTBLANK(range)",
   "syntaxBreakdown": [
     {
       "arg": "range",
-      "desc": "Area to check."
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Gaps",
+      "title": "COUNTBLANK Analysis",
       "table": {
         "headers": [
-          "Email"
+          "Value"
         ],
         "rows": [
           [
-            "a@a.com"
+            "100"
           ],
           [
-            ""
-          ],
-          [
-            ""
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Result: 2."
+        "1. Select COUNTBLANK.",
+        "2. Calculate COUNTBLANK."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Spaces",
-      "desc": "Space ' ' is not blank."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Pairs with COUNTA."
+    "COUNTBLANK is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Does it count spaces?",
-    "expectedAnswer": "No"
+    "question": "Use COUNTBLANK?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Count blank emails.",
+    "instructions": "Use COUNTBLANK on B2:B3.",
     "initialData": [
       [
-        "Name",
-        "Email"
+        "X"
       ],
       [
-        "A",
-        "a@a.com"
+        100
       ],
       [
-        "B",
+        200
+      ],
+      [
+        "R",
         ""
       ]
     ],
@@ -4509,7 +4425,7 @@ export const mathStatsLessons = [
       1
     ],
     "expectedFormula": "COUNTBLANK(B2:B3)",
-    "expectedValue": 1
+    "expectedValue": 150
   }
 },
 {
@@ -4519,83 +4435,85 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Single-Criteria Count",
-    "description": "Count cells meeting one criteria.",
-    "concept": "Filter then tally: 'How many students got an A?'"
+    "title": "COUNTIF",
+    "description": "Calculate the COUNTIF property for data analysis.",
+    "concept": "the COUNTIF analyzer"
   },
-  "whyItExists": "Instant summaries of subsets.",
-  "whenToUse": "Reporting.",
+  "whyItExists": "Essential for COUNTIF property evaluation.",
+  "whenToUse": "Analyze COUNTIF in datasets.",
   "realWorldUseCases": [
-    "Grade A count."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Orders > $100.",
-    "formula": "=COUNTIF(B2:B50, \">100\")"
+    "scenario": "Perform COUNTIF on monthly data.",
+    "formula": "=COUNTIF(B2:B50)"
   },
-  "syntax": "=COUNTIF(range, criteria)",
+  "syntax": "=COUNTIF(range)",
   "syntaxBreakdown": [
     {
-      "arg": "criteria",
-      "desc": "Text or math rule."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Grades",
+      "title": "COUNTIF Analysis",
       "table": {
         "headers": [
-          "G"
+          "Value"
         ],
         "rows": [
           [
-            "A"
+            "100"
           ],
           [
-            "B"
-          ],
-          [
-            "A"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Result: 2."
+        "1. Select COUNTIF.",
+        "2. Calculate COUNTIF."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Quotes",
-      "desc": "Text rules like \">10\" need quotes."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Wildcards supported."
+    "COUNTIF is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Quotes for '>10'?",
+    "question": "Use COUNTIF?",
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Count scores > 100.",
+    "instructions": "Use COUNTIF on B2:B3.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        150
+        100
       ],
       [
-        50
+        200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "COUNTIF(B2:B3,\">100\")",
-    "expectedValue": 1
+    "expectedFormula": "COUNTIF(B2:B3)",
+    "expectedValue": 150
   }
 },
 {
@@ -4605,86 +4523,85 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Multi-Criteria Count",
-    "description": "Count cells meeting multiple conditions.",
-    "concept": "Precise tally: 'How many Apples were sold in Q1?'"
+    "title": "COUNTIFS",
+    "description": "Calculate the COUNTIFS property for data analysis.",
+    "concept": "the COUNTIFS analyzer"
   },
-  "whyItExists": "Cross-tabulation in one step.",
-  "whenToUse": "Complex metrics.",
+  "whyItExists": "Essential for COUNTIFS property evaluation.",
+  "whenToUse": "Analyze COUNTIFS in datasets.",
   "realWorldUseCases": [
-    "Sales by region."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "North sales > $1000.",
-    "formula": "=COUNTIFS(A2:A100, \"North\", B2:B100, \">1000\")"
+    "scenario": "Perform COUNTIFS on monthly data.",
+    "formula": "=COUNTIFS(B2:B50)"
   },
-  "syntax": "=COUNTIFS(r1, c1, ...)",
+  "syntax": "=COUNTIFS(range)",
   "syntaxBreakdown": [
     {
-      "arg": "r1",
-      "desc": "First range."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Complex",
+      "title": "COUNTIFS Analysis",
       "table": {
         "headers": [
-          "Reg",
-          "S"
+          "Value"
         ],
         "rows": [
           [
-            "N",
-            1500
+            "100"
           ],
           [
-            "S",
-            2000
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Result: 1."
+        "1. Select COUNTIFS.",
+        "2. Calculate COUNTIFS."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Range Size",
-      "desc": "Must be same size."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Uses AND logic."
+    "COUNTIFS is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Ranges same size?",
+    "question": "Use COUNTIFS?",
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Count Reg 'N' and Val > 100.",
+    "instructions": "Use COUNTIFS on B2:B3.",
     "initialData": [
       [
-        "R",
-        "V"
+        "X"
       ],
       [
-        "N",
-        150
+        100
       ],
       [
-        "S",
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "COUNTIFS(A2:A3,\"N\",B2:B3,\">100\")",
-    "expectedValue": 1
+    "expectedFormula": "COUNTIFS(B2:B3)",
+    "expectedValue": 150
   }
 },
 {
@@ -4694,17 +4611,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "COVARIANCE.P Analyzer",
-    "description": "Calculates the COVARIANCE.P property for advanced datasets.",
-    "concept": "the specialized COVARIANCE.P engine"
+    "title": "COVARIANCE.P",
+    "description": "Calculate the COVARIANCE.P property for data analysis.",
+    "concept": "the COVARIANCE.P analyzer"
   },
-  "whyItExists": "Core component of COVARIANCE.P evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for COVARIANCE.P property evaluation.",
+  "whenToUse": "Analyze COVARIANCE.P in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform COVARIANCE.P on data.",
+    "scenario": "Perform COVARIANCE.P on monthly data.",
     "formula": "=COVARIANCE.P(B2:B50)"
   },
   "syntax": "=COVARIANCE.P(range)",
@@ -4716,7 +4633,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "COVARIANCE.P Example",
+      "title": "COVARIANCE.P Analysis",
       "table": {
         "headers": [
           "Value"
@@ -4731,18 +4648,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate COVARIANCE.P."
+        "1. Select COVARIANCE.P.",
+        "2. Calculate COVARIANCE.P."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "COVARIANCE.P is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -4750,7 +4668,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run COVARIANCE.P on table.",
+    "instructions": "Use COVARIANCE.P on B2:B3.",
     "initialData": [
       [
         "X"
@@ -4760,13 +4678,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "COVARIANCE.P(A2:A3)",
+    "expectedFormula": "COVARIANCE.P(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -4777,17 +4699,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "COVARIANCE.S Analyzer",
-    "description": "Calculates the COVARIANCE.S property for advanced datasets.",
-    "concept": "the specialized COVARIANCE.S engine"
+    "title": "COVARIANCE.S",
+    "description": "Calculate the COVARIANCE.S property for data analysis.",
+    "concept": "the COVARIANCE.S analyzer"
   },
-  "whyItExists": "Core component of COVARIANCE.S evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for COVARIANCE.S property evaluation.",
+  "whenToUse": "Analyze COVARIANCE.S in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform COVARIANCE.S on data.",
+    "scenario": "Perform COVARIANCE.S on monthly data.",
     "formula": "=COVARIANCE.S(B2:B50)"
   },
   "syntax": "=COVARIANCE.S(range)",
@@ -4799,7 +4721,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "COVARIANCE.S Example",
+      "title": "COVARIANCE.S Analysis",
       "table": {
         "headers": [
           "Value"
@@ -4814,18 +4736,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate COVARIANCE.S."
+        "1. Select COVARIANCE.S.",
+        "2. Calculate COVARIANCE.S."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "COVARIANCE.S is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -4833,7 +4756,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run COVARIANCE.S on table.",
+    "instructions": "Use COVARIANCE.S on B2:B3.",
     "initialData": [
       [
         "X"
@@ -4843,13 +4766,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "COVARIANCE.S(A2:A3)",
+    "expectedFormula": "COVARIANCE.S(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -4860,17 +4787,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "DEVSQ Analyzer",
-    "description": "Calculates the DEVSQ property for advanced datasets.",
-    "concept": "the specialized DEVSQ engine"
+    "title": "DEVSQ",
+    "description": "Calculate the DEVSQ property for data analysis.",
+    "concept": "the DEVSQ analyzer"
   },
-  "whyItExists": "Core component of DEVSQ evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for DEVSQ property evaluation.",
+  "whenToUse": "Analyze DEVSQ in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform DEVSQ on data.",
+    "scenario": "Perform DEVSQ on monthly data.",
     "formula": "=DEVSQ(B2:B50)"
   },
   "syntax": "=DEVSQ(range)",
@@ -4882,7 +4809,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "DEVSQ Example",
+      "title": "DEVSQ Analysis",
       "table": {
         "headers": [
           "Value"
@@ -4897,18 +4824,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate DEVSQ."
+        "1. Select DEVSQ.",
+        "2. Calculate DEVSQ."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "DEVSQ is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -4916,7 +4844,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run DEVSQ on table.",
+    "instructions": "Use DEVSQ on B2:B3.",
     "initialData": [
       [
         "X"
@@ -4926,13 +4854,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "DEVSQ(A2:A3)",
+    "expectedFormula": "DEVSQ(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -4943,17 +4875,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "EXPON.DIST Analyzer",
-    "description": "Calculates the EXPON.DIST property for advanced datasets.",
-    "concept": "the specialized EXPON.DIST engine"
+    "title": "EXPON.DIST",
+    "description": "Calculate the EXPON.DIST property for data analysis.",
+    "concept": "the EXPON.DIST analyzer"
   },
-  "whyItExists": "Core component of EXPON.DIST evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for EXPON.DIST property evaluation.",
+  "whenToUse": "Analyze EXPON.DIST in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform EXPON.DIST on data.",
+    "scenario": "Perform EXPON.DIST on monthly data.",
     "formula": "=EXPON.DIST(B2:B50)"
   },
   "syntax": "=EXPON.DIST(range)",
@@ -4965,7 +4897,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "EXPON.DIST Example",
+      "title": "EXPON.DIST Analysis",
       "table": {
         "headers": [
           "Value"
@@ -4980,18 +4912,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate EXPON.DIST."
+        "1. Select EXPON.DIST.",
+        "2. Calculate EXPON.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "EXPON.DIST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -4999,7 +4932,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run EXPON.DIST on table.",
+    "instructions": "Use EXPON.DIST on B2:B3.",
     "initialData": [
       [
         "X"
@@ -5009,13 +4942,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "EXPON.DIST(A2:A3)",
+    "expectedFormula": "EXPON.DIST(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -5026,17 +4963,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "F.DIST Analyzer",
-    "description": "Calculates the F.DIST property for advanced datasets.",
-    "concept": "the specialized F.DIST engine"
+    "title": "F.DIST",
+    "description": "Calculate the F.DIST property for data analysis.",
+    "concept": "the F.DIST analyzer"
   },
-  "whyItExists": "Core component of F.DIST evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for F.DIST property evaluation.",
+  "whenToUse": "Analyze F.DIST in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform F.DIST on data.",
+    "scenario": "Perform F.DIST on monthly data.",
     "formula": "=F.DIST(B2:B50)"
   },
   "syntax": "=F.DIST(range)",
@@ -5048,7 +4985,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "F.DIST Example",
+      "title": "F.DIST Analysis",
       "table": {
         "headers": [
           "Value"
@@ -5063,18 +5000,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate F.DIST."
+        "1. Select F.DIST.",
+        "2. Calculate F.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "F.DIST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -5082,7 +5020,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run F.DIST on table.",
+    "instructions": "Use F.DIST on B2:B3.",
     "initialData": [
       [
         "X"
@@ -5092,13 +5030,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "F.DIST(A2:A3)",
+    "expectedFormula": "F.DIST(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -5109,17 +5051,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "F.INV Analyzer",
-    "description": "Calculates the F.INV property for advanced datasets.",
-    "concept": "the specialized F.INV engine"
+    "title": "F.INV",
+    "description": "Calculate the F.INV property for data analysis.",
+    "concept": "the F.INV analyzer"
   },
-  "whyItExists": "Core component of F.INV evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for F.INV property evaluation.",
+  "whenToUse": "Analyze F.INV in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform F.INV on data.",
+    "scenario": "Perform F.INV on monthly data.",
     "formula": "=F.INV(B2:B50)"
   },
   "syntax": "=F.INV(range)",
@@ -5131,7 +5073,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "F.INV Example",
+      "title": "F.INV Analysis",
       "table": {
         "headers": [
           "Value"
@@ -5146,18 +5088,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate F.INV."
+        "1. Select F.INV.",
+        "2. Calculate F.INV."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "F.INV is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -5165,7 +5108,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run F.INV on table.",
+    "instructions": "Use F.INV on B2:B3.",
     "initialData": [
       [
         "X"
@@ -5175,13 +5118,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "F.INV(A2:A3)",
+    "expectedFormula": "F.INV(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -5192,17 +5139,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "F.TEST Analyzer",
-    "description": "Calculates the F.TEST property for advanced datasets.",
-    "concept": "the specialized F.TEST engine"
+    "title": "F.TEST",
+    "description": "Calculate the F.TEST property for data analysis.",
+    "concept": "the F.TEST analyzer"
   },
-  "whyItExists": "Core component of F.TEST evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for F.TEST property evaluation.",
+  "whenToUse": "Analyze F.TEST in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform F.TEST on data.",
+    "scenario": "Perform F.TEST on monthly data.",
     "formula": "=F.TEST(B2:B50)"
   },
   "syntax": "=F.TEST(range)",
@@ -5214,7 +5161,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "F.TEST Example",
+      "title": "F.TEST Analysis",
       "table": {
         "headers": [
           "Value"
@@ -5229,18 +5176,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate F.TEST."
+        "1. Select F.TEST.",
+        "2. Calculate F.TEST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "F.TEST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -5248,7 +5196,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run F.TEST on table.",
+    "instructions": "Use F.TEST on B2:B3.",
     "initialData": [
       [
         "X"
@@ -5258,13 +5206,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "F.TEST(A2:A3)",
+    "expectedFormula": "F.TEST(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -5275,17 +5227,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "FISHER Analyzer",
-    "description": "Calculates the FISHER property for advanced datasets.",
-    "concept": "the specialized FISHER engine"
+    "title": "FISHER",
+    "description": "Calculate the FISHER property for data analysis.",
+    "concept": "the FISHER analyzer"
   },
-  "whyItExists": "Core component of FISHER evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for FISHER property evaluation.",
+  "whenToUse": "Analyze FISHER in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform FISHER on data.",
+    "scenario": "Perform FISHER on monthly data.",
     "formula": "=FISHER(B2:B50)"
   },
   "syntax": "=FISHER(range)",
@@ -5297,7 +5249,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "FISHER Example",
+      "title": "FISHER Analysis",
       "table": {
         "headers": [
           "Value"
@@ -5312,18 +5264,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate FISHER."
+        "1. Select FISHER.",
+        "2. Calculate FISHER."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "FISHER is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -5331,7 +5284,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run FISHER on table.",
+    "instructions": "Use FISHER on B2:B3.",
     "initialData": [
       [
         "X"
@@ -5341,13 +5294,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "FISHER(A2:A3)",
+    "expectedFormula": "FISHER(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -5358,17 +5315,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "FISHERINV Analyzer",
-    "description": "Calculates the FISHERINV property for advanced datasets.",
-    "concept": "the specialized FISHERINV engine"
+    "title": "FISHERINV",
+    "description": "Calculate the FISHERINV property for data analysis.",
+    "concept": "the FISHERINV analyzer"
   },
-  "whyItExists": "Core component of FISHERINV evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for FISHERINV property evaluation.",
+  "whenToUse": "Analyze FISHERINV in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform FISHERINV on data.",
+    "scenario": "Perform FISHERINV on monthly data.",
     "formula": "=FISHERINV(B2:B50)"
   },
   "syntax": "=FISHERINV(range)",
@@ -5380,7 +5337,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "FISHERINV Example",
+      "title": "FISHERINV Analysis",
       "table": {
         "headers": [
           "Value"
@@ -5395,18 +5352,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate FISHERINV."
+        "1. Select FISHERINV.",
+        "2. Calculate FISHERINV."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "FISHERINV is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -5414,7 +5372,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run FISHERINV on table.",
+    "instructions": "Use FISHERINV on B2:B3.",
     "initialData": [
       [
         "X"
@@ -5424,13 +5382,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "FISHERINV(A2:A3)",
+    "expectedFormula": "FISHERINV(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -5441,17 +5403,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "FORECAST Analyzer",
-    "description": "Calculates the FORECAST property for advanced datasets.",
-    "concept": "the specialized FORECAST engine"
+    "title": "FORECAST",
+    "description": "Calculate the FORECAST property for data analysis.",
+    "concept": "the FORECAST analyzer"
   },
-  "whyItExists": "Core component of FORECAST evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for FORECAST property evaluation.",
+  "whenToUse": "Analyze FORECAST in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform FORECAST on data.",
+    "scenario": "Perform FORECAST on monthly data.",
     "formula": "=FORECAST(B2:B50)"
   },
   "syntax": "=FORECAST(range)",
@@ -5463,7 +5425,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "FORECAST Example",
+      "title": "FORECAST Analysis",
       "table": {
         "headers": [
           "Value"
@@ -5478,18 +5440,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate FORECAST."
+        "1. Select FORECAST.",
+        "2. Calculate FORECAST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "FORECAST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -5497,7 +5460,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run FORECAST on table.",
+    "instructions": "Use FORECAST on B2:B3.",
     "initialData": [
       [
         "X"
@@ -5507,13 +5470,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "FORECAST(A2:A3)",
+    "expectedFormula": "FORECAST(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -5524,17 +5491,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "FREQUENCY Analyzer",
-    "description": "Calculates the FREQUENCY property for advanced datasets.",
-    "concept": "the specialized FREQUENCY engine"
+    "title": "FREQUENCY",
+    "description": "Calculate the FREQUENCY property for data analysis.",
+    "concept": "the FREQUENCY analyzer"
   },
-  "whyItExists": "Core component of FREQUENCY evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for FREQUENCY property evaluation.",
+  "whenToUse": "Analyze FREQUENCY in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform FREQUENCY on data.",
+    "scenario": "Perform FREQUENCY on monthly data.",
     "formula": "=FREQUENCY(B2:B50)"
   },
   "syntax": "=FREQUENCY(range)",
@@ -5546,7 +5513,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "FREQUENCY Example",
+      "title": "FREQUENCY Analysis",
       "table": {
         "headers": [
           "Value"
@@ -5561,18 +5528,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate FREQUENCY."
+        "1. Select FREQUENCY.",
+        "2. Calculate FREQUENCY."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "FREQUENCY is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -5580,7 +5548,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run FREQUENCY on table.",
+    "instructions": "Use FREQUENCY on B2:B3.",
     "initialData": [
       [
         "X"
@@ -5590,13 +5558,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "FREQUENCY(A2:A3)",
+    "expectedFormula": "FREQUENCY(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -5604,77 +5576,87 @@ export const mathStatsLessons = [
   "id": "gamma",
   "title": "GAMMA Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Factorial for Decimals",
-    "description": "Continuous factorial function.",
-    "concept": "Extension: 'What is 4.5 factorial?'"
+    "title": "GAMMA",
+    "description": "Calculate the GAMMA property for data analysis.",
+    "concept": "extension of factorial"
   },
-  "whyItExists": "Advanced math/physics.",
-  "whenToUse": "Complex modeling.",
+  "whyItExists": "Essential for GAMMA property evaluation.",
+  "whenToUse": "Analyze GAMMA in datasets.",
   "realWorldUseCases": [
-    "Lifetime models."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Gamma for 5 (4!).",
-    "formula": "=GAMMA(5)"
+    "scenario": "Perform GAMMA on monthly data.",
+    "formula": "=GAMMA(B2:B50)"
   },
-  "syntax": "=GAMMA(n)",
+  "syntax": "=GAMMA(range)",
   "syntaxBreakdown": [
     {
-      "arg": "n",
-      "desc": "Value."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Factorial",
+      "title": "GAMMA Analysis",
       "table": {
         "headers": [
-          "n"
+          "Value"
         ],
         "rows": [
           [
-            "5"
+            "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Result: 24."
+        "GAMMA(5) = 24."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Negatives",
-      "desc": "Invalid for non-pos integers."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "GAMMA(n+1)=n!"
+    "GAMMA is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "GAMMA(5)?",
-    "expectedAnswer": "24"
+    "question": "Use GAMMA?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find Gamma 5.",
+    "instructions": "Use GAMMA on B2:B3.",
     "initialData": [
       [
-        "n"
+        "X"
       ],
       [
-        5
+        100
+      ],
+      [
+        200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
-      2,
-      0
+      3,
+      1
     ],
-    "expectedFormula": "GAMMA(5)",
-    "expectedValue": 24
+    "expectedFormula": "GAMMA(B2:B3)",
+    "expectedValue": 150
   }
 },
 {
@@ -5684,17 +5666,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "GAMMA.DIST Analyzer",
-    "description": "Calculates the GAMMA.DIST property for advanced datasets.",
-    "concept": "the specialized GAMMA.DIST engine"
+    "title": "GAMMA.DIST",
+    "description": "Calculate the GAMMA.DIST property for data analysis.",
+    "concept": "the GAMMA.DIST analyzer"
   },
-  "whyItExists": "Core component of GAMMA.DIST evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for GAMMA.DIST property evaluation.",
+  "whenToUse": "Analyze GAMMA.DIST in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform GAMMA.DIST on data.",
+    "scenario": "Perform GAMMA.DIST on monthly data.",
     "formula": "=GAMMA.DIST(B2:B50)"
   },
   "syntax": "=GAMMA.DIST(range)",
@@ -5706,7 +5688,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "GAMMA.DIST Example",
+      "title": "GAMMA.DIST Analysis",
       "table": {
         "headers": [
           "Value"
@@ -5721,18 +5703,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate GAMMA.DIST."
+        "1. Select GAMMA.DIST.",
+        "2. Calculate GAMMA.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "GAMMA.DIST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -5740,7 +5723,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run GAMMA.DIST on table.",
+    "instructions": "Use GAMMA.DIST on B2:B3.",
     "initialData": [
       [
         "X"
@@ -5750,13 +5733,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "GAMMA.DIST(A2:A3)",
+    "expectedFormula": "GAMMA.DIST(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -5767,17 +5754,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "GAMMA.INV Analyzer",
-    "description": "Calculates the GAMMA.INV property for advanced datasets.",
-    "concept": "the specialized GAMMA.INV engine"
+    "title": "GAMMA.INV",
+    "description": "Calculate the GAMMA.INV property for data analysis.",
+    "concept": "the GAMMA.INV analyzer"
   },
-  "whyItExists": "Core component of GAMMA.INV evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for GAMMA.INV property evaluation.",
+  "whenToUse": "Analyze GAMMA.INV in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform GAMMA.INV on data.",
+    "scenario": "Perform GAMMA.INV on monthly data.",
     "formula": "=GAMMA.INV(B2:B50)"
   },
   "syntax": "=GAMMA.INV(range)",
@@ -5789,7 +5776,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "GAMMA.INV Example",
+      "title": "GAMMA.INV Analysis",
       "table": {
         "headers": [
           "Value"
@@ -5804,18 +5791,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate GAMMA.INV."
+        "1. Select GAMMA.INV.",
+        "2. Calculate GAMMA.INV."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "GAMMA.INV is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -5823,7 +5811,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run GAMMA.INV on table.",
+    "instructions": "Use GAMMA.INV on B2:B3.",
     "initialData": [
       [
         "X"
@@ -5833,13 +5821,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "GAMMA.INV(A2:A3)",
+    "expectedFormula": "GAMMA.INV(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -5850,17 +5842,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "GAMMALN Analyzer",
-    "description": "Calculates the GAMMALN property for advanced datasets.",
-    "concept": "the specialized GAMMALN engine"
+    "title": "GAMMALN",
+    "description": "Calculate the GAMMALN property for data analysis.",
+    "concept": "the GAMMALN analyzer"
   },
-  "whyItExists": "Core component of GAMMALN evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for GAMMALN property evaluation.",
+  "whenToUse": "Analyze GAMMALN in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform GAMMALN on data.",
+    "scenario": "Perform GAMMALN on monthly data.",
     "formula": "=GAMMALN(B2:B50)"
   },
   "syntax": "=GAMMALN(range)",
@@ -5872,7 +5864,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "GAMMALN Example",
+      "title": "GAMMALN Analysis",
       "table": {
         "headers": [
           "Value"
@@ -5887,18 +5879,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate GAMMALN."
+        "1. Select GAMMALN.",
+        "2. Calculate GAMMALN."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "GAMMALN is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -5906,7 +5899,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run GAMMALN on table.",
+    "instructions": "Use GAMMALN on B2:B3.",
     "initialData": [
       [
         "X"
@@ -5916,13 +5909,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "GAMMALN(A2:A3)",
+    "expectedFormula": "GAMMALN(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -5933,17 +5930,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "GAUSS Analyzer",
-    "description": "Calculates the GAUSS property for advanced datasets.",
-    "concept": "the specialized GAUSS engine"
+    "title": "GAUSS",
+    "description": "Calculate the GAUSS property for data analysis.",
+    "concept": "the GAUSS analyzer"
   },
-  "whyItExists": "Core component of GAUSS evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for GAUSS property evaluation.",
+  "whenToUse": "Analyze GAUSS in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform GAUSS on data.",
+    "scenario": "Perform GAUSS on monthly data.",
     "formula": "=GAUSS(B2:B50)"
   },
   "syntax": "=GAUSS(range)",
@@ -5955,7 +5952,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "GAUSS Example",
+      "title": "GAUSS Analysis",
       "table": {
         "headers": [
           "Value"
@@ -5970,18 +5967,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate GAUSS."
+        "1. Select GAUSS.",
+        "2. Calculate GAUSS."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "GAUSS is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -5989,7 +5987,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run GAUSS on table.",
+    "instructions": "Use GAUSS on B2:B3.",
     "initialData": [
       [
         "X"
@@ -5999,13 +5997,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "GAUSS(A2:A3)",
+    "expectedFormula": "GAUSS(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -6016,73 +6018,77 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "Geometric Mean",
-    "description": "Compounding average of growth.",
-    "concept": "Average growth: 'What's the avg annual rate over 5 yrs?'"
+    "title": "GEOMEAN",
+    "description": "Calculate the GEOMEAN property for data analysis.",
+    "concept": "the GEOMEAN analyzer"
   },
-  "whyItExists": "Handles compounding growth better than arithmetic mean.",
-  "whenToUse": "Investment returns.",
+  "whyItExists": "Essential for GEOMEAN property evaluation.",
+  "whenToUse": "Analyze GEOMEAN in datasets.",
   "realWorldUseCases": [
-    "CAGR math."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Avg growth for 10% and 20% years.",
-    "formula": "=GEOMEAN(1.1, 1.2)"
+    "scenario": "Perform GEOMEAN on monthly data.",
+    "formula": "=GEOMEAN(B2:B50)"
   },
-  "syntax": "=GEOMEAN(number1, ...)",
+  "syntax": "=GEOMEAN(range)",
   "syntaxBreakdown": [
     {
-      "arg": "number1",
-      "desc": "Positive factors."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Returns",
+      "title": "GEOMEAN Analysis",
       "table": {
         "headers": [
-          "Y1",
-          "Y2"
+          "Value"
         ],
         "rows": [
           [
-            "1.1"
+            "100"
           ],
           [
-            "1.2"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Result: 1.148."
+        "1. Select GEOMEAN.",
+        "2. Calculate GEOMEAN."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Negatives",
-      "desc": "Must be > 0."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Best for compound interest."
+    "GEOMEAN is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Negative allowed?",
-    "expectedAnswer": "No"
+    "question": "Use GEOMEAN?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find GM for 1.1, 1.2.",
+    "instructions": "Use GEOMEAN on B2:B3.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        1.1
+        100
       ],
       [
-        1.2
+        200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
@@ -6090,7 +6096,7 @@ export const mathStatsLessons = [
       1
     ],
     "expectedFormula": "GEOMEAN(B2:B3)",
-    "expectedValue": 1.1489
+    "expectedValue": 150
   }
 },
 {
@@ -6100,17 +6106,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "GROWTH Analyzer",
-    "description": "Calculates the GROWTH property for advanced datasets.",
-    "concept": "the specialized GROWTH engine"
+    "title": "GROWTH",
+    "description": "Calculate the GROWTH property for data analysis.",
+    "concept": "the GROWTH analyzer"
   },
-  "whyItExists": "Core component of GROWTH evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for GROWTH property evaluation.",
+  "whenToUse": "Analyze GROWTH in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform GROWTH on data.",
+    "scenario": "Perform GROWTH on monthly data.",
     "formula": "=GROWTH(B2:B50)"
   },
   "syntax": "=GROWTH(range)",
@@ -6122,7 +6128,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "GROWTH Example",
+      "title": "GROWTH Analysis",
       "table": {
         "headers": [
           "Value"
@@ -6137,18 +6143,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate GROWTH."
+        "1. Select GROWTH.",
+        "2. Calculate GROWTH."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "GROWTH is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -6156,7 +6163,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run GROWTH on table.",
+    "instructions": "Use GROWTH on B2:B3.",
     "initialData": [
       [
         "X"
@@ -6166,13 +6173,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "GROWTH(A2:A3)",
+    "expectedFormula": "GROWTH(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -6183,17 +6194,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "HARMEAN Analyzer",
-    "description": "Calculates the HARMEAN property for advanced datasets.",
-    "concept": "the specialized HARMEAN engine"
+    "title": "HARMEAN",
+    "description": "Calculate the HARMEAN property for data analysis.",
+    "concept": "the HARMEAN analyzer"
   },
-  "whyItExists": "Core component of HARMEAN evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for HARMEAN property evaluation.",
+  "whenToUse": "Analyze HARMEAN in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform HARMEAN on data.",
+    "scenario": "Perform HARMEAN on monthly data.",
     "formula": "=HARMEAN(B2:B50)"
   },
   "syntax": "=HARMEAN(range)",
@@ -6205,7 +6216,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "HARMEAN Example",
+      "title": "HARMEAN Analysis",
       "table": {
         "headers": [
           "Value"
@@ -6220,18 +6231,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate HARMEAN."
+        "1. Select HARMEAN.",
+        "2. Calculate HARMEAN."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "HARMEAN is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -6239,7 +6251,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run HARMEAN on table.",
+    "instructions": "Use HARMEAN on B2:B3.",
     "initialData": [
       [
         "X"
@@ -6249,13 +6261,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "HARMEAN(A2:A3)",
+    "expectedFormula": "HARMEAN(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -6266,17 +6282,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "HYPGEOM.DIST Analyzer",
-    "description": "Calculates the HYPGEOM.DIST property for advanced datasets.",
-    "concept": "the specialized HYPGEOM.DIST engine"
+    "title": "HYPGEOM.DIST",
+    "description": "Calculate the HYPGEOM.DIST property for data analysis.",
+    "concept": "the HYPGEOM.DIST analyzer"
   },
-  "whyItExists": "Core component of HYPGEOM.DIST evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for HYPGEOM.DIST property evaluation.",
+  "whenToUse": "Analyze HYPGEOM.DIST in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform HYPGEOM.DIST on data.",
+    "scenario": "Perform HYPGEOM.DIST on monthly data.",
     "formula": "=HYPGEOM.DIST(B2:B50)"
   },
   "syntax": "=HYPGEOM.DIST(range)",
@@ -6288,7 +6304,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "HYPGEOM.DIST Example",
+      "title": "HYPGEOM.DIST Analysis",
       "table": {
         "headers": [
           "Value"
@@ -6303,18 +6319,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate HYPGEOM.DIST."
+        "1. Select HYPGEOM.DIST.",
+        "2. Calculate HYPGEOM.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "HYPGEOM.DIST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -6322,7 +6339,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run HYPGEOM.DIST on table.",
+    "instructions": "Use HYPGEOM.DIST on B2:B3.",
     "initialData": [
       [
         "X"
@@ -6332,13 +6349,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "HYPGEOM.DIST(A2:A3)",
+    "expectedFormula": "HYPGEOM.DIST(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -6349,17 +6370,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "INTERCEPT Analyzer",
-    "description": "Calculates the INTERCEPT property for advanced datasets.",
-    "concept": "the specialized INTERCEPT engine"
+    "title": "INTERCEPT",
+    "description": "Calculate the INTERCEPT property for data analysis.",
+    "concept": "the INTERCEPT analyzer"
   },
-  "whyItExists": "Core component of INTERCEPT evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for INTERCEPT property evaluation.",
+  "whenToUse": "Analyze INTERCEPT in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform INTERCEPT on data.",
+    "scenario": "Perform INTERCEPT on monthly data.",
     "formula": "=INTERCEPT(B2:B50)"
   },
   "syntax": "=INTERCEPT(range)",
@@ -6371,7 +6392,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "INTERCEPT Example",
+      "title": "INTERCEPT Analysis",
       "table": {
         "headers": [
           "Value"
@@ -6386,18 +6407,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate INTERCEPT."
+        "1. Select INTERCEPT.",
+        "2. Calculate INTERCEPT."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "INTERCEPT is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -6405,7 +6427,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run INTERCEPT on table.",
+    "instructions": "Use INTERCEPT on B2:B3.",
     "initialData": [
       [
         "X"
@@ -6415,13 +6437,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "INTERCEPT(A2:A3)",
+    "expectedFormula": "INTERCEPT(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -6432,17 +6458,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "KURT Analyzer",
-    "description": "Calculates the KURT property for advanced datasets.",
-    "concept": "the specialized KURT engine"
+    "title": "KURT",
+    "description": "Calculate the KURT property for data analysis.",
+    "concept": "the KURT analyzer"
   },
-  "whyItExists": "Core component of KURT evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for KURT property evaluation.",
+  "whenToUse": "Analyze KURT in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform KURT on data.",
+    "scenario": "Perform KURT on monthly data.",
     "formula": "=KURT(B2:B50)"
   },
   "syntax": "=KURT(range)",
@@ -6454,7 +6480,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "KURT Example",
+      "title": "KURT Analysis",
       "table": {
         "headers": [
           "Value"
@@ -6469,18 +6495,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate KURT."
+        "1. Select KURT.",
+        "2. Calculate KURT."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "KURT is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -6488,7 +6515,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run KURT on table.",
+    "instructions": "Use KURT on B2:B3.",
     "initialData": [
       [
         "X"
@@ -6498,13 +6525,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "KURT(A2:A3)",
+    "expectedFormula": "KURT(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -6515,17 +6546,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "LARGE Analyzer",
-    "description": "Calculates the LARGE property for advanced datasets.",
-    "concept": "the specialized LARGE engine"
+    "title": "LARGE",
+    "description": "Calculate the LARGE property for data analysis.",
+    "concept": "the LARGE analyzer"
   },
-  "whyItExists": "Core component of LARGE evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for LARGE property evaluation.",
+  "whenToUse": "Analyze LARGE in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform LARGE on data.",
+    "scenario": "Perform LARGE on monthly data.",
     "formula": "=LARGE(B2:B50)"
   },
   "syntax": "=LARGE(range)",
@@ -6537,7 +6568,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "LARGE Example",
+      "title": "LARGE Analysis",
       "table": {
         "headers": [
           "Value"
@@ -6552,18 +6583,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate LARGE."
+        "1. Select LARGE.",
+        "2. Calculate LARGE."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "LARGE is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -6571,7 +6603,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run LARGE on table.",
+    "instructions": "Use LARGE on B2:B3.",
     "initialData": [
       [
         "X"
@@ -6581,13 +6613,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "LARGE(A2:A3)",
+    "expectedFormula": "LARGE(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -6598,17 +6634,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "LINEST Analyzer",
-    "description": "Calculates the LINEST property for advanced datasets.",
-    "concept": "the specialized LINEST engine"
+    "title": "LINEST",
+    "description": "Calculate the LINEST property for data analysis.",
+    "concept": "the LINEST analyzer"
   },
-  "whyItExists": "Core component of LINEST evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for LINEST property evaluation.",
+  "whenToUse": "Analyze LINEST in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform LINEST on data.",
+    "scenario": "Perform LINEST on monthly data.",
     "formula": "=LINEST(B2:B50)"
   },
   "syntax": "=LINEST(range)",
@@ -6620,7 +6656,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "LINEST Example",
+      "title": "LINEST Analysis",
       "table": {
         "headers": [
           "Value"
@@ -6635,18 +6671,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate LINEST."
+        "1. Select LINEST.",
+        "2. Calculate LINEST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "LINEST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -6654,7 +6691,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run LINEST on table.",
+    "instructions": "Use LINEST on B2:B3.",
     "initialData": [
       [
         "X"
@@ -6664,13 +6701,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "LINEST(A2:A3)",
+    "expectedFormula": "LINEST(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -6681,17 +6722,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "LOGEST Analyzer",
-    "description": "Calculates the LOGEST property for advanced datasets.",
-    "concept": "the specialized LOGEST engine"
+    "title": "LOGEST",
+    "description": "Calculate the LOGEST property for data analysis.",
+    "concept": "the LOGEST analyzer"
   },
-  "whyItExists": "Core component of LOGEST evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for LOGEST property evaluation.",
+  "whenToUse": "Analyze LOGEST in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform LOGEST on data.",
+    "scenario": "Perform LOGEST on monthly data.",
     "formula": "=LOGEST(B2:B50)"
   },
   "syntax": "=LOGEST(range)",
@@ -6703,7 +6744,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "LOGEST Example",
+      "title": "LOGEST Analysis",
       "table": {
         "headers": [
           "Value"
@@ -6718,18 +6759,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate LOGEST."
+        "1. Select LOGEST.",
+        "2. Calculate LOGEST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "LOGEST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -6737,7 +6779,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run LOGEST on table.",
+    "instructions": "Use LOGEST on B2:B3.",
     "initialData": [
       [
         "X"
@@ -6747,13 +6789,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "LOGEST(A2:A3)",
+    "expectedFormula": "LOGEST(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -6764,17 +6810,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "LOGNORM.DIST Analyzer",
-    "description": "Calculates the LOGNORM.DIST property for advanced datasets.",
-    "concept": "the specialized LOGNORM.DIST engine"
+    "title": "LOGNORM.DIST",
+    "description": "Calculate the LOGNORM.DIST property for data analysis.",
+    "concept": "the LOGNORM.DIST analyzer"
   },
-  "whyItExists": "Core component of LOGNORM.DIST evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for LOGNORM.DIST property evaluation.",
+  "whenToUse": "Analyze LOGNORM.DIST in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform LOGNORM.DIST on data.",
+    "scenario": "Perform LOGNORM.DIST on monthly data.",
     "formula": "=LOGNORM.DIST(B2:B50)"
   },
   "syntax": "=LOGNORM.DIST(range)",
@@ -6786,7 +6832,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "LOGNORM.DIST Example",
+      "title": "LOGNORM.DIST Analysis",
       "table": {
         "headers": [
           "Value"
@@ -6801,18 +6847,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate LOGNORM.DIST."
+        "1. Select LOGNORM.DIST.",
+        "2. Calculate LOGNORM.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "LOGNORM.DIST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -6820,7 +6867,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run LOGNORM.DIST on table.",
+    "instructions": "Use LOGNORM.DIST on B2:B3.",
     "initialData": [
       [
         "X"
@@ -6830,13 +6877,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "LOGNORM.DIST(A2:A3)",
+    "expectedFormula": "LOGNORM.DIST(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -6847,17 +6898,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "LOGNORM.INV Analyzer",
-    "description": "Calculates the LOGNORM.INV property for advanced datasets.",
-    "concept": "the specialized LOGNORM.INV engine"
+    "title": "LOGNORM.INV",
+    "description": "Calculate the LOGNORM.INV property for data analysis.",
+    "concept": "the LOGNORM.INV analyzer"
   },
-  "whyItExists": "Core component of LOGNORM.INV evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for LOGNORM.INV property evaluation.",
+  "whenToUse": "Analyze LOGNORM.INV in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform LOGNORM.INV on data.",
+    "scenario": "Perform LOGNORM.INV on monthly data.",
     "formula": "=LOGNORM.INV(B2:B50)"
   },
   "syntax": "=LOGNORM.INV(range)",
@@ -6869,7 +6920,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "LOGNORM.INV Example",
+      "title": "LOGNORM.INV Analysis",
       "table": {
         "headers": [
           "Value"
@@ -6884,18 +6935,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate LOGNORM.INV."
+        "1. Select LOGNORM.INV.",
+        "2. Calculate LOGNORM.INV."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "LOGNORM.INV is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -6903,7 +6955,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run LOGNORM.INV on table.",
+    "instructions": "Use LOGNORM.INV on B2:B3.",
     "initialData": [
       [
         "X"
@@ -6913,13 +6965,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "LOGNORM.INV(A2:A3)",
+    "expectedFormula": "LOGNORM.INV(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -6930,17 +6986,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "MAX Analyzer",
-    "description": "Calculates the MAX property for advanced datasets.",
-    "concept": "the specialized MAX engine"
+    "title": "MAX",
+    "description": "Calculate the MAX property for data analysis.",
+    "concept": "the MAX analyzer"
   },
-  "whyItExists": "Core component of MAX evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for MAX property evaluation.",
+  "whenToUse": "Analyze MAX in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform MAX on data.",
+    "scenario": "Perform MAX on monthly data.",
     "formula": "=MAX(B2:B50)"
   },
   "syntax": "=MAX(range)",
@@ -6952,7 +7008,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "MAX Example",
+      "title": "MAX Analysis",
       "table": {
         "headers": [
           "Value"
@@ -6967,18 +7023,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate MAX."
+        "1. Select MAX.",
+        "2. Calculate MAX."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "MAX is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -6986,7 +7043,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run MAX on table.",
+    "instructions": "Use MAX on B2:B3.",
     "initialData": [
       [
         "X"
@@ -6996,13 +7053,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "MAX(A2:A3)",
+    "expectedFormula": "MAX(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -7013,17 +7074,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "MAXA Analyzer",
-    "description": "Calculates the MAXA property for advanced datasets.",
-    "concept": "the specialized MAXA engine"
+    "title": "MAXA",
+    "description": "Calculate the MAXA property for data analysis.",
+    "concept": "the MAXA analyzer"
   },
-  "whyItExists": "Core component of MAXA evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for MAXA property evaluation.",
+  "whenToUse": "Analyze MAXA in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform MAXA on data.",
+    "scenario": "Perform MAXA on monthly data.",
     "formula": "=MAXA(B2:B50)"
   },
   "syntax": "=MAXA(range)",
@@ -7035,7 +7096,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "MAXA Example",
+      "title": "MAXA Analysis",
       "table": {
         "headers": [
           "Value"
@@ -7050,18 +7111,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate MAXA."
+        "1. Select MAXA.",
+        "2. Calculate MAXA."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "MAXA is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -7069,7 +7131,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run MAXA on table.",
+    "instructions": "Use MAXA on B2:B3.",
     "initialData": [
       [
         "X"
@@ -7079,13 +7141,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "MAXA(A2:A3)",
+    "expectedFormula": "MAXA(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -7096,17 +7162,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "MEDIAN Analyzer",
-    "description": "Calculates the MEDIAN property for advanced datasets.",
-    "concept": "the specialized MEDIAN engine"
+    "title": "MEDIAN",
+    "description": "Calculate the MEDIAN property for data analysis.",
+    "concept": "the MEDIAN analyzer"
   },
-  "whyItExists": "Core component of MEDIAN evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for MEDIAN property evaluation.",
+  "whenToUse": "Analyze MEDIAN in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform MEDIAN on data.",
+    "scenario": "Perform MEDIAN on monthly data.",
     "formula": "=MEDIAN(B2:B50)"
   },
   "syntax": "=MEDIAN(range)",
@@ -7118,7 +7184,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "MEDIAN Example",
+      "title": "MEDIAN Analysis",
       "table": {
         "headers": [
           "Value"
@@ -7133,18 +7199,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate MEDIAN."
+        "1. Select MEDIAN.",
+        "2. Calculate MEDIAN."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "MEDIAN is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -7152,7 +7219,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run MEDIAN on table.",
+    "instructions": "Use MEDIAN on B2:B3.",
     "initialData": [
       [
         "X"
@@ -7162,13 +7229,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "MEDIAN(A2:A3)",
+    "expectedFormula": "MEDIAN(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -7179,17 +7250,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "MIN Analyzer",
-    "description": "Calculates the MIN property for advanced datasets.",
-    "concept": "the specialized MIN engine"
+    "title": "MIN",
+    "description": "Calculate the MIN property for data analysis.",
+    "concept": "the MIN analyzer"
   },
-  "whyItExists": "Core component of MIN evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for MIN property evaluation.",
+  "whenToUse": "Analyze MIN in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform MIN on data.",
+    "scenario": "Perform MIN on monthly data.",
     "formula": "=MIN(B2:B50)"
   },
   "syntax": "=MIN(range)",
@@ -7201,7 +7272,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "MIN Example",
+      "title": "MIN Analysis",
       "table": {
         "headers": [
           "Value"
@@ -7216,18 +7287,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate MIN."
+        "1. Select MIN.",
+        "2. Calculate MIN."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "MIN is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -7235,7 +7307,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run MIN on table.",
+    "instructions": "Use MIN on B2:B3.",
     "initialData": [
       [
         "X"
@@ -7245,13 +7317,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "MIN(A2:A3)",
+    "expectedFormula": "MIN(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -7262,17 +7338,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "MINA Analyzer",
-    "description": "Calculates the MINA property for advanced datasets.",
-    "concept": "the specialized MINA engine"
+    "title": "MINA",
+    "description": "Calculate the MINA property for data analysis.",
+    "concept": "the MINA analyzer"
   },
-  "whyItExists": "Core component of MINA evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for MINA property evaluation.",
+  "whenToUse": "Analyze MINA in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform MINA on data.",
+    "scenario": "Perform MINA on monthly data.",
     "formula": "=MINA(B2:B50)"
   },
   "syntax": "=MINA(range)",
@@ -7284,7 +7360,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "MINA Example",
+      "title": "MINA Analysis",
       "table": {
         "headers": [
           "Value"
@@ -7299,18 +7375,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate MINA."
+        "1. Select MINA.",
+        "2. Calculate MINA."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "MINA is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -7318,7 +7395,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run MINA on table.",
+    "instructions": "Use MINA on B2:B3.",
     "initialData": [
       [
         "X"
@@ -7328,13 +7405,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "MINA(A2:A3)",
+    "expectedFormula": "MINA(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -7345,17 +7426,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "MODE.MULT Analyzer",
-    "description": "Calculates the MODE.MULT property for advanced datasets.",
-    "concept": "the specialized MODE.MULT engine"
+    "title": "MODE.MULT",
+    "description": "Calculate the MODE.MULT property for data analysis.",
+    "concept": "the MODE.MULT analyzer"
   },
-  "whyItExists": "Core component of MODE.MULT evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for MODE.MULT property evaluation.",
+  "whenToUse": "Analyze MODE.MULT in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform MODE.MULT on data.",
+    "scenario": "Perform MODE.MULT on monthly data.",
     "formula": "=MODE.MULT(B2:B50)"
   },
   "syntax": "=MODE.MULT(range)",
@@ -7367,7 +7448,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "MODE.MULT Example",
+      "title": "MODE.MULT Analysis",
       "table": {
         "headers": [
           "Value"
@@ -7382,18 +7463,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate MODE.MULT."
+        "1. Select MODE.MULT.",
+        "2. Calculate MODE.MULT."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "MODE.MULT is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -7401,7 +7483,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run MODE.MULT on table.",
+    "instructions": "Use MODE.MULT on B2:B3.",
     "initialData": [
       [
         "X"
@@ -7411,13 +7493,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "MODE.MULT(A2:A3)",
+    "expectedFormula": "MODE.MULT(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -7428,17 +7514,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "MODE.SNGL Analyzer",
-    "description": "Calculates the MODE.SNGL property for advanced datasets.",
-    "concept": "the specialized MODE.SNGL engine"
+    "title": "MODE.SNGL",
+    "description": "Calculate the MODE.SNGL property for data analysis.",
+    "concept": "the MODE.SNGL analyzer"
   },
-  "whyItExists": "Core component of MODE.SNGL evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for MODE.SNGL property evaluation.",
+  "whenToUse": "Analyze MODE.SNGL in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform MODE.SNGL on data.",
+    "scenario": "Perform MODE.SNGL on monthly data.",
     "formula": "=MODE.SNGL(B2:B50)"
   },
   "syntax": "=MODE.SNGL(range)",
@@ -7450,7 +7536,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "MODE.SNGL Example",
+      "title": "MODE.SNGL Analysis",
       "table": {
         "headers": [
           "Value"
@@ -7465,18 +7551,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate MODE.SNGL."
+        "1. Select MODE.SNGL.",
+        "2. Calculate MODE.SNGL."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "MODE.SNGL is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -7484,7 +7571,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run MODE.SNGL on table.",
+    "instructions": "Use MODE.SNGL on B2:B3.",
     "initialData": [
       [
         "X"
@@ -7494,13 +7581,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "MODE.SNGL(A2:A3)",
+    "expectedFormula": "MODE.SNGL(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -7511,17 +7602,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "NEGBINOM.DIST Analyzer",
-    "description": "Calculates the NEGBINOM.DIST property for advanced datasets.",
-    "concept": "the specialized NEGBINOM.DIST engine"
+    "title": "NEGBINOM.DIST",
+    "description": "Calculate the NEGBINOM.DIST property for data analysis.",
+    "concept": "the NEGBINOM.DIST analyzer"
   },
-  "whyItExists": "Core component of NEGBINOM.DIST evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for NEGBINOM.DIST property evaluation.",
+  "whenToUse": "Analyze NEGBINOM.DIST in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform NEGBINOM.DIST on data.",
+    "scenario": "Perform NEGBINOM.DIST on monthly data.",
     "formula": "=NEGBINOM.DIST(B2:B50)"
   },
   "syntax": "=NEGBINOM.DIST(range)",
@@ -7533,7 +7624,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "NEGBINOM.DIST Example",
+      "title": "NEGBINOM.DIST Analysis",
       "table": {
         "headers": [
           "Value"
@@ -7548,18 +7639,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate NEGBINOM.DIST."
+        "1. Select NEGBINOM.DIST.",
+        "2. Calculate NEGBINOM.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "NEGBINOM.DIST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -7567,7 +7659,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run NEGBINOM.DIST on table.",
+    "instructions": "Use NEGBINOM.DIST on B2:B3.",
     "initialData": [
       [
         "X"
@@ -7577,13 +7669,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "NEGBINOM.DIST(A2:A3)",
+    "expectedFormula": "NEGBINOM.DIST(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -7594,17 +7690,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "NORM.DIST Analyzer",
-    "description": "Calculates the NORM.DIST property for advanced datasets.",
-    "concept": "the specialized NORM.DIST engine"
+    "title": "NORM.DIST",
+    "description": "Calculate the NORM.DIST property for data analysis.",
+    "concept": "the NORM.DIST analyzer"
   },
-  "whyItExists": "Core component of NORM.DIST evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for NORM.DIST property evaluation.",
+  "whenToUse": "Analyze NORM.DIST in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform NORM.DIST on data.",
+    "scenario": "Perform NORM.DIST on monthly data.",
     "formula": "=NORM.DIST(B2:B50)"
   },
   "syntax": "=NORM.DIST(range)",
@@ -7616,7 +7712,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "NORM.DIST Example",
+      "title": "NORM.DIST Analysis",
       "table": {
         "headers": [
           "Value"
@@ -7631,18 +7727,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate NORM.DIST."
+        "1. Select NORM.DIST.",
+        "2. Calculate NORM.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "NORM.DIST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -7650,7 +7747,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run NORM.DIST on table.",
+    "instructions": "Use NORM.DIST on B2:B3.",
     "initialData": [
       [
         "X"
@@ -7660,13 +7757,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "NORM.DIST(A2:A3)",
+    "expectedFormula": "NORM.DIST(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -7677,17 +7778,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "NORM.INV Analyzer",
-    "description": "Calculates the NORM.INV property for advanced datasets.",
-    "concept": "the specialized NORM.INV engine"
+    "title": "NORM.INV",
+    "description": "Calculate the NORM.INV property for data analysis.",
+    "concept": "the NORM.INV analyzer"
   },
-  "whyItExists": "Core component of NORM.INV evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for NORM.INV property evaluation.",
+  "whenToUse": "Analyze NORM.INV in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform NORM.INV on data.",
+    "scenario": "Perform NORM.INV on monthly data.",
     "formula": "=NORM.INV(B2:B50)"
   },
   "syntax": "=NORM.INV(range)",
@@ -7699,7 +7800,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "NORM.INV Example",
+      "title": "NORM.INV Analysis",
       "table": {
         "headers": [
           "Value"
@@ -7714,18 +7815,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate NORM.INV."
+        "1. Select NORM.INV.",
+        "2. Calculate NORM.INV."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "NORM.INV is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -7733,7 +7835,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run NORM.INV on table.",
+    "instructions": "Use NORM.INV on B2:B3.",
     "initialData": [
       [
         "X"
@@ -7743,13 +7845,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "NORM.INV(A2:A3)",
+    "expectedFormula": "NORM.INV(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -7760,17 +7866,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "NORM.S.DIST Analyzer",
-    "description": "Calculates the NORM.S.DIST property for advanced datasets.",
-    "concept": "the specialized NORM.S.DIST engine"
+    "title": "NORM.S.DIST",
+    "description": "Calculate the NORM.S.DIST property for data analysis.",
+    "concept": "the NORM.S.DIST analyzer"
   },
-  "whyItExists": "Core component of NORM.S.DIST evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for NORM.S.DIST property evaluation.",
+  "whenToUse": "Analyze NORM.S.DIST in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform NORM.S.DIST on data.",
+    "scenario": "Perform NORM.S.DIST on monthly data.",
     "formula": "=NORM.S.DIST(B2:B50)"
   },
   "syntax": "=NORM.S.DIST(range)",
@@ -7782,7 +7888,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "NORM.S.DIST Example",
+      "title": "NORM.S.DIST Analysis",
       "table": {
         "headers": [
           "Value"
@@ -7797,18 +7903,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate NORM.S.DIST."
+        "1. Select NORM.S.DIST.",
+        "2. Calculate NORM.S.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "NORM.S.DIST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -7816,7 +7923,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run NORM.S.DIST on table.",
+    "instructions": "Use NORM.S.DIST on B2:B3.",
     "initialData": [
       [
         "X"
@@ -7826,13 +7933,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "NORM.S.DIST(A2:A3)",
+    "expectedFormula": "NORM.S.DIST(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -7843,17 +7954,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "NORM.S.INV Analyzer",
-    "description": "Calculates the NORM.S.INV property for advanced datasets.",
-    "concept": "the specialized NORM.S.INV engine"
+    "title": "NORM.S.INV",
+    "description": "Calculate the NORM.S.INV property for data analysis.",
+    "concept": "the NORM.S.INV analyzer"
   },
-  "whyItExists": "Core component of NORM.S.INV evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for NORM.S.INV property evaluation.",
+  "whenToUse": "Analyze NORM.S.INV in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform NORM.S.INV on data.",
+    "scenario": "Perform NORM.S.INV on monthly data.",
     "formula": "=NORM.S.INV(B2:B50)"
   },
   "syntax": "=NORM.S.INV(range)",
@@ -7865,7 +7976,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "NORM.S.INV Example",
+      "title": "NORM.S.INV Analysis",
       "table": {
         "headers": [
           "Value"
@@ -7880,18 +7991,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate NORM.S.INV."
+        "1. Select NORM.S.INV.",
+        "2. Calculate NORM.S.INV."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "NORM.S.INV is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -7899,7 +8011,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run NORM.S.INV on table.",
+    "instructions": "Use NORM.S.INV on B2:B3.",
     "initialData": [
       [
         "X"
@@ -7909,13 +8021,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "NORM.S.INV(A2:A3)",
+    "expectedFormula": "NORM.S.INV(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -7926,17 +8042,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "PEARSON Analyzer",
-    "description": "Calculates the PEARSON property for advanced datasets.",
-    "concept": "the specialized PEARSON engine"
+    "title": "PEARSON",
+    "description": "Calculate the PEARSON property for data analysis.",
+    "concept": "the PEARSON analyzer"
   },
-  "whyItExists": "Core component of PEARSON evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for PEARSON property evaluation.",
+  "whenToUse": "Analyze PEARSON in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform PEARSON on data.",
+    "scenario": "Perform PEARSON on monthly data.",
     "formula": "=PEARSON(B2:B50)"
   },
   "syntax": "=PEARSON(range)",
@@ -7948,7 +8064,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "PEARSON Example",
+      "title": "PEARSON Analysis",
       "table": {
         "headers": [
           "Value"
@@ -7963,18 +8079,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate PEARSON."
+        "1. Select PEARSON.",
+        "2. Calculate PEARSON."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "PEARSON is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -7982,7 +8099,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run PEARSON on table.",
+    "instructions": "Use PEARSON on B2:B3.",
     "initialData": [
       [
         "X"
@@ -7992,13 +8109,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "PEARSON(A2:A3)",
+    "expectedFormula": "PEARSON(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -8009,17 +8130,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "PERCENTILE.EXC Analyzer",
-    "description": "Calculates the PERCENTILE.EXC property for advanced datasets.",
-    "concept": "the specialized PERCENTILE.EXC engine"
+    "title": "PERCENTILE.EXC",
+    "description": "Calculate the PERCENTILE.EXC property for data analysis.",
+    "concept": "the PERCENTILE.EXC analyzer"
   },
-  "whyItExists": "Core component of PERCENTILE.EXC evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for PERCENTILE.EXC property evaluation.",
+  "whenToUse": "Analyze PERCENTILE.EXC in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform PERCENTILE.EXC on data.",
+    "scenario": "Perform PERCENTILE.EXC on monthly data.",
     "formula": "=PERCENTILE.EXC(B2:B50)"
   },
   "syntax": "=PERCENTILE.EXC(range)",
@@ -8031,7 +8152,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "PERCENTILE.EXC Example",
+      "title": "PERCENTILE.EXC Analysis",
       "table": {
         "headers": [
           "Value"
@@ -8046,18 +8167,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate PERCENTILE.EXC."
+        "1. Select PERCENTILE.EXC.",
+        "2. Calculate PERCENTILE.EXC."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "PERCENTILE.EXC is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -8065,7 +8187,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run PERCENTILE.EXC on table.",
+    "instructions": "Use PERCENTILE.EXC on B2:B3.",
     "initialData": [
       [
         "X"
@@ -8075,13 +8197,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "PERCENTILE.EXC(A2:A3)",
+    "expectedFormula": "PERCENTILE.EXC(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -8092,17 +8218,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "PERCENTILE.INC Analyzer",
-    "description": "Calculates the PERCENTILE.INC property for advanced datasets.",
-    "concept": "the specialized PERCENTILE.INC engine"
+    "title": "PERCENTILE.INC",
+    "description": "Calculate the PERCENTILE.INC property for data analysis.",
+    "concept": "the PERCENTILE.INC analyzer"
   },
-  "whyItExists": "Core component of PERCENTILE.INC evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for PERCENTILE.INC property evaluation.",
+  "whenToUse": "Analyze PERCENTILE.INC in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform PERCENTILE.INC on data.",
+    "scenario": "Perform PERCENTILE.INC on monthly data.",
     "formula": "=PERCENTILE.INC(B2:B50)"
   },
   "syntax": "=PERCENTILE.INC(range)",
@@ -8114,7 +8240,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "PERCENTILE.INC Example",
+      "title": "PERCENTILE.INC Analysis",
       "table": {
         "headers": [
           "Value"
@@ -8129,18 +8255,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate PERCENTILE.INC."
+        "1. Select PERCENTILE.INC.",
+        "2. Calculate PERCENTILE.INC."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "PERCENTILE.INC is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -8148,7 +8275,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run PERCENTILE.INC on table.",
+    "instructions": "Use PERCENTILE.INC on B2:B3.",
     "initialData": [
       [
         "X"
@@ -8158,13 +8285,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "PERCENTILE.INC(A2:A3)",
+    "expectedFormula": "PERCENTILE.INC(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -8175,17 +8306,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "PERCENTRANK.EXC Analyzer",
-    "description": "Calculates the PERCENTRANK.EXC property for advanced datasets.",
-    "concept": "the specialized PERCENTRANK.EXC engine"
+    "title": "PERCENTRANK.EXC",
+    "description": "Calculate the PERCENTRANK.EXC property for data analysis.",
+    "concept": "the PERCENTRANK.EXC analyzer"
   },
-  "whyItExists": "Core component of PERCENTRANK.EXC evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for PERCENTRANK.EXC property evaluation.",
+  "whenToUse": "Analyze PERCENTRANK.EXC in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform PERCENTRANK.EXC on data.",
+    "scenario": "Perform PERCENTRANK.EXC on monthly data.",
     "formula": "=PERCENTRANK.EXC(B2:B50)"
   },
   "syntax": "=PERCENTRANK.EXC(range)",
@@ -8197,7 +8328,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "PERCENTRANK.EXC Example",
+      "title": "PERCENTRANK.EXC Analysis",
       "table": {
         "headers": [
           "Value"
@@ -8212,18 +8343,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate PERCENTRANK.EXC."
+        "1. Select PERCENTRANK.EXC.",
+        "2. Calculate PERCENTRANK.EXC."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "PERCENTRANK.EXC is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -8231,7 +8363,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run PERCENTRANK.EXC on table.",
+    "instructions": "Use PERCENTRANK.EXC on B2:B3.",
     "initialData": [
       [
         "X"
@@ -8241,13 +8373,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "PERCENTRANK.EXC(A2:A3)",
+    "expectedFormula": "PERCENTRANK.EXC(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -8258,17 +8394,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "PERCENTRANK.INC Analyzer",
-    "description": "Calculates the PERCENTRANK.INC property for advanced datasets.",
-    "concept": "the specialized PERCENTRANK.INC engine"
+    "title": "PERCENTRANK.INC",
+    "description": "Calculate the PERCENTRANK.INC property for data analysis.",
+    "concept": "the PERCENTRANK.INC analyzer"
   },
-  "whyItExists": "Core component of PERCENTRANK.INC evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for PERCENTRANK.INC property evaluation.",
+  "whenToUse": "Analyze PERCENTRANK.INC in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform PERCENTRANK.INC on data.",
+    "scenario": "Perform PERCENTRANK.INC on monthly data.",
     "formula": "=PERCENTRANK.INC(B2:B50)"
   },
   "syntax": "=PERCENTRANK.INC(range)",
@@ -8280,7 +8416,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "PERCENTRANK.INC Example",
+      "title": "PERCENTRANK.INC Analysis",
       "table": {
         "headers": [
           "Value"
@@ -8295,18 +8431,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate PERCENTRANK.INC."
+        "1. Select PERCENTRANK.INC.",
+        "2. Calculate PERCENTRANK.INC."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "PERCENTRANK.INC is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -8314,7 +8451,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run PERCENTRANK.INC on table.",
+    "instructions": "Use PERCENTRANK.INC on B2:B3.",
     "initialData": [
       [
         "X"
@@ -8324,13 +8461,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "PERCENTRANK.INC(A2:A3)",
+    "expectedFormula": "PERCENTRANK.INC(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -8341,17 +8482,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "PERMUT Analyzer",
-    "description": "Calculates the PERMUT property for advanced datasets.",
-    "concept": "the specialized PERMUT engine"
+    "title": "PERMUT",
+    "description": "Calculate the PERMUT property for data analysis.",
+    "concept": "the PERMUT analyzer"
   },
-  "whyItExists": "Core component of PERMUT evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for PERMUT property evaluation.",
+  "whenToUse": "Analyze PERMUT in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform PERMUT on data.",
+    "scenario": "Perform PERMUT on monthly data.",
     "formula": "=PERMUT(B2:B50)"
   },
   "syntax": "=PERMUT(range)",
@@ -8363,7 +8504,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "PERMUT Example",
+      "title": "PERMUT Analysis",
       "table": {
         "headers": [
           "Value"
@@ -8378,18 +8519,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate PERMUT."
+        "1. Select PERMUT.",
+        "2. Calculate PERMUT."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "PERMUT is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -8397,7 +8539,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run PERMUT on table.",
+    "instructions": "Use PERMUT on B2:B3.",
     "initialData": [
       [
         "X"
@@ -8407,13 +8549,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "PERMUT(A2:A3)",
+    "expectedFormula": "PERMUT(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -8424,17 +8570,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "PERMUTATIONA Analyzer",
-    "description": "Calculates the PERMUTATIONA property for advanced datasets.",
-    "concept": "the specialized PERMUTATIONA engine"
+    "title": "PERMUTATIONA",
+    "description": "Calculate the PERMUTATIONA property for data analysis.",
+    "concept": "the PERMUTATIONA analyzer"
   },
-  "whyItExists": "Core component of PERMUTATIONA evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for PERMUTATIONA property evaluation.",
+  "whenToUse": "Analyze PERMUTATIONA in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform PERMUTATIONA on data.",
+    "scenario": "Perform PERMUTATIONA on monthly data.",
     "formula": "=PERMUTATIONA(B2:B50)"
   },
   "syntax": "=PERMUTATIONA(range)",
@@ -8446,7 +8592,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "PERMUTATIONA Example",
+      "title": "PERMUTATIONA Analysis",
       "table": {
         "headers": [
           "Value"
@@ -8461,18 +8607,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate PERMUTATIONA."
+        "1. Select PERMUTATIONA.",
+        "2. Calculate PERMUTATIONA."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "PERMUTATIONA is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -8480,7 +8627,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run PERMUTATIONA on table.",
+    "instructions": "Use PERMUTATIONA on B2:B3.",
     "initialData": [
       [
         "X"
@@ -8490,13 +8637,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "PERMUTATIONA(A2:A3)",
+    "expectedFormula": "PERMUTATIONA(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -8507,17 +8658,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "PHI Analyzer",
-    "description": "Calculates the PHI property for advanced datasets.",
-    "concept": "the specialized PHI engine"
+    "title": "PHI",
+    "description": "Calculate the PHI property for data analysis.",
+    "concept": "the PHI analyzer"
   },
-  "whyItExists": "Core component of PHI evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for PHI property evaluation.",
+  "whenToUse": "Analyze PHI in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform PHI on data.",
+    "scenario": "Perform PHI on monthly data.",
     "formula": "=PHI(B2:B50)"
   },
   "syntax": "=PHI(range)",
@@ -8529,7 +8680,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "PHI Example",
+      "title": "PHI Analysis",
       "table": {
         "headers": [
           "Value"
@@ -8544,18 +8695,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate PHI."
+        "1. Select PHI.",
+        "2. Calculate PHI."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "PHI is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -8563,7 +8715,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run PHI on table.",
+    "instructions": "Use PHI on B2:B3.",
     "initialData": [
       [
         "X"
@@ -8573,13 +8725,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "PHI(A2:A3)",
+    "expectedFormula": "PHI(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -8590,17 +8746,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "POISSON.DIST Analyzer",
-    "description": "Calculates the POISSON.DIST property for advanced datasets.",
-    "concept": "the specialized POISSON.DIST engine"
+    "title": "POISSON.DIST",
+    "description": "Calculate the POISSON.DIST property for data analysis.",
+    "concept": "the POISSON.DIST analyzer"
   },
-  "whyItExists": "Core component of POISSON.DIST evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for POISSON.DIST property evaluation.",
+  "whenToUse": "Analyze POISSON.DIST in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform POISSON.DIST on data.",
+    "scenario": "Perform POISSON.DIST on monthly data.",
     "formula": "=POISSON.DIST(B2:B50)"
   },
   "syntax": "=POISSON.DIST(range)",
@@ -8612,7 +8768,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "POISSON.DIST Example",
+      "title": "POISSON.DIST Analysis",
       "table": {
         "headers": [
           "Value"
@@ -8627,18 +8783,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate POISSON.DIST."
+        "1. Select POISSON.DIST.",
+        "2. Calculate POISSON.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "POISSON.DIST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -8646,7 +8803,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run POISSON.DIST on table.",
+    "instructions": "Use POISSON.DIST on B2:B3.",
     "initialData": [
       [
         "X"
@@ -8656,13 +8813,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "POISSON.DIST(A2:A3)",
+    "expectedFormula": "POISSON.DIST(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -8673,17 +8834,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "PROB Analyzer",
-    "description": "Calculates the PROB property for advanced datasets.",
-    "concept": "the specialized PROB engine"
+    "title": "PROB",
+    "description": "Calculate the PROB property for data analysis.",
+    "concept": "the PROB analyzer"
   },
-  "whyItExists": "Core component of PROB evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for PROB property evaluation.",
+  "whenToUse": "Analyze PROB in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform PROB on data.",
+    "scenario": "Perform PROB on monthly data.",
     "formula": "=PROB(B2:B50)"
   },
   "syntax": "=PROB(range)",
@@ -8695,7 +8856,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "PROB Example",
+      "title": "PROB Analysis",
       "table": {
         "headers": [
           "Value"
@@ -8710,18 +8871,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate PROB."
+        "1. Select PROB.",
+        "2. Calculate PROB."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "PROB is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -8729,7 +8891,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run PROB on table.",
+    "instructions": "Use PROB on B2:B3.",
     "initialData": [
       [
         "X"
@@ -8739,13 +8901,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "PROB(A2:A3)",
+    "expectedFormula": "PROB(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -8756,17 +8922,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "QUARTILE.EXC Analyzer",
-    "description": "Calculates the QUARTILE.EXC property for advanced datasets.",
-    "concept": "the specialized QUARTILE.EXC engine"
+    "title": "QUARTILE.EXC",
+    "description": "Calculate the QUARTILE.EXC property for data analysis.",
+    "concept": "the QUARTILE.EXC analyzer"
   },
-  "whyItExists": "Core component of QUARTILE.EXC evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for QUARTILE.EXC property evaluation.",
+  "whenToUse": "Analyze QUARTILE.EXC in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform QUARTILE.EXC on data.",
+    "scenario": "Perform QUARTILE.EXC on monthly data.",
     "formula": "=QUARTILE.EXC(B2:B50)"
   },
   "syntax": "=QUARTILE.EXC(range)",
@@ -8778,7 +8944,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "QUARTILE.EXC Example",
+      "title": "QUARTILE.EXC Analysis",
       "table": {
         "headers": [
           "Value"
@@ -8793,18 +8959,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate QUARTILE.EXC."
+        "1. Select QUARTILE.EXC.",
+        "2. Calculate QUARTILE.EXC."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "QUARTILE.EXC is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -8812,7 +8979,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run QUARTILE.EXC on table.",
+    "instructions": "Use QUARTILE.EXC on B2:B3.",
     "initialData": [
       [
         "X"
@@ -8822,13 +8989,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "QUARTILE.EXC(A2:A3)",
+    "expectedFormula": "QUARTILE.EXC(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -8839,17 +9010,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "QUARTILE.INC Analyzer",
-    "description": "Calculates the QUARTILE.INC property for advanced datasets.",
-    "concept": "the specialized QUARTILE.INC engine"
+    "title": "QUARTILE.INC",
+    "description": "Calculate the QUARTILE.INC property for data analysis.",
+    "concept": "the QUARTILE.INC analyzer"
   },
-  "whyItExists": "Core component of QUARTILE.INC evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for QUARTILE.INC property evaluation.",
+  "whenToUse": "Analyze QUARTILE.INC in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform QUARTILE.INC on data.",
+    "scenario": "Perform QUARTILE.INC on monthly data.",
     "formula": "=QUARTILE.INC(B2:B50)"
   },
   "syntax": "=QUARTILE.INC(range)",
@@ -8861,7 +9032,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "QUARTILE.INC Example",
+      "title": "QUARTILE.INC Analysis",
       "table": {
         "headers": [
           "Value"
@@ -8876,18 +9047,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate QUARTILE.INC."
+        "1. Select QUARTILE.INC.",
+        "2. Calculate QUARTILE.INC."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "QUARTILE.INC is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -8895,7 +9067,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run QUARTILE.INC on table.",
+    "instructions": "Use QUARTILE.INC on B2:B3.",
     "initialData": [
       [
         "X"
@@ -8905,13 +9077,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "QUARTILE.INC(A2:A3)",
+    "expectedFormula": "QUARTILE.INC(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -8922,17 +9098,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "RANK.AVG Analyzer",
-    "description": "Calculates the RANK.AVG property for advanced datasets.",
-    "concept": "the specialized RANK.AVG engine"
+    "title": "RANK.AVG",
+    "description": "Calculate the RANK.AVG property for data analysis.",
+    "concept": "the RANK.AVG analyzer"
   },
-  "whyItExists": "Core component of RANK.AVG evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for RANK.AVG property evaluation.",
+  "whenToUse": "Analyze RANK.AVG in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform RANK.AVG on data.",
+    "scenario": "Perform RANK.AVG on monthly data.",
     "formula": "=RANK.AVG(B2:B50)"
   },
   "syntax": "=RANK.AVG(range)",
@@ -8944,7 +9120,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "RANK.AVG Example",
+      "title": "RANK.AVG Analysis",
       "table": {
         "headers": [
           "Value"
@@ -8959,18 +9135,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate RANK.AVG."
+        "1. Select RANK.AVG.",
+        "2. Calculate RANK.AVG."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "RANK.AVG is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -8978,7 +9155,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run RANK.AVG on table.",
+    "instructions": "Use RANK.AVG on B2:B3.",
     "initialData": [
       [
         "X"
@@ -8988,13 +9165,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "RANK.AVG(A2:A3)",
+    "expectedFormula": "RANK.AVG(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -9005,17 +9186,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "RANK.EQ Analyzer",
-    "description": "Calculates the RANK.EQ property for advanced datasets.",
-    "concept": "the specialized RANK.EQ engine"
+    "title": "RANK.EQ",
+    "description": "Calculate the RANK.EQ property for data analysis.",
+    "concept": "the RANK.EQ analyzer"
   },
-  "whyItExists": "Core component of RANK.EQ evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for RANK.EQ property evaluation.",
+  "whenToUse": "Analyze RANK.EQ in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform RANK.EQ on data.",
+    "scenario": "Perform RANK.EQ on monthly data.",
     "formula": "=RANK.EQ(B2:B50)"
   },
   "syntax": "=RANK.EQ(range)",
@@ -9027,7 +9208,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "RANK.EQ Example",
+      "title": "RANK.EQ Analysis",
       "table": {
         "headers": [
           "Value"
@@ -9042,18 +9223,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate RANK.EQ."
+        "1. Select RANK.EQ.",
+        "2. Calculate RANK.EQ."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "RANK.EQ is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -9061,7 +9243,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run RANK.EQ on table.",
+    "instructions": "Use RANK.EQ on B2:B3.",
     "initialData": [
       [
         "X"
@@ -9071,13 +9253,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "RANK.EQ(A2:A3)",
+    "expectedFormula": "RANK.EQ(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -9088,17 +9274,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "RSQ Analyzer",
-    "description": "Calculates the RSQ property for advanced datasets.",
-    "concept": "the specialized RSQ engine"
+    "title": "RSQ",
+    "description": "Calculate the RSQ property for data analysis.",
+    "concept": "the RSQ analyzer"
   },
-  "whyItExists": "Core component of RSQ evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for RSQ property evaluation.",
+  "whenToUse": "Analyze RSQ in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform RSQ on data.",
+    "scenario": "Perform RSQ on monthly data.",
     "formula": "=RSQ(B2:B50)"
   },
   "syntax": "=RSQ(range)",
@@ -9110,7 +9296,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "RSQ Example",
+      "title": "RSQ Analysis",
       "table": {
         "headers": [
           "Value"
@@ -9125,18 +9311,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate RSQ."
+        "1. Select RSQ.",
+        "2. Calculate RSQ."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "RSQ is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -9144,7 +9331,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run RSQ on table.",
+    "instructions": "Use RSQ on B2:B3.",
     "initialData": [
       [
         "X"
@@ -9154,13 +9341,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "RSQ(A2:A3)",
+    "expectedFormula": "RSQ(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -9168,89 +9359,88 @@ export const mathStatsLessons = [
   "id": "skew",
   "title": "SKEW Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Distribution Lean",
-    "description": "Measures asymmetry.",
-    "concept": "Lean: 'Does data tail off to the left or right?'"
+    "title": "SKEW",
+    "description": "Calculate the SKEW property for data analysis.",
+    "concept": "tail lean checker"
   },
-  "whyItExists": "Check data balance.",
-  "whenToUse": "Income distributions.",
+  "whyItExists": "Essential for SKEW property evaluation.",
+  "whenToUse": "Analyze SKEW in datasets.",
   "realWorldUseCases": [
-    "Salary skew."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Skew of {1, 10, 100}.",
-    "formula": "=SKEW(B2:B4)"
+    "scenario": "Perform SKEW on monthly data.",
+    "formula": "=SKEW(B2:B50)"
   },
-  "syntax": "=SKEW(v1, ...)",
+  "syntax": "=SKEW(range)",
   "syntaxBreakdown": [
     {
-      "arg": "v1",
-      "desc": "Data."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Tail Test",
+      "title": "SKEW Analysis",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "1"
-          ],
-          [
-            "10"
-          ],
-          [
             "100"
+          ],
+          [
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Result: 1.15."
+        "1. Select SKEW.",
+        "2. Calculate SKEW."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Points",
-      "desc": "Needs 3 points."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Pos = right tail."
+    "SKEW is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "Skew of symmetric data?",
-    "expectedAnswer": "0"
+    "question": "Use SKEW?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Find skewness.",
+    "instructions": "Use SKEW on B2:B3.",
     "initialData": [
       [
-        "V"
-      ],
-      [
-        1
-      ],
-      [
-        10
+        "X"
       ],
       [
         100
+      ],
+      [
+        200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
-      4,
+      3,
       1
     ],
-    "expectedFormula": "SKEW(A2:A4)",
-    "expectedValue": 1.15
+    "expectedFormula": "SKEW(B2:B3)",
+    "expectedValue": 150
   }
 },
 {
@@ -9260,17 +9450,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "SKEW.P Analyzer",
-    "description": "Calculates the SKEW.P property for advanced datasets.",
-    "concept": "the specialized SKEW.P engine"
+    "title": "SKEW.P",
+    "description": "Calculate the SKEW.P property for data analysis.",
+    "concept": "the SKEW.P analyzer"
   },
-  "whyItExists": "Core component of SKEW.P evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for SKEW.P property evaluation.",
+  "whenToUse": "Analyze SKEW.P in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform SKEW.P on data.",
+    "scenario": "Perform SKEW.P on monthly data.",
     "formula": "=SKEW.P(B2:B50)"
   },
   "syntax": "=SKEW.P(range)",
@@ -9282,7 +9472,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "SKEW.P Example",
+      "title": "SKEW.P Analysis",
       "table": {
         "headers": [
           "Value"
@@ -9297,18 +9487,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate SKEW.P."
+        "1. Select SKEW.P.",
+        "2. Calculate SKEW.P."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "SKEW.P is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -9316,7 +9507,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run SKEW.P on table.",
+    "instructions": "Use SKEW.P on B2:B3.",
     "initialData": [
       [
         "X"
@@ -9326,13 +9517,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "SKEW.P(A2:A3)",
+    "expectedFormula": "SKEW.P(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -9343,17 +9538,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "SLOPE Analyzer",
-    "description": "Calculates the SLOPE property for advanced datasets.",
-    "concept": "the specialized SLOPE engine"
+    "title": "SLOPE",
+    "description": "Calculate the SLOPE property for data analysis.",
+    "concept": "the SLOPE analyzer"
   },
-  "whyItExists": "Core component of SLOPE evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for SLOPE property evaluation.",
+  "whenToUse": "Analyze SLOPE in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform SLOPE on data.",
+    "scenario": "Perform SLOPE on monthly data.",
     "formula": "=SLOPE(B2:B50)"
   },
   "syntax": "=SLOPE(range)",
@@ -9365,7 +9560,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "SLOPE Example",
+      "title": "SLOPE Analysis",
       "table": {
         "headers": [
           "Value"
@@ -9380,18 +9575,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate SLOPE."
+        "1. Select SLOPE.",
+        "2. Calculate SLOPE."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "SLOPE is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -9399,7 +9595,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run SLOPE on table.",
+    "instructions": "Use SLOPE on B2:B3.",
     "initialData": [
       [
         "X"
@@ -9409,13 +9605,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "SLOPE(A2:A3)",
+    "expectedFormula": "SLOPE(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -9426,17 +9626,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "SMALL Analyzer",
-    "description": "Calculates the SMALL property for advanced datasets.",
-    "concept": "the specialized SMALL engine"
+    "title": "SMALL",
+    "description": "Calculate the SMALL property for data analysis.",
+    "concept": "the SMALL analyzer"
   },
-  "whyItExists": "Core component of SMALL evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for SMALL property evaluation.",
+  "whenToUse": "Analyze SMALL in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform SMALL on data.",
+    "scenario": "Perform SMALL on monthly data.",
     "formula": "=SMALL(B2:B50)"
   },
   "syntax": "=SMALL(range)",
@@ -9448,7 +9648,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "SMALL Example",
+      "title": "SMALL Analysis",
       "table": {
         "headers": [
           "Value"
@@ -9463,18 +9663,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate SMALL."
+        "1. Select SMALL.",
+        "2. Calculate SMALL."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "SMALL is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -9482,7 +9683,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run SMALL on table.",
+    "instructions": "Use SMALL on B2:B3.",
     "initialData": [
       [
         "X"
@@ -9492,13 +9693,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "SMALL(A2:A3)",
+    "expectedFormula": "SMALL(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -9509,17 +9714,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "STANDARDIZE Analyzer",
-    "description": "Calculates the STANDARDIZE property for advanced datasets.",
-    "concept": "the specialized STANDARDIZE engine"
+    "title": "STANDARDIZE",
+    "description": "Calculate the STANDARDIZE property for data analysis.",
+    "concept": "the STANDARDIZE analyzer"
   },
-  "whyItExists": "Core component of STANDARDIZE evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for STANDARDIZE property evaluation.",
+  "whenToUse": "Analyze STANDARDIZE in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform STANDARDIZE on data.",
+    "scenario": "Perform STANDARDIZE on monthly data.",
     "formula": "=STANDARDIZE(B2:B50)"
   },
   "syntax": "=STANDARDIZE(range)",
@@ -9531,7 +9736,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "STANDARDIZE Example",
+      "title": "STANDARDIZE Analysis",
       "table": {
         "headers": [
           "Value"
@@ -9546,18 +9751,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate STANDARDIZE."
+        "1. Select STANDARDIZE.",
+        "2. Calculate STANDARDIZE."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "STANDARDIZE is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -9565,7 +9771,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run STANDARDIZE on table.",
+    "instructions": "Use STANDARDIZE on B2:B3.",
     "initialData": [
       [
         "X"
@@ -9575,13 +9781,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "STANDARDIZE(A2:A3)",
+    "expectedFormula": "STANDARDIZE(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -9592,17 +9802,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "STDEV.P Analyzer",
-    "description": "Calculates the STDEV.P property for advanced datasets.",
-    "concept": "the specialized STDEV.P engine"
+    "title": "STDEV.P",
+    "description": "Calculate the STDEV.P property for data analysis.",
+    "concept": "the STDEV.P analyzer"
   },
-  "whyItExists": "Core component of STDEV.P evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for STDEV.P property evaluation.",
+  "whenToUse": "Analyze STDEV.P in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform STDEV.P on data.",
+    "scenario": "Perform STDEV.P on monthly data.",
     "formula": "=STDEV.P(B2:B50)"
   },
   "syntax": "=STDEV.P(range)",
@@ -9614,7 +9824,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "STDEV.P Example",
+      "title": "STDEV.P Analysis",
       "table": {
         "headers": [
           "Value"
@@ -9629,18 +9839,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate STDEV.P."
+        "1. Select STDEV.P.",
+        "2. Calculate STDEV.P."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "STDEV.P is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -9648,7 +9859,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run STDEV.P on table.",
+    "instructions": "Use STDEV.P on B2:B3.",
     "initialData": [
       [
         "X"
@@ -9658,13 +9869,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "STDEV.P(A2:A3)",
+    "expectedFormula": "STDEV.P(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -9675,17 +9890,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "STDEV.S Analyzer",
-    "description": "Calculates the STDEV.S property for advanced datasets.",
-    "concept": "the specialized STDEV.S engine"
+    "title": "STDEV.S",
+    "description": "Calculate the STDEV.S property for data analysis.",
+    "concept": "the STDEV.S analyzer"
   },
-  "whyItExists": "Core component of STDEV.S evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for STDEV.S property evaluation.",
+  "whenToUse": "Analyze STDEV.S in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform STDEV.S on data.",
+    "scenario": "Perform STDEV.S on monthly data.",
     "formula": "=STDEV.S(B2:B50)"
   },
   "syntax": "=STDEV.S(range)",
@@ -9697,7 +9912,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "STDEV.S Example",
+      "title": "STDEV.S Analysis",
       "table": {
         "headers": [
           "Value"
@@ -9712,18 +9927,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate STDEV.S."
+        "1. Select STDEV.S.",
+        "2. Calculate STDEV.S."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "STDEV.S is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -9731,7 +9947,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run STDEV.S on table.",
+    "instructions": "Use STDEV.S on B2:B3.",
     "initialData": [
       [
         "X"
@@ -9741,13 +9957,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "STDEV.S(A2:A3)",
+    "expectedFormula": "STDEV.S(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -9758,17 +9978,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "STDEVA Analyzer",
-    "description": "Calculates the STDEVA property for advanced datasets.",
-    "concept": "the specialized STDEVA engine"
+    "title": "STDEVA",
+    "description": "Calculate the STDEVA property for data analysis.",
+    "concept": "the STDEVA analyzer"
   },
-  "whyItExists": "Core component of STDEVA evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for STDEVA property evaluation.",
+  "whenToUse": "Analyze STDEVA in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform STDEVA on data.",
+    "scenario": "Perform STDEVA on monthly data.",
     "formula": "=STDEVA(B2:B50)"
   },
   "syntax": "=STDEVA(range)",
@@ -9780,7 +10000,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "STDEVA Example",
+      "title": "STDEVA Analysis",
       "table": {
         "headers": [
           "Value"
@@ -9795,18 +10015,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate STDEVA."
+        "1. Select STDEVA.",
+        "2. Calculate STDEVA."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "STDEVA is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -9814,7 +10035,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run STDEVA on table.",
+    "instructions": "Use STDEVA on B2:B3.",
     "initialData": [
       [
         "X"
@@ -9824,13 +10045,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "STDEVA(A2:A3)",
+    "expectedFormula": "STDEVA(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -9841,17 +10066,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "STDEVPA Analyzer",
-    "description": "Calculates the STDEVPA property for advanced datasets.",
-    "concept": "the specialized STDEVPA engine"
+    "title": "STDEVPA",
+    "description": "Calculate the STDEVPA property for data analysis.",
+    "concept": "the STDEVPA analyzer"
   },
-  "whyItExists": "Core component of STDEVPA evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for STDEVPA property evaluation.",
+  "whenToUse": "Analyze STDEVPA in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform STDEVPA on data.",
+    "scenario": "Perform STDEVPA on monthly data.",
     "formula": "=STDEVPA(B2:B50)"
   },
   "syntax": "=STDEVPA(range)",
@@ -9863,7 +10088,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "STDEVPA Example",
+      "title": "STDEVPA Analysis",
       "table": {
         "headers": [
           "Value"
@@ -9878,18 +10103,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate STDEVPA."
+        "1. Select STDEVPA.",
+        "2. Calculate STDEVPA."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "STDEVPA is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -9897,7 +10123,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run STDEVPA on table.",
+    "instructions": "Use STDEVPA on B2:B3.",
     "initialData": [
       [
         "X"
@@ -9907,13 +10133,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "STDEVPA(A2:A3)",
+    "expectedFormula": "STDEVPA(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -9924,17 +10154,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "STEYX Analyzer",
-    "description": "Calculates the STEYX property for advanced datasets.",
-    "concept": "the specialized STEYX engine"
+    "title": "STEYX",
+    "description": "Calculate the STEYX property for data analysis.",
+    "concept": "the STEYX analyzer"
   },
-  "whyItExists": "Core component of STEYX evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for STEYX property evaluation.",
+  "whenToUse": "Analyze STEYX in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform STEYX on data.",
+    "scenario": "Perform STEYX on monthly data.",
     "formula": "=STEYX(B2:B50)"
   },
   "syntax": "=STEYX(range)",
@@ -9946,7 +10176,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "STEYX Example",
+      "title": "STEYX Analysis",
       "table": {
         "headers": [
           "Value"
@@ -9961,18 +10191,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate STEYX."
+        "1. Select STEYX.",
+        "2. Calculate STEYX."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "STEYX is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -9980,7 +10211,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run STEYX on table.",
+    "instructions": "Use STEYX on B2:B3.",
     "initialData": [
       [
         "X"
@@ -9990,13 +10221,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "STEYX(A2:A3)",
+    "expectedFormula": "STEYX(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -10007,17 +10242,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "T.DIST Analyzer",
-    "description": "Calculates the T.DIST property for advanced datasets.",
-    "concept": "the specialized T.DIST engine"
+    "title": "T.DIST",
+    "description": "Calculate the T.DIST property for data analysis.",
+    "concept": "the T.DIST analyzer"
   },
-  "whyItExists": "Core component of T.DIST evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for T.DIST property evaluation.",
+  "whenToUse": "Analyze T.DIST in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform T.DIST on data.",
+    "scenario": "Perform T.DIST on monthly data.",
     "formula": "=T.DIST(B2:B50)"
   },
   "syntax": "=T.DIST(range)",
@@ -10029,7 +10264,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "T.DIST Example",
+      "title": "T.DIST Analysis",
       "table": {
         "headers": [
           "Value"
@@ -10044,18 +10279,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate T.DIST."
+        "1. Select T.DIST.",
+        "2. Calculate T.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "T.DIST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -10063,7 +10299,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run T.DIST on table.",
+    "instructions": "Use T.DIST on B2:B3.",
     "initialData": [
       [
         "X"
@@ -10073,13 +10309,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "T.DIST(A2:A3)",
+    "expectedFormula": "T.DIST(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -10090,17 +10330,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "T.INV Analyzer",
-    "description": "Calculates the T.INV property for advanced datasets.",
-    "concept": "the specialized T.INV engine"
+    "title": "T.INV",
+    "description": "Calculate the T.INV property for data analysis.",
+    "concept": "the T.INV analyzer"
   },
-  "whyItExists": "Core component of T.INV evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for T.INV property evaluation.",
+  "whenToUse": "Analyze T.INV in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform T.INV on data.",
+    "scenario": "Perform T.INV on monthly data.",
     "formula": "=T.INV(B2:B50)"
   },
   "syntax": "=T.INV(range)",
@@ -10112,7 +10352,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "T.INV Example",
+      "title": "T.INV Analysis",
       "table": {
         "headers": [
           "Value"
@@ -10127,18 +10367,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate T.INV."
+        "1. Select T.INV.",
+        "2. Calculate T.INV."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "T.INV is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -10146,7 +10387,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run T.INV on table.",
+    "instructions": "Use T.INV on B2:B3.",
     "initialData": [
       [
         "X"
@@ -10156,13 +10397,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "T.INV(A2:A3)",
+    "expectedFormula": "T.INV(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -10173,17 +10418,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "T.TEST Analyzer",
-    "description": "Calculates the T.TEST property for advanced datasets.",
-    "concept": "the specialized T.TEST engine"
+    "title": "T.TEST",
+    "description": "Calculate the T.TEST property for data analysis.",
+    "concept": "the T.TEST analyzer"
   },
-  "whyItExists": "Core component of T.TEST evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for T.TEST property evaluation.",
+  "whenToUse": "Analyze T.TEST in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform T.TEST on data.",
+    "scenario": "Perform T.TEST on monthly data.",
     "formula": "=T.TEST(B2:B50)"
   },
   "syntax": "=T.TEST(range)",
@@ -10195,7 +10440,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "T.TEST Example",
+      "title": "T.TEST Analysis",
       "table": {
         "headers": [
           "Value"
@@ -10210,18 +10455,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate T.TEST."
+        "1. Select T.TEST.",
+        "2. Calculate T.TEST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "T.TEST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -10229,7 +10475,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run T.TEST on table.",
+    "instructions": "Use T.TEST on B2:B3.",
     "initialData": [
       [
         "X"
@@ -10239,13 +10485,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "T.TEST(A2:A3)",
+    "expectedFormula": "T.TEST(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -10256,17 +10506,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "TREND Analyzer",
-    "description": "Calculates the TREND property for advanced datasets.",
-    "concept": "the specialized TREND engine"
+    "title": "TREND",
+    "description": "Calculate the TREND property for data analysis.",
+    "concept": "the TREND analyzer"
   },
-  "whyItExists": "Core component of TREND evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for TREND property evaluation.",
+  "whenToUse": "Analyze TREND in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform TREND on data.",
+    "scenario": "Perform TREND on monthly data.",
     "formula": "=TREND(B2:B50)"
   },
   "syntax": "=TREND(range)",
@@ -10278,7 +10528,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "TREND Example",
+      "title": "TREND Analysis",
       "table": {
         "headers": [
           "Value"
@@ -10293,18 +10543,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate TREND."
+        "1. Select TREND.",
+        "2. Calculate TREND."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "TREND is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -10312,7 +10563,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run TREND on table.",
+    "instructions": "Use TREND on B2:B3.",
     "initialData": [
       [
         "X"
@@ -10322,13 +10573,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "TREND(A2:A3)",
+    "expectedFormula": "TREND(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -10339,17 +10594,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "TRIMMEAN Analyzer",
-    "description": "Calculates the TRIMMEAN property for advanced datasets.",
-    "concept": "the specialized TRIMMEAN engine"
+    "title": "TRIMMEAN",
+    "description": "Calculate the TRIMMEAN property for data analysis.",
+    "concept": "the TRIMMEAN analyzer"
   },
-  "whyItExists": "Core component of TRIMMEAN evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for TRIMMEAN property evaluation.",
+  "whenToUse": "Analyze TRIMMEAN in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform TRIMMEAN on data.",
+    "scenario": "Perform TRIMMEAN on monthly data.",
     "formula": "=TRIMMEAN(B2:B50)"
   },
   "syntax": "=TRIMMEAN(range)",
@@ -10361,7 +10616,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "TRIMMEAN Example",
+      "title": "TRIMMEAN Analysis",
       "table": {
         "headers": [
           "Value"
@@ -10376,18 +10631,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate TRIMMEAN."
+        "1. Select TRIMMEAN.",
+        "2. Calculate TRIMMEAN."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "TRIMMEAN is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -10395,7 +10651,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run TRIMMEAN on table.",
+    "instructions": "Use TRIMMEAN on B2:B3.",
     "initialData": [
       [
         "X"
@@ -10405,13 +10661,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "TRIMMEAN(A2:A3)",
+    "expectedFormula": "TRIMMEAN(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -10422,17 +10682,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "VAR.P Analyzer",
-    "description": "Calculates the VAR.P property for advanced datasets.",
-    "concept": "the specialized VAR.P engine"
+    "title": "VAR.P",
+    "description": "Calculate the VAR.P property for data analysis.",
+    "concept": "the VAR.P analyzer"
   },
-  "whyItExists": "Core component of VAR.P evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for VAR.P property evaluation.",
+  "whenToUse": "Analyze VAR.P in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform VAR.P on data.",
+    "scenario": "Perform VAR.P on monthly data.",
     "formula": "=VAR.P(B2:B50)"
   },
   "syntax": "=VAR.P(range)",
@@ -10444,7 +10704,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "VAR.P Example",
+      "title": "VAR.P Analysis",
       "table": {
         "headers": [
           "Value"
@@ -10459,18 +10719,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate VAR.P."
+        "1. Select VAR.P.",
+        "2. Calculate VAR.P."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "VAR.P is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -10478,7 +10739,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run VAR.P on table.",
+    "instructions": "Use VAR.P on B2:B3.",
     "initialData": [
       [
         "X"
@@ -10488,13 +10749,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "VAR.P(A2:A3)",
+    "expectedFormula": "VAR.P(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -10505,17 +10770,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "VAR.S Analyzer",
-    "description": "Calculates the VAR.S property for advanced datasets.",
-    "concept": "the specialized VAR.S engine"
+    "title": "VAR.S",
+    "description": "Calculate the VAR.S property for data analysis.",
+    "concept": "the VAR.S analyzer"
   },
-  "whyItExists": "Core component of VAR.S evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for VAR.S property evaluation.",
+  "whenToUse": "Analyze VAR.S in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform VAR.S on data.",
+    "scenario": "Perform VAR.S on monthly data.",
     "formula": "=VAR.S(B2:B50)"
   },
   "syntax": "=VAR.S(range)",
@@ -10527,7 +10792,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "VAR.S Example",
+      "title": "VAR.S Analysis",
       "table": {
         "headers": [
           "Value"
@@ -10542,18 +10807,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate VAR.S."
+        "1. Select VAR.S.",
+        "2. Calculate VAR.S."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "VAR.S is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -10561,7 +10827,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run VAR.S on table.",
+    "instructions": "Use VAR.S on B2:B3.",
     "initialData": [
       [
         "X"
@@ -10571,13 +10837,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "VAR.S(A2:A3)",
+    "expectedFormula": "VAR.S(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -10588,17 +10858,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "VARA Analyzer",
-    "description": "Calculates the VARA property for advanced datasets.",
-    "concept": "the specialized VARA engine"
+    "title": "VARA",
+    "description": "Calculate the VARA property for data analysis.",
+    "concept": "the VARA analyzer"
   },
-  "whyItExists": "Core component of VARA evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for VARA property evaluation.",
+  "whenToUse": "Analyze VARA in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform VARA on data.",
+    "scenario": "Perform VARA on monthly data.",
     "formula": "=VARA(B2:B50)"
   },
   "syntax": "=VARA(range)",
@@ -10610,7 +10880,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "VARA Example",
+      "title": "VARA Analysis",
       "table": {
         "headers": [
           "Value"
@@ -10625,18 +10895,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate VARA."
+        "1. Select VARA.",
+        "2. Calculate VARA."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "VARA is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -10644,7 +10915,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run VARA on table.",
+    "instructions": "Use VARA on B2:B3.",
     "initialData": [
       [
         "X"
@@ -10654,13 +10925,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "VARA(A2:A3)",
+    "expectedFormula": "VARA(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -10671,17 +10946,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "VARPA Analyzer",
-    "description": "Calculates the VARPA property for advanced datasets.",
-    "concept": "the specialized VARPA engine"
+    "title": "VARPA",
+    "description": "Calculate the VARPA property for data analysis.",
+    "concept": "the VARPA analyzer"
   },
-  "whyItExists": "Core component of VARPA evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for VARPA property evaluation.",
+  "whenToUse": "Analyze VARPA in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform VARPA on data.",
+    "scenario": "Perform VARPA on monthly data.",
     "formula": "=VARPA(B2:B50)"
   },
   "syntax": "=VARPA(range)",
@@ -10693,7 +10968,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "VARPA Example",
+      "title": "VARPA Analysis",
       "table": {
         "headers": [
           "Value"
@@ -10708,18 +10983,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate VARPA."
+        "1. Select VARPA.",
+        "2. Calculate VARPA."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "VARPA is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -10727,7 +11003,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run VARPA on table.",
+    "instructions": "Use VARPA on B2:B3.",
     "initialData": [
       [
         "X"
@@ -10737,13 +11013,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "VARPA(A2:A3)",
+    "expectedFormula": "VARPA(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -10754,17 +11034,17 @@ export const mathStatsLessons = [
   "difficulty": "Intermediate",
   "xp": 200,
   "introduction": {
-    "title": "WEIBULL.DIST Analyzer",
-    "description": "Calculates the WEIBULL.DIST property for advanced datasets.",
-    "concept": "the specialized WEIBULL.DIST engine"
+    "title": "WEIBULL.DIST",
+    "description": "Calculate the WEIBULL.DIST property for data analysis.",
+    "concept": "the WEIBULL.DIST analyzer"
   },
-  "whyItExists": "Core component of WEIBULL.DIST evaluation.",
-  "whenToUse": "Data modeling.",
+  "whyItExists": "Essential for WEIBULL.DIST property evaluation.",
+  "whenToUse": "Analyze WEIBULL.DIST in datasets.",
   "realWorldUseCases": [
-    "Business analysis."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Perform WEIBULL.DIST on data.",
+    "scenario": "Perform WEIBULL.DIST on monthly data.",
     "formula": "=WEIBULL.DIST(B2:B50)"
   },
   "syntax": "=WEIBULL.DIST(range)",
@@ -10776,7 +11056,7 @@ export const mathStatsLessons = [
   ],
   "detailedExamples": [
     {
-      "title": "WEIBULL.DIST Example",
+      "title": "WEIBULL.DIST Analysis",
       "table": {
         "headers": [
           "Value"
@@ -10791,18 +11071,19 @@ export const mathStatsLessons = [
         ]
       },
       "stepByStep": [
-        "Calculate WEIBULL.DIST."
+        "1. Select WEIBULL.DIST.",
+        "2. Calculate WEIBULL.DIST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "Data Type",
+      "title": "Data type",
       "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "High precision."
+    "WEIBULL.DIST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
@@ -10810,7 +11091,7 @@ export const mathStatsLessons = [
     "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run WEIBULL.DIST on table.",
+    "instructions": "Use WEIBULL.DIST on B2:B3.",
     "initialData": [
       [
         "X"
@@ -10820,13 +11101,17 @@ export const mathStatsLessons = [
       ],
       [
         200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "WEIBULL.DIST(A2:A3)",
+    "expectedFormula": "WEIBULL.DIST(B2:B3)",
     "expectedValue": 150
   }
 },
@@ -10834,83 +11119,88 @@ export const mathStatsLessons = [
   "id": "z.test",
   "title": "Z.TEST Function",
   "category": "statistical",
-  "difficulty": "Advanced",
-  "xp": 300,
+  "difficulty": "Intermediate",
+  "xp": 200,
   "introduction": {
-    "title": "Mean Shift Test",
-    "description": "One-tailed Z-test p-value.",
-    "concept": "Shift checker: 'Is sample mean significantly high?'"
+    "title": "Z.TEST",
+    "description": "Calculate the Z.TEST property for data analysis.",
+    "concept": "shift checker"
   },
-  "whyItExists": "Compare sample to target.",
-  "whenToUse": "Large N checks.",
+  "whyItExists": "Essential for Z.TEST property evaluation.",
+  "whenToUse": "Analyze Z.TEST in datasets.",
   "realWorldUseCases": [
-    "Process drift."
+    "Business data modeling."
   ],
   "businessExample": {
-    "scenario": "Test weights > 12g.",
-    "formula": "=Z.TEST(B2:B10, 12)"
+    "scenario": "Perform Z.TEST on monthly data.",
+    "formula": "=Z.TEST(B2:B50)"
   },
-  "syntax": "=Z.TEST(a, x)",
+  "syntax": "=Z.TEST(range)",
   "syntaxBreakdown": [
     {
-      "arg": "x",
-      "desc": "Hypothesis."
+      "arg": "range",
+      "desc": "Numerical data."
     }
   ],
   "detailedExamples": [
     {
-      "title": "Drift",
+      "title": "Z.TEST Analysis",
       "table": {
         "headers": [
-          "V"
+          "Value"
         ],
         "rows": [
           [
-            "10"
+            "100"
           ],
           [
-            "20"
+            "200"
           ]
         ]
       },
       "stepByStep": [
-        "Result: 0.78."
+        "1. Select Z.TEST.",
+        "2. Calculate Z.TEST."
       ]
     }
   ],
   "commonMistakes": [
     {
-      "title": "One-tailed",
-      "desc": "Returns p-value."
+      "title": "Data type",
+      "desc": "Numbers only."
     }
   ],
   "proTips": [
-    "Assumes normal."
+    "Z.TEST is highly accurate."
   ],
   "relatedFunctions": [],
   "miniChallenge": {
-    "question": "One or two tailed?",
-    "expectedAnswer": "One-tailed"
+    "question": "Use Z.TEST?",
+    "expectedAnswer": "Yes"
   },
   "practice": {
-    "instructions": "Run Z.TEST.",
+    "instructions": "Use Z.TEST on B2:B3.",
     "initialData": [
       [
-        "V"
+        "X"
       ],
       [
-        10
+        100
       ],
       [
-        20
+        200
+      ],
+      [
+        "R",
+        ""
       ]
     ],
     "targetCell": [
       3,
       1
     ],
-    "expectedFormula": "Z.TEST(A2:A3,12)",
-    "expectedValue": 0.78
+    "expectedFormula": "Z.TEST(B2:B3)",
+    "expectedValue": 150
   }
 }
 ];
