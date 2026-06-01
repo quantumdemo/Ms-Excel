@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   X, Home, BookOpen, Search, Trophy, Settings, LogOut,
   ChevronRight, Layout, BrainCircuit, Calculator, Type,
-  Zap, Landmark, Rocket, Calendar
+  Zap, Landmark, Rocket, Calendar, BarChart3, Info
 } from "lucide-react";
 import Image from "next/image";
 import { useAuthStore } from "@/hooks/useAuth";
@@ -13,9 +13,11 @@ import { useProgressStore } from "@/hooks/useProgress";
 const categories = [
   { id: 'foundations', title: 'Basics', icon: Layout },
   { id: 'logical', title: 'Logical Functions', icon: BrainCircuit },
-  { id: 'math', title: 'Math & Stats', icon: Calculator },
+  { id: 'math', title: 'Math & Trig', icon: Calculator },
+  { id: 'statistical', title: 'Statistical', icon: BarChart3 },
   { id: 'lookup', title: 'Lookup & Reference', icon: Search },
   { id: 'text', title: 'Text Functions', icon: Type },
+  { id: 'info', title: 'Information', icon: Info },
   { id: 'dynamic-array', title: 'Dynamic Arrays', icon: Zap },
   { id: 'financial', title: 'Financial', icon: Landmark },
   { id: 'date-time', title: 'Date & Time', icon: Calendar },

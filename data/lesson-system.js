@@ -12,7 +12,7 @@ export const functionCategories = [
   { id: 'math', name: 'Math & Trig', icon: Calculator, color: '#8b5cf6' },
   { id: 'statistical', name: 'Statistical', icon: BarChart3, color: '#ef4444' },
   { id: 'financial', name: 'Financial', icon: Landmark, color: '#059669' },
-  { id: 'information', name: 'Information', icon: Info, color: '#64748b' },
+  { id: 'info', name: 'Information', icon: Info, color: '#64748b' },
   { id: 'dynamic-array', name: 'Dynamic Arrays', icon: Zap, color: '#f97316' },
 ];
 
