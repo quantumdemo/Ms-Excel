@@ -4830,1853 +4830,1489 @@ export const mathStatsLessons = [
       expectedValue: 2
     }
   },
-{
-  "id": "gamma",
-  "title": "GAMMA Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "GAMMA",
-    "description": "Calculate the GAMMA property for data analysis.",
-    "concept": "extension of factorial"
-  },
-  "whyItExists": "Essential for GAMMA property evaluation.",
-  "whenToUse": "Analyze GAMMA in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform GAMMA on monthly data.",
-    "formula": "=GAMMA(B2:B50)"
-  },
-  "syntax": "=GAMMA(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "GAMMA Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  {
+    id: "gamma",
+    title: "GAMMA Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Factorial Extension: GAMMA",
+      description: "Returns the value of the Gamma function for a specified number. For positive integers, Γ(n) = (n-1)!.",
+      concept: "Think of it as a way to calculate factorials for numbers that aren't whole, like 4.5. It's a foundational building block for advanced statistics."
+    },
+    internalLogic: "Excel identifies all numeric values and computes the integral Γ(z) = ∫₀^∞ t^(z-1) e^(-t) dt. For positive integers, it simplifies to (n-1)!.",
+    whyItExists: "Standard factorials only work for whole numbers. The Gamma function extends this concept to all real numbers (except zero and negative integers).",
+    whenToUse: "Use GAMMA in advanced engineering, physics, and probability density calculations.",
+    realWorldUseCases: [
+      "Calculating complex probability distributions.",
+      "Modeling waiting times in queuing theory.",
+      "Scientific research involving fluid dynamics."
+    ],
+    businessExample: {
+      scenario: "A researcher needs to calculate the Gamma value for 5 to verify a factorial-based model.",
+      formula: "=GAMMA(5)"
+    },
+    syntax: "=GAMMA(number)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The value to evaluate. Must be a positive number." }
+    ],
+    detailedExamples: [
+      {
+        title: "Integer vs Decimal Gamma",
+        table: {
+          headers: ["Input Value", "Formula", "Result", "Notes"],
+          rows: [
+            ["5", "=GAMMA(5)", "24", "Same as 4! (4*3*2*1)"],
+            ["4.5", "=GAMMA(4.5)", "11.6317", "Non-integer factorial extension"]
           ]
+        },
+        stepByStep: [
+          "For GAMMA(5), Excel computes (5-1)! = 4!.",
+          "4 × 3 × 2 × 1 = 24.",
+          "Result: 24."
         ]
-      },
-      "stepByStep": [
-        "GAMMA(5) = 24."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "GAMMA is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use GAMMA?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use GAMMA on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Using 0 or Negative Integers", desc: "GAMMA is undefined for 0 and negative integers, returning #NUM!." },
+      { title: "Expected n!", desc: "Remember that GAMMA(n) returns (n-1)!. For 5!, you need GAMMA(6)." },
+      { title: "Log Gamma Confusion", desc: "Confusing with GAMMALN (natural log of Gamma)." }
     ],
-    "expectedFormula": "GAMMA(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "gamma.dist",
-  "title": "GAMMA.DIST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "GAMMA.DIST",
-    "description": "Calculate the GAMMA.DIST property for data analysis.",
-    "concept": "the GAMMA.DIST analyzer"
-  },
-  "whyItExists": "Essential for GAMMA.DIST property evaluation.",
-  "whenToUse": "Analyze GAMMA.DIST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform GAMMA.DIST on monthly data.",
-    "formula": "=GAMMA.DIST(B2:B50)"
-  },
-  "syntax": "=GAMMA.DIST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "GAMMA(0.5) is exactly √π (approximately 1.77245).",
+      "For very large numbers, use GAMMALN to avoid overflow errors.",
+      "Faster than manual factorial recursion for large numbers."
+    ],
+    relatedFunctions: ["GAMMALN", "GAMMA.DIST", "FACT"],
+    miniChallenge: {
+      question: "Verify Γ(6) and explain its relationship to 5!.",
+      expectedAnswer: "Γ(6) = 120, which is equal to 5! (5*4*3*2*1)."
+    },
+    practice: {
+      instructions: "In cell B2, calculate the Gamma function for the value in A2.",
+      initialData: [["Input", "Result"], [3, ""], ["Input", ""], [4.5, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "GAMMA(A2)",
+      expectedValue: 2
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "GAMMA.DIST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "gamma.dist",
+    title: "GAMMA.DIST Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 400,
+    introduction: {
+      title: "The Gamma Distribution: GAMMA.DIST",
+      description: "Returns the gamma distribution. You can use this function to study variables that may have a skewed distribution.",
+      concept: "Think of it as a model for 'waiting times'. It's often used to predict how long it will take for a certain number of events to occur."
+    },
+    internalLogic: "Calculates the probability density or cumulative distribution for the gamma distribution given Alpha (shape) and Beta (scale). Mean = αβ, Variance = αβ².",
+    whyItExists: "Many real-world phenomena (like rainfall amounts or insurance claims) are right-skewed and cannot be modeled by a normal distribution.",
+    whenToUse: "Use GAMMA.DIST for reliability analysis, queueing theory, or modeling skewed data distributions.",
+    realWorldUseCases: [
+      "Estimating the time until the next 3 customer arrivals.",
+      "Modeling total rainfall during a storm.",
+      "Predicting the age at which a specific component might fail."
+    ],
+    businessExample: {
+      scenario: "An analyst wants to find the cumulative probability (CDF) for x=3 with shape 2 and scale 1.",
+      formula: "=GAMMA.DIST(3, 2, 1, TRUE)"
+    },
+    syntax: "=GAMMA.DIST(x, alpha, beta, cumulative)",
+    syntaxBreakdown: [
+      { arg: "x", desc: "The value at which you want to evaluate the distribution (must be ≥ 0)." },
+      { arg: "alpha", desc: "The shape parameter of the distribution (must be > 0)." },
+      { arg: "beta", desc: "The scale parameter of the distribution (must be > 0). If beta = 1, it returns the standard gamma distribution." },
+      { arg: "cumulative", desc: "A logical value: TRUE returns the cumulative distribution function; FALSE returns the probability density function." }
+    ],
+    detailedExamples: [
+      {
+        title: "CDF vs PDF Comparison",
+        table: {
+          headers: ["x", "Alpha", "Beta", "Cumulative", "Result"],
+          rows: [
+            ["3", "2", "1", "TRUE", "0.8009"],
+            ["3", "2", "1", "FALSE", "0.1494"]
           ]
+        },
+        stepByStep: [
+          "With Alpha=2 and Beta=1, the mean is 2.",
+          "For x=3 (TRUE), the area under the curve from 0 to 3 is 0.8009.",
+          "For x=3 (FALSE), the height of the curve at 3 is 0.1494."
         ]
-      },
-      "stepByStep": [
-        "1. Select GAMMA.DIST.",
-        "2. Calculate GAMMA.DIST."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "GAMMA.DIST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use GAMMA.DIST?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use GAMMA.DIST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Negative x values", desc: "x must be greater than or equal to 0." },
+      { title: "Scale vs Rate", desc: "Excel uses Beta as a scale parameter. If you have a rate (λ), use 1/λ as your Beta." },
+      { title: "Parameter Confusion", desc: "Confusing alpha (shape) and beta (scale) with rate parameter." }
     ],
-    "expectedFormula": "GAMMA.DIST(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "gamma.inv",
-  "title": "GAMMA.INV Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "GAMMA.INV",
-    "description": "Calculate the GAMMA.INV property for data analysis.",
-    "concept": "the GAMMA.INV analyzer"
-  },
-  "whyItExists": "Essential for GAMMA.INV property evaluation.",
-  "whenToUse": "Analyze GAMMA.INV in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform GAMMA.INV on monthly data.",
-    "formula": "=GAMMA.INV(B2:B50)"
-  },
-  "syntax": "=GAMMA.INV(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "When Alpha=1, the Gamma distribution is identical to the Exponential distribution.",
+      "The Gamma distribution is the sum of Alpha independent exponential variables with mean Beta.",
+      "Used extensively in 'right-skewed' data modeling like household income."
+    ],
+    relatedFunctions: ["GAMMA.INV", "EXPON.DIST", "POISSON.DIST"],
+    miniChallenge: {
+      question: "Find P(X≤5) for a Gamma distribution with α=3 and β=2.",
+      expectedAnswer: "=GAMMA.DIST(5, 3, 2, TRUE)"
+    },
+    practice: {
+      instructions: "In cell B7, calculate the cumulative distribution (CDF) for x=4, alpha=3, and beta=1.5.",
+      initialData: [["Parameter", "Value"], ["x", 4], ["Alpha", 3], ["Beta", 1.5], ["Cumulative", "TRUE"], ["", ""], ["CDF", ""]],
+      targetCell: [6, 1],
+      expectedFormula: "GAMMA.DIST(B2,B3,B4,B5)",
+      expectedValue: 0.503433552277
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "GAMMA.INV Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "gamma.inv",
+    title: "GAMMA.INV Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 400,
+    introduction: {
+      title: "Inverse Gamma: GAMMA.INV",
+      description: "Returns the inverse of the gamma cumulative distribution. If p = GAMMA.DIST(x,...), then GAMMA.INV(p,...) = x.",
+      concept: "Think of it as finding a 'threshold'. 'How much time must pass so that there is a 95% probability that the events have occurred?'"
+    },
+    internalLogic: "Uses an iterative search to find the value x such that GAMMA.DIST(x, alpha, beta, TRUE) equals the specified probability.",
+    whyItExists: "Essential for finding critical values and percentiles in skewed distributions for hypothesis testing and risk planning.",
+    whenToUse: "Use GAMMA.INV to determine service level limits, warranty periods, or queue capacity requirements.",
+    realWorldUseCases: [
+      "Finding the 95th percentile of repair times for a service contract.",
+      "Determining the required inventory capacity to meet a 90% demand probability.",
+      "Calculating critical values for statistical tests involving the gamma distribution."
+    ],
+    businessExample: {
+      scenario: "An analyst needs the 95th percentile for a Gamma distribution with shape 2 and scale 1.",
+      formula: "=GAMMA.INV(0.95, 2, 1)"
+    },
+    syntax: "=GAMMA.INV(probability, alpha, beta)",
+    syntaxBreakdown: [
+      { arg: "probability", desc: "The probability associated with the gamma distribution (between 0 and 1)." },
+      { arg: "alpha", desc: "The shape parameter (must be > 0)." },
+      { arg: "beta", desc: "The scale parameter (must be > 0)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Finding the 95th Percentile",
+        table: {
+          headers: ["Probability", "Alpha", "Beta", "Result"],
+          rows: [
+            ["0.95", "2", "1", "4.7439"]
           ]
+        },
+        stepByStep: [
+          "Input a probability of 0.95.",
+          "Excel iterates to find where 95% of the distribution area lies.",
+          "Result: 4.7439. This means 95% of the values are below 4.74."
         ]
-      },
-      "stepByStep": [
-        "1. Select GAMMA.INV.",
-        "2. Calculate GAMMA.INV."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "GAMMA.INV is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use GAMMA.INV?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use GAMMA.INV on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Probability Range", desc: "Probability must be between 0 and 1 (inclusive)." },
+      { title: "Parameter Order", desc: "Ensure Alpha and Beta are in the correct positions; swapping them changes the result significantly." },
+      { title: "Iteration Dependency", desc: "Expecting closed-form solution (most require iteration)." }
     ],
-    "expectedFormula": "GAMMA.INV(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "gammaln",
-  "title": "GAMMALN Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "GAMMALN",
-    "description": "Calculate the GAMMALN property for data analysis.",
-    "concept": "the GAMMALN analyzer"
-  },
-  "whyItExists": "Essential for GAMMALN property evaluation.",
-  "whenToUse": "Analyze GAMMALN in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform GAMMALN on monthly data.",
-    "formula": "=GAMMALN(B2:B50)"
-  },
-  "syntax": "=GAMMALN(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Use for Value at Risk (VaR) calculations in finance for skewed return distributions.",
+      "Useful for finding warranty limits: if failure time follows Gamma(α,β), find x where P(X<x)=0.05.",
+      "Inverse of the Chi-Square distribution is a special case of GAMMA.INV."
+    ],
+    relatedFunctions: ["GAMMA.DIST", "CHISQ.INV", "NORM.INV"],
+    miniChallenge: {
+      question: "Find the median (50th percentile) of a Gamma(4,2) distribution.",
+      expectedAnswer: "=GAMMA.INV(0.5, 4, 2)"
+    },
+    practice: {
+      instructions: "In cell B6, find the value for a 90% probability with alpha=5 and beta=0.5.",
+      initialData: [["Parameter", "Value"], ["Probability", 0.9], ["Alpha", 5], ["Beta", 0.5], ["", ""], ["GAMMA.INV", ""]],
+      targetCell: [5, 1],
+      expectedFormula: "GAMMA.INV(B2,B3,B4)",
+      expectedValue: 3.9968
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "GAMMALN Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "gammaln",
+    title: "GAMMALN Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Log-Gamma: GAMMALN",
+      description: "Returns the natural logarithm of the gamma function, LN(Γ(x)).",
+      concept: "Think of it as a 'stabilizer' for really big numbers. The Gamma function grows incredibly fast (faster than exponential), so we use its log to keep calculations manageable."
+    },
+    internalLogic: "Computes the natural log of the Gamma function directly: ln(Γ(x)). More numerically stable than calculating GAMMA first and then taking the log.",
+    whyItExists: "In maximum likelihood estimation and complex probability math, we often need the log of the gamma function. Direct calculation prevents computer overflow errors.",
+    whenToUse: "Use GAMMALN in Bayesian statistics, maximum likelihood estimation (MLE), or when working with very large factorial-like values.",
+    realWorldUseCases: [
+      "Calculating log-likelihoods in statistical modeling.",
+      "Numerical analysis where precision for large values is critical.",
+      "Computing combinations or permutations for very large sets."
+    ],
+    businessExample: {
+      scenario: "Calculate the natural log of Γ(5) for a log-likelihood model.",
+      formula: "=GAMMALN(5)"
+    },
+    syntax: "=GAMMALN(x)",
+    syntaxBreakdown: [
+      { arg: "x", desc: "The value for which you want to calculate GAMMALN (must be > 0)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Log-Gamma vs Direct Log",
+        table: {
+          headers: ["Input Value", "GAMMA(x)", "LN(GAMMA(x))", "GAMMALN(x)"],
+          rows: [
+            ["5", "24", "3.1781", "3.1781"],
+            ["100", "9.33E+155", "359.13", "359.13"]
           ]
+        },
+        stepByStep: [
+          "For x=5, Γ(5) = 24.",
+          "LN(24) ≈ 3.1781.",
+          "GAMMALN(5) provides the same result (3.1781) but is safer for larger inputs."
         ]
-      },
-      "stepByStep": [
-        "1. Select GAMMALN.",
-        "2. Calculate GAMMALN."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "GAMMALN is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use GAMMALN?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use GAMMALN on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Using where GAMMA is needed", desc: "If you need Γ(x), you must exponentiate the result: =EXP(GAMMALN(x))." },
+      { title: "Non-positive x", desc: "x must be greater than 0, or Excel returns #NUM!." },
+      { title: "No Log confusion", desc: "Confusing with GAMMA (no log) function." }
     ],
-    "expectedFormula": "GAMMALN(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "gauss",
-  "title": "GAUSS Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "GAUSS",
-    "description": "Calculate the GAUSS property for data analysis.",
-    "concept": "the GAUSS analyzer"
-  },
-  "whyItExists": "Essential for GAUSS property evaluation.",
-  "whenToUse": "Analyze GAUSS in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform GAUSS on monthly data.",
-    "formula": "=GAUSS(B2:B50)"
-  },
-  "syntax": "=GAUSS(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Essential for log-likelihood calculations where sums are easier to handle than products.",
+      "To calculate LN(n!), use GAMMALN(n+1).",
+      "Always use GAMMALN over LN(GAMMA(x)) for numerical stability."
+    ],
+    relatedFunctions: ["GAMMA", "LN", "EXP"],
+    miniChallenge: {
+      question: "Calculate GAMMALN(10) and compare with LN(FACT(9)).",
+      expectedAnswer: "Both are approximately 12.8018."
+    },
+    practice: {
+      instructions: "In cell B2, calculate the GAMMALN for the input in A2.",
+      initialData: [["Input", "Result"], [3.5, ""], ["Input", ""], [100, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "GAMMALN(A2)",
+      expectedValue: 1.20097
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "GAUSS Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "gauss",
+    title: "GAUSS Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Gaussian Area: GAUSS",
+      description: "Returns 0.5 less than the standard normal cumulative distribution. It represents the area between the mean (0) and z.",
+      concept: "Think of it as 'center-to-z' probability. It tells you the chance of a value falling between the average and your specific z-score."
+    },
+    internalLogic: "Calculates NORM.S.DIST(z, TRUE) - 0.5. Symmetric: GAUSS(-z) = -GAUSS(z).",
+    whyItExists: "Older statistical tables often listed the area from 0 to z. GAUSS provides compatibility with these legacy methods and a direct measure of 'middle-out' probability.",
+    whenToUse: "Use GAUSS for quick probability checks relative to the mean or when working with older statistical documentation.",
+    realWorldUseCases: [
+      "Calculating the probability of a value falling between the mean and 1.96 standard deviations.",
+      "Legacy engineering reports based on 'center-area' tables.",
+      "Simple normality checks for industrial processes."
+    ],
+    businessExample: {
+      scenario: "Find the area under the standard normal curve between 0 and 1.96.",
+      formula: "=GAUSS(1.96)"
+    },
+    syntax: "=GAUSS(z)",
+    syntaxBreakdown: [
+      { arg: "z", desc: "The z-score (number of standard deviations from the mean) you want to evaluate." }
+    ],
+    detailedExamples: [
+      {
+        title: "Area from Mean to Z",
+        table: {
+          headers: ["z-score", "Formula", "Result", "Total Area between -z and z"],
+          rows: [
+            ["1.96", "=GAUSS(1.96)", "0.4750", "0.9500"],
+            ["1.0", "=GAUSS(1.0)", "0.3413", "0.6826"]
           ]
+        },
+        stepByStep: [
+          "Input z = 1.96.",
+          "NORM.S.DIST(1.96, TRUE) is 0.9750.",
+          "0.9750 - 0.5 = 0.4750.",
+          "Result: 0.4750."
         ]
-      },
-      "stepByStep": [
-        "1. Select GAUSS.",
-        "2. Calculate GAUSS."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "GAUSS is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use GAUSS?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use GAUSS on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Expecting CDF", desc: "GAUSS is NOT the cumulative probability. It's the area FROM the mean. For CDF, add 0.5." },
+      { title: "Two-tailed confusion", desc: "GAUSS only gives one side (0 to z). Multiply by 2 for the area between -z and z." },
+      { title: "Non-standard normal", desc: "Using for non-standard normal (must standardize first)." }
     ],
-    "expectedFormula": "GAUSS(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "geomean",
-  "title": "GEOMEAN Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "GEOMEAN",
-    "description": "Calculate the GEOMEAN property for data analysis.",
-    "concept": "the GEOMEAN analyzer"
-  },
-  "whyItExists": "Essential for GEOMEAN property evaluation.",
-  "whenToUse": "Analyze GEOMEAN in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform GEOMEAN on monthly data.",
-    "formula": "=GEOMEAN(B2:B50)"
-  },
-  "syntax": "=GEOMEAN(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "GAUSS(-z) = -GAUSS(z) due to symmetry.",
+      "To get the standard 95% confidence interval area, look for z=1.96; GAUSS returns 0.475, and 2*0.475 = 0.95.",
+      "Use for quick 'sigma' calculations in process control."
+    ],
+    relatedFunctions: ["NORM.S.DIST", "NORM.DIST", "PHI"],
+    miniChallenge: {
+      question: "What's the area between z=-2 and z=2 using GAUSS?",
+      expectedAnswer: "2 * GAUSS(2) ≈ 0.9545."
+    },
+    practice: {
+      instructions: "In cell B2, find the GAUSS value for a z-score of 1.5.",
+      initialData: [["z-score", "Result"], [1.5, ""], ["z-score", ""], [-1.8, ""]],
+      targetCell: [1, 1],
+      expectedFormula: "GAUSS(A2)",
+      expectedValue: 0.43319
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "GEOMEAN Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "geomean",
+    title: "GEOMEAN Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 300,
+    introduction: {
+      title: "Compounded Average: GEOMEAN",
+      description: "Returns the geometric mean of an array or range of positive data. It is the nth root of the product of n numbers.",
+      concept: "Think of it as the 'fair' average for growth rates. If your money grows 10% then 20%, you don't use 15% (arithmetic); you use GEOMEAN to find the true steady rate."
+    },
+    internalLogic: "Multiplies all numbers in the range and then takes the nth root. Formula: (x₁ * x₂ * ... * x_n)^(1/n).",
+    whyItExists: "Standard averages (arithmetic mean) fail when dealing with investment returns or growth rates because growth is multiplicative, not additive.",
+    whenToUse: "Use GEOMEAN for investment returns, interest rates, population growth, or any data showing exponential behavior.",
+    realWorldUseCases: [
+      "Calculating Compound Annual Growth Rate (CAGR).",
+      "Averaging price-to-earnings (P/E) ratios in finance.",
+      "Biological growth rate analysis over multiple generations."
+    ],
+    businessExample: {
+      scenario: "Calculate the average growth factor for returns of 10%, 15%, -5%, and 20%.",
+      formula: "=GEOMEAN(1.10, 1.15, 0.95, 1.20) - 1"
+    },
+    syntax: "=GEOMEAN(number1, [number2], ...)",
+    syntaxBreakdown: [
+      { arg: "number1", desc: "The first number or range for which you want the mean (must be positive)." },
+      { arg: "number2", desc: "Optional additional numbers or ranges (up to 255)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Investment Returns",
+        table: {
+          headers: ["Return Rate", "Formula", "Result"],
+          rows: [
+            ["10%", "=GEOMEAN(1.1,1.15,0.95,1.2)-1", "0.0947"],
+            ["15%", "", ""],
+            ["-5%", "", ""],
+            ["20%", "", ""]
           ]
+        },
+        stepByStep: [
+          "Excel adds 1 to each percentage internally if provided as growth factors.",
+          "Multiplies all factors: 1.10 × 1.15 × 0.95 × 1.20 = 1.4421.",
+          "Takes 4th root: 1.4421^(1/4) ≈ 1.0947.",
+          "Result: 9.47% geometric return."
         ]
-      },
-      "stepByStep": [
-        "1. Select GEOMEAN.",
-        "2. Calculate GEOMEAN."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "GEOMEAN is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use GEOMEAN?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use GEOMEAN on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Zero or Negative Values", desc: "GEOMEAN requires all values to be strictly positive (>0). Zero or negative values return #NUM!." },
+      { title: "Adding 1 incorrectly", desc: "Forgetting to add 1 to percentages before calculating GEOMEAN." },
+      { title: "Arithmetic confusion", desc: "Confusing with arithmetic average for growth rates." }
     ],
-    "expectedFormula": "GEOMEAN(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "growth",
-  "title": "GROWTH Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "GROWTH",
-    "description": "Calculate the GROWTH property for data analysis.",
-    "concept": "the GROWTH analyzer"
-  },
-  "whyItExists": "Essential for GROWTH property evaluation.",
-  "whenToUse": "Analyze GROWTH in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform GROWTH on monthly data.",
-    "formula": "=GROWTH(B2:B50)"
-  },
-  "syntax": "=GROWTH(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Always add 1 to your growth rates (e.g., 5% becomes 1.05) before calculating GEOMEAN.",
+      "GEOMEAN is always less than or equal to the standard arithmetic mean.",
+      "Use for CAGR calculations: =GEOMEAN(1+annual_returns)-1."
+    ],
+    relatedFunctions: ["AVERAGE", "HARMEAN", "PRODUCT"],
+    miniChallenge: {
+      question: "Calculate average growth rate: +5%, -2%, +8%, +3%.",
+      expectedAnswer: "=GEOMEAN(1.05, 0.98, 1.08, 1.03) - 1 ≈ 3.4%."
+    },
+    practice: {
+      instructions: "In cell B8, calculate the geometric mean of returns for the 5 years listed.",
+      initialData: [["Year", "Return"], [1, "12%"], [2, "-3%"], [3, "8%"], [4, "15%"], [5, "-1%"], ["", ""], ["Geometric Mean", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "GEOMEAN(1+B2:B6)-1",
+      expectedValue: 0.0594
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "GROWTH Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "growth",
+    title: "GROWTH Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 400,
+    introduction: {
+      title: "Exponential Forecasting: GROWTH",
+      description: "Calculates predicted exponential growth by using existing data. It fits an exponential curve (y = b*m^x) to your data.",
+      concept: "Think of it as the 'exponential' version of TREND. If your sales are doubling every month, GROWTH predicts the next double, whereas TREND would predict a straight line."
+    },
+    internalLogic: "Fits exponential curve: y = b × m^x using logarithmic transformation: ln(y) = ln(b) + x×ln(m). Applications linear regression to transformed data.",
+    whyItExists: "Many biological and economic processes (like population growth or compound interest) follow exponential paths rather than straight lines.",
+    whenToUse: "Use GROWTH for predicting revenue in fast-growing startups, bacterial growth, or long-term investment projections.",
+    realWorldUseCases: [
+      "Predicting future app users based on early viral growth.",
+      "Forecasting revenue for a product with a constant percentage growth rate.",
+      "Predicting population levels based on historical birth/death rates."
+    ],
+    businessExample: {
+      scenario: "Predict sales for month 6 given months 1-5 where sales increased roughly 20% each month.",
+      formula: "=GROWTH(B2:B6, A2:A6, 6)"
+    },
+    syntax: "=GROWTH(known_y's, [known_x's], [new_x's], [const])",
+    syntaxBreakdown: [
+      { arg: "known_y's", desc: "The set of y-values (dependent data) you already have. Must be positive." },
+      { arg: "known_x's", desc: "Optional. The set of x-values (independent data) corresponding to your known y's." },
+      { arg: "new_x's", desc: "Optional. The x-values for which you want GROWTH to return predicted y-values." },
+      { arg: "const", desc: "Optional. TRUE (default) calculates the constant 'b' normally. FALSE forces 'b' to 1 (y = m^x)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Sales Growth Projection",
+        table: {
+          headers: ["Month", "Sales", "Formula", "Result"],
+          rows: [
+            ["1", "100", "=GROWTH(B2:B6,A2:A6,6)", "249"],
+            ["2", "120", "", ""],
+            ["3", "144", "", ""],
+            ["4", "173", "", ""],
+            ["5", "208", "", ""]
           ]
+        },
+        stepByStep: [
+          "Excel identifies the ~20% growth rate.",
+          "It fits the curve: y ≈ 83.3 * 1.2^x.",
+          "Plugs in x=6: 83.3 * 1.2^6 ≈ 249.",
+          "Result: 249."
         ]
-      },
-      "stepByStep": [
-        "1. Select GROWTH.",
-        "2. Calculate GROWTH."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "GROWTH is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use GROWTH?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use GROWTH on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Non-positive Y values", desc: "GROWTH uses logarithms internally, so all known_y's MUST be greater than 0." },
+      { title: "Confusing with TREND", desc: "Use TREND for straight lines; use GROWTH for curves that accelerate." },
+      { title: "Array Entry", desc: "Forgetting array entry for multiple predictions." }
     ],
-    "expectedFormula": "GROWTH(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "harmean",
-  "title": "HARMEAN Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "HARMEAN",
-    "description": "Calculate the HARMEAN property for data analysis.",
-    "concept": "the HARMEAN analyzer"
-  },
-  "whyItExists": "Essential for HARMEAN property evaluation.",
-  "whenToUse": "Analyze HARMEAN in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform HARMEAN on monthly data.",
-    "formula": "=HARMEAN(B2:B50)"
-  },
-  "syntax": "=HARMEAN(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "For multiple predictions, enter as an array formula (Ctrl+Shift+Enter in older Excel) over a range of cells.",
+      "Works with multiple independent variables (multiple X columns).",
+      "If known_x's is omitted, Excel assumes {1, 2, 3, ...}."
+    ],
+    relatedFunctions: ["TREND", "LINEST", "LOGEST"],
+    miniChallenge: {
+      question: "Bacteria doubles every hour. Initial: 100, after 3 hrs: 800. Predict count at 5 hours.",
+      expectedAnswer: "=GROWTH({100,800}, {0,3}, 5) returns 3200."
+    },
+    practice: {
+      instructions: "In cell B7, predict revenue for Period 5 using data in A2:B5.",
+      initialData: [["Period", "Revenue"], [1, 500], [2, 650], [3, 845], [4, 1099], ["", ""], ["Predict 5", ""]],
+      targetCell: [6, 1],
+      expectedFormula: "GROWTH(B2:B5,A2:A5,5)",
+      expectedValue: 1428.7
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "HARMEAN Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "harmean",
+    title: "HARMEAN Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 300,
+    introduction: {
+      title: "Harmonic Mean: HARMEAN",
+      description: "Returns the harmonic mean of a data set. The harmonic mean is the reciprocal of the arithmetic mean of reciprocals.",
+      concept: "Think of it as the 'rates' average. If you travel at different speeds over equal distances, the harmonic mean gives you your true average speed."
+    },
+    internalLogic: "Calculates n / Σ(1/xᵢ), where n is the number of data points. It weights smaller values more heavily than the arithmetic mean.",
+    whyItExists: "Standard averages (arithmetic) give misleading results when averaging rates, ratios, or prices (like P/E ratios).",
+    whenToUse: "Use HARMEAN when averaging speeds, production rates, or financial ratios where you want to find the average 'per unit' measure.",
+    realWorldUseCases: [
+      "Calculating average speed for a trip with varying speeds over equal distances.",
+      "Averaging price-to-earnings (P/E) ratios in a portfolio.",
+      "Finding the average production rate of multiple machines."
+    ],
+    businessExample: {
+      scenario: "Calculate average speed for a vehicle traveling 30 mph, 40 mph, and 60 mph over three equal distances.",
+      formula: "=HARMEAN(30, 40, 60)"
+    },
+    syntax: "=HARMEAN(number1, [number2], ...)",
+    syntaxBreakdown: [
+      { arg: "number1", desc: "The first number or range for which you want the harmonic mean (must be positive)." },
+      { arg: "number2", desc: "Optional additional numbers or ranges (up to 255)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Average Speed Calculation",
+        table: {
+          headers: ["Segment", "Speed (mph)", "Reciprocal (1/x)", "Result"],
+          rows: [
+            ["1", "30", "0.0333", ""],
+            ["2", "40", "0.0250", ""],
+            ["3", "60", "0.0167", ""],
+            ["Total", "", "0.0750", "=HARMEAN(30,40,60) = 40"]
           ]
+        },
+        stepByStep: [
+          "Sum of reciprocals: 1/30 + 1/40 + 1/60 = 0.075.",
+          "Count of points: 3.",
+          "Harmonic Mean: 3 / 0.075 = 40.",
+          "Result: 40 mph."
         ]
-      },
-      "stepByStep": [
-        "1. Select HARMEAN.",
-        "2. Calculate HARMEAN."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "HARMEAN is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use HARMEAN?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use HARMEAN on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Zero or Negative Values", desc: "HARMEAN requires all values to be strictly positive. Returns #NUM! otherwise." },
+      { title: "Confusing with Arithmetic Mean", desc: "Don't use AVERAGE for rates; it will overestimate the true average (e.g., 43.3 vs 40 in the speed example)." },
+      { title: "Wrong data type", desc: "Applying to non-rate data inappropriately." }
     ],
-    "expectedFormula": "HARMEAN(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "hypgeom.dist",
-  "title": "HYPGEOM.DIST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "HYPGEOM.DIST",
-    "description": "Calculate the HYPGEOM.DIST property for data analysis.",
-    "concept": "the HYPGEOM.DIST analyzer"
-  },
-  "whyItExists": "Essential for HYPGEOM.DIST property evaluation.",
-  "whenToUse": "Analyze HYPGEOM.DIST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform HYPGEOM.DIST on monthly data.",
-    "formula": "=HYPGEOM.DIST(B2:B50)"
-  },
-  "syntax": "=HYPGEOM.DIST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Perfect for averaging rates and ratios.",
+      "In finance, HARMEAN is preferred for averaging multiples like P/E ratios.",
+      "Always ≤ geometric mean ≤ arithmetic mean."
+    ],
+    relatedFunctions: ["AVERAGE", "GEOMEAN"],
+    miniChallenge: {
+      question: "Machine A: 10 units/hr, Machine B: 15 units/hr. What is the average production rate?",
+      expectedAnswer: "=HARMEAN(10, 15) = 12 units/hr."
+    },
+    practice: {
+      instructions: "In cell B7, calculate the harmonic mean of the P/E ratios in B2:B5.",
+      initialData: [["Stock", "Price/Earnings"], ["A", 15], ["B", 20], ["C", 12], ["D", 18], ["", ""], ["HARMEAN P/E", ""]],
+      targetCell: [6, 1],
+      expectedFormula: "HARMEAN(B2:B5)",
+      expectedValue: 15.652
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "HYPGEOM.DIST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "hypgeom.dist",
+    title: "HYPGEOM.DIST Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 400,
+    introduction: {
+      title: "Sampling Without Replacement: HYPGEOM.DIST",
+      description: "Returns the hypergeometric distribution. This is used for sampling from a finite population without replacement.",
+      concept: "Think of it as 'The Quality Control' function. If you have a box of 20 parts and 5 are broken, what's the chance of picking exactly 2 broken ones if you grab 8?"
+    },
+    internalLogic: "Sampling WITHOUT replacement from finite population. PMF: C(K,k)×C(N-K,n-k)/C(N,n).",
+    whyItExists: "Unlike the binomial distribution, HYPGEOM.DIST accounts for the fact that each pick changes the odds for the next pick (sampling without replacement).",
+    whenToUse: "Use when sampling from a small, finite population where the outcome of one trial affects the probability of the next.",
+    realWorldUseCases: [
+      "Quality control lot sampling.",
+      "Calculating odds in card games (sampling from a deck).",
+      "Estimating the probability of committee representation from a fixed group."
+    ],
+    businessExample: {
+      scenario: "In a batch of 20 products, 8 are defective. What is the probability that exactly 2 are defective in a random sample of 5?",
+      formula: "=HYPGEOM.DIST(2, 5, 8, 20, FALSE)"
+    },
+    syntax: "=HYPGEOM.DIST(sample_s, number_sample, population_s, number_pop, cumulative)",
+    syntaxBreakdown: [
+      { arg: "sample_s", desc: "The number of successes in the sample." },
+      { arg: "number_sample", desc: "The size of the sample." },
+      { arg: "population_s", desc: "The number of successes in the population." },
+      { arg: "number_pop", desc: "The population size." },
+      { arg: "cumulative", desc: "TRUE for cumulative distribution (at most k successes); FALSE for probability mass function (exactly k successes)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Quality Control Sample",
+        table: {
+          headers: ["Parameter", "Value", "Meaning"],
+          rows: [
+            ["Successes in Sample (k)", "2", "Exactly 2 defects found"],
+            ["Sample Size (n)", "5", "5 items checked"],
+            ["Successes in Pop (K)", "8", "8 total defects exist"],
+            ["Population Size (N)", "20", "20 items in total"],
+            ["Result (FALSE)", "0.3973", "39.73% chance of exactly 2 defects"]
           ]
+        },
+        stepByStep: [
+          "Identifies total ways to pick 5 from 20.",
+          "Identifies ways to pick 2 defects from 8 and 3 non-defects from 12.",
+          "Divides the specific ways by total ways.",
+          "Result: 0.3973."
         ]
-      },
-      "stepByStep": [
-        "1. Select HYPGEOM.DIST.",
-        "2. Calculate HYPGEOM.DIST."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "HYPGEOM.DIST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use HYPGEOM.DIST?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use HYPGEOM.DIST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Sample > Population", desc: "number_sample cannot be larger than number_pop." },
+      { title: "Reversing Parameters", desc: "Ensure you don't swap sample successes with population successes." },
+      { title: "Using BINOM.DIST", desc: "Don't use Binomial if the population is small and you aren't putting items back after picking." }
     ],
-    "expectedFormula": "HYPGEOM.DIST(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "intercept",
-  "title": "INTERCEPT Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "INTERCEPT",
-    "description": "Calculate the INTERCEPT property for data analysis.",
-    "concept": "the INTERCEPT analyzer"
-  },
-  "whyItExists": "Essential for INTERCEPT property evaluation.",
-  "whenToUse": "Analyze INTERCEPT in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform INTERCEPT on monthly data.",
-    "formula": "=INTERCEPT(B2:B50)"
-  },
-  "syntax": "=INTERCEPT(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Use when sampling more than 5% of a finite population.",
+      "If the population is very large relative to the sample, BINOM.DIST is an easier and accurate approximation.",
+      "Perfect for calculating probability of drawing specific cards from a deck."
+    ],
+    relatedFunctions: ["BINOM.DIST", "COMBIN"],
+    miniChallenge: {
+      question: "Deck of 52 cards, 4 aces. Draw 5 cards. Probability of exactly 1 ace?",
+      expectedAnswer: "=HYPGEOM.DIST(1, 5, 4, 52, FALSE) ≈ 0.299."
+    },
+    practice: {
+      instructions: "In cell B8, find the probability of exactly 1 success in a sample of 10 from a population of 50 with 15 successes.",
+      initialData: [["Parameter", "Value"], ["Sample_s", 1], ["Number_sample", 10], ["Population_s", 15], ["Number_pop", 50], ["Cumulative", "FALSE"], ["", ""], ["Exact probability", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "HYPGEOM.DIST(B2,B3,B4,B5,FALSE)",
+      expectedValue: 0.113
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "INTERCEPT Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "intercept",
+    title: "INTERCEPT Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 300,
+    introduction: {
+      title: "Starting Point: INTERCEPT",
+      description: "Calculates the point at which a line will intersect the y-axis by using existing x-values and y-values.",
+      concept: "Think of it as the 'base' value. If you're calculating cost vs. production, the intercept is your 'fixed cost' (the cost when you produce zero items)."
+    },
+    internalLogic: "Fits a linear regression line (y = mx + b) and returns 'b'. Formula: b = ȳ - m*x̄ where m = SLOPE(y,x).",
+    whyItExists: "Essential for defining the full equation of a trend line and identifying fixed components in variable data.",
+    whenToUse: "Use INTERCEPT along with SLOPE to create a predictive formula for your data.",
+    realWorldUseCases: [
+      "Identifying fixed costs in a manufacturing process.",
+      "Finding the baseline score in a performance test.",
+      "Predicting starting values in scientific experiments."
+    ],
+    businessExample: {
+      scenario: "Determine the fixed cost of production where X is units and Y is total cost.",
+      formula: "=INTERCEPT(B2:B6, A2:A6)"
+    },
+    syntax: "=INTERCEPT(known_y's, known_x's)",
+    syntaxBreakdown: [
+      { arg: "known_y's", desc: "The dependent set of observations (the values you want to explain)." },
+      { arg: "known_x's", desc: "The independent set of observations (the factors influencing y)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Fixed Cost Identification",
+        table: {
+          headers: ["X", "Y", "Formula", "Result"],
+          rows: [
+            ["1", "3", "", ""],
+            ["2", "5", "", ""],
+            ["3", "7", "", ""],
+            ["4", "9", "", ""],
+            ["5", "11", "", ""],
+            ["Fixed Cost", "", "=INTERCEPT(B2:B6, A2:A6)", "1"]
           ]
+        },
+        stepByStep: [
+          "Excel calculates the slope (m) as 2.",
+          "It finds the averages of X (3) and Y (7).",
+          "Calculates b = 7 - (2 * 3) = 1.",
+          "Result: 1."
         ]
-      },
-      "stepByStep": [
-        "1. Select INTERCEPT.",
-        "2. Calculate INTERCEPT."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "INTERCEPT is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use INTERCEPT?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use INTERCEPT on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Reversing Y and X", desc: "Always put the thing you are measuring (Y) before the thing causing the change (X)." },
+      { title: "Meaningless Intercepts", desc: "Intercept may be meaningless if x never near 0 in your data range." }
     ],
-    "expectedFormula": "INTERCEPT(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "kurt",
-  "title": "KURT Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "KURT",
-    "description": "Calculate the KURT property for data analysis.",
-    "concept": "the KURT analyzer"
-  },
-  "whyItExists": "Essential for KURT property evaluation.",
-  "whenToUse": "Analyze KURT in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform KURT on monthly data.",
-    "formula": "=KURT(B2:B50)"
-  },
-  "syntax": "=KURT(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Equation of the line: y = SLOPE(...) * x + INTERCEPT(...).",
+      "Same as using FORECAST(0, known_y's, known_x's).",
+      "Check R² (using RSQ) to see if the regression line actually fits the data well."
+    ],
+    relatedFunctions: ["SLOPE", "FORECAST", "RSQ", "LINEST"],
+    miniChallenge: {
+      question: "Y={4,7,10,13}, X={1,2,3,4}. What is the intercept?",
+      expectedAnswer: "1"
+    },
+    practice: {
+      instructions: "In cell B8, find the intercept for Height (X in A2:A5) and Weight (Y in B2:B5).",
+      initialData: [["Height", "Weight"], [60, 120], [65, 140], [70, 160], [75, 180], ["", ""], ["INTERCEPT", ""], ["SLOPE", ""]],
+      targetCell: [6, 1],
+      expectedFormula: "INTERCEPT(B2:B5,A2:A5)",
+      expectedValue: -120
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "KURT Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "kurt",
+    title: "KURT Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Outlier Checker: KURT",
+      description: "Returns the kurtosis of a data set. Kurtosis characterizes the relative peakedness or flatness of a distribution compared with the normal distribution.",
+      concept: "Think of it as the 'outlier alarm'. High kurtosis means your data has frequent extreme outliers; low kurtosis means outliers are rare."
+    },
+    internalLogic: "Calculates excess kurtosis (compared to normal distribution). Normal distribution kurtosis = 3, so excess = sample - 3.",
+    whyItExists: "Average and standard deviation don't tell the whole story. KURT tells you if your risk is concentrated in extreme, rare events.",
+    whenToUse: "Use in finance to assess investment risk (fat tails) or in quality control to detect unusual variance.",
+    realWorldUseCases: [
+      "Financial risk modeling to identify potential 'Black Swan' events.",
+      "Analyzing sensor data to detect irregular spikes or malfunctions.",
+      "Evaluating the distribution of test scores."
+    ],
+    businessExample: {
+      scenario: "Calculate the kurtosis for a list of daily stock returns to see if extreme gains/losses are common.",
+      formula: "=KURT(A2:A100)"
+    },
+    syntax: "=KURT(number1, [number2], ...)",
+    syntaxBreakdown: [
+      { arg: "number1", desc: "The first number or range (must have at least 4 data points)." },
+      { arg: "number2", desc: "Optional additional numbers or ranges (up to 255)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Distribution Shape Check",
+        table: {
+          headers: ["Value Set", "KURT Result", "Meaning"],
+          rows: [
+            ["{2,4,4,4,5,5,7,9}", "-0.4828", "Platykurtic (flatter than normal)"],
+            ["{1,1,1,1,1,1,1,100}", "10.00", "Leptokurtic (extreme outlier present)"]
           ]
+        },
+        stepByStep: [
+          "Excel calculates the mean and standard deviation.",
+          "Computes the 4th power of deviations from the mean.",
+          "Returns the excess kurtosis value.",
+          "Negative result indicates a distribution with fewer/smaller outliers than normal."
         ]
-      },
-      "stepByStep": [
-        "1. Select KURT.",
-        "2. Calculate KURT."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "KURT is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use KURT?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use KURT on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Too few data points", desc: "Requires at least 4 numeric values; otherwise returns #DIV/0!." },
+      { title: "Standard vs Excess", desc: "Excel returns 'Excess Kurtosis' (Normal = 0), not 'Standard Kurtosis' (Normal = 3)." }
     ],
-    "expectedFormula": "KURT(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "large",
-  "title": "LARGE Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "LARGE",
-    "description": "Calculate the LARGE property for data analysis.",
-    "concept": "the LARGE analyzer"
-  },
-  "whyItExists": "Essential for LARGE property evaluation.",
-  "whenToUse": "Analyze LARGE in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform LARGE on monthly data.",
-    "formula": "=LARGE(B2:B50)"
-  },
-  "syntax": "=LARGE(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Positive Kurtosis = Frequent outliers (fat tails).",
+      "Negative Kurtosis = Rare outliers (thin tails).",
+      "Combine with SKEW for a complete picture of distribution shape."
+    ],
+    relatedFunctions: ["SKEW", "STDEV.S", "AVERAGE"],
+    miniChallenge: {
+      question: "Daily returns: {1,1,1,1,1,1,1,1,1,100}. What's the kurtosis? (Hint: one extreme outlier)",
+      expectedAnswer: "High positive value (≈10)."
+    },
+    practice: {
+      instructions: "In cell B10, calculate the kurtosis for the stock returns in B2:B8.",
+      initialData: [["Stock Return", ""], [-0.025, ""], [0.018, ""], [0.032, ""], [-0.015, ""], [0.008, ""], [0.021, ""], [-0.009, ""], ["", ""], ["KURT", ""]],
+      targetCell: [9, 1],
+      expectedFormula: "KURT(B2:B8)",
+      expectedValue: -1.066
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "LARGE Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "large",
+    title: "LARGE Function",
+    category: "statistical",
+    difficulty: "Beginner",
+    xp: 200,
+    introduction: {
+      title: "Finding the Top-N: LARGE",
+      description: "Returns the k-th largest value in a data set. For example, the 1st, 2nd, or 5th highest number.",
+      concept: "Think of it as a 'Leaderboard' tool. While MAX gives you the gold medalist, LARGE(..., 2) gives you the silver medalist."
+    },
+    internalLogic: "Sorts the array in descending order internally and returns the value at the specified position 'k'.",
+    whyItExists: "Often you need more than just the absolute maximum; you need a list of the top performers or a specific percentile cutoff.",
+    whenToUse: "Use LARGE to find the 2nd highest salary, the top 3 sales figures, or to identify values in the top tier of a dataset.",
+    realWorldUseCases: [
+      "Creating a 'Top 5' sales report.",
+      "Identifying the 2nd and 3rd place winners in a competition.",
+      "Finding the value that marks the 90th percentile (approximate)."
+    ],
+    businessExample: {
+      scenario: "Find the 3rd highest sales figure in a range.",
+      formula: "=LARGE(A2:A100, 3)"
+    },
+    syntax: "=LARGE(array, k)",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The range of data you want to search." },
+      { arg: "k", desc: "The position (from largest) to return. 1 is max, 2 is second max, etc." }
+    ],
+    detailedExamples: [
+      {
+        title: "Sales Leaderboard",
+        table: {
+          headers: ["Sales", "Formula", "Result"],
+          rows: [
+            ["150", "=LARGE(A2:A6, 1)", "300"],
+            ["200", "=LARGE(A2:A6, 3)", "200"],
+            ["175", "", ""],
+            ["300", "", ""],
+            ["250", "", ""]
           ]
+        },
+        stepByStep: [
+          "Excel looks at the range {150, 200, 175, 300, 250}.",
+          "Sorts them: 300, 250, 200, 175, 150.",
+          "Returns the value at position 'k'.",
+          "For k=3, the result is 200."
         ]
-      },
-      "stepByStep": [
-        "1. Select LARGE.",
-        "2. Calculate LARGE."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "LARGE is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use LARGE?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use LARGE on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "k > Count", desc: "If k is greater than the number of data points, it returns #NUM!." },
+      { title: "k ≤ 0", desc: "k must be a positive integer; otherwise returns #NUM!." },
+      { title: "Expecting k=0", desc: "k=0 does not work in Excel." }
     ],
-    "expectedFormula": "LARGE(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "linest",
-  "title": "LINEST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "LINEST",
-    "description": "Calculate the LINEST property for data analysis.",
-    "concept": "the LINEST analyzer"
-  },
-  "whyItExists": "Essential for LINEST property evaluation.",
-  "whenToUse": "Analyze LINEST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform LINEST on monthly data.",
-    "formula": "=LINEST(B2:B50)"
-  },
-  "syntax": "=LINEST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Use =LARGE(range, ROW(1:1)) and drag down to automatically generate a sorted top-N list.",
+      "Combine with INDEX and MATCH to find the names of the top performers.",
+      "Opposite of SMALL function."
+    ],
+    relatedFunctions: ["SMALL", "MAX", "RANK.EQ"],
+    miniChallenge: {
+      question: "Find 2nd and 5th largest values from: {85,92,78,95,88,76,90,82}.",
+      expectedAnswer: "2nd largest = 92; 5th largest = 85."
+    },
+    practice: {
+      instructions: "In cell B9, find the 3rd highest bonus from the list in B2:B6.",
+      initialData: [["Employee", "Bonus"], ["John", 1500], ["Sarah", 2200], ["Mike", 1800], ["Emma", 2500], ["Dave", 1900], ["", ""], ["Top bonus (k=1)", ""], ["3rd highest", ""]],
+      targetCell: [8, 1],
+      expectedFormula: "LARGE(B2:B6,3)",
+      expectedValue: 1900
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "LINEST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "linest",
+    title: "LINEST Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 400,
+    introduction: {
+      title: "Regression Engine: LINEST",
+      description: "Calculates the statistics for a line by using the 'least squares' method to fit a straight line through your data.",
+      concept: "Think of it as the 'super-powered' version of SLOPE and INTERCEPT. It can handle multiple factors at once (like predicting price based on size, age, AND location)."
+    },
+    internalLogic: "Array formula returning multiple values. Fits linear model using least squares. Returns slope(s) and intercept.",
+    whyItExists: "Serious analysts need more than just a prediction; they need to know how reliable that prediction is (statistics). LINEST is the core engine for linear modeling in Excel.",
+    whenToUse: "Use LINEST for multiple linear regression or when you need detailed diagnostic statistics for your model.",
+    realWorldUseCases: [
+      "Predicting house prices based on multiple independent variables.",
+      "Analyzing the impact of advertising, pricing, and seasonality on sales.",
+      "Scientific modeling of multi-factor experimental data."
+    ],
+    businessExample: {
+      scenario: "Fit a line to Y={3,7,11,15} and X={1,2,3,4} and find slope and intercept.",
+      formula: "=LINEST(B2:B5, A2:A5)"
+    },
+    syntax: "=LINEST(known_y's, [known_x's], [const], [stats])",
+    syntaxBreakdown: [
+      { arg: "known_y's", desc: "The dependent variables (what you want to predict)." },
+      { arg: "known_x's", desc: "Optional. The independent variables. Can be multiple columns." },
+      { arg: "const", desc: "Optional. TRUE (default) calculates the intercept; FALSE forces it to 0." },
+      { arg: "stats", desc: "Optional. TRUE returns additional regression statistics; FALSE returns only slope(s) and intercept." }
+    ],
+    detailedExamples: [
+      {
+        title: "Simple Linear Regression",
+        table: {
+          headers: ["X", "Y", "Output Area", "Result"],
+          rows: [
+            ["1", "3", "Slope", "4"],
+            ["2", "7", "Intercept", "-1"],
+            ["3", "11", "", ""],
+            ["4", "15", "", ""]
           ]
+        },
+        stepByStep: [
+          "Select two adjacent cells (e.g., D2:E2).",
+          "Enter =LINEST(B2:B5, A2:A5).",
+          "Result: 4 (Slope) and -1 (Intercept). y = 4x - 1."
         ]
-      },
-      "stepByStep": [
-        "1. Select LINEST.",
-        "2. Calculate LINEST."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "LINEST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use LINEST?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use LINEST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Output Selection", desc: "Since LINEST returns multiple values, you must select the correct range size before entering (or use INDEX)." },
+      { title: "Reversing X and Y", desc: "Ensure Y is the first argument." },
+      { title: "Array Entry", desc: "Forgetting array entry in older versions of Excel." }
     ],
-    "expectedFormula": "LINEST(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "logest",
-  "title": "LOGEST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "LOGEST",
-    "description": "Calculate the LOGEST property for data analysis.",
-    "concept": "the LOGEST analyzer"
-  },
-  "whyItExists": "Essential for LOGEST property evaluation.",
-  "whenToUse": "Analyze LOGEST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform LOGEST on monthly data.",
-    "formula": "=LOGEST(B2:B50)"
-  },
-  "syntax": "=LOGEST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Use =INDEX(LINEST(...), 1) to get only the slope.",
+      "Use =INDEX(LINEST(...), 2) to get only the intercept.",
+      "For multiple regression, your X data must be in adjacent columns.",
+      "Combine with TREND for quick predictions using the LINEST model."
+    ],
+    relatedFunctions: ["LOGEST", "TREND", "SLOPE", "INTERCEPT"],
+    miniChallenge: {
+      question: "Fit line to: Y={5,8,11,14}, X={2,4,6,8}. Find slope and intercept.",
+      expectedAnswer: "Slope = 1.5; Intercept = 2."
+    },
+    practice: {
+      instructions: "In cell B8, find the slope for Advertising (A2:A5) and Sales (B2:B5) using INDEX(LINEST, 1).",
+      initialData: [["Advertising", "Sales"], [100, 1200], [200, 2300], [300, 3500], [400, 4600], ["", ""], ["LINEST: Slope", ""], ["Intercept", ""]],
+      targetCell: [6, 1],
+      expectedFormula: "INDEX(LINEST(B2:B5,A2:A5),1)",
+      expectedValue: 11.4
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "LOGEST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "logest",
+    title: "LOGEST Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 400,
+    introduction: {
+      title: "Exponential Regression: LOGEST",
+      description: "Calculates the statistics for an exponential curve that fits your data points. Formula: y = b*m^x.",
+      concept: "Think of it as LINEST for curves. Use it when the relationship between factors isn't a straight line, but a percentage growth (like compound interest)."
+    },
+    internalLogic: "Fits an exponential curve: y = b × m^x using linear regression on the natural logarithms of the y-values. Returns base 'm' and constant 'b'.",
+    whyItExists: "Many natural and financial phenomena grow at a constant percentage rather than a constant amount.",
+    whenToUse: "Use LOGEST to find the parameters of an exponential model and evaluate how well that model fits your data.",
+    realWorldUseCases: [
+      "Modeling population growth where the rate of change is proportional to the size.",
+      "Analyzing investment returns that compound over time.",
+      "Biological modeling of cell growth or viral spread."
+    ],
+    businessExample: {
+      scenario: "Find the parameters for a model where Y values {3,9,27,81} triple for every unit of X {1,2,3,4}.",
+      formula: "=LOGEST(B2:B5, A2:A5)"
+    },
+    syntax: "=LOGEST(known_y's, [known_x's], [const], [stats])",
+    syntaxBreakdown: [
+      { arg: "known_y's", desc: "The dependent variables. Must all be positive (>0)." },
+      { arg: "known_x's", desc: "Optional. The independent variables." },
+      { arg: "const", desc: "Optional. TRUE (default) calculates 'b'; FALSE forces 'b' to 1." },
+      { arg: "stats", desc: "Optional. TRUE returns additional regression statistics." }
+    ],
+    detailedExamples: [
+      {
+        title: "Growth Curve Parameters",
+        table: {
+          headers: ["X", "Y", "Output (m)", "Output (b)"],
+          rows: [
+            ["1", "3", "3", "1"],
+            ["2", "9", "", ""],
+            ["3", "27", "", ""],
+            ["4", "81", "", ""]
           ]
+        },
+        stepByStep: [
+          "Excel identifies the tripling pattern.",
+          "Returns m=3 (the growth multiplier) and b=1 (the initial value at x=0).",
+          "The equation is: y = 1 * 3^x."
         ]
-      },
-      "stepByStep": [
-        "1. Select LOGEST.",
-        "2. Calculate LOGEST."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "LOGEST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use LOGEST?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use LOGEST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Non-positive Y values", desc: "Logest requires all known_y's > 0 because it uses logarithms." },
+      { title: "Interpreting 'm'", desc: "Remember that 'm' is the multiplier (1 + growth rate). If m=1.05, the growth rate is 5%." },
+      { title: "Interpreting Output", desc: "Output values are already exponentiated." }
     ],
-    "expectedFormula": "LOGEST(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "lognorm.dist",
-  "title": "LOGNORM.DIST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "LOGNORM.DIST",
-    "description": "Calculate the LOGNORM.DIST property for data analysis.",
-    "concept": "the LOGNORM.DIST analyzer"
-  },
-  "whyItExists": "Essential for LOGNORM.DIST property evaluation.",
-  "whenToUse": "Analyze LOGNORM.DIST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform LOGNORM.DIST on monthly data.",
-    "formula": "=LOGNORM.DIST(B2:B50)"
-  },
-  "syntax": "=LOGNORM.DIST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "The multiplier 'm' is the average compound factor per unit of X.",
+      "Use =INDEX(LOGEST(...), 1) to extract just the growth factor.",
+      "Growth rate = m - 1 (as percentage)."
+    ],
+    relatedFunctions: ["GROWTH", "LINEST", "EXP", "LN"],
+    miniChallenge: {
+      question: "Y={2,4,8,16,32}, X={1,2,3,4,5}. Find exponential model parameters.",
+      expectedAnswer: "m = 2; b = 1 (y = 1 * 2^x)."
+    },
+    practice: {
+      instructions: "In cell B8, find the growth multiplier (m) for Year (A2:A5) and Users (B2:B5) using INDEX(LOGEST, 1).",
+      initialData: [["Year", "Users"], [1, 500], [2, 750], [3, 1125], [4, 1688], ["", ""], ["LOGEST: m", ""], ["b", ""]],
+      targetCell: [6, 1],
+      expectedFormula: "INDEX(LOGEST(B2:B5,A2:A5),1)",
+      expectedValue: 1.5
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "LOGNORM.DIST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "lognorm.dist",
+    title: "LOGNORM.DIST Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Lognormal Distribution: LOGNORM.DIST",
+      description: "Returns the lognormal distribution of x, where LN(x) is normally distributed with parameters mean and standard_dev.",
+      concept: "Used for data that is positively skewed, meaning it has a long right tail. It's the standard model for things like stock prices, real estate values, and income distributions."
+    },
+    internalLogic: "If X is lognormal, ln(X) is normal with mean and std_dev. Mean of X = exp(μ+σ²/2).",
+    whyItExists: "Many real-world variables never drop below zero and show strong right-skewness, making the normal distribution an inappropriate model.",
+    whenToUse: "Use LOGNORM.DIST to model asset prices, latent periods of infectious diseases, or durability of mechanical components.",
+    realWorldUseCases: [
+      "Modeling the distribution of household incomes in a city.",
+      "Predicting stock price movements in financial models.",
+      "Analyzing the time-to-failure for complex machinery."
+    ],
+    businessExample: {
+      scenario: "Find the probability that a stock price will be ≤ $2 given its log-mean is 0 and log-sd is 1.",
+      formula: "=LOGNORM.DIST(2, 0, 1, TRUE)"
+    },
+    syntax: "=LOGNORM.DIST(x, mean, standard_dev, cumulative)",
+    syntaxBreakdown: [
+      { arg: "x", desc: "The value at which to evaluate the function (must be > 0)." },
+      { arg: "mean", desc: "The mean of ln(x)." },
+      { arg: "standard_dev", desc: "The standard deviation of ln(x) (must be > 0)." },
+      { arg: "cumulative", desc: "TRUE for cumulative distribution function; FALSE for probability density function." }
+    ],
+    detailedExamples: [
+      {
+        title: "Lognormal Probabilities",
+        table: {
+          headers: ["x", "Mean (ln)", "Std_dev (ln)", "Cumulative", "Result"],
+          rows: [
+            ["2", "0", "1", "TRUE", "0.7559"],
+            ["2", "0", "1", "FALSE", "0.1569"]
           ]
+        },
+        stepByStep: [
+          "Excel takes the natural log of x (LN(2) ≈ 0.693).",
+          "It evaluates this on a normal distribution with mean 0 and sd 1.",
+          "For TRUE, 75.59% of the distribution is at or below 2.",
+          "Result: 0.7559."
         ]
-      },
-      "stepByStep": [
-        "1. Select LOGNORM.DIST.",
-        "2. Calculate LOGNORM.DIST."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "LOGNORM.DIST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use LOGNORM.DIST?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use LOGNORM.DIST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Using Raw Mean/SD", desc: "You must use the mean and standard deviation of the logarithms of the data, not the data itself." },
+      { title: "Non-positive x", desc: "The lognormal distribution is only defined for x > 0." },
+      { title: "Parameter Confusion", desc: "Confusing mean of X with mean of ln(X)." }
     ],
-    "expectedFormula": "LOGNORM.DIST(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "lognorm.inv",
-  "title": "LOGNORM.INV Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "LOGNORM.INV",
-    "description": "Calculate the LOGNORM.INV property for data analysis.",
-    "concept": "the LOGNORM.INV analyzer"
-  },
-  "whyItExists": "Essential for LOGNORM.INV property evaluation.",
-  "whenToUse": "Analyze LOGNORM.INV in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform LOGNORM.INV on monthly data.",
-    "formula": "=LOGNORM.INV(B2:B50)"
-  },
-  "syntax": "=LOGNORM.INV(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Model stock prices, real estate values, income distributions.",
+      "If X follows a lognormal distribution, then LN(X) follows a normal distribution.",
+      "Mean(ln(data)) = AVERAGE(LN(data))."
+    ],
+    relatedFunctions: ["LOGNORM.INV", "NORM.DIST"],
+    miniChallenge: {
+      question: "Lognormal with ln-mean=1, ln-sd=0.5. Find P(X≤4).",
+      expectedAnswer: "=LOGNORM.DIST(4, 1, 0.5, TRUE) ≈ 0.779."
+    },
+    practice: {
+      instructions: "In cell B7, calculate the cumulative lognormal distribution for x=3, mean=0.5, and sd=0.3.",
+      initialData: [["Parameter", "Value"], ["x", 3], ["Mean (ln)", 0.5], ["Std_dev (ln)", 0.3], ["Cumulative", "TRUE"], ["", ""], ["CDF", ""]],
+      targetCell: [6, 1],
+      expectedFormula: "LOGNORM.DIST(B2,B3,B4,B5)",
+      expectedValue: 0.9772
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "LOGNORM.INV Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "lognorm.inv",
+    title: "LOGNORM.INV Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Inverse Lognormal: LOGNORM.INV",
+      description: "Returns the inverse of the lognormal cumulative distribution function.",
+      concept: "It answers: 'What value of x corresponds to a specific probability in a lognormal distribution?' It's the standard tool for finding target values in skewed data."
+    },
+    internalLogic: "Finds x where P(X ≤ x) = probability. Uses: x = exp(μ + σ × NORM.S.INV(probability)).",
+    whyItExists: "Essential for financial risk management (like Value at Risk) and determining confidence intervals for skewed data.",
+    whenToUse: "Use LOGNORM.INV to find price targets, income percentiles, or safety thresholds in skewed distributions.",
+    realWorldUseCases: [
+      "Finding the 95th percentile of home prices in an area.",
+      "Calculating 'Value at Risk' (VaR) for a portfolio with lognormal returns.",
+      "Setting upper bounds for biological measurements."
+    ],
+    businessExample: {
+      scenario: "Find the 95th percentile of a lognormal distribution with ln-mean 0 and ln-sd 1.",
+      formula: "=LOGNORM.INV(0.95, 0, 1)"
+    },
+    syntax: "=LOGNORM.INV(probability, mean, standard_dev)",
+    syntaxBreakdown: [
+      { arg: "probability", desc: "The probability associated with the lognormal distribution." },
+      { arg: "mean", desc: "The mean of ln(x)." },
+      { arg: "standard_dev", desc: "The standard deviation of ln(x) (must be > 0)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Percentile Calculation",
+        table: {
+          headers: ["Probability", "Mean (ln)", "Std_dev (ln)", "Result"],
+          rows: [
+            ["0.95", "0", "1", "5.1802"]
           ]
+        },
+        stepByStep: [
+          "Probability is 0.95.",
+          "Excel finds the corresponding z-score (1.645).",
+          "Calculates exp(0 + 1 * 1.645) = exp(1.645).",
+          "Result: 5.1802."
         ]
-      },
-      "stepByStep": [
-        "1. Select LOGNORM.INV.",
-        "2. Calculate LOGNORM.INV."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "LOGNORM.INV is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use LOGNORM.INV?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use LOGNORM.INV on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Probability Limits", desc: "Probability must be between 0 and 1 (exclusive)." },
+      { title: "Mean/SD Confusion", desc: "Ensure you use the parameters of the logarithm, not the raw data's mean and SD." },
+      { title: "Symmetry Expectation", desc: "Expecting symmetric intervals (lognormal is skewed)." }
     ],
-    "expectedFormula": "LOGNORM.INV(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "max",
-  "title": "MAX Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "MAX",
-    "description": "Calculate the MAX property for data analysis.",
-    "concept": "the MAX analyzer"
-  },
-  "whyItExists": "Essential for MAX property evaluation.",
-  "whenToUse": "Analyze MAX in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform MAX on monthly data.",
-    "formula": "=MAX(B2:B50)"
-  },
-  "syntax": "=MAX(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Use for Value at Risk (VaR) calculations.",
+      "Confidence bounds: LOGNORM.INV(0.025,μ,σ) to LOGNORM.INV(0.975,μ,σ).",
+      "Verify results using LOGNORM.DIST: LOGNORM.DIST(result, μ, σ, TRUE) should equal your probability."
+    ],
+    relatedFunctions: ["LOGNORM.DIST", "NORM.INV"],
+    miniChallenge: {
+      question: "Find 99th percentile of lognormal with ln-mean=2, ln-sd=0.8.",
+      expectedAnswer: "=LOGNORM.INV(0.99, 2, 0.8) ≈ 47.5."
+    },
+    practice: {
+      instructions: "In cell B6, find the 90th percentile for a lognormal distribution with mean=1.5 and sd=0.4.",
+      initialData: [["Parameter", "Value"], ["Probability", 0.9], ["Mean (ln)", 1.5], ["Std_dev (ln)", 0.4], ["", ""], ["LOGNORM.INV", ""]],
+      targetCell: [5, 1],
+      expectedFormula: "LOGNORM.INV(B2,B3,B4)",
+      expectedValue: 7.48
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "MAX Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "max",
+    title: "MAX Function",
+    category: "statistical",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Finding the Largest Value: MAX",
+      description: "Returns the largest numerical value in a set of values.",
+      concept: "Think of it as the 'High Score' tracker. It ignores everything except the numbers and picks out the biggest one."
+    },
+    internalLogic: "Scans all arguments, identifies numeric values, and returns the highest one found. It ignores text, logical values, and empty cells.",
+    whyItExists: "Essential for identifying peak performance, highest costs, latest dates, or any 'maximum' threshold in data.",
+    whenToUse: "Use MAX to find the highest temperature, top salesperson's revenue, or the most recent date in a range.",
+    realWorldUseCases: [
+      "Finding the highest monthly sales figure.",
+      "Identifying the maximum temperature recorded in a week.",
+      "Tracking the all-time high of a stock price."
+    ],
+    businessExample: {
+      scenario: "Find the highest temperature from a list of readings.",
+      formula: "=MAX(A2:A6)"
+    },
+    syntax: "=MAX(number1, [number2], ...)",
+    syntaxBreakdown: [
+      { arg: "number1", desc: "The first number, cell reference, or range (required)." },
+      { arg: "number2", desc: "Additional up to 255 arguments (optional)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Temperature Peak",
+        table: {
+          headers: ["Day", "Temperature", "Formula", "Result"],
+          rows: [
+            ["Mon", "72", "=MAX(B2:B6)", "91"],
+            ["Tue", "85", "", ""],
+            ["Wed", "68", "", ""],
+            ["Thu", "91", "", ""],
+            ["Fri", "79", "", ""]
           ]
+        },
+        stepByStep: [
+          "Excel looks at the numbers: 72, 85, 68, 91, 79.",
+          "Compares them to find the largest.",
+          "Result: 91."
         ]
-      },
-      "stepByStep": [
-        "1. Select MAX.",
-        "2. Calculate MAX."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "MAX is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use MAX?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use MAX on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Including Text", desc: "MAX silently ignores text. If your 'numbers' are stored as text, they won't be counted." },
+      { title: "Confusing with MAXA", desc: "MAX ignores logical values (TRUE=1), while MAXA includes them." },
+      { title: "Hidden Rows", desc: "Hidden rows still included (unlike SUBTOTAL)." }
     ],
-    "expectedFormula": "MAX(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "maxa",
-  "title": "MAXA Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "MAXA",
-    "description": "Calculate the MAXA property for data analysis.",
-    "concept": "the MAXA analyzer"
-  },
-  "whyItExists": "Essential for MAXA property evaluation.",
-  "whenToUse": "Analyze MAXA in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform MAXA on monthly data.",
-    "formula": "=MAXA(B2:B50)"
-  },
-  "syntax": "=MAXA(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Use with dates to find the latest date.",
+      "Combine with IF for conditional maximums (or use MAXIFS).",
+      "MAX(0, formula) prevents negative results."
+    ],
+    relatedFunctions: ["MIN", "MAXA", "MAXIFS", "LARGE"],
+    miniChallenge: {
+      question: "Find max value: {45, -12, 89, 0, 67, \"N/A\", 92}.",
+      expectedAnswer: "92."
+    },
+    practice: {
+      instructions: "In cell B8, find the highest sales amount from the list B2:B6.",
+      initialData: [["Salesperson", "Sales"], ["Alice", 45000], ["Bob", 52000], ["Carol", 48000], ["Dave", 61000], ["Eve", 39000], ["", ""], ["MAX Sales", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "MAX(B2:B6)",
+      expectedValue: 61000
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "MAXA Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "maxa",
+    title: "MAXA Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "All-Inclusive Maximum: MAXA",
+      description: "Returns the largest value in a set of values, including text and logical values (TRUE/FALSE).",
+      concept: "Unlike MAX, which only looks at numbers, MAXA looks at everything. It treats TRUE as 1 and FALSE (or text) as 0."
+    },
+    internalLogic: "Evaluates all non-empty cells. TRUE = 1, FALSE = 0, and non-numeric text = 0. It then returns the highest value from this combined set.",
+    whyItExists: "Useful when logical flags (TRUE/FALSE) should be treated as numeric outcomes (1/0) when looking for a maximum.",
+    whenToUse: "Use MAXA when your data includes logical values that you want to represent as 1s or 0s in your analysis.",
+    realWorldUseCases: [
+      "Evaluating a mix of test scores and 'Pass' (TRUE) flags.",
+      "Finding the maximum in a list where 'Completed' (TRUE) should count as 1.",
+      "Checking data sets that might have text contaminated with numbers."
+    ],
+    businessExample: {
+      scenario: "Find the maximum value where some entries are logical TRUE (1).",
+      formula: "=MAXA(A2:A6)"
+    },
+    syntax: "=MAXA(value1, [value2], ...)",
+    syntaxBreakdown: [
+      { arg: "value1", desc: "First value or range to evaluate (required)." },
+      { arg: "value2", desc: "Additional arguments (optional)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Mixed Value Maximum",
+        table: {
+          headers: ["Input", "Interpretation", "Formula", "Result"],
+          rows: [
+            ["0.5", "0.5", "=MAXA(A2:A6)", "1"],
+            ["0.8", "0.8", "", ""],
+            ["TRUE", "1", "", ""],
+            ["0.2", "0.2", "", ""],
+            ["FALSE", "0", "", ""]
           ]
+        },
+        stepByStep: [
+          "Interpret values: 0.5, 0.8, 1 (TRUE), 0.2, 0 (FALSE).",
+          "Identify the largest: 1.",
+          "Result: 1."
         ]
-      },
-      "stepByStep": [
-        "1. Select MAXA.",
-        "2. Calculate MAXA."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "MAXA is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use MAXA?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use MAXA on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Text as 0", desc: "Be careful: text evaluates as 0, which might hide actual negative numbers." },
+      { title: "TRUE vs 1", desc: "Remember that TRUE only equals 1. If your numbers are all >1, the TRUE won't matter." },
+      { title: "MAX confusion", desc: "Confusing with MAX (which ignores logicals)." }
     ],
-    "expectedFormula": "MAXA(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "median",
-  "title": "MEDIAN Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "MEDIAN",
-    "description": "Calculate the MEDIAN property for data analysis.",
-    "concept": "the MEDIAN analyzer"
-  },
-  "whyItExists": "Essential for MEDIAN property evaluation.",
-  "whenToUse": "Analyze MEDIAN in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform MEDIAN on monthly data.",
-    "formula": "=MEDIAN(B2:B50)"
-  },
-  "syntax": "=MEDIAN(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Use when logical values represent numeric codes.",
+      "MAXA typically = MAX unless TRUE values > all numbers.",
+      "For strictly numeric data, MAX is safer."
+    ],
+    relatedFunctions: ["MAX", "MINA", "AVERAGEA"],
+    miniChallenge: {
+      question: "MAXA of: {5, 0, \"text\", TRUE, 3}. What's the result?",
+      expectedAnswer: "5 (since 5 > 1)."
+    },
+    practice: {
+      instructions: "In cell B8, find the maximum including logical values in B2:B6.",
+      initialData: [["Response", ""], [7, ""], ["TRUE", ""], [3, ""], ["FALSE", ""], [9, ""], ["", ""], ["MAXA", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "MAXA(B2:B6)",
+      expectedValue: 9
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "MEDIAN Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "median",
+    title: "MEDIAN Function",
+    category: "statistical",
+    difficulty: "Beginner",
+    xp: 200,
+    introduction: {
+      title: "The Middle Value: MEDIAN",
+      description: "Returns the median, or the middle number, of a set of given numbers.",
+      concept: "If you lined up all your numbers from smallest to largest, the median is the one exactly in the middle. It's the 'typical' value that isn't fooled by outliers."
+    },
+    internalLogic: "Sorts the data. If there's an odd number of values, it returns the middle one. If even, it returns the average of the two middle values. Resistant to outliers.",
+    whyItExists: "Averages (mean) can be skewed by one or two very high or very low numbers. The median stays stable.",
+    whenToUse: "Use MEDIAN for salaries, house prices, or any data where there are extreme 'outliers' that would make a regular average misleading.",
+    realWorldUseCases: [
+      "Calculating the median household income.",
+      "Finding the median price of houses sold in a month.",
+      "Determining the typical time spent on a website."
+    ],
+    businessExample: {
+      scenario: "Find the median income to represent the 'typical' employee salary.",
+      formula: "=MEDIAN(A2:A6)"
+    },
+    syntax: "=MEDIAN(number1, [number2], ...)",
+    syntaxBreakdown: [
+      { arg: "number1", desc: "First number or range (required)." },
+      { arg: "number2", desc: "Additional arguments (optional)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Income Distribution",
+        table: {
+          headers: ["Employee", "Income", "Sorted", "Result"],
+          rows: [
+            ["A", "35000", "35000", ""],
+            ["B", "42000", "38000", ""],
+            ["C", "38000", "42000 (Middle)", "=MEDIAN(B2:B6) = 42000"],
+            ["D", "45000", "45000", ""],
+            ["E", "500000", "500000", ""]
           ]
+        },
+        stepByStep: [
+          "The data is sorted: 35k, 38k, 42k, 45k, 500k.",
+          "The middle value (3rd out of 5) is 42,000.",
+          "The average would be 131,000 (misleading). The median is 42,000 (typical)."
         ]
-      },
-      "stepByStep": [
-        "1. Select MEDIAN.",
-        "2. Calculate MEDIAN."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "MEDIAN is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use MEDIAN?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use MEDIAN on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Confusing with MODE", desc: "MEDIAN is the middle number; MODE is the most common number." },
+      { title: "Skewed data", desc: "Not using MEDIAN for skewed data (mean misleading)." },
+      { title: "Data type", desc: "Expecting MEDIAN to handle text/logical like AVERAGE." }
     ],
-    "expectedFormula": "MEDIAN(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "min",
-  "title": "MIN Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "MIN",
-    "description": "Calculate the MIN property for data analysis.",
-    "concept": "the MIN analyzer"
-  },
-  "whyItExists": "Essential for MIN property evaluation.",
-  "whenToUse": "Analyze MIN in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform MIN on monthly data.",
-    "formula": "=MIN(B2:B50)"
-  },
-  "syntax": "=MIN(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Use MEDIAN for salary, income, real estate data.",
+      "Compare MEDIAN vs AVERAGE to detect skewness.",
+      "Combine with QUARTILE for full distribution."
+    ],
+    relatedFunctions: ["AVERAGE", "MODE.SNGL", "QUARTILE.EXC"],
+    miniChallenge: {
+      question: "Find median of {12, 7, 22, 9, 15, 18}.",
+      expectedAnswer: "13.5 (Average of 12 and 15)."
+    },
+    practice: {
+      instructions: "In cell B9, calculate the median house price from B2:B7.",
+      initialData: [["House Price", ""], [250000, ""], [285000, ""], [310000, ""], [275000, ""], [2500000, ""], [295000, ""], ["", ""], ["MEDIAN", ""]],
+      targetCell: [8, 1],
+      expectedFormula: "MEDIAN(B2:B7)",
+      expectedValue: 290000
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "MIN Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "min",
+    title: "MIN Function",
+    category: "statistical",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Finding the Smallest Value: MIN",
+      description: "Returns the smallest numerical value in a set of values.",
+      concept: "Think of it as the 'Floor' finder. It ignores text and empty cells to find the lowest possible number in your range."
+    },
+    internalLogic: "Scans all arguments, identifies numeric values, and returns the lowest one. It ignores text, logical values, and empty cells. Opposite of MAX.",
+    whyItExists: "Essential for identifying minimum costs, lowest temperatures, earliest dates, or any 'bottom' threshold.",
+    whenToUse: "Use MIN to find the cheapest product price, the earliest start time, or the lowest score in a test.",
+    realWorldUseCases: [
+      "Finding the lowest price among multiple vendors.",
+      "Identifying the earliest delivery date.",
+      "Tracking the 52-week low of a stock."
+    ],
+    businessExample: {
+      scenario: "Find the lowest score in a class test.",
+      formula: "=MIN(A2:A6)"
+    },
+    syntax: "=MIN(number1, [number2], ...)",
+    syntaxBreakdown: [
+      { arg: "number1", desc: "First number, cell reference, or range (required)." },
+      { arg: "number2", desc: "Additional up to 255 arguments (optional)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Score Floor",
+        table: {
+          headers: ["Student", "Score", "Formula", "Result"],
+          rows: [
+            ["A", "78", "=MIN(B2:B6)", "65"],
+            ["B", "92", "", ""],
+            ["C", "65", "", ""],
+            ["D", "88", "", ""],
+            ["E", "71", "", ""]
           ]
+        },
+        stepByStep: [
+          "Excel looks at: 78, 92, 65, 88, 71.",
+          "Identifies the lowest value: 65.",
+          "Result: 65."
         ]
-      },
-      "stepByStep": [
-        "1. Select MIN.",
-        "2. Calculate MIN."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "MIN is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use MIN?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use MIN on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Zeros", desc: "MIN counts 0 as a valid number. If you have zeros representing missing data, MIN will return 0." },
+      { title: "Hidden Rows", desc: "Standard MIN counts hidden rows." },
+      { title: "Data type", desc: "Text and logical values silently ignored." }
     ],
-    "expectedFormula": "MIN(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "mina",
-  "title": "MINA Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "MINA",
-    "description": "Calculate the MINA property for data analysis.",
-    "concept": "the MINA analyzer"
-  },
-  "whyItExists": "Essential for MINA property evaluation.",
-  "whenToUse": "Analyze MINA in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform MINA on monthly data.",
-    "formula": "=MINA(B2:B50)"
-  },
-  "syntax": "=MINA(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Conditional minimum: MIN(IF(range=criteria,values)) as array.",
+      "Use SMALL for nth smallest.",
+      "MIN(1, formula) caps at 1."
+    ],
+    relatedFunctions: ["MAX", "MINA", "MINIFS", "SMALL"],
+    miniChallenge: {
+      question: "Find minimum ignoring zeros: {5, 0, 3, 8, 0, 2}.",
+      expectedAnswer: "2."
+    },
+    practice: {
+      instructions: "In cell B8, find the lowest temperature recorded in B2:B6.",
+      initialData: [["Date", "Temperature"], ["1-Jan", 32], ["2-Jan", 28], ["3-Jan", 35], ["4-Jan", 22], ["5-Jan", 30], ["", ""], ["MIN Temp", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "MIN(B2:B6)",
+      expectedValue: 22
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "MINA Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "mina",
+    title: "MINA Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "All-Inclusive Minimum: MINA",
+      description: "Returns the smallest value in a set of values, including text and logical values (TRUE/FALSE).",
+      concept: "The counterpart to MAXA. It treats TRUE as 1 and non-numeric text or FALSE as 0. This means if there is any text or a FALSE in your range, MINA will often return 0."
+    },
+    internalLogic: "Evaluates all non-empty cells. TRUE = 1, FALSE = 0, and non-numeric text = 0. It returns the smallest value in the set. Unlike MIN, does not ignore logical values.",
+    whyItExists: "Useful when logical status or the presence of text should be interpreted as a 'zero' value when looking for the bottom of a dataset.",
+    whenToUse: "Use MINA when your data includes logical values or text that you want to count as 0/1 in your minimum check.",
+    realWorldUseCases: [
+      "Checking for any 'Incomplete' (Text/0) or 'False' entries in a set of success values.",
+      "Identifying the 'floor' of a mixed-data checklist.",
+      "Analyzing status codes where logical flags represent numeric states."
+    ],
+    businessExample: {
+      scenario: "Find the minimum value where some entries are logical FALSE (0).",
+      formula: "=MINA(A2:A6)"
+    },
+    syntax: "=MINA(value1, [value2], ...)",
+    syntaxBreakdown: [
+      { arg: "value1", desc: "First value or range to evaluate (required)." },
+      { arg: "value2", desc: "Additional arguments (optional)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Mixed Value Minimum",
+        table: {
+          headers: ["Input", "Interpretation", "Formula", "Result"],
+          rows: [
+            ["10", "10", "=MINA(A2:A6)", "0"],
+            ["5", "5", "", ""],
+            ["TRUE", "1", "", ""],
+            ["8", "8", "", ""],
+            ["FALSE", "0", "", ""]
           ]
+        },
+        stepByStep: [
+          "Interpret values: 10, 5, 1 (TRUE), 8, 0 (FALSE).",
+          "Identify the smallest: 0.",
+          "Result: 0."
         ]
-      },
-      "stepByStep": [
-        "1. Select MINA.",
-        "2. Calculate MINA."
-      ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Unexpected Zeros", desc: "Because text and FALSE both equal 0, MINA will return 0 if almost any non-numeric data is present." },
+      { title: "Pure Numbers", desc: "If you only have positive numbers and one text string, your minimum becomes 0." },
+      { title: "MINA where MIN is needed", desc: "Using MINA where MIN is more appropriate." }
+    ],
+    proTips: [
+      "MINA often equals 0 when FALSE or text present.",
+      "Useful when logical values intentionally represent numeric codes.",
+      "MIN is safer for pure numeric data."
+    ],
+    relatedFunctions: ["MIN", "MAXA", "AVERAGEA"],
+    miniChallenge: {
+      question: "MINA of: {7, TRUE, 3, \"apple\", 2}. Result?",
+      expectedAnswer: "0 (because \"apple\" = 0)."
+    },
+    practice: {
+      instructions: "In cell B8, find the MINA of the mixed values in B2:B6.",
+      initialData: [["Status", "Value"], ["Active", 15], ["Inactive", "FALSE"], ["Active", 20], ["Pending", "TRUE"], ["Active", 10], ["", ""], ["MINA", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "MINA(B2:B6)",
+      expectedValue: 0
     }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "MINA is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use MINA?",
-    "expectedAnswer": "Yes"
   },
-  "practice": {
-    "instructions": "Use MINA on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "MINA(B2:B3)",
-    "expectedValue": 150
-  }
-},
 {
   "id": "mode.mult",
   "title": "MODE.MULT Function",
