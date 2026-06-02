@@ -2670,1676 +2670,1193 @@ export const mathStatsLessons = [
       expectedValue: 30
     }
   },
-{
-  "id": "avedev",
-  "title": "AVEDEV Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "Mean Absolute Deviation",
-    "description": "Calculates the average of the absolute deviations of data points from their mean.",
-    "concept": "Think of it as 'on average, how far does each number stray from the middle?'"
-  },
-  "whyItExists": "Standard deviation squares distances, which can over-emphasize outliers. AVEDEV gives a more balanced look.",
-  "whenToUse": "Use for understanding typical distance from mean in original units.",
-  "realWorldUseCases": [
-    "Measuring production consistency.",
-    "Evaluating test score spread."
-  ],
-  "businessExample": {
-    "scenario": "A manager wants to know how much daily sales fluctuate.",
-    "formula": "=AVEDEV(A2:A6)"
-  },
-  "syntax": "AVEDEV(number1, [number2], ...)",
-  "syntaxBreakdown": [
-    {
-      "arg": "number1",
-      "desc": "First number or range (required)."
+  {
+    id: "avedev",
+    title: "AVEDEV Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Mean Absolute Deviation: AVEDEV",
+      description: "Calculates the average of the absolute deviations of data points from their mean.",
+      concept: "Think of it as 'on average, how far does each number stray from the middle?'"
     },
-    {
-      "arg": "number2",
-      "desc": "Additional numbers/ranges."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "Detailed Example",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "10"
-          ],
-          [
-            "20"
-          ],
-          [
-            "30"
-          ],
-          [
-            "40"
-          ],
-          [
-            "50"
+    internalLogic: "Excel calculates the arithmetic mean of all values, finds the absolute deviation of each value from that mean, and then averages those absolute deviations.",
+    whyItExists: "Standard deviation squares distances, which can over-emphasize outliers. AVEDEV gives a more balanced look at data dispersion in its original units.",
+    whenToUse: "Use AVEDEV for understanding typical distance from the mean. It is often used in quality control to measure consistency.",
+    realWorldUseCases: [
+      "Measuring production consistency in manufacturing.",
+      "Evaluating test score spread in education.",
+      "Analyzing daily sales fluctuations in retail."
+    ],
+    businessExample: {
+      scenario: "A manager wants to know how much daily sales fluctuate from the average.",
+      formula: "=AVEDEV(A2:A6)"
+    },
+    syntax: "=AVEDEV(number1, [number2], ...)",
+    syntaxBreakdown: [
+      { arg: "number1", desc: "First number or range (required)." },
+      { arg: "number2", desc: "Additional numbers/ranges (optional, up to 255)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Sales Consistency Check",
+        table: {
+          headers: ["Day", "Value"],
+          rows: [
+            ["1", "10"],
+            ["2", "20"],
+            ["3", "30"],
+            ["4", "40"],
+            ["5", "50"]
           ]
+        },
+        stepByStep: [
+          "Mean Calculation: (10+20+30+40+50)/5 = 30.",
+          "Absolute Deviations: |10-30|=20, |20-30|=10, |30-30|=0, |40-30|=10, |50-30|=20.",
+          "Final Result: (20+10+0+10+20)/5 = 12."
         ]
-      },
-      "stepByStep": [
-        "1. Mean: (10+20+30+40+50)/5 = 30.",
-        "2. Find absolute deviations: 20, 10, 0, 10, 20.",
-        "3. Result: 12."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Non-numeric values",
-      "desc": "Including text causes error."
-    }
-  ],
-  "proTips": [
-    "Robust vs outliers."
-  ],
-  "relatedFunctions": [
-    "STDEV.S"
-  ],
-  "miniChallenge": {
-    "question": "Monthly sales: $500, $600, $550, $480, $520. Calculate the AVEDEV.",
-    "expectedAnswer": "36"
-  },
-  "practice": {
-    "instructions": "Find AVEDEV of prices in Price column.",
-    "initialData": [
-      [
-        "Product",
-        "Price"
-      ],
-      [
-        "A",
-        15
-      ],
-      [
-        "B",
-        22
-      ],
-      [
-        "C",
-        18
-      ],
-      [
-        "D",
-        25
-      ],
-      [
-        "E",
-        20
-      ],
-      [
-        "Result",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      6,
-      1
+    commonMistakes: [
+      { title: "Non-numeric values", desc: "Including non-numeric values directly in the arguments causes errors." },
+      { title: "Confusing with STDEV", desc: "STDEV squares deviations first, weighting outliers more heavily than AVEDEV." }
     ],
-    "expectedFormula": "AVEDEV(B2:B6)",
-    "expectedValue": 2.8
-  }
-},
-{
-  "id": "average",
-  "title": "AVERAGE Function",
-  "category": "statistical",
-  "difficulty": "Beginner",
-  "xp": 150,
-  "introduction": {
-    "title": "Arithmetic Mean",
-    "description": "Calculates the arithmetic mean.",
-    "concept": "If you had to pick one number to represent the whole group, this would be it."
-  },
-  "whyItExists": "Fundamental way to identify central point.",
-  "whenToUse": "Find typical values.",
-  "realWorldUseCases": [
-    "Marks.",
-    "Steps.",
-    "Expenses."
-  ],
-  "businessExample": {
-    "scenario": "Average marks for the class.",
-    "formula": "=AVERAGE(B2:B5)"
-  },
-  "syntax": "AVERAGE(number1, [number2], ...)",
-  "syntaxBreakdown": [
-    {
-      "arg": "number1",
-      "desc": "First numeric item."
+    proTips: [
+      "Use for understanding typical distance from mean in original units.",
+      "Robustness check: compare with standard deviation to see the impact of outliers.",
+      "Pair with AVERAGE for a full picture of center and dispersion."
+    ],
+    relatedFunctions: ["AVERAGE", "STDEV.S", "STDEV.P", "ABS"],
+    miniChallenge: {
+      question: "Monthly sales: ₦500, ₦600, ₦550, ₦480, ₦520. Calculate the AVEDEV.",
+      expectedAnswer: "36"
+    },
+    practice: {
+      instructions: "In cell B9, find the AVEDEV of prices in B2:B6.",
+      initialData: [["Product", "Price"], ["A", 15], ["B", 22], ["C", 18], ["D", 25], ["E", 20], ["", ""], ["Task", "Formula"], ["AVEDEV", ""]],
+      targetCell: [8, 1],
+      expectedFormula: "AVEDEV(B2:B6)",
+      expectedValue: 2.8
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "Class Average",
-      "table": {
-        "headers": [
-          "Student",
-          "Score"
-        ],
-        "rows": [
-          [
-            "John",
-            "85"
-          ],
-          [
-            "Sarah",
-            "92"
-          ],
-          [
-            "Mike",
-            "78"
-          ],
-          [
-            "Emma",
-            "88"
-          ],
-          [
-            "Dave",
-            ""
+  },
+  {
+    id: "average",
+    title: "AVERAGE Function",
+    category: "statistical",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Arithmetic Mean: AVERAGE",
+      description: "Calculates the arithmetic mean of a group of numbers by summing them and dividing by the count.",
+      concept: "If you had to pick one number to represent the whole group, this would be it. It finds the 'middle' ground of your data."
+    },
+    internalLogic: "Excel sums all numeric values in the provided arguments and divides that sum by the count of those numeric values.",
+    whyItExists: "Averages are the most fundamental way to identify the central point of a dataset, allowing for quick comparisons between different groups.",
+    whenToUse: "Use whenever you need to find the typical or average value, such as average test scores, daily steps, or monthly expenses.",
+    realWorldUseCases: [
+      "Calculating class average scores for students.",
+      "Finding the average daily steps from a fitness tracker.",
+      "Estimating average monthly household expenses."
+    ],
+    businessExample: {
+      scenario: "A teacher wants to find the average score for the class, ignoring students who haven't taken the test yet.",
+      formula: "=AVERAGE(B2:B5)"
+    },
+    syntax: "=AVERAGE(number1, [number2], ...)",
+    syntaxBreakdown: [
+      { arg: "number1", desc: "First number, cell reference, or range (required)." },
+      { arg: "number2", desc: "Additional up to 255 arguments (optional)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Class Average Performance",
+        table: {
+          headers: ["Student", "Score"],
+          rows: [
+            ["John", "85"],
+            ["Sarah", "92"],
+            ["Mike", "78"],
+            ["Emma", "88"],
+            ["Dave", ""]
           ]
+        },
+        stepByStep: [
+          "Sum of scores: 85 + 92 + 78 + 88 = 343.",
+          "Count of scores: 4 (Dave is ignored as his cell is blank).",
+          "Average: 343 / 4 = 85.75."
         ]
-      },
-      "stepByStep": [
-        "1. Sum: 343.",
-        "2. Count: 4.",
-        "3. Result: 85.75."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Zeros vs Blanks",
-      "desc": "0 is counted, blank is ignored."
-    }
-  ],
-  "proTips": [
-    "Pairs with STDEV.S."
-  ],
-  "relatedFunctions": [
-    "AVERAGEA"
-  ],
-  "miniChallenge": {
-    "question": "Calculate average of: 45, 0, 55, blank, 60. Result?",
-    "expectedAnswer": "40"
-  },
-  "practice": {
-    "instructions": "Find average steps.",
-    "initialData": [
-      [
-        "Day",
-        "Steps"
-      ],
-      [
-        "Mon",
-        8500
-      ],
-      [
-        "Tue",
-        7200
-      ],
-      [
-        "Wed",
-        9100
-      ],
-      [
-        "Thu",
-        6800
-      ],
-      [
-        "Fri",
-        ""
-      ],
-      [
-        "Avg",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      6,
-      1
+    commonMistakes: [
+      { title: "Including headers", desc: "Including header rows in your range can sometimes cause errors or unexpected results." },
+      { title: "Zeros vs Blanks", desc: "AVERAGE counts zeros as data points, but ignores blank cells completely. This can significantly change your result." },
+      { title: "Confusing with AVERAGEA", desc: "AVERAGEA counts logical values and text as 0/1, while AVERAGE ignores them." }
     ],
-    "expectedFormula": "AVERAGE(B2:B5)",
-    "expectedValue": 7900
-  }
-},
-{
-  "id": "averagea",
-  "title": "AVERAGEA Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "The All-Inclusive Mean",
-    "description": "Average including text and logicals.",
-    "concept": "Count every cell, even if it's not a number."
-  },
-  "whyItExists": "No response should lower the average.",
-  "whenToUse": "Mixed data surveys.",
-  "realWorldUseCases": [
-    "Survey ratings.",
-    "Attendance."
-  ],
-  "businessExample": {
-    "scenario": "Average including pass/fail flags.",
-    "formula": "=AVERAGEA(B2:B6)"
-  },
-  "syntax": "AVERAGEA(value1, [value2], ...)",
-  "syntaxBreakdown": [
-    {
-      "arg": "value1",
-      "desc": "First range."
+    proTips: [
+      "Use ROUND with AVERAGE for more presentable report results.",
+      "In modern Excel, nest with FILTER to average only specific subsets of data.",
+      "Combine with conditional formatting to highlight values above or below the average."
+    ],
+    relatedFunctions: ["AVERAGEA", "AVERAGEIF", "AVERAGEIFS", "MEDIAN", "MODE.SNGL"],
+    miniChallenge: {
+      question: "Calculate the average of: 45, 0, 55, blank, and 60. What is the result?",
+      expectedAnswer: "40"
+    },
+    practice: {
+      instructions: "In cell B8, calculate the average steps (excluding blanks) from B2:B6.",
+      initialData: [["Day", "Steps"], ["Mon", 8500], ["Tue", 7200], ["Wed", 9100], ["Thu", 6800], ["Fri", ""], ["", ""], ["Average", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "AVERAGE(B2:B6)",
+      expectedValue: 7900
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "Mixed Data",
-      "table": {
-        "headers": [
-          "Employee",
-          "Response"
-        ],
-        "rows": [
-          [
-            "John",
-            "5"
-          ],
-          [
-            "Sarah",
-            "TRUE"
-          ],
-          [
-            "Mike",
-            "3"
-          ],
-          [
-            "Emma",
-            "No Response"
-          ],
-          [
-            "Dave",
-            "FALSE"
+  },
+  {
+    id: "averagea",
+    title: "AVERAGEA Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "The All-Inclusive Mean: AVERAGEA",
+      description: "Calculates the average of all non-empty cells in a range, including text and logical values (TRUE/FALSE).",
+      concept: "Unlike the standard AVERAGE, this counts every cell that isn't empty. It's useful when 'no data' or 'text entries' should still influence the final average."
+    },
+    internalLogic: "Excel counts all non-empty cells. It treats text as 0, TRUE as 1, and FALSE as 0. It then divides the total sum by the count of all non-empty cells.",
+    whyItExists: "In surveys or checklists, you often want a 'No Response' or 'False' to lower the overall average score, rather than ignoring it.",
+    whenToUse: "Use for survey data where 'No response' or logical flags should be part of the average calculation.",
+    realWorldUseCases: [
+      "Calculating survey rating averages where text responses represent 0.",
+      "Averaging attendance records using TRUE/FALSE flags.",
+      "Data quality audits where text entries indicate missing values."
+    ],
+    businessExample: {
+      scenario: "An HR manager wants an average score where 'No Response' from an employee effectively counts as a zero.",
+      formula: "=AVERAGEA(B2:B6)"
+    },
+    syntax: "=AVERAGEA(value1, [value2], ...)",
+    syntaxBreakdown: [
+      { arg: "value1", desc: "First value or range to average (required)." },
+      { arg: "value2", desc: "Additional arguments (optional)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Mixed Data Survey",
+        table: {
+          headers: ["Employee", "Response"],
+          rows: [
+            ["John", "5"],
+            ["Sarah", "TRUE"],
+            ["Mike", "3"],
+            ["Emma", "No Response"],
+            ["Dave", "FALSE"]
           ]
+        },
+        stepByStep: [
+          "Conversion: 5, 1 (TRUE), 3, 0 (Text), 0 (FALSE).",
+          "Sum: 5 + 1 + 3 + 0 + 0 = 9.",
+          "Count: 5 non-empty cells.",
+          "Final Result: 9 / 5 = 1.8."
         ]
-      },
-      "stepByStep": [
-        "TRUE=1, Text=0, FALSE=0.",
-        "Result: 1.8."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Text is Zero",
-      "desc": "Text lowers results."
-    }
-  ],
-  "proTips": [
-    "Good for data audits."
-  ],
-  "relatedFunctions": [
-    "AVERAGE"
-  ],
-  "miniChallenge": {
-    "question": "Values: 10, 'N/A', TRUE, 5, blank. Result?",
-    "expectedAnswer": "4"
-  },
-  "practice": {
-    "instructions": "AVERAGEA result for item ratings.",
-    "initialData": [
-      [
-        "Item",
-        "Rating"
-      ],
-      [
-        "A",
-        4
-      ],
-      [
-        "B",
-        "TRUE"
-      ],
-      [
-        "C",
-        "No rating"
-      ],
-      [
-        "D",
-        2
-      ],
-      [
-        "E",
-        "FALSE"
-      ],
-      [
-        "Res",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      6,
-      1
+    commonMistakes: [
+      { title: "Unexpected Zeros", desc: "Forgetting that text evaluates to zero can drastically lower your average if you weren't expecting it." },
+      { title: "Using for purely numeric data", desc: "If your data is all numbers and blanks, use standard AVERAGE so blanks are properly ignored." }
     ],
-    "expectedFormula": "AVERAGEA(B2:B6)",
-    "expectedValue": 1.4
-  }
-},
-{
-  "id": "averageif",
-  "title": "AVERAGEIF Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "Conditional Averaging",
-    "description": "Average of cells matching a condition.",
-    "concept": "Filtered average: 'Avg sales for IT'."
-  },
-  "whyItExists": "Segment analysis.",
-  "whenToUse": "Average by category.",
-  "realWorldUseCases": [
-    "Regional sales."
-  ],
-  "businessExample": {
-    "scenario": "Average salary for IT.",
-    "formula": "=AVERAGEIF(A2:A6,\"North\",B2:B6)"
-  },
-  "syntax": "AVERAGEIF(range, criteria, [average_range])",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Cells to check."
+    proTips: [
+      "Use when you want blanks to be ignored but text/logicals to be included.",
+      "Pair with COUNTA to verify the denominator being used in the average.",
+      "Good for grading systems where 'Incomplete' should penalize the final score."
+    ],
+    relatedFunctions: ["AVERAGE", "COUNTA", "ISNUMBER"],
+    miniChallenge: {
+      question: "Values: 10, 'N/A', TRUE, 5, blank. What does AVERAGEA return?",
+      expectedAnswer: "4"
+    },
+    practice: {
+      instructions: "In cell B8, calculate the AVERAGEA result for the ratings in B2:B6.",
+      initialData: [["Item", "Rating"], ["A", 4], ["B", "TRUE"], ["C", "No rating"], ["D", 2], ["E", "FALSE"], ["", ""], ["Result", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "AVERAGEA(B2:B6)",
+      expectedValue: 1.4
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "Regional Check",
-      "table": {
-        "headers": [
-          "Region",
-          "Sales"
-        ],
-        "rows": [
-          [
-            "North",
-            "100"
-          ],
-          [
-            "South",
-            "200"
-          ],
-          [
-            "North",
-            "150"
-          ],
-          [
-            "East",
-            "300"
-          ],
-          [
-            "North",
-            "125"
+  },
+  {
+    id: "averageif",
+    title: "AVERAGEIF Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Conditional Averaging: AVERAGEIF",
+      description: "Calculates the average of cells that meet a single specific criterion you define.",
+      concept: "It's like a filter and a calculator in one: 'Find all the rows for the North region, and then average their sales.'"
+    },
+    internalLogic: "Excel evaluates each cell in the criteria range. For every match, it identifies the corresponding cell in the average_range and includes it in the final average calculation.",
+    whyItExists: "Business reports often require averages for specific segments (like a single department or region) without needing to manually sort or filter the data first.",
+    whenToUse: "Use whenever you need to average data based on one condition (e.g., Average sales where Category = 'Fruit').",
+    realWorldUseCases: [
+      "Calculating average sales for a specific region.",
+      "Finding the average salary for a specific department.",
+      "Averaging product prices that are above a certain threshold."
+    ],
+    businessExample: {
+      scenario: "A sales manager wants to find the average sales specifically for the 'IT' department.",
+      formula: "=AVERAGEIF(A2:A6, \"IT\", B2:B6)"
+    },
+    syntax: "=AVERAGEIF(range, criteria, [average_range])",
+    syntaxBreakdown: [
+      { arg: "range", desc: "The cells you want to check against the criteria (required)." },
+      { arg: "criteria", desc: "The condition (number, text, or expression) that must be met (required)." },
+      { arg: "average_range", desc: "The actual cells to average. If omitted, Excel averages the cells in the 'range' argument (optional)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Regional Sales Average",
+        table: {
+          headers: ["Region", "Sales"],
+          rows: [
+            ["North", "100"],
+            ["South", "200"],
+            ["North", "150"],
+            ["East", "300"],
+            ["North", "125"]
           ]
+        },
+        stepByStep: [
+          "Excel identifies 'North' rows: 100, 150, 125.",
+          "Sum: 100 + 150 + 125 = 375.",
+          "Count of matches: 3.",
+          "Average: 375 / 3 = 125."
         ]
-      },
-      "stepByStep": [
-        "Match North: 100, 150, 125.",
-        "Avg: 125."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Mismatch",
-      "desc": "Ranges must be same size."
-    }
-  ],
-  "proTips": [
-    "Quotes for text rules."
-  ],
-  "relatedFunctions": [
-    "AVERAGEIFS"
-  ],
-  "miniChallenge": {
-    "question": "Avg price of Product A in {A,B,A,C,A} with {10,20,15,25,12}?",
-    "expectedAnswer": "12.33"
-  },
-  "practice": {
-    "instructions": "Average IT salary.",
-    "initialData": [
-      [
-        "Dept",
-        "Salary"
-      ],
-      [
-        "IT",
-        75000
-      ],
-      [
-        "HR",
-        62000
-      ],
-      [
-        "IT",
-        82000
-      ],
-      [
-        "Sales",
-        70000
-      ],
-      [
-        "IT",
-        78000
-      ],
-      [
-        "Res",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      6,
-      1
+    commonMistakes: [
+      { title: "Mismatched range sizes", desc: "The 'range' and 'average_range' must be the same size and shape, or you will get inaccurate results." },
+      { title: "Missing quotes", desc: "Text criteria (like \"North\") and logical operators (like \">100\") must be enclosed in double quotes." },
+      { title: "Multi-condition attempt", desc: "AVERAGEIF only handles ONE condition. If you need more, you must use AVERAGEIFS." }
     ],
-    "expectedFormula": "AVERAGEIF(A2:A6,\"IT\",B2:B6)",
-    "expectedValue": 78333.33
-  }
-},
-{
-  "id": "averageifs",
-  "title": "AVERAGEIFS Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "Multi-Criteria Averaging",
-    "description": "Average for multiple rules.",
-    "concept": "Precise filtering."
-  },
-  "whyItExists": "Granular filters.",
-  "whenToUse": "Complex reporting.",
-  "realWorldUseCases": [
-    "Bonus tracking."
-  ],
-  "businessExample": {
-    "scenario": "Avg Sue's sales in West.",
-    "formula": "=AVERAGEIFS(C2:C6,A2:A6,\"North\",B2:B6,\"Widget\")"
-  },
-  "syntax": "AVERAGEIFS(average_range, criteria_range1, criteria1, ...)",
-  "syntaxBreakdown": [
-    {
-      "arg": "average_range",
-      "desc": "Range to average."
+    proTips: [
+      "Use wildcards like 'North*' to average all regions starting with 'North'.",
+      "Criteria can reference other cells: \">=\"&D1.",
+      "Omit the average_range if you want to average the same cells you are testing."
+    ],
+    relatedFunctions: ["AVERAGEIFS", "SUMIF", "COUNTIF", "AVERAGE"],
+    miniChallenge: {
+      question: "Data: Products A,B,A,C,A with prices 10,20,15,25,12. What is the average price of Product A?",
+      expectedAnswer: "12.33"
+    },
+    practice: {
+      instructions: "In cell B8, find the average IT salary from the department list in A2:A6 and salaries in B2:B6.",
+      initialData: [["Dept", "Salary"], ["IT", 75000], ["HR", 62000], ["IT", 82000], ["Sales", 70000], ["IT", 78000], ["", ""], ["Average IT", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "AVERAGEIF(A2:A6,\"IT\",B2:B6)",
+      expectedValue: 78333.33
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "Widget Filter",
-      "table": {
-        "headers": [
-          "Reg",
-          "Prod",
-          "Sales"
-        ],
-        "rows": [
-          [
-            "North",
-            "Widget",
-            "100"
-          ],
-          [
-            "South",
-            "Gadget",
-            "200"
-          ],
-          [
-            "North",
-            "Widget",
-            "125"
+  },
+  {
+    id: "averageifs",
+    title: "AVERAGEIFS Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Multi-Criteria Averaging: AVERAGEIFS",
+      description: "Calculates the average of cells that meet multiple specific criteria across different ranges.",
+      concept: "Think of it as a laser-focused filter. 'Average the sales where the Region is North AND the Product is Widget.' It allows for precise data drilling."
+    },
+    internalLogic: "Excel checks all provided conditions using AND logic. Only rows that satisfy EVERY criterion are included. It then sums the matching values from the average_range and divides by the count of those matches.",
+    whyItExists: "Complex business analysis often requires looking at the intersection of several factors (e.g., specific products, in specific regions, during specific months) without needing pivot tables.",
+    whenToUse: "Use whenever you have two or more conditions that must all be true before averaging.",
+    realWorldUseCases: [
+      "Calculating average sales for a specific rep in a specific region.",
+      "Averaging project costs that are 'High Priority' and 'Overdue'.",
+      "Finding average performance scores for 'Full-time' staff in 'Department A'."
+    ],
+    businessExample: {
+      scenario: "A manager wants Sue's average sales performance specifically in the 'West' region.",
+      formula: "=AVERAGEIFS(D2:D6, B2:B6, \"Sue\", C2:C6, \"West\")"
+    },
+    syntax: "=AVERAGEIFS(average_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
+    syntaxBreakdown: [
+      { arg: "average_range", desc: "The actual cells you want to average (required, and must come FIRST)." },
+      { arg: "criteria_range1", desc: "The first range to evaluate (required)." },
+      { arg: "criteria1", desc: "The first condition to meet (required)." },
+      { arg: "criteria_range2, criteria2", desc: "Additional pairs of ranges and conditions (optional, up to 127 pairs)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Multi-Filter Performance",
+        table: {
+          headers: ["Region", "Product", "Sales"],
+          rows: [
+            ["North", "Widget", "100"],
+            ["South", "Gadget", "200"],
+            ["North", "Gadget", "150"],
+            ["East", "Widget", "300"],
+            ["North", "Widget", "125"]
           ]
+        },
+        stepByStep: [
+          "Logic: Region must be 'North' AND Product must be 'Widget'.",
+          "Matches: Row 1 (100) and Row 5 (125).",
+          "Sum: 100 + 125 = 225.",
+          "Count: 2.",
+          "Final Result: 225 / 2 = 112.5."
         ]
-      },
-      "stepByStep": [
-        "North AND Widget.",
-        "Result: 112.5."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Arg Order",
-      "desc": "Average range is FIRST."
-    }
-  ],
-  "proTips": [
-    "All rules must be true."
-  ],
-  "relatedFunctions": [
-    "AVERAGEIF"
-  ],
-  "miniChallenge": {
-    "question": "Function name for West sales >$500 in Q1?",
-    "expectedAnswer": "AVERAGEIFS"
-  },
-  "practice": {
-    "instructions": "Avg Sue's West sales.",
-    "initialData": [
-      [
-        "Month",
-        "Rep",
-        "Region",
-        "Amount"
-      ],
-      [
-        "Jan",
-        "Sue",
-        "West",
-        600
-      ],
-      [
-        "Jan",
-        "Bob",
-        "East",
-        450
-      ],
-      [
-        "Feb",
-        "Sue",
-        "West",
-        550
-      ],
-      [
-        "Feb",
-        "Ann",
-        "West",
-        700
-      ],
-      [
-        "Mar",
-        "Sue",
-        "West",
-        500
-      ],
-      [
-        "Res",
-        "",
-        "",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      6,
-      3
+    commonMistakes: [
+      { title: "Wrong Argument Order", desc: "The average_range comes FIRST in AVERAGEIFS, but LAST in AVERAGEIF. This is the most common cause of errors." },
+      { title: "Mismatched range sizes", desc: "All ranges must have the exact same number of rows and columns." },
+      { title: "OR logic expectation", desc: "AVERAGEIFS uses AND logic (all criteria must be true). For OR logic, you need more complex formulas." }
     ],
-    "expectedFormula": "AVERAGEIFS(D2:D6,B2:B6,\"Sue\",C2:C6,\"West\")",
-    "expectedValue": 550
-  }
-},
-{
-  "id": "beta.dist",
-  "title": "BETA.DIST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "BETA.DIST",
-    "description": "Calculate the BETA.DIST property for data analysis.",
-    "concept": "the BETA.DIST analyzer"
-  },
-  "whyItExists": "Essential for BETA.DIST property evaluation.",
-  "whenToUse": "Analyze BETA.DIST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform BETA.DIST on monthly data.",
-    "formula": "=BETA.DIST(B2:B50)"
-  },
-  "syntax": "=BETA.DIST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Structure your data as an Excel Table so ranges update automatically as you add rows.",
+      "Use cell references for criteria to create dynamic dashboard summaries.",
+      "Combine with dates: \">=\"&DATE(2024,1,1) for specific time periods."
+    ],
+    relatedFunctions: ["AVERAGEIF", "SUMIFS", "COUNTIFS", "MAXIFS", "MINIFS"],
+    miniChallenge: {
+      question: "You need to find average sales for 'West' region where amount > ₦500 during 'Q1'. Which function is best?",
+      expectedAnswer: "AVERAGEIFS"
+    },
+    practice: {
+      instructions: "In cell E8, calculate Sue's average sales in the West region from the table (B2:B6 for Rep, C2:C6 for Region, D2:D6 for Amount).",
+      initialData: [["Month", "Rep", "Region", "Amount"], ["Jan", "Sue", "West", 600], ["Jan", "Bob", "East", 450], ["Feb", "Sue", "West", 550], ["Feb", "Ann", "West", 700], ["Mar", "Sue", "West", 500], ["", "", "", ""], ["Result", "", "Avg Sue West", ""]],
+      targetCell: [7, 3],
+      expectedFormula: "AVERAGEIFS(D2:D6,B2:B6,\"Sue\",C2:C6,\"West\")",
+      expectedValue: 550
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "BETA.DIST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "beta.dist",
+    title: "BETA.DIST Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Beta Distribution: BETA.DIST",
+      description: "Calculates the beta cumulative distribution function (CDF) or the beta probability density function (PDF).",
+      concept: "The Beta distribution is often used to model the variation in the percentage of something across samples, like the time people spend watching a video or the probability of a project succeeding."
+    },
+    internalLogic: "It standardizes the value 'x' to the range [A, B] and then computes the beta function's integral (for CDF) or the height of the curve (for PDF) based on the shape parameters alpha and beta.",
+    whyItExists: "Beta distributions are extremely flexible for modeling proportions and probabilities because they are constrained between 0 and 1 (or any defined interval A to B).",
+    whenToUse: "Use BETA.DIST in project management (PERT analysis) or for modeling uncertainty in probabilities.",
+    realWorldUseCases: [
+      "Modeling the percentage of defective items in a batch.",
+      "Estimating project completion times in risk analysis.",
+      "Analyzing market share proportions."
+    ],
+    businessExample: {
+      scenario: "A risk analyst wants to find the probability that a project will be at most 40% complete given specific shape parameters.",
+      formula: "=BETA.DIST(0.4, 2, 5, TRUE)"
+    },
+    syntax: "=BETA.DIST(x, alpha, beta, cumulative, [A], [B])",
+    syntaxBreakdown: [
+      { arg: "x", desc: "The value between A and B at which to evaluate the function (required)." },
+      { arg: "alpha", desc: "A shape parameter of the distribution (must be > 0) (required)." },
+      { arg: "beta", desc: "A shape parameter of the distribution (must be > 0) (required)." },
+      { arg: "cumulative", desc: "TRUE returns the CDF (probability ≤ x); FALSE returns the PDF (required)." },
+      { arg: "A, B", desc: "Optional. The lower and upper bounds of the interval for x (defaults to 0 and 1)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Beta CDF vs PDF",
+        table: {
+          headers: ["x", "Alpha", "Beta", "Cumulative", "Result"],
+          rows: [
+            ["0.4", "2", "5", "TRUE", "0.7667"],
+            ["0.4", "2", "5", "FALSE", "1.5552"]
           ]
+        },
+        stepByStep: [
+          "With Alpha=2 and Beta=5, the distribution is skewed toward lower values.",
+          "At x=0.4, 76.67% of the distribution lies at or below this value (CDF).",
+          "The value 1.5552 represents the height of the probability curve at that exact point (PDF)."
         ]
-      },
-      "stepByStep": [
-        "1. Select BETA.DIST.",
-        "2. Calculate BETA.DIST."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "BETA.DIST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use BETA.DIST?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use BETA.DIST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Value outside bounds", desc: "If x is less than A or greater than B, Excel returns a #NUM! error." },
+      { title: "Alpha or Beta ≤ 0", desc: "The shape parameters must be positive numbers." },
+      { title: "Cumulative flag", desc: "Forgetting that TRUE returns the area under the curve, not the height." }
     ],
-    "expectedFormula": "BETA.DIST(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "beta.inv",
-  "title": "BETA.INV Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "BETA.INV",
-    "description": "Calculate the BETA.INV property for data analysis.",
-    "concept": "the BETA.INV analyzer"
-  },
-  "whyItExists": "Essential for BETA.INV property evaluation.",
-  "whenToUse": "Analyze BETA.INV in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform BETA.INV on monthly data.",
-    "formula": "=BETA.INV(B2:B50)"
-  },
-  "syntax": "=BETA.INV(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "If Alpha > Beta, the distribution skews right; if Beta > Alpha, it skews left.",
+      "If Alpha = Beta = 1, the Beta distribution is identical to the Uniform distribution.",
+      "Use for PERT analysis: Alpha and Beta can be calculated from optimistic, most likely, and pessimistic time estimates."
+    ],
+    relatedFunctions: ["BETA.INV", "NORM.DIST", "BINOM.DIST"],
+    miniChallenge: {
+      question: "Find the probability that a proportion is ≤ 0.3 with shape parameters alpha=3 and beta=7.",
+      expectedAnswer: "=BETA.DIST(0.3, 3, 7, TRUE)"
+    },
+    practice: {
+      instructions: "In cell B7, calculate the CDF (Cumulative) for x=0.25 with Alpha=4 and Beta=4.",
+      initialData: [["Parameter", "Value"], ["x", 0.25], ["Alpha", 4], ["Beta", 4], ["", ""], ["CDF Result", ""]],
+      targetCell: [5, 1],
+      expectedFormula: "BETA.DIST(0.25,4,4,TRUE)",
+      expectedValue: 0.070556640625
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "BETA.INV Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "beta.inv",
+    title: "BETA.INV Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Inverse Beta Distribution: BETA.INV",
+      description: "Returns the inverse of the beta cumulative distribution function (BETA.DIST with cumulative = TRUE).",
+      concept: "It answers the question: 'What value of x gives me a specific cumulative probability?' It's the reverse of finding a probability."
+    },
+    internalLogic: "Excel uses iterative numerical methods to find the value 'x' such that the area under the beta distribution curve from the lower bound A to x equals the provided probability.",
+    whyItExists: "Critical for determining confidence bounds and percentiles for proportions and probabilities in statistical modeling.",
+    whenToUse: "Use BETA.INV to find the value corresponding to a specific percentile (e.g., 'What proportion marks the bottom 10% of results?').",
+    realWorldUseCases: [
+      "Determining the 95th percentile for project completion percentages.",
+      "Finding confidence intervals for conversion rates.",
+      "Estimating time limits in Bayesian statistical models."
+    ],
+    businessExample: {
+      scenario: "A planner wants to know the project completion percentage that marks the 95th percentile of expected outcomes.",
+      formula: "=BETA.INV(0.95, 8, 2)"
+    },
+    syntax: "=BETA.INV(probability, alpha, beta, [A], [B])",
+    syntaxBreakdown: [
+      { arg: "probability", desc: "The cumulative probability between 0 and 1 (required)." },
+      { arg: "alpha", desc: "Shape parameter > 0 (required)." },
+      { arg: "beta", desc: "Shape parameter > 0 (required)." },
+      { arg: "A, B", desc: "Optional lower and upper bounds (defaults to 0 and 1)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Percentile Calculation",
+        table: {
+          headers: ["Probability", "Alpha", "Beta", "Result (x)"],
+          rows: [
+            ["0.95", "8", "2", "0.9033"]
           ]
+        },
+        stepByStep: [
+          "For a Beta distribution (8, 2), 95% of the area is found to the left of 0.9033.",
+          "In a business context, you could be 95% confident the value will be 0.9033 or less."
         ]
-      },
-      "stepByStep": [
-        "1. Select BETA.INV.",
-        "2. Calculate BETA.INV."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "BETA.INV is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use BETA.INV?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use BETA.INV on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Probability outside [0,1]", desc: "Providing a probability < 0 or > 1 returns a #NUM! error." },
+      { title: "Iterative limits", desc: "If Excel cannot find a result within 100 iterations, it returns #N/A (rare for standard values)." }
     ],
-    "expectedFormula": "BETA.INV(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "binom.dist",
-  "title": "BINOM.DIST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "BINOM.DIST",
-    "description": "Calculate the BINOM.DIST property for data analysis.",
-    "concept": "the BINOM.DIST analyzer"
-  },
-  "whyItExists": "Essential for BINOM.DIST property evaluation.",
-  "whenToUse": "Analyze BINOM.DIST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform BINOM.DIST on monthly data.",
-    "formula": "=BINOM.DIST(B2:B50)"
-  },
-  "syntax": "=BINOM.DIST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Pair with BETA.DIST to verify your result: BETA.DIST(result, ...) should equal your probability.",
+      "Essential for PERT (Program Evaluation and Review Technique) in project management.",
+      "Use to calculate 'True' conversion rate bounds when you have limited sample sizes."
+    ],
+    relatedFunctions: ["BETA.DIST", "NORM.INV", "T.INV"],
+    miniChallenge: {
+      question: "What value corresponds to the 90th percentile of a Beta distribution with alpha=2, beta=6?",
+      expectedAnswer: "0.45"
+    },
+    practice: {
+      instructions: "In cell B6, find the value for the 10th percentile (0.10) with Alpha=3 and Beta=3.",
+      initialData: [["Parameter", "Value"], ["Probability", 0.10], ["Alpha", 3], ["Beta", 3], ["", ""], ["Beta Inverse", ""]],
+      targetCell: [5, 1],
+      expectedFormula: "BETA.INV(0.1,3,3)",
+      expectedValue: 0.19412
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "BINOM.DIST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "binom.dist",
+    title: "BINOM.DIST Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Binomial Distribution: BINOM.DIST",
+      description: "Calculates the individual term binomial distribution probability (exact) or the cumulative distribution (at most).",
+      concept: "Think of this as the 'Coin Flip' function. It models scenarios with only two outcomes: success or failure (e.g., Heads/Tails, Pass/Fail, Win/Loss)."
+    },
+    internalLogic: "For the exact probability (PDF), it uses the combinations formula: P(X=k) = C(n,k) * p^k * (1-p)^(n-k). For cumulative (CDF), it sums the probabilities of getting 0, 1, ..., k successes.",
+    whyItExists: "Essential for quality control and risk management where you need to know the likelihood of a specific number of 'successes' in a fixed number of trials.",
+    whenToUse: "Use when you have a fixed number of independent trials, each with the same constant probability of success.",
+    realWorldUseCases: [
+      "Finding the probability of exactly 3 heads in 10 coin flips.",
+      "Calculating the risk of having 2 or more defective items in a shipment of 50.",
+      "Estimating the likelihood of 5 out of 10 sales calls resulting in a purchase."
+    ],
+    businessExample: {
+      scenario: "A call center has a 35% success rate. What is the chance of getting exactly 3 sales in the next 10 calls?",
+      formula: "=BINOM.DIST(3, 10, 0.35, FALSE)"
+    },
+    syntax: "=BINOM.DIST(number_s, trials, probability_s, cumulative)",
+    syntaxBreakdown: [
+      { arg: "number_s", desc: "The number of successes you want to evaluate (required)." },
+      { arg: "trials", desc: "The total number of independent trials (required)." },
+      { arg: "probability_s", desc: "The constant probability of success for each trial (required)." },
+      { arg: "cumulative", desc: "TRUE for 'at most' (CDF); FALSE for 'exactly' (PMF) (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Sales Call Success",
+        table: {
+          headers: ["Successes", "Trials", "Prob", "Cumulative", "Result"],
+          rows: [
+            ["3", "10", "0.35", "FALSE", "0.2522"],
+            ["3", "10", "0.35", "TRUE", "0.5138"]
           ]
+        },
+        stepByStep: [
+          "The exact chance of exactly 3 sales is 25.22%.",
+          "The chance of getting 0, 1, 2, OR 3 sales (at most 3) is 51.38%."
         ]
-      },
-      "stepByStep": [
-        "1. Select BINOM.DIST.",
-        "2. Calculate BINOM.DIST."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "BINOM.DIST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use BINOM.DIST?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use BINOM.DIST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Successes > Trials", desc: "You cannot have more successes than trials. This returns #NUM!." },
+      { title: "Prob as Percentage", desc: "Excel expects a decimal. Use 0.35, not 35 (which would be 3500% success rate!)." },
+      { title: "Non-integers", desc: "Excel truncates successes and trials to integers." }
     ],
-    "expectedFormula": "BINOM.DIST(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "binom.inv",
-  "title": "BINOM.INV Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "BINOM.INV",
-    "description": "Calculate the BINOM.INV property for data analysis.",
-    "concept": "the BINOM.INV analyzer"
-  },
-  "whyItExists": "Essential for BINOM.INV property evaluation.",
-  "whenToUse": "Analyze BINOM.INV in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform BINOM.INV on monthly data.",
-    "formula": "=BINOM.INV(B2:B50)"
-  },
-  "syntax": "=BINOM.INV(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "To find 'At least k successes', use =1 - BINOM.DIST(k-1, n, p, TRUE).",
+      "If n * p > 5 and n * (1-p) > 5, the binomial distribution starts looking like a Normal distribution.",
+      "Use BINOM.DIST.RANGE for probability between two specific values (e.g., between 2 and 5 successes)."
+    ],
+    relatedFunctions: ["BINOM.INV", "HYPGEOM.DIST", "POISSON.DIST"],
+    miniChallenge: {
+      question: "What is the probability of getting exactly 2 heads in 5 fair coin flips?",
+      expectedAnswer: "0.3125"
+    },
+    practice: {
+      instructions: "In cell B7, find the exact probability of 4 successes in 12 trials with a 25% (0.25) success rate.",
+      initialData: [["Parameter", "Value"], ["Successes", 4], ["Trials", 12], ["Probability", 0.25], ["", ""], ["Exact Prob", ""]],
+      targetCell: [5, 1],
+      expectedFormula: "BINOM.DIST(4,12,0.25,FALSE)",
+      expectedValue: 0.19357
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "BINOM.INV Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "binom.inv",
+    title: "BINOM.INV Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Inverse Binomial: BINOM.INV",
+      description: "Returns the smallest value for which the cumulative binomial distribution is greater than or equal to a criterion value (alpha).",
+      concept: "It's like finding a threshold. 'How many successes do I need to be 90% sure the process is working?' or 'What's the maximum number of errors I can expect at a certain confidence level?'"
+    },
+    internalLogic: "Excel calculates the cumulative binomial distribution for k = 0, 1, 2... and returns the first value of k where the probability P(X ≤ k) ≥ alpha.",
+    whyItExists: "Crucial for determining sample sizes and critical values in hypothesis testing and quality assurance.",
+    whenToUse: "Use to find the minimum number of successes required to meet a target confidence level.",
+    realWorldUseCases: [
+      "Determining the minimum sample size for a survey.",
+      "Finding the critical value for a pass/fail quality check.",
+      "Risk assessment: maximum number of defaults in a credit portfolio."
+    ],
+    businessExample: {
+      scenario: "In a batch of 20 items with a 40% success rate, what is the smallest number of successes such that the cumulative probability is at least 80%?",
+      formula: "=BINOM.INV(20, 0.4, 0.8)"
+    },
+    syntax: "=BINOM.INV(trials, probability_s, alpha)",
+    syntaxBreakdown: [
+      { arg: "trials", desc: "The number of independent Bernoulli trials (required)." },
+      { arg: "probability_s", desc: "The success probability of each trial (required)." },
+      { arg: "alpha", desc: "The target cumulative probability (confidence level) (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Threshold Calculation",
+        table: {
+          headers: ["Trials", "Prob", "Alpha", "Result (k)"],
+          rows: [
+            ["20", "0.4", "0.8", "10"]
           ]
+        },
+        stepByStep: [
+          "With 20 trials and p=0.4, Excel checks cumulative probabilities.",
+          "P(X ≤ 9) = 0.755 (Too low).",
+          "P(X ≤ 10) = 0.872 (Meets alpha of 0.8).",
+          "Result: 10."
         ]
-      },
-      "stepByStep": [
-        "1. Select BINOM.INV.",
-        "2. Calculate BINOM.INV."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "BINOM.INV is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use BINOM.INV?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use BINOM.INV on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Non-integer Trials", desc: "Trials are truncated to integers. =BINOM.INV(20.9, ...) counts as 20." },
+      { title: "Alpha outside [0,1]", desc: "Providing an alpha like 80 (instead of 0.8) returns #NUM!." },
+      { title: "Confusing Alpha", desc: "Alpha here is the target *cumulative* probability, not the significance level used in some other functions." }
     ],
-    "expectedFormula": "BINOM.INV(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "chisq.dist",
-  "title": "CHISQ.DIST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "CHISQ.DIST",
-    "description": "Calculate the CHISQ.DIST property for data analysis.",
-    "concept": "the CHISQ.DIST analyzer"
-  },
-  "whyItExists": "Essential for CHISQ.DIST property evaluation.",
-  "whenToUse": "Analyze CHISQ.DIST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform CHISQ.DIST on monthly data.",
-    "formula": "=CHISQ.DIST(B2:B50)"
-  },
-  "syntax": "=CHISQ.DIST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Use for quality control: find the maximum number of defects allowed to maintain 95% confidence in a process.",
+      "Matches the legacy CRITBINOM function for backward compatibility.",
+      "Helpful in staffing: how many agents do we need to ensure 90% of calls are answered?"
+    ],
+    relatedFunctions: ["BINOM.DIST", "NORM.INV", "POISSON.DIST"],
+    miniChallenge: {
+      question: "With 15 trials and p=0.3, what is the smallest k where the cumulative probability is ≥ 0.9?",
+      expectedAnswer: "7"
+    },
+    practice: {
+      instructions: "In cell B6, find the BINOM.INV value for 25 trials, 50% (0.5) success rate, and a 95% (0.95) alpha.",
+      initialData: [["Parameter", "Value"], ["Trials", 25], ["Prob", 0.5], ["Alpha", 0.95], ["", ""], ["BINOM.INV", ""]],
+      targetCell: [5, 1],
+      expectedFormula: "BINOM.INV(25,0.5,0.95)",
+      expectedValue: 17
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "CHISQ.DIST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "chisq.dist",
+    title: "CHISQ.DIST Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Chi-Square Distribution: CHISQ.DIST",
+      description: "Returns the left-tailed probability of the chi-squared distribution.",
+      concept: "The Chi-Square distribution is used to test how well a model fits the data (Goodness of Fit) or if two categorical variables are independent."
+    },
+    internalLogic: "Excel calculates the area under the chi-square curve from 0 to 'x' (for CDF) or the height at 'x' (for PDF) given the specified degrees of freedom.",
+    whyItExists: "Fundamental for hypothesis testing in science and marketing where you compare observed frequencies against expected frequencies.",
+    whenToUse: "Use to calculate the p-value for a chi-square test or to model variance in a population.",
+    realWorldUseCases: [
+      "Analyzing if customer preferences differ by region.",
+      "Testing if a die is fair (observed vs. expected rolls).",
+      "Quality control: measuring variance in manufactured parts."
+    ],
+    businessExample: {
+      scenario: "Find the probability of a chi-square value of 5.0 with 3 degrees of freedom (Cumulative).",
+      formula: "=CHISQ.DIST(5, 3, TRUE)"
+    },
+    syntax: "=CHISQ.DIST(x, deg_freedom, cumulative)",
+    syntaxBreakdown: [
+      { arg: "x", desc: "The value at which to evaluate the distribution (must be ≥ 0) (required)." },
+      { arg: "deg_freedom", desc: "The number of degrees of freedom (must be a positive integer) (required)." },
+      { arg: "cumulative", desc: "TRUE for CDF (area to the left); FALSE for PDF (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Chi-Square Left Tail",
+        table: {
+          headers: ["x", "df", "Cumulative", "Result"],
+          rows: [
+            ["5.0", "3", "TRUE", "0.8282"],
+            ["5.0", "3", "FALSE", "0.1202"]
           ]
+        },
+        stepByStep: [
+          "For df=3, approximately 82.8% of the distribution is less than or equal to 5.0.",
+          "Note: For right-tail p-values (common in testing), use CHISQ.DIST.RT or 1 - CHISQ.DIST."
         ]
-      },
-      "stepByStep": [
-        "1. Select CHISQ.DIST.",
-        "2. Calculate CHISQ.DIST."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "CHISQ.DIST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use CHISQ.DIST?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use CHISQ.DIST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Negative x", desc: "The Chi-Square distribution is only defined for x ≥ 0. Negative values return #NUM!." },
+      { title: "Wrong Tail", desc: "Standard hypothesis tests usually look for the right-tail probability. CHISQ.DIST returns the LEFT tail." }
     ],
-    "expectedFormula": "CHISQ.DIST(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "chisq.inv",
-  "title": "CHISQ.INV Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "CHISQ.INV",
-    "description": "Calculate the CHISQ.INV property for data analysis.",
-    "concept": "the CHISQ.INV analyzer"
-  },
-  "whyItExists": "Essential for CHISQ.INV property evaluation.",
-  "whenToUse": "Analyze CHISQ.INV in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform CHISQ.INV on monthly data.",
-    "formula": "=CHISQ.INV(B2:B50)"
-  },
-  "syntax": "=CHISQ.INV(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Mean of Chi-Square = degrees of freedom.",
+      "Variance of Chi-Square = 2 * degrees of freedom.",
+      "As df increases, the Chi-Square distribution starts to look like a Normal distribution."
+    ],
+    relatedFunctions: ["CHISQ.DIST.RT", "CHISQ.INV", "CHISQ.TEST"],
+    miniChallenge: {
+      question: "Find the left-tail probability P(X ≤ 7.8) with 4 degrees of freedom.",
+      expectedAnswer: "0.9009"
+    },
+    practice: {
+      instructions: "In cell B7, calculate the CDF (Cumulative) for x=3.5 with 6 degrees of freedom.",
+      initialData: [["Parameter", "Value"], ["x", 3.5], ["df", 6], ["Cumulative", "TRUE"], ["", ""], ["CDF", ""]],
+      targetCell: [5, 1],
+      expectedFormula: "CHISQ.DIST(3.5,6,TRUE)",
+      expectedValue: 0.2568
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "CHISQ.INV Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "chisq.inv",
+    title: "CHISQ.INV Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Inverse Chi-Square: CHISQ.INV",
+      description: "Returns the inverse of the left-tailed probability of the chi-squared distribution.",
+      concept: "It finds the critical value. 'Given a probability of 95%, what chi-square score marks the boundary?' This is used to find the cutoff for rejecting a null hypothesis."
+    },
+    internalLogic: "Excel uses iterative numerical methods to find the value 'x' such that CHISQ.DIST(x, df, TRUE) equals the provided probability.",
+    whyItExists: "Necessary for determining critical values in statistical significance testing (alpha levels).",
+    whenToUse: "Use to find the chi-square statistic corresponding to a specific confidence level.",
+    realWorldUseCases: [
+      "Determining the critical value for a 0.05 significance level test.",
+      "Calculating confidence intervals for population variance.",
+      "Establishing rejection regions in goodness-of-fit tests."
+    ],
+    businessExample: {
+      scenario: "Find the value that marks the 95th percentile (left-tail 0.95) of a chi-square distribution with 10 degrees of freedom.",
+      formula: "=CHISQ.INV(0.95, 10)"
+    },
+    syntax: "=CHISQ.INV(probability, deg_freedom)",
+    syntaxBreakdown: [
+      { arg: "probability", desc: "The left-tail cumulative probability between 0 and 1 (required)." },
+      { arg: "deg_freedom", desc: "The number of degrees of freedom (positive integer) (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Critical Value Lookup",
+        table: {
+          headers: ["Probability", "df", "Critical Value"],
+          rows: [
+            ["0.95", "10", "18.307"]
           ]
+        },
+        stepByStep: [
+          "For df=10, 95% of the data falls below 18.307.",
+          "If your calculated test statistic is higher than this value, you would reject the null hypothesis at the 5% (1-0.95) significance level."
         ]
-      },
-      "stepByStep": [
-        "1. Select CHISQ.INV.",
-        "2. Calculate CHISQ.INV."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "CHISQ.INV is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use CHISQ.INV?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use CHISQ.INV on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Using Right-Tail Prob", desc: "If you have an alpha of 0.05 for a right-tail test, you must use 0.95 (1 - 0.05) as the probability." },
+      { title: "Prob = 0 or 1", desc: "Probability must be > 0 and < 1. Exact 0 or 1 returns #NUM!." }
     ],
-    "expectedFormula": "CHISQ.INV(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "chisq.test",
-  "title": "CHISQ.TEST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "CHISQ.TEST",
-    "description": "Calculate the CHISQ.TEST property for data analysis.",
-    "concept": "the CHISQ.TEST analyzer"
-  },
-  "whyItExists": "Essential for CHISQ.TEST property evaluation.",
-  "whenToUse": "Analyze CHISQ.TEST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform CHISQ.TEST on monthly data.",
-    "formula": "=CHISQ.TEST(B2:B50)"
-  },
-  "syntax": "=CHISQ.TEST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Use CHISQ.INV.RT if you prefer to input the right-tail probability directly (e.g., 0.05).",
+      "Pair with CHISQ.TEST to see if your result is significantly different from expected.",
+      "Always verify degrees of freedom: for a table, df = (rows-1) * (cols-1)."
+    ],
+    relatedFunctions: ["CHISQ.INV.RT", "CHISQ.DIST", "T.INV"],
+    miniChallenge: {
+      question: "Find the critical value for alpha=0.05 with 8 degrees of freedom (using 0.95 left-tail).",
+      expectedAnswer: "15.507"
+    },
+    practice: {
+      instructions: "In cell B6, find the critical value for a 99% (0.99) probability with 15 degrees of freedom.",
+      initialData: [["Parameter", "Value"], ["Probability", 0.99], ["df", 15], ["", ""], ["Critical Value", ""]],
+      targetCell: [4, 1],
+      expectedFormula: "CHISQ.INV(0.99,15)",
+      expectedValue: 30.578
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "CHISQ.TEST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "chisq.test",
+    title: "CHISQ.TEST Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 400,
+    introduction: {
+      title: "Independence Test: CHISQ.TEST",
+      description: "Returns the test for independence (p-value) from the chi-squared distribution.",
+      concept: "It compares what you saw (Observed) with what you expected (Expected). If the p-value is low (< 0.05), it means there is a significant relationship between your variables."
+    },
+    internalLogic: "1. Calculates the Chi-Square statistic: Σ[(Observed - Expected)² / Expected]. 2. Determines degrees of freedom. 3. Returns the right-tail probability (p-value) for that statistic.",
+    whyItExists: "Crucial for determining if differences in data are 'real' or just due to random chance.",
+    whenToUse: "Use to analyze survey results or A/B tests to see if the outcome depends on the category (e.g., 'Does gender affect brand preference?').",
+    realWorldUseCases: [
+      "A/B Testing: Does Design A lead to more clicks than Design B?",
+      "Marketing: Do different age groups prefer different products?",
+      "Science: Does a new drug perform better than a placebo?"
+    ],
+    businessExample: {
+      scenario: "Compare observed counts in A2:B3 with expected counts. A p-value < 0.05 suggests a significant difference.",
+      formula: "=CHISQ.TEST(A2:B3, C2:D3)"
+    },
+    syntax: "=CHISQ.TEST(actual_range, expected_range)",
+    syntaxBreakdown: [
+      { arg: "actual_range", desc: "The range containing your observed frequencies (required)." },
+      { arg: "expected_range", desc: "The range containing the values you'd expect if there were no relationship (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Preference Analysis",
+        table: {
+          headers: ["", "Product A", "Product B", "Result"],
+          rows: [
+            ["Observed Group 1", "45", "55", ""],
+            ["Observed Group 2", "60", "40", ""],
+            ["P-Value", "", "", "0.134"]
           ]
+        },
+        stepByStep: [
+          "Input actual data in one range and expected data in another.",
+          "Excel calculates the differences, squares them, and sums them up.",
+          "A p-value of 0.134 means there is a 13.4% chance the difference is just noise. We usually need < 5% to call it 'significant'."
         ]
-      },
-      "stepByStep": [
-        "1. Select CHISQ.TEST.",
-        "2. Calculate CHISQ.TEST."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "CHISQ.TEST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use CHISQ.TEST?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use CHISQ.TEST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Using Percentages", desc: "CHISQ.TEST requires counts (frequencies), not percentages or ratios." },
+      { title: "Expected values < 5", desc: "The test is less reliable if any cell in the 'expected_range' is less than 5." },
+      { title: "Different Array Sizes", desc: "Both ranges must have identical dimensions (e.g., 2x2)." }
     ],
-    "expectedFormula": "CHISQ.TEST(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "confidence.norm",
-  "title": "CONFIDENCE.NORM Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "CONFIDENCE.NORM",
-    "description": "Calculate the CONFIDENCE.NORM property for data analysis.",
-    "concept": "the CONFIDENCE.NORM analyzer"
-  },
-  "whyItExists": "Essential for CONFIDENCE.NORM property evaluation.",
-  "whenToUse": "Analyze CONFIDENCE.NORM in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform CONFIDENCE.NORM on monthly data.",
-    "formula": "=CONFIDENCE.NORM(B2:B50)"
-  },
-  "syntax": "=CONFIDENCE.NORM(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "To find the expected range manually for a contingency table: (Row Total * Column Total) / Grand Total.",
+      "A low p-value does NOT tell you which category is different, just that the overall table shows a relationship.",
+      "Combine with conditional formatting to flag results where p < 0.05."
+    ],
+    relatedFunctions: ["CHISQ.DIST", "T.TEST", "F.TEST"],
+    miniChallenge: {
+      question: "If CHISQ.TEST returns 0.02, is the relationship typically considered significant?",
+      expectedAnswer: "Yes"
+    },
+    practice: {
+      instructions: "In cell B6, calculate the p-value comparing observed counts in B2:C3 with the expected counts in D2:E3.",
+      initialData: [["", "Pass", "Fail", "Exp Pass", "Exp Fail"], ["Method A", 70, 30, 60, 40], ["Method B", 50, 50, 60, 40], ["", "", "", "", ""], ["P-Value", ""]],
+      targetCell: [5, 1],
+      expectedFormula: "CHISQ.TEST(B2:C3,D2:E3)",
+      expectedValue: 0.0044
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "CONFIDENCE.NORM Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "confidence.norm",
+    title: "CONFIDENCE.NORM Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Margin of Error (Normal): CONFIDENCE.NORM",
+      description: "Calculates the margin of error for a population mean using a normal distribution.",
+      concept: "Think of this as the 'Plus or Minus' in a survey. 'We are 95% sure the average salary is ₦100,000, plus or minus ₦2,940.' It tells you how precise your sample average is."
+    },
+    internalLogic: "Excel uses the formula: z * (sigma / √n), where z is the critical value for the normal distribution, sigma is the population standard deviation, and n is the sample size.",
+    whyItExists: "Necessary for reporting the precision of data in large samples (usually n ≥ 30) where the population standard deviation is known or can be estimated.",
+    whenToUse: "Use to calculate a confidence interval for a mean (Interval = Mean ± Result) when you have a large sample size.",
+    realWorldUseCases: [
+      "Calculating the margin of error for customer satisfaction scores.",
+      "Determining the reliability of weight measurements in a factory.",
+      "Estimating the precision of average delivery times."
+    ],
+    businessExample: {
+      scenario: "Find the margin of error with 95% confidence (alpha 0.05), a standard deviation of 15, and a sample of 100.",
+      formula: "=CONFIDENCE.NORM(0.05, 15, 100)"
+    },
+    syntax: "=CONFIDENCE.NORM(alpha, standard_dev, size)",
+    syntaxBreakdown: [
+      { arg: "alpha", desc: "The significance level (e.g., 0.05 for 95% confidence) (required)." },
+      { arg: "standard_dev", desc: "The population standard deviation (assumed to be known) (required)." },
+      { arg: "size", desc: "The sample size (number of observations) (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Precision Estimate",
+        table: {
+          headers: ["Alpha", "Std Dev", "Sample Size", "Result (Margin)"],
+          rows: [
+            ["0.05", "15", "100", "2.94"]
           ]
+        },
+        stepByStep: [
+          "For 95% confidence (alpha 0.05), the z-score is 1.96.",
+          "Excel calculates: 1.96 * (15 / √100) = 1.96 * 1.5.",
+          "Result: 2.94. You are 95% confident the true mean is within ±2.94 of your sample mean."
         ]
-      },
-      "stepByStep": [
-        "1. Select CONFIDENCE.NORM.",
-        "2. Calculate CONFIDENCE.NORM."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "CONFIDENCE.NORM is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use CONFIDENCE.NORM?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use CONFIDENCE.NORM on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Alpha vs Confidence", desc: "Alpha is 1 minus the confidence level. For 95% confidence, use 0.05, not 95." },
+      { title: "Small Sample", desc: "If your sample size is small (n < 30), it's better to use CONFIDENCE.T." },
+      { title: "Sample vs Population Std Dev", desc: "NORM assumes you know the population standard deviation. If you only have sample data, use CONFIDENCE.T." }
     ],
-    "expectedFormula": "CONFIDENCE.NORM(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "confidence.t",
-  "title": "CONFIDENCE.T Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "CONFIDENCE.T",
-    "description": "Calculate the CONFIDENCE.T property for data analysis.",
-    "concept": "the CONFIDENCE.T analyzer"
-  },
-  "whyItExists": "Essential for CONFIDENCE.T property evaluation.",
-  "whenToUse": "Analyze CONFIDENCE.T in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform CONFIDENCE.T on monthly data.",
-    "formula": "=CONFIDENCE.T(B2:B50)"
-  },
-  "syntax": "=CONFIDENCE.T(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Confidence Interval = AVERAGE(data) ± CONFIDENCE.NORM(alpha, sigma, size).",
+      "A smaller alpha (e.g., 0.01) will result in a larger margin of error (wider interval).",
+      "Increasing the sample size (n) will decrease the margin of error, making your estimate more precise."
+    ],
+    relatedFunctions: ["CONFIDENCE.T", "NORM.S.INV", "STDEV.P"],
+    miniChallenge: {
+      question: "Find the margin of error for 95% confidence with sigma=8 and n=64.",
+      expectedAnswer: "1.96"
+    },
+    practice: {
+      instructions: "In cell B6, find the margin of error for a 90% confidence level (alpha 0.10), sigma of 25, and sample size of 200.",
+      initialData: [["Parameter", "Value"], ["Alpha", 0.10], ["Std Dev", 25], ["Size", 200], ["", ""], ["Margin of Error", ""]],
+      targetCell: [5, 1],
+      expectedFormula: "CONFIDENCE.NORM(0.1,25,200)",
+      expectedValue: 2.907
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "CONFIDENCE.T Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "confidence.t",
+    title: "CONFIDENCE.T Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Margin of Error (T-Dist): CONFIDENCE.T",
+      description: "Calculates the margin of error for a population mean using a Student's t-distribution.",
+      concept: "This is the more realistic 'Plus or Minus' tool. Since we rarely know the 'true' population deviation and usually work with smaller samples, the T-distribution accounts for that extra uncertainty."
+    },
+    internalLogic: "Excel uses the formula: t * (s / √n), where t is the critical value for the t-distribution with n-1 degrees of freedom, s is the sample standard deviation, and n is the sample size.",
+    whyItExists: "Unlike the normal distribution, the t-distribution is wider at the tails to account for the fact that we are estimating the standard deviation from a sample.",
+    whenToUse: "Always use CONFIDENCE.T if you have a small sample (n < 30) or if you are using the sample standard deviation (which is almost always).",
+    realWorldUseCases: [
+      "Finding the margin of error for a small pilot study (e.g., 15 participants).",
+      "Calculating reliability for monthly test scores.",
+      "Estimating average production costs from a limited batch."
+    ],
+    businessExample: {
+      scenario: "Calculate the 95% confidence margin for a small sample of 25 items with a sample standard deviation of 15.",
+      formula: "=CONFIDENCE.T(0.05, 15, 25)"
+    },
+    syntax: "=CONFIDENCE.T(alpha, standard_dev, size)",
+    syntaxBreakdown: [
+      { arg: "alpha", desc: "The significance level (e.g., 0.05 for 95% confidence) (required)." },
+      { arg: "standard_dev", desc: "The sample standard deviation (required)." },
+      { arg: "size", desc: "The sample size (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Small Sample Precision",
+        table: {
+          headers: ["Alpha", "Std Dev", "Size", "Result"],
+          rows: [
+            ["0.05", "15", "25", "6.19"]
           ]
+        },
+        stepByStep: [
+          "With df=24 and alpha=0.05, the t-critical value is approximately 2.064.",
+          "Excel calculates: 2.064 * (15 / √25) = 2.064 * 3.",
+          "Result: 6.19. Note how this is much larger than the 2.94 from the Normal distribution!"
         ]
-      },
-      "stepByStep": [
-        "1. Select CONFIDENCE.T.",
-        "2. Calculate CONFIDENCE.T."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "CONFIDENCE.T is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use CONFIDENCE.T?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use CONFIDENCE.T on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Sample size < 2", desc: "The sample size must be at least 2, or Excel returns a #DIV/0! error (because df = size - 1)." },
+      { title: "Assuming it's same as NORM", desc: "CONFIDENCE.T provides a wider, safer margin of error than CONFIDENCE.NORM for the same data." }
     ],
-    "expectedFormula": "CONFIDENCE.T(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "correl",
-  "title": "CORREL Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "CORREL",
-    "description": "Calculate the CORREL property for data analysis.",
-    "concept": "the CORREL analyzer"
-  },
-  "whyItExists": "Essential for CORREL property evaluation.",
-  "whenToUse": "Analyze CORREL in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform CORREL on monthly data.",
-    "formula": "=CORREL(B2:B50)"
-  },
-  "syntax": "=CORREL(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "As your sample size increases, the result of CONFIDENCE.T gets closer and closer to CONFIDENCE.NORM.",
+      "In most business and research contexts, CONFIDENCE.T is the 'safer' and more accurate choice.",
+      "Pair with T.INV.2T to find the critical t-value manually."
+    ],
+    relatedFunctions: ["CONFIDENCE.NORM", "T.INV.2T", "STDEV.S"],
+    miniChallenge: {
+      question: "Which function gives a wider margin of error for a sample size of 10: CONFIDENCE.NORM or CONFIDENCE.T?",
+      expectedAnswer: "CONFIDENCE.T"
+    },
+    practice: {
+      instructions: "In cell B6, find the margin of error for a 95% confidence level (alpha 0.05), sample std dev of 20, and size of 10.",
+      initialData: [["Parameter", "Value"], ["Alpha", 0.05], ["Std Dev", 20], ["Size", 10], ["", ""], ["Margin of Error", ""]],
+      targetCell: [5, 1],
+      expectedFormula: "CONFIDENCE.T(0.05,20,10)",
+      expectedValue: 14.306
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "CORREL Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "correl",
+    title: "CORREL Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 300,
+    introduction: {
+      title: "Relationship Finder: CORREL",
+      description: "Calculates the Pearson product-moment correlation coefficient between two sets of data.",
+      concept: "It answers the question: 'Do these two things move together?' If I spend more on Ads, does Revenue go up? It returns a score between -1 and +1."
+    },
+    internalLogic: "It calculates the covariance of the two arrays divided by the product of their standard deviations. The result 'r' indicates the strength and direction of the linear relationship.",
+    whyItExists: "Critical for identifying patterns. It helps businesses understand which variables are linked (e.g., Temperature and Ice Cream sales).",
+    whenToUse: "Use to measure the strength of a relationship between two columns of numeric data.",
+    realWorldUseCases: [
+      "Analyzing the link between study hours and exam scores.",
+      "Determining if advertising spend is correlated with sales growth.",
+      "Checking the relationship between humidity and product shelf life."
+    ],
+    businessExample: {
+      scenario: "Find the correlation between hours studied in A2:A6 and exam scores in B2:B6.",
+      formula: "=CORREL(A2:A6, B2:B6)"
+    },
+    syntax: "=CORREL(array1, array2)",
+    syntaxBreakdown: [
+      { arg: "array1", desc: "The first range of cell values (required)." },
+      { arg: "array2", desc: "The second range of cell values (must be same size) (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Study vs. Scores",
+        table: {
+          headers: ["Hours", "Score", "Result"],
+          rows: [
+            ["2", "65", ""],
+            ["3", "70", ""],
+            ["5", "80", "0.9847"],
+            ["4", "75", ""],
+            ["6", "90", ""]
           ]
+        },
+        stepByStep: [
+          "Input hours in column A and scores in column B.",
+          "A result of 0.9847 means a very strong positive correlation.",
+          "As study hours go up, scores reliably go up."
         ]
-      },
-      "stepByStep": [
-        "1. Select CORREL.",
-        "2. Calculate CORREL."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "CORREL is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use CORREL?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use CORREL on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Mismatch sizes", desc: "If array1 and array2 have different numbers of cells, Excel returns #N/A." },
+      { title: "Correlation vs Causation", desc: "Just because two things are correlated doesn't mean one CAUSES the other. They might both be caused by something else!" },
+      { title: "Non-linear links", desc: "CORREL only measures straight-line relationships. It might miss a U-shaped pattern." }
     ],
-    "expectedFormula": "CORREL(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "count",
-  "title": "COUNT Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "COUNT",
-    "description": "Calculate the COUNT property for data analysis.",
-    "concept": "the COUNT analyzer"
-  },
-  "whyItExists": "Essential for COUNT property evaluation.",
-  "whenToUse": "Analyze COUNT in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform COUNT on monthly data.",
-    "formula": "=COUNT(B2:B50)"
-  },
-  "syntax": "=COUNT(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "A score of +1.0 is a perfect positive relationship; -1.0 is a perfect negative relationship; 0 is no relationship.",
+      "Always plot your data on a Scatter Chart to see the relationship visually.",
+      "Square the result (r²) to find the 'Coefficient of Determination', which tells you what % of the variance is shared."
+    ],
+    relatedFunctions: ["PEARSON", "RSQ", "COVARIANCE.P", "SLOPE"],
+    miniChallenge: {
+      question: "If X={1,2,3} and Y={2,4,6}, what is the correlation coefficient?",
+      expectedAnswer: "1"
+    },
+    practice: {
+      instructions: "In cell B8, find the correlation between Temperature (A2:A6) and Sales (B2:B6).",
+      initialData: [["Temp", "Sales"], [75, 120], [80, 150], [85, 180], [90, 200], [95, 230], ["", ""], ["CORREL", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "CORREL(A2:A6,B2:B6)",
+      expectedValue: 0.9959
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "COUNT Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "count",
+    title: "COUNT Function",
+    category: "statistical",
+    difficulty: "Beginner",
+    xp: 100,
+    introduction: {
+      title: "The Number counter: COUNT",
+      description: "Counts the number of cells that contain numbers in a range or set of values.",
+      concept: "Think of it as a inventory tool for numeric data. It ignores text, errors, and blanks, only tallying up the actual numbers (and dates)."
+    },
+    internalLogic: "Excel scans the provided arguments and increments the counter only for cells containing numeric values, including dates and formulas that return numbers.",
+    whyItExists: "Useful for finding out how many data points you actually have in a dataset, regardless of how much text or empty space is mixed in.",
+    whenToUse: "Use when you need to know how many entries in a column are numeric (e.g., 'How many people provided their age?').",
+    realWorldUseCases: [
+      "Counting how many sales were recorded in a month.",
+      "Checking how many students submitted their numeric scores.",
+      "Inventory: counting items where a price is listed."
+    ],
+    businessExample: {
+      scenario: "An office manager wants to know how many employees provided a numeric 'Years of Service' value.",
+      formula: "=COUNT(A2:A100)"
+    },
+    syntax: "=COUNT(value1, [value2], ...)",
+    syntaxBreakdown: [
+      { arg: "value1", desc: "The first item, cell reference, or range you want to count (required)." },
+      { arg: "value2", desc: "Optional. Up to 255 additional items or ranges." }
+    ],
+    detailedExamples: [
+      {
+        title: "Numeric Inventory",
+        table: {
+          headers: ["Cell", "Value"],
+          rows: [
+            ["A2", "10"],
+            ["A3", "20"],
+            ["A4", "Text"],
+            ["A5", "30"],
+            ["A6", ""],
+            ["A7", "TRUE"]
           ]
+        },
+        stepByStep: [
+          "Excel checks A2, A3, A5: These are numbers. (Count = 3).",
+          "A4 is text: Ignored.",
+          "A6 is blank: Ignored.",
+          "A7 is a logical value: Ignored.",
+          "Final Result: 3."
         ]
-      },
-      "stepByStep": [
-        "1. Select COUNT.",
-        "2. Calculate COUNT."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "COUNT is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use COUNT?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use COUNT on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Confusing with COUNTA", desc: "COUNT only tallies numbers. If you want to count EVERYTHING (text included), use COUNTA." },
+      { title: "Numbers as Text", desc: "If a number is stored as text (it has a little green triangle), COUNT will ignore it." },
+      { title: "Header Rows", desc: "Including headers in your range won't break the formula, but they won't be counted." }
     ],
-    "expectedFormula": "COUNT(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "counta",
-  "title": "COUNTA Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "COUNTA",
-    "description": "Calculate the COUNTA property for data analysis.",
-    "concept": "the COUNTA analyzer"
-  },
-  "whyItExists": "Essential for COUNTA property evaluation.",
-  "whenToUse": "Analyze COUNTA in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform COUNTA on monthly data.",
-    "formula": "=COUNTA(B2:B50)"
-  },
-  "syntax": "=COUNTA(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Use COUNT to verify that a column that *should* be all numbers doesn't have text errors.",
+      "Combine with IF for conditional counting: =COUNT(IF(A2:A10>10, A2:A10)) (as an array formula).",
+      "Pair with COUNTA to find the percentage of a range that is numeric."
+    ],
+    relatedFunctions: ["COUNTA", "COUNTIF", "COUNTIFS", "COUNTBLANK"],
+    miniChallenge: {
+      question: "Count the numbers in this set: {45, 'N/A', 32, '', 67, TRUE}. What is the result?",
+      expectedAnswer: "3"
+    },
+    practice: {
+      instructions: "In cell B8, count the numeric values in the Amount column (B2:B6).",
+      initialData: [["Order", "Amount"], ["001", 50], ["002", "N/A"], ["003", 75], ["004", ""], ["005", "#VALUE!"], ["", ""], ["COUNT", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "COUNT(B2:B6)",
+      expectedValue: 2
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "COUNTA Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "counta",
+    title: "COUNTA Function",
+    category: "statistical",
+    difficulty: "Beginner",
+    xp: 100,
+    introduction: {
+      title: "The All-Purpose Counter: COUNTA",
+      description: "Counts the number of cells that are not empty in a range.",
+      concept: "Think of it as 'Count Anything'. If a cell has something in it—text, numbers, errors, or even just a space—COUNTA will count it. Only truly empty cells are ignored."
+    },
+    internalLogic: "Excel checks every cell in the range. If the cell's value is anything other than NULL (blank), it adds 1 to the total.",
+    whyItExists: "Essential for measuring the completeness of a dataset or finding out how many rows of data you have, regardless of the data type.",
+    whenToUse: "Use to count text entries, find the size of a list, or check how many people responded to a question.",
+    realWorldUseCases: [
+      "Counting how many names are in an employee list.",
+      "Checking how many tasks in a project have a status.",
+      "Counting total items in an inventory list including those with error messages."
+    ],
+    businessExample: {
+      scenario: "A project lead wants to know how many employees have 'Task Status' entries, even if those entries say 'Error'.",
+      formula: "=COUNTA(B2:B50)"
+    },
+    syntax: "=COUNTA(value1, [value2], ...)",
+    syntaxBreakdown: [
+      { arg: "value1", desc: "The first item, cell reference, or range you want to count (required)." },
+      { arg: "value2", desc: "Optional. Up to 255 additional items or ranges." }
+    ],
+    detailedExamples: [
+      {
+        title: "Completeness Check",
+        table: {
+          headers: ["Type", "Value"],
+          rows: [
+            ["Number", "100"],
+            ["Text", "Hello"],
+            ["Logical", "TRUE"],
+            ["Error", "#DIV/0!"],
+            ["Blank", ""]
           ]
+        },
+        stepByStep: [
+          "Excel checks the first 4 rows: all contain data. (Count = 4).",
+          "The 5th row is empty.",
+          "Final Result: 4."
         ]
-      },
-      "stepByStep": [
-        "1. Select COUNTA.",
-        "2. Calculate COUNTA."
-      ]
+      }
+    ],
+    commonMistakes: [
+      { title: "The 'Invisible' Space", desc: "If a cell looks empty but has a space (' ') in it, COUNTA will count it. This is a common cause of 'wrong' totals." },
+      { title: "Formulas returning empty text", desc: "If a formula returns \"\", COUNTA counts that cell as non-empty. Use COUNTBLANK if you need to find true empties." }
+    ],
+    proTips: [
+      "Use COUNTA to find the 'Last Row' of a dynamic list.",
+      "Pair with COUNT to find how many non-numeric (text) values are in a range: =COUNTA(range) - COUNT(range).",
+      "Essential for creating dynamic named ranges."
+    ],
+    relatedFunctions: ["COUNT", "COUNTBLANK", "COUNTIF", "ISBLANK"],
+    miniChallenge: {
+      question: "How many items will COUNTA find in: {'Apple', 5, '', FALSE, #N/A, null}?",
+      expectedAnswer: "5"
+    },
+    practice: {
+      instructions: "In cell B8, use COUNTA to find how many statuses have been entered in B2:B6.",
+      initialData: [["ID", "Status"], [1, "Complete"], [2, ""], [3, "Pending"], [4, "Complete"], [5, ""], ["", ""], ["COUNTA", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "COUNTA(B2:B6)",
+      expectedValue: 3
     }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "COUNTA is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use COUNTA?",
-    "expectedAnswer": "Yes"
   },
-  "practice": {
-    "instructions": "Use COUNTA on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "COUNTA(B2:B3)",
-    "expectedValue": 150
-  }
-},
 {
   "id": "countblank",
   "title": "COUNTBLANK Function",
