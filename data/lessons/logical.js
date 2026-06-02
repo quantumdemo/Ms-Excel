@@ -71,14 +71,7 @@ export const logicalLessons = [
       targetCell: [1, 2],
       expectedFormula: "IF(B2>=50,\"PASS\",\"FAIL\")",
       expectedValue: "PASS"
-    },
-    sandboxData: [
-      ["Student", "Score", "Status"],
-      ["Alice", 85, "=IF(B2>=50, \"PASS\", \"FAIL\")"],
-      ["Bob", 42, "=IF(B3>=50, \"PASS\", \"FAIL\")"],
-      ["Charlie", 91, "=IF(B4>=50, \"PASS\", \"FAIL\")"],
-      ["David", 38, "=IF(B5>=50, \"PASS\", \"FAIL\")"]
-    ]
+    }
   },
   {
     id: "and",
@@ -149,13 +142,7 @@ export const logicalLessons = [
       targetCell: [1, 2],
       expectedFormula: "AND(A2=\"Yes\",B2>50)",
       expectedValue: true
-    },
-    sandboxData: [
-      ["Candidate", "Degree", "Years Exp", "Hire?"],
-      ["John", "Yes", 5, "=AND(B2=\"Yes\", C2>=3)"],
-      ["Sarah", "No", 10, "=AND(B3=\"Yes\", C3>=3)"],
-      ["Mike", "Yes", 2, "=AND(B4=\"Yes\", C4>=3)"]
-    ]
+    }
   },
   {
     id: "or",

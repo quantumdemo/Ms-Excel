@@ -55,13 +55,7 @@ export const foundationLessons = [
       targetCell: [1, 1],
       expectedFormula: "LearnExcel",
       expectedValue: "LearnExcel"
-    },
-    sandboxData: [
-      ["Columns", "A", "B", "C"],
-      ["Row 1", "A1", "B1", "C1"],
-      ["Row 2", "A2", "B2", "C2"],
-      ["Row 3", "A3", "B3", "C3"]
-    ]
+    }
   },
   {
     id: "cell-referencing",
@@ -132,13 +126,7 @@ export const foundationLessons = [
       targetCell: [1, 1],
       expectedFormula: "A2",
       expectedValue: 100
-    },
-    sandboxData: [
-      ["Item", "Price", "Tax (5%)", "Total"],
-      ["Phone", 500, "=B2*0.05", "=B2+C2"],
-      ["Laptop", 1200, "=B3*0.05", "=B3+C3"],
-      ["Tablet", 300, "=B4*0.05", "=B4+C4"]
-    ]
+    }
   },
   {
     id: "excel-errors",

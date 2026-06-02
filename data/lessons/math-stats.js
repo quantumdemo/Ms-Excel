@@ -907,13 +907,7 @@ export const mathStatsLessons = [
       targetCell: [1, 1],
       expectedFormula: "SUMSQ(A2:A3)",
       expectedValue: 25
-    },
-    sandboxData: [
-      ["Data 1", "Data 2", "Sum of Squares"],
-      [3, 4, "=SUMSQ(A2:B2)"],
-      [5, 12, "=SUMSQ(A3:B3)"],
-      [8, 15, "=SUMSQ(A4:B4)"]
-    ]
+    }
   },
 {
     id: "sumxmy2",
@@ -979,13 +973,7 @@ export const mathStatsLessons = [
       targetCell: [1, 2],
       expectedFormula: "SUMXMY2(A2:A3,B2:B3)",
       expectedValue: 13
-    },
-    sandboxData: [
-      ["Actual (X)", "Forecast (Y)", "Squared Diff"],
-      [10, 8, "=SUMXMY2(A2, B2)"],
-      [15, 12, "=SUMXMY2(A3, B3)"],
-      ["Total SSE", "", "=SUMXMY2(A2:A3, B2:B3)"]
-    ]
+    }
   },
 {
     id: "sumx2my2",
