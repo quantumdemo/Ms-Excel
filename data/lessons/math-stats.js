@@ -3858,1237 +3858,978 @@ export const mathStatsLessons = [
     }
   },
 {
-  "id": "countblank",
-  "title": "COUNTBLANK Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "COUNTBLANK",
-    "description": "Calculate the COUNTBLANK property for data analysis.",
-    "concept": "the COUNTBLANK analyzer"
-  },
-  "whyItExists": "Essential for COUNTBLANK property evaluation.",
-  "whenToUse": "Analyze COUNTBLANK in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform COUNTBLANK on monthly data.",
-    "formula": "=COUNTBLANK(B2:B50)"
-  },
-  "syntax": "=COUNTBLANK(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "COUNTBLANK Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+    id: "countblank",
+    title: "COUNTBLANK Function",
+    category: "statistical",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Finding Empty Spaces: COUNTBLANK",
+      description: "The COUNTBLANK function identifies and counts the number of empty cells within a specified range.",
+      concept: "Think of it as a completeness checker. It scans your data to find where information is missing, which is crucial for data cleaning and quality control."
+    },
+    internalLogic: "Excel scans each cell in the specified range. It counts cells that are completely empty and cells with formulas returning \"\" (empty string). It does not count cells with spaces, zeros, or errors.",
+    whyItExists: "Data completeness is vital for accurate analysis. COUNTBLANK helps quickly identify missing data points in large datasets without manual inspection.",
+    whenToUse: "Use to check if mandatory fields are filled, or to see how many rows in a dataset are missing key information.",
+    realWorldUseCases: [
+      "Checking for missing customer email addresses.",
+      "Quality check for mandatory survey responses.",
+      "Identifying gaps in a production log."
+    ],
+    businessExample: {
+      scenario: "A manager wants to know how many products in a list don't have a status assigned.",
+      formula: "=COUNTBLANK(B2:B6)"
+    },
+    syntax: "=COUNTBLANK(range)",
+    syntaxBreakdown: [
+      { arg: "range", desc: "The range of cells to evaluate (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Inventory Status Check",
+        table: {
+          headers: ["Item", "Status"],
+          rows: [
+            ["Apple", "Sold"],
+            ["Banana", ""],
+            ["Cherry", "Sold"],
+            ["Date", ""],
+            ["Elderberry", ""]
           ]
+        },
+        stepByStep: [
+          "Excel scans the range B2:B6.",
+          "It identifies that B3, B5, and B6 are empty.",
+          "The count of blank cells is 3.",
+          "Result: 3."
         ]
-      },
-      "stepByStep": [
-        "1. Select COUNTBLANK.",
-        "2. Calculate COUNTBLANK."
-      ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Thinking spaces are blank.", desc: "Cells containing a space (\" \") are NOT counted as blank." },
+      { title: "Forgetting zero-length strings.", desc: "Formula results that return \"\" ARE counted as blank." }
+    ],
+    proTips: [
+      "Use to check data completeness: COUNTA + COUNTBLANK = total rows.",
+      "Combine with IF to flag incomplete records: =IF(COUNTBLANK(A2:D2)>0, \"Incomplete\", \"Complete\")"
+    ],
+    relatedFunctions: ["COUNTA", "COUNTIF", "ISBLANK"],
+    miniChallenge: {
+      question: "Range A1:A5 contains: \"Data\", \"\", 0, \" \", and a formula returning \"\". What does COUNTBLANK return?",
+      expectedAnswer: "2"
+    },
+    practice: {
+      instructions: "In cell B7, use COUNTBLANK to find how many ages are missing in B2:B5.",
+      initialData: [["Name", "Age", "City"], ["John", 25, "NYC"], ["Sarah", "", "Boston"], ["Mike", 30, ""], ["Emma", "", ""]],
+      targetCell: [6, 1],
+      expectedFormula: "COUNTBLANK(B2:B5)",
+      expectedValue: 2
     }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "COUNTBLANK is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use COUNTBLANK?",
-    "expectedAnswer": "Yes"
   },
-  "practice": {
-    "instructions": "Use COUNTBLANK on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "COUNTBLANK(B2:B3)",
-    "expectedValue": 150
-  }
-},
 {
-  "id": "countif",
-  "title": "COUNTIF Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "COUNTIF",
-    "description": "Calculate the COUNTIF property for data analysis.",
-    "concept": "the COUNTIF analyzer"
-  },
-  "whyItExists": "Essential for COUNTIF property evaluation.",
-  "whenToUse": "Analyze COUNTIF in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform COUNTIF on monthly data.",
-    "formula": "=COUNTIF(B2:B50)"
-  },
-  "syntax": "=COUNTIF(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "COUNTIF Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+    id: "countif",
+    title: "COUNTIF Function",
+    category: "statistical",
+    difficulty: "Beginner",
+    xp: 200,
+    introduction: {
+      title: "Targeted Counting: COUNTIF",
+      description: "The COUNTIF function counts the number of cells within a range that meet a single specified criterion.",
+      concept: "Think of it as a selective counter: 'Go through this list and tell me how many times you see the word Widget' or 'How many sales were greater than 400?'"
+    },
+    internalLogic: "Excel evaluates each cell in the range against the criteria. If the cell matches, the counter increases by one. It supports numbers, text, and logical expressions using wildcards.",
+    whyItExists: "Filtering and manually counting specific items in large lists is slow and error-prone. COUNTIF automates this, providing instant answers to frequency-based questions.",
+    whenToUse: "Use when you need to count items that match one specific condition (e.g., specific product name, status, or value threshold).",
+    realWorldUseCases: [
+      "Counting how many times a specific employee appears in a shift log.",
+      "Finding how many products are currently 'Out of Stock'.",
+      "Counting transactions that exceed a certain dollar amount."
+    ],
+    businessExample: {
+      scenario: "A sales manager wants to know how many 'Widget' sales are in the product list.",
+      formula: "=COUNTIF(A2:A6, \"Widget\")"
+    },
+    syntax: "=COUNTIF(range, criteria)",
+    syntaxBreakdown: [
+      { arg: "range", desc: "The range of cells to evaluate (required)." },
+      { arg: "criteria", desc: "The condition that determines which cells to count. Can be a number, expression, cell reference, or text (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Product and Sales Counting",
+        table: {
+          headers: ["Product", "Sales"],
+          rows: [
+            ["Widget", "500"],
+            ["Gadget", "300"],
+            ["Widget", "450"],
+            ["Gizmo", "600"],
+            ["Widget", "350"]
           ]
+        },
+        stepByStep: [
+          "For =COUNTIF(A2:A6, \"Widget\"): Excel finds \"Widget\" in rows 2, 4, and 6. Result: 3.",
+          "For =COUNTIF(B2:B6, \">400\"): Excel finds values 500, 450, and 600. Result: 3."
         ]
-      },
-      "stepByStep": [
-        "1. Select COUNTIF.",
-        "2. Calculate COUNTIF."
-      ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Wrong reference syntax.", desc: "Use \">\"&D1 instead of \">D1\" when referencing a cell." },
+      { title: "Case sensitivity.", desc: "COUNTIF is case-insensitive: \"WIDGET\" matches \"widget\"." }
+    ],
+    proTips: [
+      "Use \"?\" for a single character wildcard (e.g., \"Sm?th\") and \"*\" for multiple characters (e.g., \"North*\").",
+      "Use the tilde (~) to escape wildcards if you need to find a literal asterisk or question mark: \"~*\"."
+    ],
+    relatedFunctions: ["COUNTIFS", "SUMIF", "AVERAGEIF"],
+    miniChallenge: {
+      question: "How do you count cells in B1:B10 containing values between 50 and 100 (exclusive)?",
+      expectedAnswer: "=COUNTIF(B1:B10, \">50\") - COUNTIF(B1:B10, \">=100\")"
+    },
+    practice: {
+      instructions: "In cell B8, count how many times 'East' appears in A2:A6.",
+      initialData: [["Region", "Revenue"], ["East", 1000], ["West", 800], ["East", 1200], ["North", 950], ["East", 1100], ["", ""], ["Count East", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "COUNTIF(A2:A6,\"East\")",
+      expectedValue: 3
     }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "COUNTIF is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use COUNTIF?",
-    "expectedAnswer": "Yes"
   },
-  "practice": {
-    "instructions": "Use COUNTIF on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "COUNTIF(B2:B3)",
-    "expectedValue": 150
-  }
-},
 {
-  "id": "countifs",
-  "title": "COUNTIFS Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "COUNTIFS",
-    "description": "Calculate the COUNTIFS property for data analysis.",
-    "concept": "the COUNTIFS analyzer"
-  },
-  "whyItExists": "Essential for COUNTIFS property evaluation.",
-  "whenToUse": "Analyze COUNTIFS in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform COUNTIFS on monthly data.",
-    "formula": "=COUNTIFS(B2:B50)"
-  },
-  "syntax": "=COUNTIFS(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "COUNTIFS Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+    id: "countifs",
+    title: "COUNTIFS Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 300,
+    introduction: {
+      title: "Multi-Criteria Counting: COUNTIFS",
+      description: "The COUNTIFS function applies multiple criteria to different ranges and counts the number of times all criteria are met simultaneously.",
+      concept: "Think of it as an 'AND' counter. It only counts a row if it satisfies every condition you set — like 'Count where Region is North AND Sales are > 400'."
+    },
+    internalLogic: "Excel evaluates each range/criteria pair. A count is only recorded if all conditions for that row are TRUE. Each criteria_range must be the same size as the first one.",
+    whyItExists: "Standard business questions often involve multiple variables. COUNTIFS allows you to analyze the intersection of different data points without complex filtering.",
+    whenToUse: "Use when you need to count based on two or more criteria (e.g., Dept = IT AND Level = Senior).",
+    realWorldUseCases: [
+      "Counting employees who are both 'Full Time' and 'Senior'.",
+      "Finding how many 'Red' items in size 'Large' are in stock.",
+      "Counting orders from a specific customer that were over $500."
+    ],
+    businessExample: {
+      scenario: "A manager wants to count how many 'North' region sales were also 'Widgets'.",
+      formula: "=COUNTIFS(A2:A6, \"North\", B2:B6, \"Widget\")"
+    },
+    syntax: "=COUNTIFS(criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
+    syntaxBreakdown: [
+      { arg: "criteria_range1", desc: "The first range to evaluate (required)." },
+      { arg: "criteria1", desc: "The condition for the first range (required)." },
+      { arg: "criteria_range2, criteria2", desc: "Additional range/criteria pairs (optional, up to 127 pairs)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Regional Product Analysis",
+        table: {
+          headers: ["Region", "Product", "Sales"],
+          rows: [
+            ["North", "Widget", "500"],
+            ["South", "Gadget", "300"],
+            ["North", "Gadget", "450"],
+            ["East", "Widget", "600"],
+            ["North", "Widget", "350"]
           ]
+        },
+        stepByStep: [
+          "For North & Widget: Row 2 and Row 6 match both. Result: 2.",
+          "For North & Sales > 400: Row 2 (500) and Row 4 (450) match both. Result: 2."
         ]
-      },
-      "stepByStep": [
-        "1. Select COUNTIFS.",
-        "2. Calculate COUNTIFS."
-      ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Mismatched range sizes.", desc: "All criteria ranges must have the same number of rows and columns." },
+      { title: "Expecting OR logic.", desc: "COUNTIFS uses AND logic. To count A OR B, add two COUNTIF functions together." }
+    ],
+    proTips: [
+      "Use for date ranges: =COUNTIFS(A:A, \">=\"&DATE(2024,1,1), A:A, \"<=\"&DATE(2024,1,31)).",
+      "Nest within SUMPRODUCT for even more complex logical counting."
+    ],
+    relatedFunctions: ["COUNTIF", "SUMIFS", "AVERAGEIFS"],
+    miniChallenge: {
+      question: "Count orders from East region with quantity >10 placed in January 2024. How many criteria pairs do you need?",
+      expectedAnswer: "4 (Region, Quantity, Start Date, End Date)"
+    },
+    practice: {
+      instructions: "In cell B8, count how many 'IT' employees are 'Senior' (Dept in A2:A6, Level in B2:B6).",
+      initialData: [["Dept", "Level", "Salary"], ["IT", "Senior", 85000], ["HR", "Junior", 55000], ["IT", "Senior", 92000], ["IT", "Junior", 60000], ["Sales", "Senior", 78000], ["", "", ""], ["IT & Senior", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "COUNTIFS(A2:A6,\"IT\",B2:B6,\"Senior\")",
+      expectedValue: 2
     }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "COUNTIFS is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use COUNTIFS?",
-    "expectedAnswer": "Yes"
   },
-  "practice": {
-    "instructions": "Use COUNTIFS on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "COUNTIFS(B2:B3)",
-    "expectedValue": 150
-  }
-},
 {
-  "id": "covariance.p",
-  "title": "COVARIANCE.P Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "COVARIANCE.P",
-    "description": "Calculate the COVARIANCE.P property for data analysis.",
-    "concept": "the COVARIANCE.P analyzer"
-  },
-  "whyItExists": "Essential for COVARIANCE.P property evaluation.",
-  "whenToUse": "Analyze COVARIANCE.P in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform COVARIANCE.P on monthly data.",
-    "formula": "=COVARIANCE.P(B2:B50)"
-  },
-  "syntax": "=COVARIANCE.P(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "COVARIANCE.P Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+    id: "covariance.p",
+    title: "COVARIANCE.P Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Population Relationship: COVARIANCE.P",
+      description: "The COVARIANCE.P function calculates the population covariance, which measures the directional relationship between two data sets representing an entire population.",
+      concept: "Think of it as a way to see if two things move together: if Stock X goes up, does Stock Y also go up? COVARIANCE.P gives you a number representing that joint variability."
+    },
+    internalLogic: "Excel calculates the mean of both arrays, finds the deviation of each point from its respective mean, multiplies the paired deviations, and averages those products using N (the population size).",
+    whyItExists: "In finance and science, understanding how variables change together is critical for risk assessment and predictive modeling.",
+    whenToUse: "Use COVARIANCE.P when you have data for every member of the group you are studying (the full population).",
+    realWorldUseCases: [
+      "Analyzing the relationship between two internal company metrics.",
+      "Measuring how different city-wide weather patterns move together.",
+      "Evaluating the joint risk of all assets in a fixed portfolio."
+    ],
+    businessExample: {
+      scenario: "An analyst wants to see how the returns of two specific stocks in a controlled portfolio move together.",
+      formula: "=COVARIANCE.P(A2:A6, B2:B6)"
+    },
+    syntax: "=COVARIANCE.P(array1, array2)",
+    syntaxBreakdown: [
+      { arg: "array1", desc: "The first range of cell values (required)." },
+      { arg: "array2", desc: "The second range of cell values (required, must be same size as array1)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Stock Movement Analysis",
+        table: {
+          headers: ["Stock X", "Stock Y"],
+          rows: [
+            ["12%", "8%"],
+            ["15%", "10%"],
+            ["9%", "7%"],
+            ["14%", "11%"],
+            ["10%", "6%"]
           ]
+        },
+        stepByStep: [
+          "Excel calculates means: Stock X = 12%, Stock Y = 8.4%.",
+          "It finds deviations for each pair and multiplies them.",
+          "It sums these cross-products and divides by 5 (population size).",
+          "Result: 0.00052 (indicates they move in the same direction)."
         ]
-      },
-      "stepByStep": [
-        "1. Select COVARIANCE.P.",
-        "2. Calculate COVARIANCE.P."
-      ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Confusing with COVARIANCE.S.", desc: "The .P version uses N as the denominator, while .S uses N-1 for sample data." },
+      { title: "Different sized arrays.", desc: "Both arrays MUST have the exact same number of data points." }
+    ],
+    proTips: [
+      "A positive value means variables move together; a negative value means they move in opposite directions.",
+      "For a standardized measure (between -1 and +1), use the CORREL function instead.",
+      "Be consistent with units: don't mix 12% (0.12) with whole numbers (12)."
+    ],
+    relatedFunctions: ["COVARIANCE.S", "CORREL", "STDEV.P"],
+    miniChallenge: {
+      question: "If X={2,4,6,8,10} and Y={3,6,9,12,15}, is the COVARIANCE.P positive or negative?",
+      expectedAnswer: "Positive"
+    },
+    practice: {
+      instructions: "In cell B8, calculate the population covariance for Height (B2:B6) and Weight (C2:C6).",
+      initialData: [["", "Height", "Weight"], ["", 65, 140], ["", 70, 165], ["", 68, 155], ["", 72, 180], ["", 67, 150], ["", "", ""], ["COVARIANCE.P", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "COVARIANCE.P(B2:B6,C2:C6)",
+      expectedValue: 32.8
     }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "COVARIANCE.P is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use COVARIANCE.P?",
-    "expectedAnswer": "Yes"
   },
-  "practice": {
-    "instructions": "Use COVARIANCE.P on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "COVARIANCE.P(B2:B3)",
-    "expectedValue": 150
-  }
-},
 {
-  "id": "covariance.s",
-  "title": "COVARIANCE.S Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "COVARIANCE.S",
-    "description": "Calculate the COVARIANCE.S property for data analysis.",
-    "concept": "the COVARIANCE.S analyzer"
-  },
-  "whyItExists": "Essential for COVARIANCE.S property evaluation.",
-  "whenToUse": "Analyze COVARIANCE.S in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform COVARIANCE.S on monthly data.",
-    "formula": "=COVARIANCE.S(B2:B50)"
-  },
-  "syntax": "=COVARIANCE.S(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "COVARIANCE.S Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+    id: "covariance.s",
+    title: "COVARIANCE.S Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Sample Relationship: COVARIANCE.S",
+      description: "The COVARIANCE.S function calculates the sample covariance, used when your data is a sample of a larger population.",
+      concept: "It estimates how much two variables change together, but applies a correction (N-1) to provide an unbiased estimate for the broader population."
+    },
+    internalLogic: "Formula: Cov(X,Y) = Σ(xi - x̄)(yi - ȳ) / (n-1). It finds the sum of the products of the deviations and divides by the sample size minus one.",
+    whyItExists: "Most data we work with is only a sample. COVARIANCE.S is mathematically adjusted to be more accurate when projecting sample findings to a whole population.",
+    whenToUse: "Use COVARIANCE.S for almost all real-world data analysis where you don't have every single data point possible.",
+    realWorldUseCases: [
+      "Estimating the relationship between study hours and exam scores based on a class sample.",
+      "Analyzing how marketing spend relates to revenue using monthly data points.",
+      "Predicting how two crops will react to the same fertilizer based on trial plots."
+    ],
+    businessExample: {
+      scenario: "A researcher wants to estimate the relationship between study hours and GPA from a small group of students.",
+      formula: "=COVARIANCE.S(A2:A6, B2:B6)"
+    },
+    syntax: "=COVARIANCE.S(array1, array2)",
+    syntaxBreakdown: [
+      { arg: "array1", desc: "The first data set (required)." },
+      { arg: "array2", desc: "The second data set (required, must be same dimensions as array1)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Study Hours vs GPA",
+        table: {
+          headers: ["Study Hrs", "GPA"],
+          rows: [
+            ["2", "2.5"],
+            ["3", "3.0"],
+            ["4", "3.5"],
+            ["5", "3.8"],
+            ["6", "4.0"]
           ]
+        },
+        stepByStep: [
+          "Excel finds sample means: Hrs = 4, GPA = 3.36.",
+          "Calculates cross-products of deviations.",
+          "Divides the sum of cross-products (3.4) by (5-1) = 4.",
+          "Result: 0.85."
         ]
-      },
-      "stepByStep": [
-        "1. Select COVARIANCE.S.",
-        "2. Calculate COVARIANCE.S."
-      ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Expecting a percentage.", desc: "Covariance is not standardized like correlation; the result can be any number." },
+      { title: "Ignoring array size.", desc: "If array sizes don't match, you'll get a #N/A error." }
+    ],
+    proTips: [
+      "Use COVARIANCE.S when inferring population behavior from a smaller sample.",
+      "Convert to correlation for a more intuitive measure: r = Cov(X,Y) / (sx × sy).",
+      "Because it uses N-1, the result will always be slightly larger than COVARIANCE.P for the same data."
+    ],
+    relatedFunctions: ["COVARIANCE.P", "CORREL", "STDEV.S"],
+    miniChallenge: {
+      question: "Find the sample covariance of X={1,3,5,7} and Y={2,4,6,8}.",
+      expectedAnswer: "6.666..."
+    },
+    practice: {
+      instructions: "In cell B8, calculate the sample covariance for Advertising (B2:B6) and Revenue (C2:C6).",
+      initialData: [["", "Advertising", "Revenue"], ["", 1000, 15000], ["", 1500, 22000], ["", 2000, 28000], ["", 2500, 34000], ["", 3000, 40000], ["", "", ""], ["COVARIANCE.S", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "COVARIANCE.S(B2:B6,C2:C6)",
+      expectedValue: 7750000
     }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "COVARIANCE.S is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use COVARIANCE.S?",
-    "expectedAnswer": "Yes"
   },
-  "practice": {
-    "instructions": "Use COVARIANCE.S on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "COVARIANCE.S(B2:B3)",
-    "expectedValue": 150
-  }
-},
 {
-  "id": "devsq",
-  "title": "DEVSQ Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "DEVSQ",
-    "description": "Calculate the DEVSQ property for data analysis.",
-    "concept": "the DEVSQ analyzer"
-  },
-  "whyItExists": "Essential for DEVSQ property evaluation.",
-  "whenToUse": "Analyze DEVSQ in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform DEVSQ on monthly data.",
-    "formula": "=DEVSQ(B2:B50)"
-  },
-  "syntax": "=DEVSQ(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "DEVSQ Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+    id: "devsq",
+    title: "DEVSQ Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Sum of Squared Deviations: DEVSQ",
+      description: "The DEVSQ function calculates the sum of the squares of deviations of data points from their sample mean.",
+      concept: "Think of it as measuring the 'total spread' of your data. It answers: how much do all these numbers, combined, stray from their average?"
+    },
+    internalLogic: "Excel finds the mean of the values, subtracts the mean from each value (the deviation), squares each result, and then sums all those squares together. Formula: Σ(x - x̄)².",
+    whyItExists: "It is a fundamental component for calculating variance and standard deviation, and is used extensively in regression analysis to find the 'Sum of Squares Error'.",
+    whenToUse: "Use DEVSQ when you need to calculate variance components manually or measure total data dispersion.",
+    realWorldUseCases: [
+      "Calculating the sum of squared errors (SSE) in a forecast.",
+      "Internal step for building custom statistical models.",
+      "Analyzing the stability of scientific readings over time."
+    ],
+    businessExample: {
+      scenario: "An engineer wants to find the total squared variation of a series of pressure readings.",
+      formula: "=DEVSQ(A2:A6)"
+    },
+    syntax: "=DEVSQ(number1, [number2], ...)",
+    syntaxBreakdown: [
+      { arg: "number1", desc: "The first number or range of values (required)." },
+      { arg: "number2", desc: "Additional numbers or ranges (optional, up to 255)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Manual Spread Calculation",
+        table: {
+          headers: ["Value", "Deviation (x-x̄)", "Squared Dev"],
+          rows: [
+            ["10", "-20", "400"],
+            ["20", "-10", "100"],
+            ["30", "0", "0"],
+            ["40", "10", "100"],
+            ["50", "20", "400"]
           ]
+        },
+        stepByStep: [
+          "Mean (x̄) = (10+20+30+40+50)/5 = 30.",
+          "Deviations: 10-30 = -20, 20-30 = -10, etc.",
+          "Sum of Squared Deviations: 400 + 100 + 0 + 100 + 400.",
+          "Result: 1000."
         ]
-      },
-      "stepByStep": [
-        "1. Select DEVSQ.",
-        "2. Calculate DEVSQ."
-      ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Confusing with SUMSQ.", desc: "SUMSQ squares the numbers directly (x²), while DEVSQ squares the difference from the mean (x-x̄)²." },
+      { title: "Non-numeric handling.", desc: "Text and blanks in the range are ignored, which can lead to a different 'N' than you might expect if calculating manually." }
+    ],
+    proTips: [
+      "Quick check: DEVSQ = SUMSQ(range) - (SUM(range)² / COUNT(range)).",
+      "Relationship to variance: Variance = DEVSQ / (n-1).",
+      "Result is always zero if all numbers in the set are identical."
+    ],
+    relatedFunctions: ["SUMSQ", "VAR.S", "STDEV.S"],
+    miniChallenge: {
+      question: "Find the DEVSQ of the set: {5, 5, 5, 5, 5}. What does the result tell you?",
+      expectedAnswer: "0 (No variation from the mean)"
+    },
+    practice: {
+      instructions: "In cell B8, calculate the DEVSQ for the readings in B2:B6.",
+      initialData: [["", "Reading"], ["", 12.5], ["", 13.1], ["", 12.8], ["", 13.0], ["", 12.9], ["", ""], ["DEVSQ", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "DEVSQ(B2:B6)",
+      expectedValue: 0.212
     }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "DEVSQ is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use DEVSQ?",
-    "expectedAnswer": "Yes"
   },
-  "practice": {
-    "instructions": "Use DEVSQ on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "DEVSQ(B2:B3)",
-    "expectedValue": 150
-  }
-},
 {
-  "id": "expon.dist",
-  "title": "EXPON.DIST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "EXPON.DIST",
-    "description": "Calculate the EXPON.DIST property for data analysis.",
-    "concept": "the EXPON.DIST analyzer"
-  },
-  "whyItExists": "Essential for EXPON.DIST property evaluation.",
-  "whenToUse": "Analyze EXPON.DIST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform EXPON.DIST on monthly data.",
-    "formula": "=EXPON.DIST(B2:B50)"
-  },
-  "syntax": "=EXPON.DIST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "EXPON.DIST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+    id: "expon.dist",
+    title: "EXPON.DIST Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Modeling Time: EXPON.DIST",
+      description: "The EXPON.DIST function calculates the exponential distribution, which is used to model the time or distance between independent events occurring at a constant average rate.",
+      concept: "Think of it as the 'waiting time' distribution. If you know how often events happen on average (like customers entering a shop), EXPON.DIST tells you the probability of waiting a certain amount of time for the next one."
+    },
+    internalLogic: "Excel uses the parameter lambda (rate). For the Probability Density Function (PDF), it uses: f(x) = λe^(-λx). For the Cumulative Distribution Function (CDF), it uses: F(x) = 1 - e^(-λx).",
+    whyItExists: "It is the mathematical foundation for reliability analysis (time to failure) and queuing theory (waiting in line).",
+    whenToUse: "Use to calculate probabilities related to intervals, such as 'What is the chance a part lasts more than 100 hours?' or 'What is the probability a customer arrives within 5 minutes?'",
+    realWorldUseCases: [
+      "Predicting the time until the next radioactive decay.",
+      "Estimating the time between phone calls at a service center.",
+      "Calculating the survival probability of a machine part."
+    ],
+    businessExample: {
+      scenario: "A service manager wants to find the probability that a customer will arrive within 0.5 minutes, given an average rate of 2 arrivals per minute.",
+      formula: "=EXPON.DIST(0.5, 2, TRUE)"
+    },
+    syntax: "=EXPON.DIST(x, lambda, cumulative)",
+    syntaxBreakdown: [
+      { arg: "x", desc: "The value of the function (must be ≥ 0) (required)." },
+      { arg: "lambda", desc: "The rate parameter (must be > 0) (required)." },
+      { arg: "cumulative", desc: "A logical value: TRUE for CDF (probability ≤ x), FALSE for PDF (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Waiting Time Probability",
+        table: {
+          headers: ["Wait Time (x)", "Rate (λ)", "Cumulative", "Probability"],
+          rows: [
+            ["0.5", "2", "TRUE", "0.6321"],
+            ["0.5", "2", "FALSE", "0.7358"]
           ]
+        },
+        stepByStep: [
+          "At x=0.5 with λ=2: CDF = 1 - e^(-2 * 0.5) = 1 - e^(-1) ≈ 0.6321.",
+          "This means there is a 63.21% chance the next event happens within 0.5 units of time.",
+          "The PDF (FALSE) returns 0.7358, which is the height of the curve at that point."
         ]
-      },
-      "stepByStep": [
-        "1. Select EXPON.DIST.",
-        "2. Calculate EXPON.DIST."
-      ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Negative x values.", desc: "The exponential distribution is only defined for x ≥ 0." },
+      { title: "Lambda as mean.", desc: "Lambda is the RATE (1/mean). If arrivals happen every 10 mins, lambda is 0.1, not 10." }
+    ],
+    proTips: [
+      "The mean of the distribution is 1/lambda.",
+      "The 'Memoryless' property: the probability of an event happening in the next hour is the same regardless of how long you have already waited.",
+      "For survival probability (chance it takes LONGER than x), use: =1 - EXPON.DIST(x, lambda, TRUE)."
+    ],
+    relatedFunctions: ["POISSON.DIST", "GAMMA.DIST", "NORM.DIST"],
+    miniChallenge: {
+      question: "If arrivals average 10 minutes (λ=0.1), what formula finds the chance of an arrival within 5 minutes?",
+      expectedAnswer: "=EXPON.DIST(5, 0.1, TRUE)"
+    },
+    practice: {
+      instructions: "In cell B6, calculate the CDF probability for x=3 and Lambda=0.4.",
+      initialData: [["Parameter", "Value"], ["x", 3], ["Lambda", 0.4], ["Cumulative", "TRUE"], ["", ""], ["CDF", ""]],
+      targetCell: [5, 1],
+      expectedFormula: "EXPON.DIST(3,0.4,TRUE)",
+      expectedValue: 0.6988
     }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "EXPON.DIST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use EXPON.DIST?",
-    "expectedAnswer": "Yes"
   },
-  "practice": {
-    "instructions": "Use EXPON.DIST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "EXPON.DIST(B2:B3)",
-    "expectedValue": 150
-  }
-},
 {
-  "id": "f.dist",
-  "title": "F.DIST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "F.DIST",
-    "description": "Calculate the F.DIST property for data analysis.",
-    "concept": "the F.DIST analyzer"
-  },
-  "whyItExists": "Essential for F.DIST property evaluation.",
-  "whenToUse": "Analyze F.DIST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform F.DIST on monthly data.",
-    "formula": "=F.DIST(B2:B50)"
-  },
-  "syntax": "=F.DIST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "F.DIST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+    id: "f.dist",
+    title: "F.DIST Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Comparing Variances: F.DIST",
+      description: "The F.DIST function returns the F probability distribution, typically used to compare the degree of diversity (variance) in two data sets.",
+      concept: "It helps determine if the differences between groups are significantly larger than the differences within groups, which is the core of ANOVA (Analysis of Variance)."
+    },
+    internalLogic: "The F-distribution is the ratio of two independent chi-square variables. Excel calculates the area under this curve from 0 to x (for CDF).",
+    whyItExists: "Essential for hypothesis testing in regression and experimental design to see if a model or treatment has a significant effect.",
+    whenToUse: "Use F.DIST to find p-values in ANOVA or when comparing the variances of two populations.",
+    realWorldUseCases: [
+      "Testing if three different fertilizers produce different crop yields.",
+      "Determining if the variance of a new production process is less than the old one.",
+      "Calculating significance in multiple linear regression."
+    ],
+    businessExample: {
+      scenario: "A quality control analyst wants to find the probability of observing an F-statistic of 2.5 or less with specific degrees of freedom.",
+      formula: "=F.DIST(2.5, 3, 10, TRUE)"
+    },
+    syntax: "=F.DIST(x, deg_freedom1, deg_freedom2, cumulative)",
+    syntaxBreakdown: [
+      { arg: "x", desc: "The value to evaluate (must be ≥ 0) (required)." },
+      { arg: "deg_freedom1", desc: "The numerator degrees of freedom (required)." },
+      { arg: "deg_freedom2", desc: "The denominator degrees of freedom (required)." },
+      { arg: "cumulative", desc: "TRUE for CDF, FALSE for PDF (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "F-Distribution Probability",
+        table: {
+          headers: ["F-Value (x)", "df1", "df2", "Cumulative", "Result"],
+          rows: [
+            ["2.5", "3", "10", "TRUE", "0.8732"],
+            ["2.5", "3", "10", "FALSE", "0.1181"]
           ]
+        },
+        stepByStep: [
+          "With df1=3 and df2=10, Excel calculates the probability curve.",
+          "Result 0.8732 means 87.32% of the distribution is at or below 2.5.",
+          "This leaves 12.68% in the right tail (often the area of interest for p-values)."
         ]
-      },
-      "stepByStep": [
-        "1. Select F.DIST.",
-        "2. Calculate F.DIST."
-      ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Reversing df1 and df2.", desc: "The order of degrees of freedom matters; swapping them changes the curve shape." },
+      { title: "Confusing with F.DIST.RT.", desc: "F.DIST returns the left-tail; F.DIST.RT returns the right-tail directly (1 - F.DIST)." }
+    ],
+    proTips: [
+      "df1 usually relates to the number of groups or variables being tested.",
+      "df2 usually relates to the number of observations minus the number of groups.",
+      "Use F.INV to find the 'critical value' for a specific significance level."
+    ],
+    relatedFunctions: ["F.INV", "F.TEST", "CHISQ.DIST", "T.DIST"],
+    miniChallenge: {
+      question: "What is the result of F.DIST(0, df1, df2, TRUE)?",
+      expectedAnswer: "0 (The F-distribution starts at 0)"
+    },
+    practice: {
+      instructions: "In cell B7, find the F.DIST CDF for x=1.8, df1=2, and df2=15.",
+      initialData: [["Parameter", "Value"], ["x", 1.8], ["df1", 2], ["df2", 15], ["Cumulative", "TRUE"], ["", ""], ["CDF", ""]],
+      targetCell: [6, 1],
+      expectedFormula: "F.DIST(1.8,2,15,TRUE)",
+      expectedValue: 0.799
     }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "F.DIST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use F.DIST?",
-    "expectedAnswer": "Yes"
   },
-  "practice": {
-    "instructions": "Use F.DIST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "F.DIST(B2:B3)",
-    "expectedValue": 150
-  }
-},
 {
-  "id": "f.inv",
-  "title": "F.INV Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "F.INV",
-    "description": "Calculate the F.INV property for data analysis.",
-    "concept": "the F.INV analyzer"
-  },
-  "whyItExists": "Essential for F.INV property evaluation.",
-  "whenToUse": "Analyze F.INV in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform F.INV on monthly data.",
-    "formula": "=F.INV(B2:B50)"
-  },
-  "syntax": "=F.INV(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "F.INV Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+    id: "f.inv",
+    title: "F.INV Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Finding Critical Values: F.INV",
+      description: "The F.INV function returns the inverse of the F probability distribution. It finds the F-value that corresponds to a specific left-tail probability.",
+      concept: "Think of it as the reverse of F.DIST. Instead of 'What is the probability of this F-value?', you ask 'What F-value gives me this probability?' This is how we find 'critical values' for statistical tests."
+    },
+    internalLogic: "Excel uses an iterative numerical search technique to find a value x such that F.DIST(x, df1, df2, TRUE) equals the specified probability.",
+    whyItExists: "Analysts need to know the 'cutoff point' (critical value) to decide whether to reject a null hypothesis at a certain confidence level (like 95%).",
+    whenToUse: "Use F.INV when you are performing an F-test manually and need to know the threshold value to compare against your calculated F-statistic.",
+    realWorldUseCases: [
+      "Determining the threshold for significance in an ANOVA test.",
+      "Finding confidence interval bounds for the ratio of two variances.",
+      "Statistical quality control to determine if variations are within acceptable limits."
+    ],
+    businessExample: {
+      scenario: "An analyst wants to find the 95th percentile (the cutoff for alpha=0.05) of an F-distribution.",
+      formula: "=F.INV(0.95, 3, 10)"
+    },
+    syntax: "=F.INV(probability, deg_freedom1, deg_freedom2)",
+    syntaxBreakdown: [
+      { arg: "probability", desc: "A probability associated with the F cumulative distribution (between 0 and 1) (required)." },
+      { arg: "deg_freedom1", desc: "The numerator degrees of freedom (required)." },
+      { arg: "deg_freedom2", desc: "The denominator degrees of freedom (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Critical Value Calculation",
+        table: {
+          headers: ["Probability", "df1", "df2", "F-Value (Result)"],
+          rows: [
+            ["0.95", "3", "10", "3.7083"]
           ]
+        },
+        stepByStep: [
+          "You specify a 95% left-tail probability (equivalent to a 5% right-tail).",
+          "Excel identifies that 95% of the curve area is to the left of 3.7083.",
+          "If your calculated F-statistic is greater than 3.7083, the result is 'statistically significant' at the 0.05 level."
         ]
-      },
-      "stepByStep": [
-        "1. Select F.INV.",
-        "2. Calculate F.INV."
-      ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Alpha vs 1-Alpha.", desc: "For a 5% significance level, you usually need the 95% point (0.95), not 0.05 (which is the very far left tail)." },
+      { title: "Probability outside bounds.", desc: "Probability must be between 0 and 1 (exclusive)." }
+    ],
+    proTips: [
+      "For a standard 5% significance test, use 0.95 as the probability.",
+      "The right-tail version F.INV.RT(alpha, df1, df2) is equivalent to F.INV(1-alpha, df1, df2).",
+      "Check your work: =F.DIST(F.INV(0.95, 3, 10), 3, 10, TRUE) should return 0.95."
+    ],
+    relatedFunctions: ["F.DIST", "F.INV.RT", "T.INV", "NORM.S.INV"],
+    miniChallenge: {
+      question: "Find the critical value for α=0.05 with df1=2 and df2=12. Should you use 0.05 or 0.95 as the probability?",
+      expectedAnswer: "0.95"
+    },
+    practice: {
+      instructions: "In cell B6, find the F-value for a cumulative probability of 0.99 with df1=5 and df2=25.",
+      initialData: [["Parameter", "Value"], ["Probability", 0.99], ["df1", 5], ["df2", 25], ["", ""], ["F.INV Result", ""]],
+      targetCell: [5, 1],
+      expectedFormula: "F.INV(0.99,5,25)",
+      expectedValue: 3.855
     }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "F.INV is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use F.INV?",
-    "expectedAnswer": "Yes"
   },
-  "practice": {
-    "instructions": "Use F.INV on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "F.INV(B2:B3)",
-    "expectedValue": 150
-  }
-},
 {
-  "id": "f.test",
-  "title": "F.TEST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "F.TEST",
-    "description": "Calculate the F.TEST property for data analysis.",
-    "concept": "the F.TEST analyzer"
-  },
-  "whyItExists": "Essential for F.TEST property evaluation.",
-  "whenToUse": "Analyze F.TEST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform F.TEST on monthly data.",
-    "formula": "=F.TEST(B2:B50)"
-  },
-  "syntax": "=F.TEST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "F.TEST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+    id: "f.test",
+    title: "F.TEST Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Equality of Variances: F.TEST",
+      description: "The F.TEST function returns the result of an F-test, which is the two-tailed probability that the variances in two arrays are not significantly different.",
+      concept: "It's like a 'consistency checker' between two groups. Before you compare their averages, you use F.TEST to see if one group is much more 'scattered' than the other."
+    },
+    internalLogic: "Excel calculates the sample variances of both arrays, computes the F-statistic (s1²/s2²), and then returns the two-tailed p-value based on the F-distribution.",
+    whyItExists: "Standard t-tests require knowing whether the two groups have equal or unequal variances. F.TEST provides the evidence needed to make that choice.",
+    whenToUse: "Use F.TEST before performing a t-test to determine if you should use the 'Equal Variances' or 'Unequal Variances' version of the test.",
+    realWorldUseCases: [
+      "Comparing the consistency of two different manufacturing methods.",
+      "Testing if two different investment portfolios have the same level of risk (volatility).",
+      "Analyzing if two groups of students have a similar spread in their test scores."
+    ],
+    businessExample: {
+      scenario: "A production manager wants to know if Method A and Method B produce parts with the same level of consistency.",
+      formula: "=F.TEST(A2:A6, B2:B5)"
+    },
+    syntax: "=F.TEST(array1, array2)",
+    syntaxBreakdown: [
+      { arg: "array1", desc: "The first set of data points (required)." },
+      { arg: "array2", desc: "The second set of data points (required, can be a different size than array1)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Variance Consistency Test",
+        table: {
+          headers: ["Method A", "Method B"],
+          rows: [
+            ["85", "78"],
+            ["90", "82"],
+            ["88", "85"],
+            ["92", "80"],
+            ["86", ""]
           ]
+        },
+        stepByStep: [
+          "Excel calculates the variance for Method A and Method B.",
+          "It computes the F-ratio and determines the p-value.",
+          "Result: 0.0421.",
+          "Since 0.0421 < 0.05, the variances are significantly different. You should use an 'Unequal Variance' t-test."
         ]
-      },
-      "stepByStep": [
-        "1. Select F.TEST.",
-        "2. Calculate F.TEST."
-      ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Interpreting as a test of means.", desc: "F.TEST checks if the *spread* (variance) is the same, not the average. Use T.TEST for means." },
+      { title: "One-tailed vs Two-tailed.", desc: "F.TEST always returns the two-tailed p-value." }
+    ],
+    proTips: [
+      "If F.TEST returns a value < 0.05, the variances are likely different.",
+      "Part of the 'homoscedasticity' testing required for many advanced statistical models.",
+      "It doesn't matter which array you select first; Excel handles the ratio correctly."
+    ],
+    relatedFunctions: ["T.TEST", "VAR.S", "F.DIST"],
+    miniChallenge: {
+      question: "Array1={12,15,18,20}, Array2={8,10,12,14}. If F.TEST returns 0.55, are the variances significantly different?",
+      expectedAnswer: "No (0.55 is much larger than 0.05)"
+    },
+    practice: {
+      instructions: "In cell B9, find the F.TEST p-value for Machine 1 (B2:B6) and Machine 2 (C2:C5).",
+      initialData: [["", "Machine 1", "Machine 2"], ["", 10.2, 9.8], ["", 10.5, 10.0], ["", 10.1, 9.9], ["", 10.3, 10.1], ["", 10.4, ""], ["", "", ""], ["F.TEST p-value", ""]],
+      targetCell: [8, 1],
+      expectedFormula: "F.TEST(B2:B6,C2:C5)",
+      expectedValue: 0.702
     }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "F.TEST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use F.TEST?",
-    "expectedAnswer": "Yes"
   },
-  "practice": {
-    "instructions": "Use F.TEST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "F.TEST(B2:B3)",
-    "expectedValue": 150
-  }
-},
 {
-  "id": "fisher",
-  "title": "FISHER Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "FISHER",
-    "description": "Calculate the FISHER property for data analysis.",
-    "concept": "the FISHER analyzer"
-  },
-  "whyItExists": "Essential for FISHER property evaluation.",
-  "whenToUse": "Analyze FISHER in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform FISHER on monthly data.",
-    "formula": "=FISHER(B2:B50)"
-  },
-  "syntax": "=FISHER(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "FISHER Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+    id: "fisher",
+    title: "FISHER Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 250,
+    introduction: {
+      title: "Correlation Normalizer: FISHER",
+      description: "The FISHER function applies Fisher's z-transformation to a correlation coefficient to stabilize its variance and make its distribution approximately normal.",
+      concept: "Think of it as a 'stretcher' for correlations. Correlation coefficients (r) are squashed between -1 and 1. FISHER stretches them out so they are easier to analyze using standard statistical techniques."
+    },
+    internalLogic: "Excel uses the formula: z' = 0.5 * ln((1+r)/(1-r)). This transformation ensures that the standard error of the correlation depends only on sample size, not on the value of r itself.",
+    whyItExists: "Correlation coefficients are not normally distributed, especially as they get closer to 1 or -1. This makes it hard to calculate confidence intervals or compare correlations without transforming them first.",
+    whenToUse: "Use FISHER when you need to perform hypothesis testing on Pearson correlation coefficients or calculate their confidence intervals.",
+    realWorldUseCases: [
+      "Calculating confidence intervals for the correlation between two market indices.",
+      "Meta-analysis: combining the results of multiple studies that all measured the same correlation.",
+      "Testing if the correlation in Group A is significantly stronger than in Group B."
+    ],
+    businessExample: {
+      scenario: "A data scientist wants to transform a correlation of 0.8 before calculating its 95% confidence interval.",
+      formula: "=FISHER(0.8)"
+    },
+    syntax: "=FISHER(x)",
+    syntaxBreakdown: [
+      { arg: "x", desc: "A numeric value between -1 and 1 (exclusive) representing the correlation coefficient (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Fisher Transformation Calculation",
+        table: {
+          headers: ["Correlation (r)", "Formula", "Fisher Z (z')"],
+          rows: [
+            ["0.8", "=FISHER(0.8)", "1.0986"],
+            ["-0.5", "=FISHER(-0.5)", "-0.5493"]
           ]
+        },
+        stepByStep: [
+          "For r = 0.8: z' = 0.5 * ln((1+0.8)/(1-0.8)) = 0.5 * ln(1.8/0.2) = 0.5 * ln(9).",
+          "0.5 * 2.1972 = 1.0986.",
+          "The value 1.0986 can now be used in normal distribution-based calculations."
         ]
-      },
-      "stepByStep": [
-        "1. Select FISHER.",
-        "2. Calculate FISHER."
-      ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Using values of 1 or -1.", desc: "The function is undefined at the boundaries; it only works for values strictly between -1 and 1." },
+      { title: "Forgetting to transform back.", desc: "After doing math in 'Fisher space', you must use FISHERINV to get back to a standard correlation coefficient." }
+    ],
+    proTips: [
+      "Fisher's Z is essential for 'averaging' correlations from different studies.",
+      "As 'r' approaches 1, the Fisher Z value increases exponentially toward infinity.",
+      "Always round your final correlation results to a reasonable number of decimal places."
+    ],
+    relatedFunctions: ["FISHERINV", "CORREL", "PEARSON"],
+    miniChallenge: {
+      question: "Apply Fisher transformation to r = 0.6. Is the result greater or less than 0.6?",
+      expectedAnswer: "Greater (≈0.693)"
+    },
+    practice: {
+      instructions: "In cell B4, apply the FISHER transformation to the correlation in B2.",
+      initialData: [["", "Correlation"], ["", 0.9], ["", ""], ["FISHER", ""]],
+      targetCell: [3, 1],
+      expectedFormula: "FISHER(B2)",
+      expectedValue: 1.472
     }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "FISHER is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use FISHER?",
-    "expectedAnswer": "Yes"
   },
-  "practice": {
-    "instructions": "Use FISHER on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "FISHER(B2:B3)",
-    "expectedValue": 150
-  }
-},
 {
-  "id": "fisherinv",
-  "title": "FISHERINV Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "FISHERINV",
-    "description": "Calculate the FISHERINV property for data analysis.",
-    "concept": "the FISHERINV analyzer"
-  },
-  "whyItExists": "Essential for FISHERINV property evaluation.",
-  "whenToUse": "Analyze FISHERINV in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform FISHERINV on monthly data.",
-    "formula": "=FISHERINV(B2:B50)"
-  },
-  "syntax": "=FISHERINV(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "FISHERINV Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+    id: "fisherinv",
+    title: "FISHERINV Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 250,
+    introduction: {
+      title: "Reverse Normalization: FISHERINV",
+      description: "The FISHERINV function returns the inverse of the Fisher transformation. It converts a Fisher-z value back into a standard correlation coefficient (r).",
+      concept: "Think of it as the 'decoder'. After you've done complex statistical math using Fisher-transformed values, you use FISHERINV to translate those results back into the familiar -1 to 1 correlation scale."
+    },
+    internalLogic: "Excel uses the formula: r = (e^(2y) - 1) / (e^(2y) + 1), where y is the input Fisher-z value. This maps any real number back into the [-1, 1] range.",
+    whyItExists: "Statistical tests on correlations provide results in 'z-units'. To present these findings to stakeholders in a meaningful way (as a correlation), you must invert the transformation.",
+    whenToUse: "Use FISHERINV after calculating confidence interval bounds in z-space to find the upper and lower bounds of the correlation itself.",
+    realWorldUseCases: [
+      "Converting the average of several Fisher-transformed correlations back into a single 'average correlation'.",
+      "Finding the actual correlation range for a 95% confidence interval.",
+      "Translating statistical model outputs back into Pearson r coefficients."
+    ],
+    businessExample: {
+      scenario: "An analyst has calculated a mean Fisher Z-value of 1.0986 and needs to know the corresponding correlation coefficient.",
+      formula: "=FISHERINV(1.0986)"
+    },
+    syntax: "=FISHERINV(y)",
+    syntaxBreakdown: [
+      { arg: "y", desc: "The numeric value for which you want the inverse of the transformation (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Fisher Inverse Calculation",
+        table: {
+          headers: ["Fisher Z (y)", "Formula", "Correlation (r)"],
+          rows: [
+            ["1.0986", "=FISHERINV(1.0986)", "0.8"],
+            ["-0.5493", "=FISHERINV(-0.5493)", "-0.5"]
           ]
+        },
+        stepByStep: [
+          "For y = 1.0986: e^(2 * 1.0986) = e^(2.1972) ≈ 9.",
+          "r = (9 - 1) / (9 + 1) = 8 / 10 = 0.8.",
+          "The transformation successfully returned the original correlation coefficient."
         ]
-      },
-      "stepByStep": [
-        "1. Select FISHERINV.",
-        "2. Calculate FISHERINV."
-      ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Using with standard correlations.", desc: "FISHERINV is ONLY for values that have already been Fisher-transformed. Applying it to a standard 'r' will give a meaningless result." },
+      { title: "Rounding errors.", desc: "Tiny rounding differences in the input 'y' can lead to slightly different 'r' values; always verify your precision." }
+    ],
+    proTips: [
+      "Pair with FISHER to verify results: =FISHERINV(FISHER(0.75)) should return 0.75.",
+      "Use this function at the very last step of your correlation analysis.",
+      "It can handle any real number input (positive or negative)."
+    ],
+    relatedFunctions: ["FISHER", "CORREL", "PEARSON"],
+    miniChallenge: {
+      question: "Convert Fisher z = 0.5 back to a correlation coefficient. Is the result higher or lower than 0.5?",
+      expectedAnswer: "Lower (≈0.462)"
+    },
+    practice: {
+      instructions: "In cell B4, convert the Fisher Z value in B2 back to a correlation coefficient.",
+      initialData: [["", "Fisher Z"], ["", 1.5], ["", ""], ["FISHERINV", ""]],
+      targetCell: [3, 1],
+      expectedFormula: "FISHERINV(B2)",
+      expectedValue: 0.905
     }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "FISHERINV is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use FISHERINV?",
-    "expectedAnswer": "Yes"
   },
-  "practice": {
-    "instructions": "Use FISHERINV on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "FISHERINV(B2:B3)",
-    "expectedValue": 150
-  }
-},
 {
-  "id": "forecast",
-  "title": "FORECAST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "FORECAST",
-    "description": "Calculate the FORECAST property for data analysis.",
-    "concept": "the FORECAST analyzer"
-  },
-  "whyItExists": "Essential for FORECAST property evaluation.",
-  "whenToUse": "Analyze FORECAST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform FORECAST on monthly data.",
-    "formula": "=FORECAST(B2:B50)"
-  },
-  "syntax": "=FORECAST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "FORECAST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+    id: "forecast",
+    title: "FORECAST Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Predicting the Future: FORECAST",
+      description: "The FORECAST function predicts a future value based on existing data by using linear regression.",
+      concept: "Think of it as drawing a 'line of best fit' through your data points and extending that line into the future to see where it will land."
+    },
+    internalLogic: "Excel fits a linear regression line (y = mx + b) through the known_y's and known_x's. It calculates the slope (m) and intercept (b) and then plugs your input x into the equation to return the predicted y.",
+    whyItExists: "Forecasting is essential for budgeting, inventory planning, and identifying trends in business and science.",
+    whenToUse: "Use FORECAST when you have a series of historical data points and want to estimate what will happen next, assuming the relationship remains linear.",
+    realWorldUseCases: [
+      "Predicting next month's sales based on the last six months.",
+      "Estimating future temperature based on historical records.",
+      "Projecting resource requirements based on project growth."
+    ],
+    businessExample: {
+      scenario: "A manager wants to predict the score a student will get if they study for 6 hours, based on previous performance data.",
+      formula: "=FORECAST(6, B2:B6, A2:A6)"
+    },
+    syntax: "=FORECAST(x, known_y's, known_x's)",
+    syntaxBreakdown: [
+      { arg: "x", desc: "The data point for which you want to predict a value (required)." },
+      { arg: "known_y's", desc: "The dependent range of data (required)." },
+      { arg: "known_x's", desc: "The independent range of data (required, must be same size as known_y's)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Study Hours vs Score Prediction",
+        table: {
+          headers: ["X (Hours)", "Y (Score)"],
+          rows: [
+            ["1", "55"],
+            ["2", "65"],
+            ["3", "70"],
+            ["4", "80"],
+            ["5", "85"]
           ]
+        },
+        stepByStep: [
+          "Excel calculates the slope (7.5) and intercept (47.5) of the data.",
+          "It uses the linear equation: y = 7.5 * x + 47.5.",
+          "For x = 6: y = 7.5 * 6 + 47.5 = 92.5.",
+          "Result: 92.5."
         ]
-      },
-      "stepByStep": [
-        "1. Select FORECAST.",
-        "2. Calculate FORECAST."
-      ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Reversing Y and X.", desc: "Always put the dependent variable (the thing you want to predict) first as known_y's." },
+      { title: "Non-linear data.", desc: "Linear forecasting is inaccurate if your data follows a curve (like exponential growth)." }
+    ],
+    proTips: [
+      "In modern Excel, use FORECAST.LINEAR for better clarity, as it is the direct replacement.",
+      "Always plot your data on a scatter chart first to see if a straight line actually fits the trend.",
+      "For multiple independent variables, use the TREND or LINEST functions."
+    ],
+    relatedFunctions: ["FORECAST.LINEAR", "TREND", "LINEST", "SLOPE"],
+    miniChallenge: {
+      question: "If Y={10,20,30,40} and X={1,2,3,4}, what is the predicted Y at X=7?",
+      expectedAnswer: "70"
+    },
+    practice: {
+      instructions: "In cell B9, predict the sales for an advertising spend of 600 using Advertising (B2:B6) and Sales (C2:C6).",
+      initialData: [["", "Advertising", "Sales"], ["", 100, 1200], ["", 200, 2300], ["", 300, 3400], ["", 400, 4500], ["", 500, 5600], ["", "", ""], ["Predict at 600", ""]],
+      targetCell: [8, 1],
+      expectedFormula: "FORECAST(600,C2:C6,B2:B6)",
+      expectedValue: 6700
     }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "FORECAST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use FORECAST?",
-    "expectedAnswer": "Yes"
   },
-  "practice": {
-    "instructions": "Use FORECAST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "FORECAST(B2:B3)",
-    "expectedValue": 150
-  }
-},
 {
-  "id": "frequency",
-  "title": "FREQUENCY Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "FREQUENCY",
-    "description": "Calculate the FREQUENCY property for data analysis.",
-    "concept": "the FREQUENCY analyzer"
-  },
-  "whyItExists": "Essential for FREQUENCY property evaluation.",
-  "whenToUse": "Analyze FREQUENCY in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform FREQUENCY on monthly data.",
-    "formula": "=FREQUENCY(B2:B50)"
-  },
-  "syntax": "=FREQUENCY(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "FREQUENCY Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+    id: "frequency",
+    title: "FREQUENCY Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Data Binning: FREQUENCY",
+      description: "The FREQUENCY function calculates how often values occur within a range of values, and then returns a vertical array of numbers.",
+      concept: "Think of it as a 'sorter'. You have a pile of data and several 'bins' (ranges). FREQUENCY goes through the data and drops each piece into the correct bin, telling you how many landed in each."
+    },
+    internalLogic: "Excel scans the data array and counts the number of values that fall into each interval defined by the bins array. An interval includes values up to and including the bin value. It always returns one extra value for counts above the highest bin.",
+    whyItExists: "Creating histograms and frequency distributions is a fundamental step in data analysis to understand the shape and spread of your data.",
+    whenToUse: "Use FREQUENCY when you need to count how many data points fall into specific brackets (e.g., how many students scored 60-70, 71-80, etc.).",
+    realWorldUseCases: [
+      "Analyzing age demographics of customers.",
+      "Grouping test scores into grade brackets.",
+      "Monitoring quality control by checking how many parts fall within specific measurement tolerances."
+    ],
+    businessExample: {
+      scenario: "A teacher wants to count how many student scores fall into specific grade intervals.",
+      formula: "=FREQUENCY(A2:A8, C2:C5)"
+    },
+    syntax: "=FREQUENCY(data_array, bins_array)",
+    syntaxBreakdown: [
+      { arg: "data_array", desc: "The set of values for which you want to count frequencies (required)." },
+      { arg: "bins_array", desc: "The set of intervals (upper limits) for grouping the data (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Test Score Distribution",
+        table: {
+          headers: ["Scores", "Bins", "Result (Frequency)"],
+          rows: [
+            ["45, 72, 85, 55, 68, 91, 78", "60", "2 (<=60)"],
+            ["", "70", "1 (61-70)"],
+            ["", "80", "2 (71-80)"],
+            ["", "90", "1 (81-90)"],
+            ["", "", "1 (>90)"]
           ]
+        },
+        stepByStep: [
+          "Data: {45, 72, 85, 55, 68, 91, 78}. Bins: {60, 70, 80, 90}.",
+          "Excel counts 2 values <= 60 (45, 55).",
+          "Counts 1 value from 61 to 70 (68).",
+          "Counts 2 values from 71 to 80 (72, 78).",
+          "Counts 1 value from 81 to 90 (85).",
+          "Counts 1 value above 90 (91).",
+          "Returned Array: {2; 1; 2; 1; 1}."
         ]
-      },
-      "stepByStep": [
-        "1. Select FREQUENCY.",
-        "2. Calculate FREQUENCY."
-      ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Wrong output range.", desc: "In older Excel, you must select one more cell than the number of bins before entering the formula." },
+      { title: "Forgetting Ctrl+Shift+Enter.", desc: "In older Excel versions, this is an array formula and must be entered with CSE." },
+      { title: "Unsorted bins.", desc: "Bins should be in ascending order for the counts to make sense logically." }
+    ],
+    proTips: [
+      "In Excel 365, FREQUENCY spills automatically, so you don't need to pre-select the range.",
+      "The result is always a vertical array. Use TRANSPOSE if you need it horizontal.",
+      "The intervals are always (previous bin, current bin]. The value is included in the current bin if it equals the bin limit."
+    ],
+    relatedFunctions: ["COUNTIF", "COUNTIFS", "HISTOGRAM"],
+    miniChallenge: {
+      question: "If you have 3 bins, how many numbers will the FREQUENCY function return?",
+      expectedAnswer: "4 (one for each bin plus one for values above the highest bin)"
+    },
+    practice: {
+      instructions: "In cell E2, use FREQUENCY to group the ages in A2:A8 using the bins in C2:C4.",
+      initialData: [["Age", "", "Bins", "", "Result"], [25, "", 30, "", ""], [35, "", 40, "", ""], [42, "", 50, "", ""], [28, "", "", "", ""], [33, "", "", "", ""], [45, "", "", "", ""], [38, "", "", "", ""]],
+      targetCell: [1, 4],
+      expectedFormula: "FREQUENCY(A2:A8,C2:C4)",
+      expectedValue: 2
     }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "FREQUENCY is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use FREQUENCY?",
-    "expectedAnswer": "Yes"
   },
-  "practice": {
-    "instructions": "Use FREQUENCY on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "FREQUENCY(B2:B3)",
-    "expectedValue": 150
-  }
-},
 {
   "id": "gamma",
   "title": "GAMMA Function",
