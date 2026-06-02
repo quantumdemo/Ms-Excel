@@ -16,7 +16,7 @@ const lookupNames = [];
 const mathNames = [];
 const statNames = ["COUNTBLANK", "COVARIANCE.P", "COVARIANCE.S", "DEVSQ", "EXPON.DIST", "F.DIST", "F.INV", "F.TEST", "FISHER", "FISHERINV", "FORECAST", "FREQUENCY"];
 const financialNames = [];
-const infoNames = ["CELL", "ERROR.TYPE", "INFO", "ISFORMULA", "ISLOGICAL", "ISNONTEXT", "ISOMITTED", "ISREF", "N", "NA", "SHEET", "SHEETS", "TYPE"];
+const infoNames = [];
 
 const implementedLessons = [
   ...foundationLessons,
