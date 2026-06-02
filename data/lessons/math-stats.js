@@ -7834,1852 +7834,1393 @@ export const mathStatsLessons = [
       expectedValue: 0.991
     }
   },
-{
-  "id": "skew",
-  "title": "SKEW Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "SKEW",
-    "description": "Calculate the SKEW property for data analysis.",
-    "concept": "tail lean checker"
-  },
-  "whyItExists": "Essential for SKEW property evaluation.",
-  "whenToUse": "Analyze SKEW in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform SKEW on monthly data.",
-    "formula": "=SKEW(B2:B50)"
-  },
-  "syntax": "=SKEW(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "SKEW Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  {
+    id: 'skew',
+    title: 'SKEW Function',
+    category: 'statistical',
+    difficulty: 'Intermediate',
+    xp: 200,
+    introduction: {
+      title: 'Measuring Distribution Asymmetry: SKEW',
+      description: 'The SKEW function measures the degree of asymmetry of a distribution around its mean.',
+      concept: 'Think of it as a "Tail Lean Checker". It tells you if your data has a longer tail on the right side (positive skew), the left side (negative skew), or if it is perfectly balanced (zero skew).'
+    },
+    internalLogic: 'Excel calculates the sample skewness using the formula: [n/((n-1)(n-2))] × Σ(x-x̄)³/s³, where s is the sample standard deviation.',
+    whyItExists: 'In finance and science, knowing if data is "lopsided" is critical. For example, stock returns often have a negative skew (frequent small gains, rare large losses).',
+    whenToUse: 'Use SKEW when you need to understand the shape of your data distribution beyond just the average.',
+    realWorldUseCases: [
+      'Analyzing investment return distributions.',
+      'Checking if customer spending is skewed by a few high-value buyers.',
+      'Quality control in manufacturing processes.'
+    ],
+    businessExample: {
+      scenario: 'A risk analyst wants to see if monthly returns are balanced or lean toward one side.',
+      formula: '=SKEW(A2:A50)'
+    },
+    syntax: '=SKEW(number1, [number2], ...)',
+    syntaxBreakdown: [
+      { arg: 'number1', desc: 'First number or range of the sample (required).' },
+      { arg: 'number2', desc: 'Additional numbers or ranges (optional, up to 255).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Example: Simple Distribution',
+        table: {
+          headers: ['Value', 'Formula', 'Result'],
+          rows: [
+            ['2, 4, 4, 5, 5, 7, 9', '=SKEW(A2:A8)', '0.3843']
           ]
+        },
+        stepByStep: [
+          'Excel calculates the mean and standard deviation of the set.',
+          'It applies the skewness formula based on cubed deviations from the mean.',
+          'A result of 0.38 indicates a slight positive skew (right tail is slightly longer).'
         ]
-      },
-      "stepByStep": [
-        "1. Select SKEW.",
-        "2. Calculate SKEW."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "SKEW is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use SKEW?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use SKEW on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Insufficient data.', desc: 'If you have fewer than 3 data points, SKEW returns a #DIV/0! error.' },
+      { title: 'Sample vs Population.', desc: 'SKEW is for samples. Use SKEW.P if you have the entire population.' }
     ],
-    "expectedFormula": "SKEW(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "skew.p",
-  "title": "SKEW.P Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "SKEW.P",
-    "description": "Calculate the SKEW.P property for data analysis.",
-    "concept": "the SKEW.P analyzer"
-  },
-  "whyItExists": "Essential for SKEW.P property evaluation.",
-  "whenToUse": "Analyze SKEW.P in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform SKEW.P on monthly data.",
-    "formula": "=SKEW.P(B2:B50)"
-  },
-  "syntax": "=SKEW.P(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'A SKEW value > 1 or < -1 suggests a highly skewed distribution.',
+      'Compare mean vs median: if mean > median, the skew is likely positive.',
+      'Use alongside KURT to get a full picture of the distribution shape.'
+    ],
+    relatedFunctions: ['SKEW.P', 'KURT', 'AVERAGE', 'MEDIAN'],
+    miniChallenge: {
+      question: 'Calculate SKEW for {1, 1, 1, 1, 1, 1, 100}. What does a high positive result tell you?',
+      expectedAnswer: 'It tells you the data is heavily skewed to the right by the outlier 100.'
+    },
+    practice: {
+      instructions: 'In cell B11, calculate the SKEW of the daily returns in B2:B9.',
+      initialData: [['Day', 'Return %'], ['1', -1.5], ['2', 0.8], ['3', 2.1], ['4', -0.5], ['5', 1.2], ['6', 3.5], ['7', -0.9], ['8', 1.8], ['', ''], ['SKEW', '']],
+      targetCell: [10, 1],
+      expectedFormula: 'SKEW(B2:B9)',
+      expectedValue: 0.114959
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "SKEW.P Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 'skew.p',
+    title: 'SKEW.P Function',
+    category: 'statistical',
+    difficulty: 'Intermediate',
+    xp: 200,
+    introduction: {
+      title: 'Population Skewness: SKEW.P',
+      description: 'Returns the skewness of a distribution based on a population.',
+      concept: 'It measures asymmetry just like SKEW, but it assumes your data represents every single member of the group you are studying (the entire population).'
+    },
+    internalLogic: 'Calculates population skewness using n as the denominator throughout, without the n-1 sample correction.',
+    whyItExists: 'When you have data for an entire group (e.g., all employees in a small firm), SKEW.P provides the exact asymmetry without needing to estimate from a sample.',
+    whenToUse: 'Use SKEW.P only when you have the complete dataset for the entire population.',
+    realWorldUseCases: [
+      'Analyzing the full salary distribution of a company.',
+      'Measuring asymmetry in the results of a census.',
+      'Analyzing the performance of all machines in a single factory.'
+    ],
+    businessExample: {
+      scenario: 'A company wants to find the population skewness of its annual sales across all 5 branches.',
+      formula: '=SKEW.P(B2:B6)'
+    },
+    syntax: '=SKEW.P(number1, [number2], ...)',
+    syntaxBreakdown: [
+      { arg: 'number1', desc: 'First number or range of the population (required).' },
+      { arg: 'number2', desc: 'Additional numbers or ranges (optional).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Population vs Sample Skew',
+        table: {
+          headers: ['Value', 'SKEW (Sample)', 'SKEW.P (Population)'],
+          rows: [
+            ['2, 4, 4, 5, 5, 7, 9', '0.3843', '0.3008']
           ]
+        },
+        stepByStep: [
+          'SKEW.P uses a different formula that does not correct for sample bias.',
+          'The result is typically smaller in magnitude than the sample SKEW result for the same data.'
         ]
-      },
-      "stepByStep": [
-        "1. Select SKEW.P.",
-        "2. Calculate SKEW.P."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "SKEW.P is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use SKEW.P?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use SKEW.P on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Using for samples.', desc: 'If you only have a portion of the data, use SKEW instead of SKEW.P.' },
+      { title: 'Minimum points.', desc: 'Requires at least 3 data points.' }
     ],
-    "expectedFormula": "SKEW.P(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "slope",
-  "title": "SLOPE Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "SLOPE",
-    "description": "Calculate the SLOPE property for data analysis.",
-    "concept": "the SLOPE analyzer"
-  },
-  "whyItExists": "Essential for SLOPE property evaluation.",
-  "whenToUse": "Analyze SLOPE in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform SLOPE on monthly data.",
-    "formula": "=SLOPE(B2:B50)"
-  },
-  "syntax": "=SLOPE(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'SKEW.P converges with SKEW as the sample size (n) becomes very large.',
+      'SKEW.P is available in Excel 2013 and later.'
+    ],
+    relatedFunctions: ['SKEW', 'STDEV.P', 'VAR.P'],
+    miniChallenge: {
+      question: "Entire company's sales: {100, 150, 200, 250, 500}. Find population skewness.",
+      expectedAnswer: '=SKEW.P(100, 150, 200, 250, 500)'
+    },
+    practice: {
+      instructions: 'In cell B10, calculate the SKEW.P for the population data in B2:B8.',
+      initialData: [['ID', 'Value'], ['1', 12], ['2', 15], ['3', 18], ['4', 20], ['5', 25], ['6', 30], ['7', 45], ['', ''], ['SKEW.P', '']],
+      targetCell: [9, 1],
+      expectedFormula: 'SKEW.P(B2:B8)',
+      expectedValue: 0.985888
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "SLOPE Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 'slope',
+    title: 'SLOPE Function',
+    category: 'statistical',
+    difficulty: 'Intermediate',
+    xp: 200,
+    introduction: {
+      title: 'Regression Line Incline: SLOPE',
+      description: 'Returns the slope of the linear regression line through data points in known_y\'s and known_x\'s.',
+      concept: 'It measures the "steepness" of the relationship. It tells you exactly how much Y changes for every 1 unit increase in X.'
+    },
+    internalLogic: 'Calculates m = Σ(x-x̄)(y-ȳ) / Σ(x-x̄)². This represents the vertical distance divided by the horizontal distance between any two points on the line.',
+    whyItExists: 'SLOPE is the foundation of linear forecasting. It allows businesses to say things like "For every ₦1,000 we spend on ads, we expect 3 more sales."' ,
+    whenToUse: 'Use SLOPE when you want to quantify the rate of change between two related variables.',
+    realWorldUseCases: [
+      'Predicting revenue growth based on marketing spend.',
+      'Calculating the rate of return (Beta) of a stock.',
+      'Estimating material usage based on production volume.'
+    ],
+    businessExample: {
+      scenario: 'Determine the relationship between Experience (X) and Salary (Y).',
+      formula: '=SLOPE(B2:B6, A2:A6)'
+    },
+    syntax: '=SLOPE(known_y\'s, known_x\'s)',
+    syntaxBreakdown: [
+      { arg: 'known_y\'s', desc: 'The dependent set of data points (required).' },
+      { arg: 'known_x\'s', desc: 'The independent set of data points (required).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Simple Linear Relationship',
+        table: {
+          headers: ['X', 'Y', 'Formula', 'Result'],
+          rows: [
+            ['1, 2, 3, 4, 5', '3, 7, 11, 15, 19', '=SLOPE(B2:B6, A2:A6)', '4']
           ]
+        },
+        stepByStep: [
+          'For every 1 unit increase in X, Y increases by exactly 4 units.',
+          'The slope (m) is therefore 4.',
+          'Combined with INTERCEPT, you can build the full line equation: y = 4x - 1.'
         ]
-      },
-      "stepByStep": [
-        "1. Select SLOPE.",
-        "2. Calculate SLOPE."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "SLOPE is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use SLOPE?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use SLOPE on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Reversing Y and X.', desc: 'The dependent variable (Y) must come FIRST in the formula. If you swap them, you get the wrong rate of change.' },
+      { title: 'Unequal ranges.', desc: 'The X and Y ranges must have the same number of data points.' }
     ],
-    "expectedFormula": "SLOPE(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "small",
-  "title": "SMALL Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "SMALL",
-    "description": "Calculate the SMALL property for data analysis.",
-    "concept": "the SMALL analyzer"
-  },
-  "whyItExists": "Essential for SMALL property evaluation.",
-  "whenToUse": "Analyze SMALL in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform SMALL on monthly data.",
-    "formula": "=SMALL(B2:B50)"
-  },
-  "syntax": "=SMALL(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'Use SLOPE and INTERCEPT together to predict future values.',
+      'A slope of 0 means there is no linear relationship between the variables.',
+      'Use with RSQ to see how "reliable" the slope calculation actually is.'
+    ],
+    relatedFunctions: ['INTERCEPT', 'RSQ', 'LINEST', 'FORECAST.LINEAR'],
+    miniChallenge: {
+      question: 'Y={5, 10, 15, 20}, X={2, 4, 6, 8}. What is the slope?',
+      expectedAnswer: '2.5 (Each unit of X adds 2.5 to Y).'
+    },
+    practice: {
+      instructions: 'In cell B8, calculate the SLOPE of Salary (C) relative to Experience (B).',
+      initialData: [['', 'Exp (yr)', 'Salary (₦K)'], ['', 1, 45], ['', 3, 52], ['', 5, 58], ['', 7, 65], ['', 10, 72], ['', '', ''], ['SLOPE', '', '']],
+      targetCell: [7, 1],
+      expectedFormula: 'SLOPE(C2:C6,B2:B6)',
+      expectedValue: 3.02459
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "SMALL Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 'small',
+    title: 'SMALL Function',
+    category: 'statistical',
+    difficulty: 'Beginner',
+    xp: 150,
+    introduction: {
+      title: 'Finding the k-th Smallest: SMALL',
+      description: 'Returns the k-th smallest value in a data set.',
+      concept: 'Think of it as a "Flexible Minimum". While MIN always gives you the absolute smallest (1st smallest), SMALL lets you pick the 2nd, 3rd, or 10th smallest value.'
+    },
+    internalLogic: 'Excel sorts the range in ascending order internally and then retrieves the value at the specified position k.',
+    whyItExists: 'Often in business, you don\'t want the absolute outlier (the minimum), but rather the "bottom 3" or a specific low-end benchmark.',
+    whenToUse: 'Use SMALL to identify the lowest prices, shortest wait times, or bottom-performing scores in a dataset.',
+    realWorldUseCases: [
+      'Identifying the three cheapest vendors for a part.',
+      'Finding the 2nd lowest temperature of the month.',
+      "Creating a sorted list from a range of numbers."
+    ],
+    businessExample: {
+      scenario: 'Find the 2nd cheapest product in a price list.',
+      formula: '=SMALL(B2:B50, 2)'
+    },
+    syntax: '=SMALL(array, k)',
+    syntaxBreakdown: [
+      { arg: 'array', desc: 'The range of data to analyze (required).' },
+      { arg: 'k', desc: 'The position from the smallest value (1 = smallest, 2 = second smallest, etc.) (required).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Price Ranking',
+        table: {
+          headers: ['Price', 'k', 'Formula', 'Result'],
+          rows: [
+            ['45, 12, 89, 34, 67', '1', '=SMALL(A2:A6, 1)', '12'],
+            ['', '3', '=SMALL(A2:A6, 3)', '45']
           ]
+        },
+        stepByStep: [
+          'Sorted data: 12, 34, 45, 67, 89.',
+          'Position 1 is 12 (Minimum).',
+          'Position 3 is 45.'
         ]
-      },
-      "stepByStep": [
-        "1. Select SMALL.",
-        "2. Calculate SMALL."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "SMALL is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use SMALL?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use SMALL on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'k out of range.', desc: 'If k is larger than the number of data points, or if k ≤ 0, Excel returns a #NUM! error.' },
+      { title: 'Ignoring non-numeric data.', desc: 'SMALL ignores text and logical values, which might affect your count of k.' }
     ],
-    "expectedFormula": "SMALL(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "standardize",
-  "title": "STANDARDIZE Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "STANDARDIZE",
-    "description": "Calculate the STANDARDIZE property for data analysis.",
-    "concept": "the STANDARDIZE analyzer"
-  },
-  "whyItExists": "Essential for STANDARDIZE property evaluation.",
-  "whenToUse": "Analyze STANDARDIZE in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform STANDARDIZE on monthly data.",
-    "formula": "=STANDARDIZE(B2:B50)"
-  },
-  "syntax": "=STANDARDIZE(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'To get a sorted list, use =SMALL(range, ROW(1:1)) and drag down.',
+      'Combine with INDEX and MATCH to find the name of the product with the k-th lowest price.',
+      'The opposite of SMALL is the LARGE function.'
+    ],
+    relatedFunctions: ['LARGE', 'MIN', 'MAX', 'RANK'],
+    miniChallenge: {
+      question: 'Find the 2nd smallest in the set: {100, 50, 75, 25, 90}.',
+      expectedAnswer: '50'
+    },
+    practice: {
+      instructions: 'In cell B8, find the cheapest price (k=1) from B2:B6. In cell B9, find the 3rd cheapest.',
+      initialData: [['Product', 'Price'], ['Widget', 15], ['Gadget', 22], ['Gizmo', 18], ['Thingy', 12], ['Doodad', 25], ['', ''], ['Cheapest', ''], ['3rd Cheapest', '']],
+      targetCell: [7, 1],
+      expectedFormula: 'SMALL(B2:B6,1)',
+      expectedValue: 12
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "STANDARDIZE Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 'standardize',
+    title: 'STANDARDIZE Function',
+    category: 'statistical',
+    difficulty: 'Intermediate',
+    xp: 200,
+    introduction: {
+      title: 'Creating Z-Scores: STANDARDIZE',
+      description: 'Returns a normalized value from a distribution characterized by a mean and standard deviation.',
+      concept: 'It turns raw scores into "Z-scores". It tells you exactly how many standard deviations a value is away from the average.'
+    },
+    internalLogic: 'Calculates (x - mean) / standard_dev.',
+    whyItExists: 'It allows you to compare apples to oranges. By standardizing, you can see if a 92 on a Math test is better than an 85 on an English test by seeing which one is further from its class average.',
+    whenToUse: 'Use STANDARDIZE when you need to compare values from different groups or scales.',
+    realWorldUseCases: [
+      'Comparing employee performance across different departments.',
+      'Standardizing test scores for university admissions.',
+      'Detecting outliers (values with a z-score greater than 3 or less than -3).'
+    ],
+    businessExample: {
+      scenario: 'Calculate the z-score for a customer who spent ₦8,500 where the average is ₦7,500 and SD is ₦800.',
+      formula: '=STANDARDIZE(8500, 7500, 800)'
+    },
+    syntax: '=STANDARDIZE(x, mean, standard_dev)',
+    syntaxBreakdown: [
+      { arg: 'x', desc: 'The value you want to normalize (required).' },
+      { arg: 'mean', desc: 'The arithmetic mean of the distribution (required).' },
+      { arg: 'standard_dev', desc: 'The standard deviation (>0) (required).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Student Performance',
+        table: {
+          headers: ['Score (x)', 'Class Mean', 'SD', 'Result (Z-score)'],
+          rows: [
+            ['85', '75', '8', '1.25']
           ]
+        },
+        stepByStep: [
+          'Excel subtracts the mean from the score: 85 - 75 = 10.',
+          'It divides the result by the SD: 10 / 8 = 1.25.',
+          'Result 1.25 means the student is 1.25 standard deviations above the average.'
         ]
-      },
-      "stepByStep": [
-        "1. Select STANDARDIZE.",
-        "2. Calculate STANDARDIZE."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "STANDARDIZE is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use STANDARDIZE?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use STANDARDIZE on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Negative Standard Deviation.', desc: 'Standard deviation must be greater than zero, or Excel returns a #NUM! error.' },
+      { title: 'Swapping x and mean.', desc: 'Ensure you subtract the mean from the score, not vice versa, to get the correct sign (+ or -).' }
     ],
-    "expectedFormula": "STANDARDIZE(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "stdev.p",
-  "title": "STDEV.P Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "STDEV.P",
-    "description": "Calculate the STDEV.P property for data analysis.",
-    "concept": "the STDEV.P analyzer"
-  },
-  "whyItExists": "Essential for STDEV.P property evaluation.",
-  "whenToUse": "Analyze STDEV.P in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform STDEV.P on monthly data.",
-    "formula": "=STDEV.P(B2:B50)"
-  },
-  "syntax": "=STDEV.P(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'A positive z-score is above the mean; a negative one is below.',
+      'Standardized values are often used in machine learning and data science as a preprocessing step.',
+      'Values with |z| > 3 are statistically considered outliers.'
+    ],
+    relatedFunctions: ['NORM.S.DIST', 'AVERAGE', 'STDEV.P'],
+    miniChallenge: {
+      question: 'Test scores μ=70, σ=12. What is the z-score for a score of 88?',
+      expectedAnswer: '1.5 ( (88-70)/12 )'
+    },
+    practice: {
+      instructions: 'In cell B5, standardize the student score. In cell B10, standardize the height.',
+      initialData: [['Student Score', 92], ['Class Mean', 80], ['Class Std Dev', 10], ['', ''], ['STANDARDIZE', ''], ['', ''], ['Height (in)', 74], ['Mean Height', 68], ['Std Dev', 3], ['STANDARDIZE', '']],
+      targetCell: [4, 1],
+      expectedFormula: 'STANDARDIZE(B1,B2,B3)',
+      expectedValue: 1.2
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "STDEV.P Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 'stdev.p',
+    title: 'STDEV.P Function',
+    category: 'statistical',
+    difficulty: 'Intermediate',
+    xp: 200,
+    introduction: {
+      title: 'Population Standard Deviation: STDEV.P',
+      description: 'Calculates standard deviation based on the entire population given as arguments.',
+      concept: 'It measures the "spread" of your data. A low standard deviation means the numbers are mostly close to the average; a high one means they are spread out.'
+    },
+    internalLogic: 'Calculates the square root of the population variance: √(Σ(x-μ)²/n). It uses "n" as the denominator.',
+    whyItExists: 'When you have every single data point for a group (like every student in a class), STDEV.P gives you the exact measurement of how much they vary.',
+    whenToUse: 'Use STDEV.P when the data you are analyzing represents the entire group (population).',
+    realWorldUseCases: [
+      'Measuring consistency in the weight of all items produced by a machine.',
+      'Analyzing the age spread of all members in a small local club.',
+      'Checking variability in test scores for an entire school district.'
+    ],
+    businessExample: {
+      scenario: 'Find the standard deviation of all 5 machines in the shop.',
+      formula: '=STDEV.P(A2:A6)'
+    },
+    syntax: '=STDEV.P(number1, [number2], ...)',
+    syntaxBreakdown: [
+      { arg: 'number1', desc: 'First numeric value or range of the population (required).' },
+      { arg: 'number2', desc: 'Additional values or ranges (optional).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Entire Group Variation',
+        table: {
+          headers: ['Value', 'Formula', 'Result'],
+          rows: [
+            ['10, 20, 30, 40, 50', '=STDEV.P(A2:A6)', '14.1421']
           ]
+        },
+        stepByStep: [
+          'Average is 30.',
+          'Deviations squared: 400, 100, 0, 100, 400. Sum = 1000.',
+          'Divide by count (5): 1000 / 5 = 200.',
+          'Square root of 200 ≈ 14.1421.'
         ]
-      },
-      "stepByStep": [
-        "1. Select STDEV.P.",
-        "2. Calculate STDEV.P."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "STDEV.P is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use STDEV.P?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use STDEV.P on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Using for samples.', desc: 'If you only have a subset of data, use STDEV.S instead. STDEV.P will underestimate the true variation in a larger population.' },
+      { title: 'Non-numeric data.', desc: 'STDEV.P ignores blanks, text, and logicals in ranges.' }
     ],
-    "expectedFormula": "STDEV.P(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "stdev.s",
-  "title": "STDEV.S Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "STDEV.S",
-    "description": "Calculate the STDEV.S property for data analysis.",
-    "concept": "the STDEV.S analyzer"
-  },
-  "whyItExists": "Essential for STDEV.S property evaluation.",
-  "whenToUse": "Analyze STDEV.S in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform STDEV.S on monthly data.",
-    "formula": "=STDEV.S(B2:B50)"
-  },
-  "syntax": "=STDEV.S(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'STDEV.P will always be smaller than STDEV.S for the same dataset.',
+      'It is the square root of the VAR.P function.',
+      'Use for quality control of total production runs.'
+    ],
+    relatedFunctions: ['STDEV.S', 'VAR.P', 'STDEVA'],
+    miniChallenge: {
+      question: "All employees' ages: {25, 30, 35, 40, 45}. Find population standard deviation.",
+      expectedAnswer: '7.071 (√50)'
+    },
+    practice: {
+      instructions: 'In cell B10, calculate the STDEV.P for the weights of all products in B2:B8.',
+      initialData: [['ID', 'Weight (kg)'], ['1', 50], ['2', 52], ['3', 48], ['4', 51], ['5', 49], ['6', 53], ['7', 50], ['', ''], ['STDEV.P', '']],
+      targetCell: [9, 1],
+      expectedFormula: 'STDEV.P(B2:B8)',
+      expectedValue: 1.59079
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "STDEV.S Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 'stdev.s',
+    title: 'STDEV.S Function',
+    category: 'statistical',
+    difficulty: 'Intermediate',
+    xp: 200,
+    introduction: {
+      title: 'Sample Standard Deviation: STDEV.S',
+      description: 'Estimates standard deviation based on a sample.',
+      concept: 'The "Unbiased Spread Finder". Because samples are smaller than populations, they tend to look less variable than they really are. STDEV.S corrects for this by using "n-1" in its math.'
+    },
+    internalLogic: 'Calculates the square root of the sample variance: √(Σ(x-x̄)²/(n-1)). Uses Bessel\'s correction (n-1) to provide an unbiased estimate.',
+    whyItExists: 'In most real-world research, you only have a sample. STDEV.S is the statistical standard for estimating the true spread of a larger population from a small group.',
+    whenToUse: 'Use STDEV.S for almost all general data analysis where your data represents a sample of a larger population.',
+    realWorldUseCases: [
+      'Estimating the variation in customer arrival times based on a 1-day sample.',
+      'Analyzing health data from a sample of patients to generalize to a city.',
+      'Quality testing a random sample of 10 items from a batch of 1,000.'
+    ],
+    businessExample: {
+      scenario: 'Estimate the variation in delivery times based on the last 10 deliveries.',
+      formula: '=STDEV.S(B2:B11)'
+    },
+    syntax: '=STDEV.S(number1, [number2], ...)',
+    syntaxBreakdown: [
+      { arg: 'number1', desc: 'First numeric value or range of the sample (required).' },
+      { arg: 'number2', desc: 'Additional values or ranges (optional).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Sample Spread Estimate',
+        table: {
+          headers: ['Sample', 'Formula', 'Result'],
+          rows: [
+            ['10, 20, 30, 40, 50', '=STDEV.S(A2:A6)', '15.8114']
           ]
+        },
+        stepByStep: [
+          'Average is 30. Squared deviations sum to 1000.',
+          'Divide by (n-1), which is 4: 1000 / 4 = 250.',
+          'Square root of 250 ≈ 15.8114.'
         ]
-      },
-      "stepByStep": [
-        "1. Select STDEV.S.",
-        "2. Calculate STDEV.S."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "STDEV.S is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use STDEV.S?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use STDEV.S on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Fewer than 2 points.', desc: 'STDEV.S requires at least 2 numbers to calculate variation. 1 number returns #DIV/0!.' },
+      { title: 'Using for population.', desc: 'If you use STDEV.S on a full population, you will slightly overestimate the true standard deviation.' }
     ],
-    "expectedFormula": "STDEV.S(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "stdeva",
-  "title": "STDEVA Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "STDEVA",
-    "description": "Calculate the STDEVA property for data analysis.",
-    "concept": "the STDEVA analyzer"
-  },
-  "whyItExists": "Essential for STDEVA property evaluation.",
-  "whenToUse": "Analyze STDEVA in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform STDEVA on monthly data.",
-    "formula": "=STDEVA(B2:B50)"
-  },
-  "syntax": "=STDEVA(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'STDEV.S is the default choice for most analysts.',
+      'It is the square root of the VAR.S function.',
+      'Use with CONFIDENCE.T to create confidence intervals for small samples.'
+    ],
+    relatedFunctions: ['STDEV.P', 'VAR.S', 'AVERAGE'],
+    miniChallenge: {
+      question: 'Sample weights: {150, 160, 155, 165, 170}. Find sample standard deviation.',
+      expectedAnswer: '7.906 (√62.5)'
+    },
+    practice: {
+      instructions: 'In cell B9, find the STDEV.S for the sample readings in B2:B7.',
+      initialData: [['ID', 'Reading'], ['1', 23.5], ['2', 24.1], ['3', 23.8], ['4', 24.2], ['5', 23.6], ['6', 24.0], ['', ''], ['STDEV.S', '']],
+      targetCell: [8, 1],
+      expectedFormula: 'STDEV.S(B2:B7)',
+      expectedValue: 0.280476
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "STDEVA Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 'stdeva',
+    title: 'STDEVA Function',
+    category: 'statistical',
+    difficulty: 'Intermediate',
+    xp: 200,
+    introduction: {
+      title: 'Inclusive Sample Spread: STDEVA',
+      description: 'Estimates standard deviation based on a sample, including logical values and text.',
+      concept: 'It is a variation of STDEV.S that treats TRUE as 1, FALSE as 0, and any text string as 0. It is useful when your data has non-numeric "flags" that should count as values.'
+    },
+    internalLogic: 'Uses the (n-1) sample formula, but converts all non-blank cells into numbers (TRUE=1, others=0) before calculating.',
+    whyItExists: 'In some surveys or datasets, text like "None" or "N/A" should be treated as a zero value rather than being ignored.',
+    whenToUse: 'Use STDEVA when your dataset contains logical values or text that you want to include in the statistical calculation.',
+    realWorldUseCases: [
+      'Analyzing survey responses where "Yes" (TRUE) and "No" (FALSE) are mixed with ratings.',
+      'Calculating variation in a list where "Error" text should count as a 0.',
+      'Handling data from older systems that exports status as text.'
+    ],
+    businessExample: {
+      scenario: 'Find the standard deviation of a range where TRUE/FALSE represents success/failure.',
+      formula: '=STDEVA(B2:B20)'
+    },
+    syntax: '=STDEVA(value1, [value2], ...)',
+    syntaxBreakdown: [
+      { arg: 'value1', desc: 'First value or range of the sample (required).' },
+      { arg: 'value2', desc: 'Additional values or ranges (optional).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Mixed Data Spread',
+        table: {
+          headers: ['Value', 'Interpret', 'Formula', 'Result'],
+          rows: [
+            ['10, 20, TRUE, 30, Text', '10, 20, 1, 30, 0', '=STDEVA(A2:A6)', '12.8141']
           ]
+        },
+        stepByStep: [
+          'Excel converts the 5 values into 10, 20, 1, 30, 0.',
+          'It calculates the sample standard deviation (n=5).',
+          'Result: 12.8141.'
         ]
-      },
-      "stepByStep": [
-        "1. Select STDEVA.",
-        "2. Calculate STDEVA."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "STDEVA is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use STDEVA?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use STDEVA on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Text becomes zero.', desc: 'If your text is meant to be ignored, use STDEV.S. STDEVA will lower your average and change your deviation by adding zeros to the dataset.' },
+      { title: 'TRUE becomes 1.', desc: 'Make sure a value of 1 is the correct representation for your logical TRUE flags.' }
     ],
-    "expectedFormula": "STDEVA(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "stdevpa",
-  "title": "STDEVPA Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "STDEVPA",
-    "description": "Calculate the STDEVPA property for data analysis.",
-    "concept": "the STDEVPA analyzer"
-  },
-  "whyItExists": "Essential for STDEVPA property evaluation.",
-  "whenToUse": "Analyze STDEVPA in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform STDEVPA on monthly data.",
-    "formula": "=STDEVPA(B2:B50)"
-  },
-  "syntax": "=STDEVPA(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'STDEVA usually gives a different result than STDEV.S because it counts more cells.',
+      'Blank cells are still ignored by STDEVA; only text and logicals are converted.'
+    ],
+    relatedFunctions: ['STDEV.S', 'STDEVPA', 'VARA'],
+    miniChallenge: {
+      question: 'STDEVA of {5, 10, TRUE, 15, "N/A"}. How many items are in the denominator (n-1)?',
+      expectedAnswer: '4 (5 items total, so 5-1=4).'
+    },
+    practice: {
+      instructions: 'In cell B8, calculate the STDEVA of the mixed responses in B2:B6. Compare it to STDEV.S in cell B9.',
+      initialData: [['User', 'Response'], ['1', 8], ['2', 12], ['3', 'TRUE'], ['4', 6], ['5', 'FALSE'], ['', ''], ['STDEVA', ''], ['STDEV.S', '']],
+      targetCell: [7, 1],
+      expectedFormula: 'STDEVA(B2:B6)',
+      expectedValue: 4.97996
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "STDEVPA Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 'stdevpa',
+    title: 'STDEVPA Function',
+    category: 'statistical',
+    difficulty: 'Intermediate',
+    xp: 200,
+    introduction: {
+      title: 'Inclusive Population Spread: STDEVPA',
+      description: 'Calculates standard deviation based on the entire population, including logical values and text.',
+      concept: 'The population version of STDEVA. It treats TRUE as 1 and Text/FALSE as 0, but uses "n" in its formula because it assumes you have the entire population.'
+    },
+    internalLogic: 'Calculates √(Σ(x-μ)²/n), converting logicals (TRUE=1) and text (Text=0) into numeric values first.',
+    whyItExists: 'Useful for analyzing complete datasets (like an entire factory output) where non-numeric codes represent zero or one states.',
+    whenToUse: 'Use STDEVPA when you have the entire population and need to include logical/text flags in your variation analysis.',
+    realWorldUseCases: [
+      'Measuring variation in an entire year of quality control logs where "Pass" is text.',
+      'Analyzing status flags across an entire employee database.',
+      'Checking consistency in sensors where some readings are "Error" text.'
+    ],
+    businessExample: {
+      scenario: 'Calculate population standard deviation for all 5 sensors, including text errors.',
+      formula: '=STDEVPA(B2:B6)'
+    },
+    syntax: '=STDEVPA(value1, [value2], ...)',
+    syntaxBreakdown: [
+      { arg: 'value1', desc: 'First value or range of the population (required).' },
+      { arg: 'value2', desc: 'Additional values or ranges (optional).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Full Population Mixed Data',
+        table: {
+          headers: ['Value', 'Formula', 'Result'],
+          rows: [
+            ['10, 20, TRUE, 30, Text', '=STDEVPA(A2:A6)', '11.4612']
           ]
+        },
+        stepByStep: [
+          'Values are treated as 10, 20, 1, 30, 0.',
+          'STDEVPA divides the squared deviation sum by 5 (n), not 4 (n-1).',
+          'Result: 11.4612.'
         ]
-      },
-      "stepByStep": [
-        "1. Select STDEVPA.",
-        "2. Calculate STDEVPA."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "STDEVPA is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use STDEVPA?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use STDEVPA on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Using for samples.', desc: 'If you only have a portion of the data, use STDEVA instead.' },
+      { title: 'Text conversion.', desc: 'Forgetting that ALL text becomes zero. If "N/A" shouldn\'t be 0, clean your data first.' }
     ],
-    "expectedFormula": "STDEVPA(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "steyx",
-  "title": "STEYX Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "STEYX",
-    "description": "Calculate the STEYX property for data analysis.",
-    "concept": "the STEYX analyzer"
-  },
-  "whyItExists": "Essential for STEYX property evaluation.",
-  "whenToUse": "Analyze STEYX in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform STEYX on monthly data.",
-    "formula": "=STEYX(B2:B50)"
-  },
-  "syntax": "=STEYX(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'STDEVPA will always be smaller than STDEVA for the same data.',
+      'Use only when non-numeric codes carry specific intended numeric meaning (0 or 1).'
+    ],
+    relatedFunctions: ['STDEVA', 'STDEV.P', 'VARPA'],
+    miniChallenge: {
+      question: 'Population data: {3, 7, TRUE, 5}. Find STDEVPA.',
+      expectedAnswer: '2.236 (√5)'
+    },
+    practice: {
+      instructions: 'In cell B8, calculate the STDEVPA for the complete dataset in B2:B6.',
+      initialData: [['ID', 'Value'], ['1', 15], ['2', 22], ['3', 'FALSE'], ['4', 18], ['5', 25], ['', ''], ['STDEVPA', '']],
+      targetCell: [7, 1],
+      expectedFormula: 'STDEVPA(B2:B6)',
+      expectedValue: 8.69483
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "STEYX Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 'steyx',
+    title: 'STEYX Function',
+    category: 'statistical',
+    difficulty: 'Advanced',
+    xp: 300,
+    introduction: {
+      title: 'Regression Error Margin: STEYX',
+      description: 'Returns the standard error of the predicted y-value for each x in the regression.',
+      concept: 'The "Prediction Accuracy Checker". It tells you how far, on average, your actual data points are from the calculated regression line. A smaller STEYX means your forecast is more reliable.'
+    },
+    internalLogic: 'Calculates the standard error: √(Σ(y-ŷ)²/(n-2)), where ŷ is the predicted value of y.',
+    whyItExists: 'Forecasts are never 100% perfect. STEYX quantifies that imperfection so managers can plan for the "worst case" error margin.',
+    whenToUse: 'Use STEYX after calculating a trend to see how much "noise" or error is in your linear model.',
+    realWorldUseCases: [
+      'Estimating the error margin in a 12-month sales forecast.',
+      'Measuring the reliability of a cost-per-unit estimate.',
+      'Determining the typical prediction error in scientific experiments.'
+    ],
+    businessExample: {
+      scenario: 'Find the standard error of sales predictions based on advertising spend.',
+      formula: '=STEYX(B2:B10, A2:A10)'
+    },
+    syntax: '=STEYX(known_y\'s, known_x\'s)',
+    syntaxBreakdown: [
+      { arg: 'known_y\'s', desc: 'The dependent set of data points (required).' },
+      { arg: 'known_x\'s', desc: 'The independent set of data points (required).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Forecast Error Calculation',
+        table: {
+          headers: ['X', 'Y', 'Formula', 'Result'],
+          rows: [
+            ['1, 2, 3, 4, 5', '3, 5, 8, 10, 13', '=STEYX(B2:B6, A2:A6)', '0.3162']
           ]
+        },
+        stepByStep: [
+          'Excel calculates the best-fit line through the points.',
+          'It finds the vertical distance from each point to that line.',
+          'The average magnitude of these distances (adjusted for degrees of freedom) is 0.3162.'
         ]
-      },
-      "stepByStep": [
-        "1. Select STEYX.",
-        "2. Calculate STEYX."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "STEYX is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use STEYX?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use STEYX on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Reversing Y and X.', desc: 'Just like SLOPE, Y must come FIRST. If you reverse them, you are calculating the error of X relative to Y.' },
+      { title: 'Too few points.', desc: 'Requires at least 3 data points (because it divides by n-2).' }
     ],
-    "expectedFormula": "STEYX(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "t.dist",
-  "title": "T.DIST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "T.DIST",
-    "description": "Calculate the T.DIST property for data analysis.",
-    "concept": "the T.DIST analyzer"
-  },
-  "whyItExists": "Essential for T.DIST property evaluation.",
-  "whenToUse": "Analyze T.DIST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform T.DIST on monthly data.",
-    "formula": "=T.DIST(B2:B50)"
-  },
-  "syntax": "=T.DIST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'Roughly 68% of actual points will fall within ±1 STEYX of the regression line.',
+      'STEYX of 0 means a perfect linear fit where every point lies exactly on the line.',
+      'Use in conjunction with TREND or FORECAST.LINEAR.'
+    ],
+    relatedFunctions: ['SLOPE', 'INTERCEPT', 'RSQ', 'TREND'],
+    miniChallenge: {
+      question: 'If you have perfect linear data (X={1,2,3}, Y={2,4,6}), what will STEYX return?',
+      expectedAnswer: '0 (Zero error).'
+    },
+    practice: {
+      instructions: 'In cell B8, find the STEYX for the Advertising (B) vs Sales (C) data.',
+      initialData: [['', 'Ad Spend (₦)', 'Sales (₦)'], ['', 100, 1100], ['', 200, 2100], ['', 300, 3200], ['', 400, 3900], ['', 500, 5100], ['', '', ''], ['STEYX', '', '']],
+      targetCell: [7, 1],
+      expectedFormula: 'STEYX(C2:C6,B2:B6)',
+      expectedValue: 121.106
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "T.DIST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 't.dist',
+    title: 'T.DIST Function',
+    category: 'statistical',
+    difficulty: 'Advanced',
+    xp: 300,
+    introduction: {
+      title: "Student's T-Distribution: T.DIST",
+      description: 'Returns the Student\'s left-tailed t-distribution.',
+      concept: 'The "Small Sample Specialist". Use this when you are doing statistics on a small group (less than 30) where you don\'t know the true population spread. It looks like a bell curve but has "fatter tails" to account for uncertainty.'
+    },
+    internalLogic: 'Calculates the probability density function (PDF) or cumulative distribution function (CDF) for the t-distribution with specified degrees of freedom.',
+    whyItExists: 'In real-world business, we rarely have thousands of data points. T-distribution was invented specifically to help people make accurate inferences from small samples.',
+    whenToUse: 'Use T.DIST for hypothesis testing on small samples where the population standard deviation is unknown.',
+    realWorldUseCases: [
+      'Determining if a new medicine works based on a small trial of 15 people.',
+      'Checking if a machine\'s output has changed based on a sample of 10 items.',
+      'Finding the p-value for a t-test.'
+    ],
+    businessExample: {
+      scenario: 'Find the left-tail probability for a t-value of 1.5 with 10 degrees of freedom.',
+      formula: '=T.DIST(1.5, 10, TRUE)'
+    },
+    syntax: '=T.DIST(x, deg_freedom, cumulative)',
+    syntaxBreakdown: [
+      { arg: 'x', desc: 'The numeric value at which to evaluate the distribution (required).' },
+      { arg: 'deg_freedom', desc: 'An integer indicating the degrees of freedom (required).' },
+      { arg: 'cumulative', desc: 'TRUE returns the CDF (probability ≤ x); FALSE returns the PDF.' }
+    ],
+    detailedExamples: [
+      {
+        title: 'T-Distribution Probability',
+        table: {
+          headers: ['x', 'df', 'Cumulative', 'Result'],
+          rows: [
+            ['1.5', '10', 'TRUE', '0.9186'],
+            ['1.5', '10', 'FALSE', '0.1257']
           ]
+        },
+        stepByStep: [
+          'With 10 degrees of freedom, the probability of being at or below 1.5 is 91.86%.',
+          'The height of the curve at 1.5 is 0.1257.'
         ]
-      },
-      "stepByStep": [
-        "1. Select T.DIST.",
-        "2. Calculate T.DIST."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "T.DIST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use T.DIST?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use T.DIST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Negative degrees of freedom.', desc: 'Degrees of freedom must be greater than zero.' },
+      { title: 'Using for two-tailed tests.', desc: 'T.DIST is left-tailed. For two-tailed probability, use T.DIST.2T.' }
     ],
-    "expectedFormula": "T.DIST(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "t.inv",
-  "title": "T.INV Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "T.INV",
-    "description": "Calculate the T.INV property for data analysis.",
-    "concept": "the T.INV analyzer"
-  },
-  "whyItExists": "Essential for T.INV property evaluation.",
-  "whenToUse": "Analyze T.INV in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform T.INV on monthly data.",
-    "formula": "=T.INV(B2:B50)"
-  },
-  "syntax": "=T.INV(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'As degrees of freedom increase (above 30), T.DIST becomes nearly identical to NORM.DIST.',
+      'Use T.DIST.RT for right-tailed (upper) probabilities.'
+    ],
+    relatedFunctions: ['T.INV', 'T.TEST', 'NORM.DIST'],
+    miniChallenge: {
+      question: 'Find P(T ≤ 2.0) with df=15.',
+      expectedAnswer: '=T.DIST(2.0, 15, TRUE)'
+    },
+    practice: {
+      instructions: 'In cell B6, find the left-tail probability. In cell B7, find the PDF at t=2.5.',
+      initialData: [['Parameter', 'Value'], ['t-value', 2.5], ['df', 20], ['Cumulative', 'TRUE'], ['', ''], ['Left-tail prob', ''], ['PDF', '']],
+      targetCell: [5, 1],
+      expectedFormula: 'T.DIST(B2,B3,TRUE)',
+      expectedValue: 0.989383
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "T.INV Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 't.inv',
+    title: 'T.INV Function',
+    category: 'statistical',
+    difficulty: 'Advanced',
+    xp: 300,
+    introduction: {
+      title: 'Inverse T-Distribution: T.INV',
+      description: 'Returns the left-tailed inverse of the Student\'s t-distribution.',
+      concept: 'The "T-Score Finder". If you know the probability (like 95%), T.INV tells you the specific t-value cutoff point. It\'s the reverse of T.DIST.'
+    },
+    internalLogic: 'Finds the value t such that the area under the t-distribution curve to the left is equal to the probability.',
+    whyItExists: 'Essential for finding critical values for t-tests and for constructing confidence intervals for small datasets.',
+    whenToUse: 'Use T.INV when you need to find the "critical value" for a one-tailed statistical test.',
+    realWorldUseCases: [
+      'Setting a 95% confidence threshold for a small-sample test.',
+      'Determining the cutoff score for a "statistically significant" result.',
+      'Finding the t-multiplier for a margin of error calculation.'
+    ],
+    businessExample: {
+      scenario: 'Find the t-value for the 95th percentile with 10 degrees of freedom.',
+      formula: '=T.INV(0.95, 10)'
+    },
+    syntax: '=T.INV(probability, deg_freedom)',
+    syntaxBreakdown: [
+      { arg: 'probability', desc: 'The probability (0 < p < 1) (required).' },
+      { arg: 'deg_freedom', desc: 'Degrees of freedom (required).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Critical T-Value Lookup',
+        table: {
+          headers: ['Probability', 'df', 'Result'],
+          rows: [
+            ['0.95', '10', '1.8125']
           ]
+        },
+        stepByStep: [
+          '95% of the distribution lies to the left of 1.8125.',
+          'If your test result is higher than 1.8125, it is in the top 5%.'
         ]
-      },
-      "stepByStep": [
-        "1. Select T.INV.",
-        "2. Calculate T.INV."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "T.INV is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use T.INV?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use T.INV on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Probability bounds.', desc: 'Probability must be strictly between 0 and 1.' },
+      { title: 'One-tailed vs Two-tailed.', desc: 'T.INV is for one-tailed. Use T.INV.2T for two-tailed tests.' }
     ],
-    "expectedFormula": "T.INV(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "t.test",
-  "title": "T.TEST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "T.TEST",
-    "description": "Calculate the T.TEST property for data analysis.",
-    "concept": "the T.TEST analyzer"
-  },
-  "whyItExists": "Essential for T.TEST property evaluation.",
-  "whenToUse": "Analyze T.TEST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform T.TEST on monthly data.",
-    "formula": "=T.TEST(B2:B50)"
-  },
-  "syntax": "=T.TEST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'To find the critical value for a two-tailed test with alpha 0.05, you would look up the 0.975 probability in T.INV.',
+      'Verify by wrapping with T.DIST: T.DIST(T.INV(p,df),df,TRUE) = p.'
+    ],
+    relatedFunctions: ['T.DIST', 'T.INV.2T', 'NORM.S.INV'],
+    miniChallenge: {
+      question: 'Find critical t-value for one-tailed α=0.01 with df=25.',
+      expectedAnswer: '=T.INV(0.99, 25)'
+    },
+    practice: {
+      instructions: 'In cell B5, find the T.INV for 97.5% with df=15. In cell B9, find it for 5% with df=30.',
+      initialData: [['Parameter', 'Value'], ['Prob', 0.975], ['df', 15], ['', ''], ['T.INV', ''], ['', ''], ['Prob', 0.05], ['df', 30], ['T.INV', '']],
+      targetCell: [4, 1],
+      expectedFormula: 'T.INV(B2,B3)',
+      expectedValue: 2.13145
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "T.TEST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 't.test',
+    title: 'T.TEST Function',
+    category: 'statistical',
+    difficulty: 'Advanced',
+    xp: 400,
+    introduction: {
+      title: 'Hypothesis Comparison: T.TEST',
+      description: 'Returns the probability associated with a Student\'s t-Test.',
+      concept: 'The "Significance Checker". It compares two groups of numbers and tells you the "p-value" — the probability that the difference between them was just a lucky accident.'
+    },
+    internalLogic: 'Calculates the t-statistic based on the chosen type (paired, equal variance, or unequal variance) and returns the corresponding p-value.',
+    whyItExists: 'Managers use T.TEST to prove that a change (like a new training program or a price increase) actually made a real difference and wasn\'t just random chance.',
+    whenToUse: 'Use T.TEST whenever you want to compare the averages of two datasets to see if they are "significantly" different.',
+    realWorldUseCases: [
+      'Comparing sales before and after a marketing campaign (Type 1: Paired).',
+      'Comparing test scores between Class A and Class B (Type 2: Independent).',
+      'Checking if two different suppliers provide the same quality of parts.'
+    ],
+    businessExample: {
+      scenario: 'Determine if there is a significant difference between Group A and Group B scores.',
+      formula: '=T.TEST(A2:A6, B2:B6, 2, 2)'
+    },
+    syntax: '=T.TEST(array1, array2, tails, type)',
+    syntaxBreakdown: [
+      { arg: 'array1', desc: 'First data set (required).' },
+      { arg: 'array2', desc: 'Second data set (required).' },
+      { arg: 'tails', desc: '1 for one-tailed, 2 for two-tailed (required).' },
+      { arg: 'type', desc: '1=Paired; 2=Independent (equal variance); 3=Independent (unequal variance) (required).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Group Comparison Results',
+        table: {
+          headers: ['Group A', 'Group B', 'Formula', 'P-Value'],
+          rows: [
+            ['85, 90, 88, 92, 86', '78, 82, 85, 80, 84', '=T.TEST(A2:A6, B2:B6, 2, 2)', '0.0419']
           ]
+        },
+        stepByStep: [
+          'Excel calculates the mean of both groups.',
+          'It performs a two-tailed, equal variance t-test.',
+          'The result is 0.0419. Since this is < 0.05, the difference is considered "statistically significant".'
         ]
-      },
-      "stepByStep": [
-        "1. Select T.TEST.",
-        "2. Calculate T.TEST."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "T.TEST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use T.TEST?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use T.TEST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Wrong type choice.', desc: 'Use Type 1 only if the SAME people/items are in both lists (e.g., Before vs After). Use Type 3 if the groups are independent and have different spreads.' },
+      { title: 'Interpreting large p-values.', desc: 'If p > 0.05, it means the difference is NOT significant. You cannot claim the groups are different.' }
     ],
-    "expectedFormula": "T.TEST(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "trend",
-  "title": "TREND Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "TREND",
-    "description": "Calculate the TREND property for data analysis.",
-    "concept": "the TREND analyzer"
-  },
-  "whyItExists": "Essential for TREND property evaluation.",
-  "whenToUse": "Analyze TREND in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform TREND on monthly data.",
-    "formula": "=TREND(B2:B50)"
-  },
-  "syntax": "=TREND(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'Type 3 (Welch\'s t-test) is a safer default if you aren\'t sure about variances.',
+      'A "p-value" under 0.05 is the universal gold standard for proving a result is real.'
+    ],
+    relatedFunctions: ['T.DIST', 'F.TEST', 'AVERAGE'],
+    miniChallenge: {
+      question: 'Before: {10, 12, 15, 18}, After: {8, 10, 13, 16}. What type should you use?',
+      expectedAnswer: 'Type 1 (Paired), because it is a Before/After comparison of the same items.'
+    },
+    practice: {
+      instructions: 'In cell B8, perform a two-tailed (tails=2), unequal variance (type=3) t-test on Method 1 (B2:B6) vs Method 2 (C2:C6).',
+      initialData: [['', 'Method 1', 'Method 2'], ['', 45, 42], ['', 48, 44], ['', 52, 47], ['', 50, 45], ['', 47, 43], ['', '', ''], ['P-Value', '', '']],
+      targetCell: [7, 1],
+      expectedFormula: 'T.TEST(B2:B6,C2:C6,2,3)',
+      expectedValue: 0.024519
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "TREND Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 'trend',
+    title: 'TREND Function',
+    category: 'statistical',
+    difficulty: 'Intermediate',
+    xp: 200,
+    introduction: {
+      title: 'Linear Data Forecasting: TREND',
+      description: 'Returns values along a linear trend.',
+      concept: 'The "Prediction Engine". Give it your historical data, and TREND will automatically calculate the best-fit line and tell you what the future numbers should be.'
+    },
+    internalLogic: 'Fits a straight line (y = mx + b) using the method of least squares and returns the y-values along that line for the specified new x-values.',
+    whyItExists: 'Managers need to project future performance. TREND does the math of a trendline automatically without needing a chart.',
+    whenToUse: 'Use TREND to predict future sales, costs, or growth based on a consistent linear history.',
+    realWorldUseCases: [
+      'Projecting next month\'s sales based on the last 4 months.',
+      'Estimating future energy costs based on past usage patterns.',
+      'Creating a linear "baseline" for project performance tracking.'
+    ],
+    businessExample: {
+      scenario: 'Predict Month 5 and 6 sales based on Months 1 to 4.',
+      formula: '=TREND(B2:B5, A2:A5, {5;6})'
+    },
+    syntax: '=TREND(known_y\'s, [known_x\'s], [new_x\'s], [const])',
+    syntaxBreakdown: [
+      { arg: 'known_y\'s', desc: 'The set of dependent y-values you already know (required).' },
+      { arg: 'known_x\'s', desc: 'The independent x-values (like month numbers) (optional).' },
+      { arg: 'new_x\'s', desc: 'The x-values you want to get new y-predictions for (optional).' },
+      { arg: 'const', desc: 'TRUE to calculate the intercept normally; FALSE to force it through zero (optional).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Sales Projection',
+        table: {
+          headers: ['Month (X)', 'Sales (Y)', 'Formula', 'Prediction'],
+          rows: [
+            ['1, 2, 3, 4', '3, 7, 11, 15', '=TREND(B2:B5, A2:A5, 5)', '19']
           ]
+        },
+        stepByStep: [
+          'The data has a clear pattern: Y = 4X - 1.',
+          'TREND identifies this pattern.',
+          'For Month 5: 4(5) - 1 = 19.',
+          'Result: 19.'
         ]
-      },
-      "stepByStep": [
-        "1. Select TREND.",
-        "2. Calculate TREND."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "TREND is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use TREND?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use TREND on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Array entry.', desc: 'In older Excel versions, you must select the output range and press Ctrl+Shift+Enter for multiple predictions.' },
+      { title: 'Non-linear data.', desc: 'If your data grows exponentially (curved), TREND will provide an inaccurate straight-line estimate.' }
     ],
-    "expectedFormula": "TREND(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "trimmean",
-  "title": "TRIMMEAN Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "TRIMMEAN",
-    "description": "Calculate the TRIMMEAN property for data analysis.",
-    "concept": "the TRIMMEAN analyzer"
-  },
-  "whyItExists": "Essential for TRIMMEAN property evaluation.",
-  "whenToUse": "Analyze TRIMMEAN in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform TRIMMEAN on monthly data.",
-    "formula": "=TRIMMEAN(B2:B50)"
-  },
-  "syntax": "=TRIMMEAN(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'TREND can return multiple values at once (an array).',
+      'If you only need one future prediction, FORECAST.LINEAR is slightly simpler.',
+      'Use GROWTH instead of TREND if your data is compounding (exponential).'
+    ],
+    relatedFunctions: ['FORECAST.LINEAR', 'GROWTH', 'LINEST', 'SLOPE'],
+    miniChallenge: {
+      question: 'TREND for Y={5, 10, 15, 20}, X={2, 4, 6, 8}. What is the prediction for X=10?',
+      expectedAnswer: '25'
+    },
+    practice: {
+      instructions: 'In cell B7, predict Month 5 sales. In cell B8, predict Month 6 sales.',
+      initialData: [['Month', 'Sales'], [1, 200], [2, 240], [3, 280], [4, 320], ['', ''], ['Month 5', ''], ['Month 6', '']],
+      targetCell: [6, 1],
+      expectedFormula: 'TREND(B2:B5,A2:A5,5)',
+      expectedValue: 360
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "TRIMMEAN Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 'trimmean',
+    title: 'TRIMMEAN Function',
+    category: 'statistical',
+    difficulty: 'Intermediate',
+    xp: 200,
+    introduction: {
+      title: 'Outlier-Resistant Average: TRIMMEAN',
+      description: 'Returns the mean of the interior of a data set.',
+      concept: 'The "Fair Average". It removes a percentage of the highest and lowest values before calculating the mean. This stops extreme outliers from "trashing" your result.'
+    },
+    internalLogic: 'Sorts the data, excludes the specified percentage of points from the top and bottom equally, and then averages the remaining middle values.',
+    whyItExists: 'In scoring (like the Olympics) or price analysis, the highest and lowest results are often "flukes". TRIMMEAN focuses on the consistent middle performance.',
+    whenToUse: 'Use TRIMMEAN when you have a dataset with potential "junk" outliers at the extreme ends.',
+    realWorldUseCases: [
+      'Olympic diving scores (remove the high/low judge).',
+      'Calculating typical employee performance while ignoring one-off bad months.',
+      'Averaging stock prices while ignoring brief "flash" spikes.'
+    ],
+    businessExample: {
+      scenario: 'Calculate the average salary while ignoring the top 10% and bottom 10% of earners.',
+      formula: '=TRIMMEAN(A2:A100, 0.2)'
+    },
+    syntax: '=TRIMMEAN(array, percent)',
+    syntaxBreakdown: [
+      { arg: 'array', desc: 'The range of values to trim and average (required).' },
+      { arg: 'percent', desc: 'The fraction of data points to exclude (0 to 1). 0.2 means 20% total (10% from each end) (required).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Trimming Extremes',
+        table: {
+          headers: ['Data', 'Percent', 'Formula', 'Result'],
+          rows: [
+            ['5, 12, 23, 34, 45, 56, 67, 78, 89, 95', '0.2', '=TRIMMEAN(A2:A11, 0.2)', '50.5']
           ]
+        },
+        stepByStep: [
+          '10 items total. 20% (0.2) of 10 = 2 items to exclude.',
+          'Excel removes 1 from the top (95) and 1 from the bottom (5).',
+          'Averages the remaining 8 items: 12, 23, 34, 45, 56, 67, 78, 89.',
+          'Result: 50.5.'
         ]
-      },
-      "stepByStep": [
-        "1. Select TRIMMEAN.",
-        "2. Calculate TRIMMEAN."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "TRIMMEAN is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use TRIMMEAN?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use TRIMMEAN on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Percent confusion.', desc: 'The "percent" is the TOTAL to remove. If you want to remove 10% from each tail, you must enter 0.2 (20%).' },
+      { title: 'Rounding.', desc: 'Excel rounds the number of excluded points down to the nearest multiple of 2.' }
     ],
-    "expectedFormula": "TRIMMEAN(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "var.p",
-  "title": "VAR.P Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "VAR.P",
-    "description": "Calculate the VAR.P property for data analysis.",
-    "concept": "the VAR.P analyzer"
-  },
-  "whyItExists": "Essential for VAR.P property evaluation.",
-  "whenToUse": "Analyze VAR.P in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform VAR.P on monthly data.",
-    "formula": "=VAR.P(B2:B50)"
-  },
-  "syntax": "=VAR.P(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'A 20% trim (0.2) is the most common industry standard.',
+      'TRIMMEAN is safer than AVERAGE but more descriptive than MEDIAN.',
+      'If percent = 0, it is the same as a regular AVERAGE.'
+    ],
+    relatedFunctions: ['AVERAGE', 'MEDIAN', 'QUARTILE.EXC'],
+    miniChallenge: {
+      question: 'TRIMMEAN with 10% trim: {1, 2, 3, 4, 100}. Will 100 be removed?',
+      expectedAnswer: 'No, because 10% of 5 is 0.5, which rounds down to zero items removed.'
+    },
+    practice: {
+      instructions: 'In cell B11, calculate the TRIMMEAN (0.25 trim) of the scores in B2:B9.',
+      initialData: [['Student', 'Score'], ['A', 85], ['B', 92], ['C', 45], ['D', 78], ['E', 88], ['F', 95], ['G', 52], ['H', 90], ['', ''], ['TRIMMEAN', '']],
+      targetCell: [10, 1],
+      expectedFormula: 'TRIMMEAN(B2:B9,0.25)',
+      expectedValue: 80.8333
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "VAR.P Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 'var.p',
+    title: 'VAR.P Function',
+    category: 'statistical',
+    difficulty: 'Intermediate',
+    xp: 200,
+    introduction: {
+      title: 'Population Variance: VAR.P',
+      description: 'Calculates variance based on the entire population.',
+      concept: 'The "Squared Spread". It measures how far numbers are spread out from their average. Because it squares the distances, it is always positive and gives a big "penalty" to outliers.'
+    },
+    internalLogic: 'Calculates σ² = Σ(x-μ)²/n. It is the average of the squared differences from the mean.',
+    whyItExists: 'Variance is the mathematical engine behind risk and volatility. STDEV.P is just the square root of VAR.P.',
+    whenToUse: 'Use VAR.P when you have data for the entire population and need to calculate statistical volatility.',
+    realWorldUseCases: [
+      'Analyzing the volatility of an entire month\'s production output.',
+      'Calculating the squared deviation of all employee ages in a firm.',
+      'Academic research where the entire dataset is known.'
+    ],
+    businessExample: {
+      scenario: 'Find the population variance for the output of all 5 machines.',
+      formula: '=VAR.P(A2:A6)'
+    },
+    syntax: '=VAR.P(number1, [number2], ...)',
+    syntaxBreakdown: [
+      { arg: 'number1', desc: 'First numeric value or range of the population (required).' },
+      { arg: 'number2', desc: 'Additional values or ranges (optional).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Population Variance Calculation',
+        table: {
+          headers: ['Value', 'Formula', 'Result'],
+          rows: [
+            ['10, 20, 30, 40, 50', '=VAR.P(A2:A6)', '200']
           ]
+        },
+        stepByStep: [
+          'Average = 30.',
+          'Squared deviations: 400, 100, 0, 100, 400.',
+          'Sum = 1000.',
+          'Divide by count (5): 1000 / 5 = 200.'
         ]
-      },
-      "stepByStep": [
-        "1. Select VAR.P.",
-        "2. Calculate VAR.P."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "VAR.P is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use VAR.P?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use VAR.P on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Using for samples.', desc: 'VAR.P will underestimate the variance of a sample. Use VAR.S for sample data.' },
+      { title: 'Squared units.', desc: 'Variance is in "units squared" (e.g., ₦²). For results in the original units (₦), take the square root to get Standard Deviation.' }
     ],
-    "expectedFormula": "VAR.P(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "var.s",
-  "title": "VAR.S Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "VAR.S",
-    "description": "Calculate the VAR.S property for data analysis.",
-    "concept": "the VAR.S analyzer"
-  },
-  "whyItExists": "Essential for VAR.S property evaluation.",
-  "whenToUse": "Analyze VAR.S in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform VAR.S on monthly data.",
-    "formula": "=VAR.S(B2:B50)"
-  },
-  "syntax": "=VAR.S(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'VAR.P is always smaller than VAR.S for the same dataset.',
+      'Square root of VAR.P = STDEV.P.'
+    ],
+    relatedFunctions: ['VAR.S', 'STDEV.P', 'VARA'],
+    miniChallenge: {
+      question: 'Population: {2, 4, 6, 8, 10}. What is the variance?',
+      expectedAnswer: '8'
+    },
+    practice: {
+      instructions: 'In cell B10, calculate the VAR.P for the output of all machines in B2:B8.',
+      initialData: [['Machine', 'Output'], ['1', 100], ['2', 105], ['3', 98], ['4', 102], ['5', 103], ['6', 97], ['7', 101], ['', ''], ['VAR.P', '']],
+      targetCell: [9, 1],
+      expectedFormula: 'VAR.P(B2:B8)',
+      expectedValue: 6.69388
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "VAR.S Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 'var.s',
+    title: 'VAR.S Function',
+    category: 'statistical',
+    difficulty: 'Intermediate',
+    xp: 200,
+    introduction: {
+      title: 'Sample Variance: VAR.S',
+      description: 'Estimates variance based on a sample.',
+      concept: 'The "Unbiased Volatility Estimator". Like STDEV.S, it uses "n-1" to ensure it doesn\'t underestimate the true variance of the population it represents.'
+    },
+    internalLogic: 'Calculates s² = Σ(x-x̄)²/(n-1).',
+    whyItExists: 'Standard in almost all statistical software for estimating the true spread of a population from a sample.',
+    whenToUse: 'Use VAR.S for all sample-based data analysis where you need to measure variability.',
+    realWorldUseCases: [
+      'Estimating the volatility of stock market returns based on a 30-day sample.',
+      'Analyzing the variance in daily assembly line speed from a 5-day sample.',
+      'Scientific research where only a subset of the population is tested.'
+    ],
+    businessExample: {
+      scenario: 'Estimate the variance in delivery times based on a sample of 5 deliveries.',
+      formula: '=VAR.S(B2:B6)'
+    },
+    syntax: '=VAR.S(number1, [number2], ...)',
+    syntaxBreakdown: [
+      { arg: 'number1', desc: 'First numeric value or range of the sample (required).' },
+      { arg: 'number2', desc: 'Additional values or ranges (optional).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Sample Variance Calculation',
+        table: {
+          headers: ['Sample', 'Formula', 'Result'],
+          rows: [
+            ['10, 20, 30, 40, 50', '=VAR.S(A2:A6)', '250']
           ]
+        },
+        stepByStep: [
+          'Average = 30. Sum of squared deviations = 1000.',
+          'Divide by (n-1) = 4.',
+          '1000 / 4 = 250.'
         ]
-      },
-      "stepByStep": [
-        "1. Select VAR.S.",
-        "2. Calculate VAR.S."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "VAR.S is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use VAR.S?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use VAR.S on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Fewer than 2 points.', desc: 'VAR.S requires at least 2 numbers. 1 number returns #DIV/0!.' },
+      { title: 'Using for population.', desc: 'Using VAR.S on a full population slightly overestimates the true variance.' }
     ],
-    "expectedFormula": "VAR.S(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "vara",
-  "title": "VARA Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "VARA",
-    "description": "Calculate the VARA property for data analysis.",
-    "concept": "the VARA analyzer"
-  },
-  "whyItExists": "Essential for VARA property evaluation.",
-  "whenToUse": "Analyze VARA in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform VARA on monthly data.",
-    "formula": "=VARA(B2:B50)"
-  },
-  "syntax": "=VARA(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'VAR.S is the default choice for most statistical reporting.',
+      'Square root of VAR.S = STDEV.S.'
+    ],
+    relatedFunctions: ['VAR.P', 'STDEV.S', 'VARA'],
+    miniChallenge: {
+      question: 'Sample: {15, 18, 22, 25, 20}. Find sample variance.',
+      expectedAnswer: '14.5'
+    },
+    practice: {
+      instructions: 'In cell B9, calculate the VAR.S for the sample times in B2:B7.',
+      initialData: [['Sample ID', 'Time (min)'], ['1', 5.2], ['2', 4.8], ['3', 5.5], ['4', 5.1], ['5', 4.9], ['6', 5.3], ['', ''], ['VAR.S', '']],
+      targetCell: [8, 1],
+      expectedFormula: 'VAR.S(B2:B7)',
+      expectedValue: 0.066667
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "VARA Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 'vara',
+    title: 'VARA Function',
+    category: 'statistical',
+    difficulty: 'Intermediate',
+    xp: 200,
+    introduction: {
+      title: 'Inclusive Sample Variance: VARA',
+      description: 'Estimates variance based on a sample, including logical values and text.',
+      concept: 'A variation of VAR.S that allows non-numeric data to be included in the math. TRUE becomes 1; anything else non-numeric (text or FALSE) becomes 0.'
+    },
+    internalLogic: 'Uses the (n-1) sample variance formula after converting logicals and text into 1s and 0s.',
+    whyItExists: 'In many data systems, "None" or "Fail" are stored as text but mathematically represent a value of zero.',
+    whenToUse: 'Use VARA when your dataset includes non-numeric flags that carry intentional zero/one numeric meaning.',
+    realWorldUseCases: [
+      'Calculating variance in a task list where "Complete" is TRUE.',
+      'Analyzing data where "Failed" text counts as a zero score.',
+      'Mixed-data surveys where responses are 1-5 or "No comment" (0).'
+    ],
+    businessExample: {
+      scenario: 'Calculate variance for a list where TRUE/FALSE represents success/failure.',
+      formula: '=VARA(B2:B20)'
+    },
+    syntax: '=VARA(value1, [value2], ...)',
+    syntaxBreakdown: [
+      { arg: 'value1', desc: 'First value or range of the sample (required).' },
+      { arg: 'value2', desc: 'Additional values or ranges (optional).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Mixed Data Variance',
+        table: {
+          headers: ['Value', 'Formula', 'Result'],
+          rows: [
+            ['10, 20, TRUE, 30, Text', '=VARA(A2:A6)', '164.2']
           ]
+        },
+        stepByStep: [
+          'Interpreted as 10, 20, 1, 30, 0.',
+          'Sample variance of these 5 numbers is calculated.',
+          'Result: 164.2.'
         ]
-      },
-      "stepByStep": [
-        "1. Select VARA.",
-        "2. Calculate VARA."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "VARA is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use VARA?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use VARA on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Text becomes zero.', desc: 'If your text is just descriptive and shouldn\'t be 0, VARA will give you a misleading result.' },
+      { title: 'Ignoring non-numeric.', desc: 'Forgetting that VARA treats FALSE as 0, which might drastically change your mean and variance.' }
     ],
-    "expectedFormula": "VARA(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "varpa",
-  "title": "VARPA Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "VARPA",
-    "description": "Calculate the VARPA property for data analysis.",
-    "concept": "the VARPA analyzer"
-  },
-  "whyItExists": "Essential for VARPA property evaluation.",
-  "whenToUse": "Analyze VARPA in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform VARPA on monthly data.",
-    "formula": "=VARPA(B2:B50)"
-  },
-  "syntax": "=VARPA(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'VARA usually differs from VAR.S for the same mixed dataset.',
+      'Square root of VARA = STDEVA.'
+    ],
+    relatedFunctions: ['VAR.S', 'VARPA', 'STDEVA'],
+    miniChallenge: {
+      question: 'VARA of {5, 10, TRUE, 15}. Compare with VAR.S of {5, 10, 15}. Which is larger?',
+      expectedAnswer: 'VARA (29.6) vs VAR.S (25). VARA is larger because it includes the "1" from TRUE.'
+    },
+    practice: {
+      instructions: 'In cell B8, calculate the VARA of the mixed data in B2:B6. Compare to VAR.S in cell B9.',
+      initialData: [['ID', 'Response'], ['1', 12], ['2', 18], ['3', 'TRUE'], ['4', 8], ['5', 'FALSE'], ['', ''], ['VARA', ''], ['VAR.S', '']],
+      targetCell: [7, 1],
+      expectedFormula: 'VARA(B2:B6)',
+      expectedValue: 57.2
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "VARPA Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 'varpa',
+    title: 'VARPA Function',
+    category: 'statistical',
+    difficulty: 'Intermediate',
+    xp: 200,
+    introduction: {
+      title: 'Inclusive Population Variance: VARPA',
+      description: 'Calculates variance based on the entire population, including logical values and text.',
+      concept: 'The population version of VARA. It includes logicals (TRUE=1) and text (0) in the calculation and uses "n" as the denominator.'
+    },
+    internalLogic: 'Calculates Σ(x-μ)²/n, where TRUE=1 and Text/FALSE=0.',
+    whyItExists: 'For complete datasets where non-numeric status codes represent numeric "states" (0 or 1).',
+    whenToUse: 'Use VARPA when you have the entire population and need to include logical/text flags in your volatility analysis.',
+    realWorldUseCases: [
+      'Calculating total production variance across all machines where "Offline" is text.',
+      'Analyzing volatility in status codes across an entire customer database.',
+      'Full-census data analysis involving logical status flags.'
+    ],
+    businessExample: {
+      scenario: 'Calculate population variance for the entire sensor grid, including text errors.',
+      formula: '=VARPA(B2:B20)'
+    },
+    syntax: '=VARPA(value1, [value2], ...)',
+    syntaxBreakdown: [
+      { arg: 'value1', desc: 'First value or range of the population (required).' },
+      { arg: 'value2', desc: 'Additional values or ranges (optional).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Full Population Mixed Variance',
+        table: {
+          headers: ['Value', 'Formula', 'Result'],
+          rows: [
+            ['10, 20, TRUE, 30, Text', '=VARPA(A2:A6)', '131.36']
           ]
+        },
+        stepByStep: [
+          'Interpreted as 10, 20, 1, 30, 0.',
+          'Calculates population variance (n=5).',
+          'Result: 131.36.'
         ]
-      },
-      "stepByStep": [
-        "1. Select VARPA.",
-        "2. Calculate VARPA."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "VARPA is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use VARPA?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use VARPA on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Sample vs Population.', desc: 'Use VARA if you only have a sample.' },
+      { title: 'Text inclusion.', desc: 'ALL text becomes zero. Ensure this is the intended statistical behavior for your specific text data.' }
     ],
-    "expectedFormula": "VARPA(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "weibull.dist",
-  "title": "WEIBULL.DIST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "WEIBULL.DIST",
-    "description": "Calculate the WEIBULL.DIST property for data analysis.",
-    "concept": "the WEIBULL.DIST analyzer"
-  },
-  "whyItExists": "Essential for WEIBULL.DIST property evaluation.",
-  "whenToUse": "Analyze WEIBULL.DIST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform WEIBULL.DIST on monthly data.",
-    "formula": "=WEIBULL.DIST(B2:B50)"
-  },
-  "syntax": "=WEIBULL.DIST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'VARPA is always smaller than VARA for the same dataset.',
+      'Square root of VARPA = STDEVPA.'
+    ],
+    relatedFunctions: ['VARA', 'VAR.P', 'STDEVPA'],
+    miniChallenge: {
+      question: 'Complete dataset: {8, 12, FALSE, 10, 15}. Find VARPA.',
+      expectedAnswer: '24.4'
+    },
+    practice: {
+      instructions: 'In cell B8, calculate the VARPA for all responses in B2:B6.',
+      initialData: [['User', 'Result'], ['1', 20], ['2', 25], ['3', 'TRUE'], ['4', 15], ['5', 22], ['', ''], ['VARPA', '']],
+      targetCell: [7, 1],
+      expectedFormula: 'VARPA(B2:B6)',
+      expectedValue: 71.44
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "WEIBULL.DIST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 'weibull.dist',
+    title: 'WEIBULL.DIST Function',
+    category: 'statistical',
+    difficulty: 'Advanced',
+    xp: 300,
+    introduction: {
+      title: 'Reliability & Life Analysis: WEIBULL.DIST',
+      description: 'Returns the Weibull distribution.',
+      concept: 'The "Engine of Survival Statistics". It is used to predict the lifespan of parts, products, and even medical outcomes. It can model systems where the failure rate decreases, stays constant, or increases over time.'
+    },
+    internalLogic: 'Calculates the PDF or CDF based on shape (Alpha) and scale (Beta) parameters.',
+    whyItExists: 'Weibull is the most flexible distribution in engineering. By changing Alpha, it can mimic many other distributions (like the Normal or Exponential).',
+    whenToUse: 'Use WEIBULL.DIST for reliability engineering, survival analysis, and lifetime prediction.',
+    realWorldUseCases: [
+      'Predicting the probability that a lightbulb will fail before 1,000 hours.',
+      'Analyzing the "time-to-failure" for industrial machinery.',
+      'Modeling wind speeds for renewable energy sites.'
+    ],
+    businessExample: {
+      scenario: 'Find the probability of a part failing before 100 hours with Alpha=2 and Beta=150.',
+      formula: '=WEIBULL.DIST(100, 2, 150, TRUE)'
+    },
+    syntax: '=WEIBULL.DIST(x, alpha, beta, cumulative)',
+    syntaxBreakdown: [
+      { arg: 'x', desc: 'The value at which to evaluate the function (≥0) (required).' },
+      { arg: 'alpha', desc: 'The shape parameter (>0) (required).' },
+      { arg: 'beta', desc: 'The scale parameter (>0) (required).' },
+      { arg: 'cumulative', desc: 'TRUE for CDF (probability of failure by time x); FALSE for PDF.' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Failure Probability Calculation',
+        table: {
+          headers: ['x (Time)', 'Alpha', 'Beta', 'Cumulative', 'Result'],
+          rows: [
+            ['100', '2', '150', 'TRUE', '0.3588'],
+            ['100', '2', '150', 'FALSE', '0.0057']
           ]
+        },
+        stepByStep: [
+          'Alpha=2 means the failure rate is increasing over time.',
+          'Beta=150 is the "characteristic life" (63.2% of parts fail by this time).',
+          'At x=100, the probability of failure is 35.88%.'
         ]
-      },
-      "stepByStep": [
-        "1. Select WEIBULL.DIST.",
-        "2. Calculate WEIBULL.DIST."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "WEIBULL.DIST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use WEIBULL.DIST?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use WEIBULL.DIST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'Negative x or alpha.', desc: 'All numeric arguments (x, alpha, beta) must be non-negative (and alpha, beta must be > 0).' },
+      { title: 'Parameter confusion.', desc: 'Swapping alpha (shape) and beta (scale) will completely change the curve.' }
     ],
-    "expectedFormula": "WEIBULL.DIST(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "z.test",
-  "title": "Z.TEST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "Z.TEST",
-    "description": "Calculate the Z.TEST property for data analysis.",
-    "concept": "shift checker"
-  },
-  "whyItExists": "Essential for Z.TEST property evaluation.",
-  "whenToUse": "Analyze Z.TEST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform Z.TEST on monthly data.",
-    "formula": "=Z.TEST(B2:B50)"
-  },
-  "syntax": "=Z.TEST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      'If Alpha = 1, it becomes the Exponential Distribution.',
+      'If Alpha = 3.6, it approximately follows a Normal Distribution.',
+      'Scale (Beta) is the point where ~63.2% of the population has failed.'
+    ],
+    relatedFunctions: ['NORM.DIST', 'EXPON.DIST', 'LOGNORM.DIST'],
+    miniChallenge: {
+      question: 'Weibull with α=1.5, β=1000. Find the probability of failure before 500 hours.',
+      expectedAnswer: '=WEIBULL.DIST(500, 1.5, 1000, TRUE) ≈ 0.297.'
+    },
+    practice: {
+      instructions: 'In cell B7, find the cumulative failure probability. In cell B8, find the failure density (PDF).',
+      initialData: [['Parameter', 'Value'], ['x', 200], ['Alpha', 3], ['Beta', 250], ['Cumulative', 'TRUE'], ['', ''], ['CDF', ''], ['PDF', '']],
+      targetCell: [6, 1],
+      expectedFormula: 'WEIBULL.DIST(B2,B3,B4,TRUE)',
+      expectedValue: 0.400704
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "Z.TEST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: 'z.test',
+    title: 'Z.TEST Function',
+    category: 'statistical',
+    difficulty: 'Intermediate',
+    xp: 250,
+    introduction: {
+      title: 'One-Tailed Z-Test: Z.TEST',
+      description: 'Returns the one-tailed probability value of a z-test.',
+      concept: 'The "Threshold Checker". It tests if a sample mean is higher than a hypothesized population mean. It\'s used when you have a large sample (n > 30) or you already know the population standard deviation.'
+    },
+    internalLogic: 'Calculates the z-score: (x̄ - μ) / (σ / √n) and returns the area to the right of that score (1 - NORM.S.DIST).',
+    whyItExists: 'Z.TEST is a quick way to see if a small change in your data is significant or just noise, provided you have a large enough group to be confident.',
+    whenToUse: 'Use Z.TEST for right-tailed hypothesis testing on large samples.',
+    realWorldUseCases: [
+      'Checking if a new ad campaign increased average order value.',
+      'Testing if a factory machine is outputting slightly higher than its spec.',
+      'Analyzing large-scale survey results for significant deviations.'
+    ],
+    businessExample: {
+      scenario: 'Test if the average score of 102.4 is significantly higher than 100, assuming SD is 5.',
+      formula: '=Z.TEST(A2:A11, 100, 5)'
+    },
+    syntax: '=Z.TEST(array, x, [sigma])',
+    syntaxBreakdown: [
+      { arg: 'array', desc: 'The range of data to test (required).' },
+      { arg: 'x', desc: 'The hypothesized population mean (required).' },
+      { arg: 'sigma', desc: 'The known population standard deviation (optional; uses sample SD if omitted).' }
+    ],
+    detailedExamples: [
+      {
+        title: 'Right-Tail Probability',
+        table: {
+          headers: ['Data', 'Test Mean (x)', 'Sigma', 'Result'],
+          rows: [
+            ['105, 98, 102, 110, 95, 108, 100, 103, 97, 106', '100', '5', '0.0572']
           ]
+        },
+        stepByStep: [
+          'Sample Mean (x̄) = 102.4.',
+          'Excel calculates the z-score relative to 100.',
+          'It returns the probability that a random sample would be 102.4 or HIGHER.',
+          'Result 0.0572 means there is a 5.72% chance this result happened by luck.'
         ]
-      },
-      "stepByStep": [
-        "1. Select Z.TEST.",
-        "2. Calculate Z.TEST."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "Z.TEST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use Z.TEST?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use Z.TEST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: 'One-tailed only.', desc: 'Z.TEST always calculates the right-tail (x̄ > x). For two-tailed, use: 2 * MIN(Z.TEST, 1-Z.TEST).' },
+      { title: 'Sample size.', desc: 'Strictly speaking, Z-tests are for large samples (n ≥ 30). For smaller samples, use T.TEST.' }
     ],
-    "expectedFormula": "Z.TEST(B2:B3)",
-    "expectedValue": 150
+    proTips: [
+      'If Z.TEST < 0.05, we typically "Reject the Null" and say the increase is significant.',
+      'To test if the mean is LOWER (left-tail), use: 1 - Z.TEST(...).'
+    ],
+    relatedFunctions: ['T.TEST', 'NORM.S.DIST', 'STDEV.P'],
+    miniChallenge: {
+      question: 'Sample mean test: data={52, 48, 55, 50, 53}, test μ=50 with σ=3. Is this significantly higher at α=0.05?',
+      expectedAnswer: 'No (p ≈ 0.067). It is close, but not quite significant.'
+    },
+    practice: {
+      instructions: 'In cell B10, find the one-tailed p-value for a hypothesized mean of 30 and sigma of 3. In cell B11, find the two-tailed p-value.',
+      initialData: [['Data'], [32], [35], [28], [33], [30], [34], [31], ['', ''], ['One-tailed', ''], ['Two-tailed', '']],
+      targetCell: [9, 1],
+      expectedFormula: 'Z.TEST(A2:A8,30,3)',
+      expectedValue: 0.050727
+    }
   }
-}
 ];
