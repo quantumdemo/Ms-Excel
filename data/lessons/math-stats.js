@@ -6313,1942 +6313,1527 @@ export const mathStatsLessons = [
       expectedValue: 0
     }
   },
-{
-  "id": "mode.mult",
-  "title": "MODE.MULT Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "MODE.MULT",
-    "description": "Calculate the MODE.MULT property for data analysis.",
-    "concept": "the MODE.MULT analyzer"
-  },
-  "whyItExists": "Essential for MODE.MULT property evaluation.",
-  "whenToUse": "Analyze MODE.MULT in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform MODE.MULT on monthly data.",
-    "formula": "=MODE.MULT(B2:B50)"
-  },
-  "syntax": "=MODE.MULT(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
-    }
-  ],
-  "detailedExamples": [
-    {
-      "title": "MODE.MULT Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  {
+    id: "mode.mult",
+    title: "MODE.MULT Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Multiple Modes: MODE.MULT",
+      description: "Returns a vertical array of the most frequently occurring or repetitive values in an array or range of data.",
+      concept: "Unlike standard mode which only gives you one result, MODE.MULT is designed to find all values that tie for the highest frequency. It's an array function, meaning it can return multiple answers at once."
+    },
+    internalLogic: "Excel scans the data, counts the frequency of each value, and identifies all values that share the highest frequency. It then returns these values as a vertical array.",
+    whyItExists: "Datasets are often 'multimodal' (having more than one peak). Using a single mode function would hide the fact that multiple distinct values are equally common.",
+    whenToUse: "Use MODE.MULT when analyzing data where multiple outcomes might be equally popular, such as most common shoe sizes or most frequent daily sales figures.",
+    realWorldUseCases: [
+      "Identifying all popular products in a sales tie.",
+      "Finding multiple peak times for traffic or arrivals.",
+      "Determining all 'most common' results in a survey where ties exist."
+    ],
+    businessExample: {
+      scenario: "Find all values that occur most frequently in a list of sales amounts.",
+      formula: "=MODE.MULT(A2:A8)"
+    },
+    syntax: "=MODE.MULT(number1, [number2], ...)",
+    syntaxBreakdown: [
+      { arg: "number1", desc: "First number or range (required)." },
+      { arg: "number2", desc: "Additional numbers or ranges up to 255 (optional)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Tied Frequency Mode",
+        table: {
+          headers: ["Value", "Frequency", "Result Area", "Result"],
+          rows: [
+            ["10", "3", "Mode 1", "10"],
+            ["20", "3", "Mode 2", "20"],
+            ["30", "1", "", ""]
           ]
+        },
+        stepByStep: [
+          "Excel counts that 10 appears 3 times and 20 appears 3 times.",
+          "Since they tie for the highest frequency, both are identified as modes.",
+          "The function returns {10; 20} as a vertical array."
         ]
-      },
-      "stepByStep": [
-        "1. Select MODE.MULT.",
-        "2. Calculate MODE.MULT."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "MODE.MULT is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use MODE.MULT?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use MODE.MULT on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Not enough space", desc: "If you don't select enough cells in older Excel versions, you won't see all the modes." },
+      { title: "#N/A in extras", desc: "If you select more cells than there are modes, Excel fills the extras with #N/A errors." },
+      { title: "Legacy Entry", desc: "In pre-365 Excel, you must use Ctrl+Shift+Enter for this to work correctly." }
     ],
-    "expectedFormula": "MODE.MULT(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "mode.sngl",
-  "title": "MODE.SNGL Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "MODE.SNGL",
-    "description": "Calculate the MODE.SNGL property for data analysis.",
-    "concept": "the MODE.SNGL analyzer"
-  },
-  "whyItExists": "Essential for MODE.SNGL property evaluation.",
-  "whenToUse": "Analyze MODE.SNGL in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform MODE.SNGL on monthly data.",
-    "formula": "=MODE.SNGL(B2:B50)"
-  },
-  "syntax": "=MODE.SNGL(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Wrap with IFERROR to clean up #N/A results: =IFERROR(MODE.MULT(range),\"\").",
+      "Use TRANSPOSE(MODE.MULT(...)) if you want the results in a horizontal row.",
+      "In modern Excel (365), the results 'spill' automatically, so you only need one cell."
+    ],
+    relatedFunctions: ["MODE.SNGL", "AVERAGE", "MEDIAN"],
+    miniChallenge: {
+      question: "Find all modes for {1, 2, 2, 3, 3, 4, 5}. Which values are returned?",
+      expectedAnswer: "2 and 3."
+    },
+    practice: {
+      instructions: "In cell B10, find all modes of the product counts in B2:B8.",
+      initialData: [["Item", "Count"], ["A", 5], ["B", 12], ["C", 5], ["D", 8], ["E", 12], ["F", 3], ["G", 7], ["", ""], ["Modes", ""]],
+      targetCell: [9, 1],
+      expectedFormula: "MODE.MULT(B2:B8)",
+      expectedValue: 5
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "MODE.SNGL Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "mode.sngl",
+    title: "MODE.SNGL Function",
+    category: "statistical",
+    difficulty: "Beginner",
+    xp: 150,
+    introduction: {
+      title: "Most Frequent Value: MODE.SNGL",
+      description: "Returns the most frequently occurring, or repetitive, value in an array or range of data.",
+      concept: "Think of it as the 'Popularity Contest' winner. It looks through your numbers and picks the one that shows up most often."
+    },
+    internalLogic: "Excel identifies all numeric values and counts their frequency. It returns the single value with the highest count. If there is a tie, it returns the first one it encounters.",
+    whyItExists: "Mode is a key measure of central tendency, especially useful for categorical data that has been coded as numbers (like survey ratings).",
+    whenToUse: "Use whenever you need to know the 'most typical' or 'most common' response, such as the most common customer rating or the most frequent test score.",
+    realWorldUseCases: [
+      "Finding the most common rating in a customer satisfaction survey.",
+      "Identifying the most frequent score in a classroom test.",
+      "Determining the most common size of an inventory item."
+    ],
+    businessExample: {
+      scenario: "Identify the most common score from a list of exam results.",
+      formula: "=MODE.SNGL(A2:A7)"
+    },
+    syntax: "=MODE.SNGL(number1, [number2], ...)",
+    syntaxBreakdown: [
+      { arg: "number1", desc: "First number or range (required)." },
+      { arg: "number2", desc: "Additional numbers or ranges up to 255 (optional)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Test Score Mode",
+        table: {
+          headers: ["Score", "Count", "Formula", "Result"],
+          rows: [
+            ["85", "3", "=MODE.SNGL(A2:A7)", "85"],
+            ["90", "2", "", ""],
+            ["78", "1", "", ""]
           ]
+        },
+        stepByStep: [
+          "Excel identifies that 85 appears three times.",
+          "90 appears twice, and 78 appears once.",
+          "The highest frequency is 3, belonging to 85.",
+          "Result: 85."
         ]
-      },
-      "stepByStep": [
-        "1. Select MODE.SNGL.",
-        "2. Calculate MODE.SNGL."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "MODE.SNGL is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use MODE.SNGL?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use MODE.SNGL on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "No Repeats", desc: "If all values in the range are unique, MODE.SNGL returns a #N/A error." },
+      { title: "Handling Ties", desc: "If two values tie for most frequent, MODE.SNGL only returns the one that appears first in your data." },
+      { title: "Text Values", desc: "Standard MODE functions ignore text. To find the mode of text, you need a more complex INDEX/MATCH/COUNTIF formula." }
     ],
-    "expectedFormula": "MODE.SNGL(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "negbinom.dist",
-  "title": "NEGBINOM.DIST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "NEGBINOM.DIST",
-    "description": "Calculate the NEGBINOM.DIST property for data analysis.",
-    "concept": "the NEGBINOM.DIST analyzer"
-  },
-  "whyItExists": "Essential for NEGBINOM.DIST property evaluation.",
-  "whenToUse": "Analyze NEGBINOM.DIST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform NEGBINOM.DIST on monthly data.",
-    "formula": "=NEGBINOM.DIST(B2:B50)"
-  },
-  "syntax": "=NEGBINOM.DIST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Always check for #N/A to see if your data even has a mode.",
+      "MODE.SNGL is the modern replacement for the old MODE function.",
+      "Combine with COUNTIF to see exactly how many times the mode occurs."
+    ],
+    relatedFunctions: ["MODE.MULT", "MEDIAN", "AVERAGE"],
+    miniChallenge: {
+      question: "Find the mode of {4, 7, 4, 9, 7, 4, 7}. Which value is returned and why?",
+      expectedAnswer: "4 (It appears 3 times, tied with 7, but 4 appears earlier in the sequence)."
+    },
+    practice: {
+      instructions: "In cell B10, identify the most common rating from the list in B2:B8.",
+      initialData: [["User", "Rating"], ["1", 3], ["2", 5], ["3", 4], ["4", 3], ["5", 5], ["6", 3], ["7", 4], ["", ""], ["MODE", ""]],
+      targetCell: [9, 1],
+      expectedFormula: "MODE.SNGL(B2:B8)",
+      expectedValue: 3
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "NEGBINOM.DIST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "negbinom.dist",
+    title: "NEGBINOM.DIST Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "The Waiting Game: NEGBINOM.DIST",
+      description: "Returns the negative binomial distribution, the probability that there will be a certain number of failures before a specified number of successes.",
+      concept: "Think of it as 'Trials until success'. If a basketball player has a 70% shot, how likely is it that he misses twice BEFORE he makes his 5th basket?"
+    },
+    internalLogic: "Calculates the probability of exactly 'number_f' failures occurring before 'number_s' successes are achieved, given a constant probability of success.",
+    whyItExists: "While the regular Binomial distribution fixes the number of trials and counts successes, the Negative Binomial fixes the successes and counts the trials (or failures) needed.",
+    whenToUse: "Use for modeling the number of trials required to reach a specific success threshold, such as the number of calls needed to make 10 sales.",
+    realWorldUseCases: [
+      "Predicting how many attempts it takes to pass a safety inspection.",
+      "Modeling the number of empty houses visited before finding 3 buyers.",
+      "Reliability engineering: how many cycles until the 5th failure occurs."
+    ],
+    businessExample: {
+      scenario: "Calculate the probability of 3 failures before achieving 2 successes with a 40% success rate.",
+      formula: "=NEGBINOM.DIST(3, 2, 0.4, FALSE)"
+    },
+    syntax: "=NEGBINOM.DIST(number_f, number_s, probability_s, cumulative)",
+    syntaxBreakdown: [
+      { arg: "number_f", desc: "The number of failures (required)." },
+      { arg: "number_s", desc: "The success threshold (how many successes you want to reach) (required)." },
+      { arg: "probability_s", desc: "The probability of success on each trial (between 0 and 1) (required)." },
+      { arg: "cumulative", desc: "TRUE for cumulative distribution (at most f failures); FALSE for probability mass function (exactly f failures)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Sales Call Success",
+        table: {
+          headers: ["Parameter", "Value", "Meaning"],
+          rows: [
+            ["Failures (f)", "3", "3 missed sales"],
+            ["Successes (s)", "2", "Goal of 2 sales"],
+            ["Rate (p)", "0.4", "40% success rate"],
+            ["Result (FALSE)", "0.1382", "13.82% chance of 3 fails before 2nd sale"]
           ]
+        },
+        stepByStep: [
+          "The formula determines total trials = 3 + 2 = 5.",
+          "It calculates the probability that the 5th trial is the 2nd success.",
+          "Result: 0.1382."
         ]
-      },
-      "stepByStep": [
-        "1. Select NEGBINOM.DIST.",
-        "2. Calculate NEGBINOM.DIST."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "NEGBINOM.DIST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use NEGBINOM.DIST?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use NEGBINOM.DIST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Failure vs Total", desc: "Ensure you input 'number of failures', not 'total number of trials'." },
+      { title: "Success Threshold", desc: "Don't confuse this with Binomial where successes is the output you're measuring." },
+      { title: "Parameter Order", desc: "Double check the order of failures and successes; swapping them changes the scenario completely." }
     ],
-    "expectedFormula": "NEGBINOM.DIST(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "norm.dist",
-  "title": "NORM.DIST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "NORM.DIST",
-    "description": "Calculate the NORM.DIST property for data analysis.",
-    "concept": "the NORM.DIST analyzer"
-  },
-  "whyItExists": "Essential for NORM.DIST property evaluation.",
-  "whenToUse": "Analyze NORM.DIST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform NORM.DIST on monthly data.",
-    "formula": "=NORM.DIST(B2:B50)"
-  },
-  "syntax": "=NORM.DIST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Total trials = number_f + number_s.",
+      "If number_s = 1, this reduces to the Geometric distribution.",
+      "Useful for modeling 'bursty' data where events tend to happen in clusters."
+    ],
+    relatedFunctions: ["BINOM.DIST", "POISSON.DIST"],
+    miniChallenge: {
+      question: "Basketball player shoots 70% free throws. What's the probability of 2 misses before making 5?",
+      expectedAnswer: "=NEGBINOM.DIST(2, 5, 0.7, FALSE) ≈ 0.185."
+    },
+    practice: {
+      instructions: "In cell B8, calculate the probability of exactly 4 failures before reaching 3 successes with a 50% success rate.",
+      initialData: [["Parameter", "Value"], ["number_f", 4], ["number_s", 3], ["probability_s", 0.5], ["cumulative", "FALSE"], ["", ""], ["Exact Prob", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "NEGBINOM.DIST(B2,B3,B4,B5)",
+      expectedValue: 0.1171
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "NORM.DIST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "norm.dist",
+    title: "NORM.DIST Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 300,
+    introduction: {
+      title: "The Bell Curve: NORM.DIST",
+      description: "Returns the normal distribution for the specified mean and standard deviation. This is the most common distribution in statistics.",
+      concept: "Think of it as the 'Universal Probability' tool. It tells you how likely a value is based on the average and the spread of your data. It's the engine behind IQ scores, height distributions, and quality control."
+    },
+    internalLogic: "Calculates the probability density or cumulative distribution for the Gaussian bell curve defined by Mean (μ) and Standard Deviation (σ).",
+    whyItExists: "Most natural and business phenomena (like error rates or human measurements) cluster around an average, forming a predictable bell shape.",
+    whenToUse: "Use NORM.DIST to calculate percentiles, find the probability of being above/below a threshold, or plot a bell curve for your data.",
+    realWorldUseCases: [
+      "Calculating the proportion of parts that fall within tolerance limits.",
+      "Estimating the percentage of the population with a specific test score.",
+      "Financial modeling: analyzing the risk of a stock return falling below zero."
+    ],
+    businessExample: {
+      scenario: "Find the probability of scoring 115 or less on an IQ test with mean 100 and sd 15.",
+      formula: "=NORM.DIST(115, 100, 15, TRUE)"
+    },
+    syntax: "=NORM.DIST(x, mean, standard_dev, cumulative)",
+    syntaxBreakdown: [
+      { arg: "x", desc: "The value you want to test (required)." },
+      { arg: "mean", desc: "The arithmetic mean of the distribution (required)." },
+      { arg: "standard_dev", desc: "The standard deviation of the distribution (must be > 0) (required)." },
+      { arg: "cumulative", desc: "TRUE returns the cumulative distribution (probability of being ≤ x); FALSE returns the probability density function (height of the curve at x)." }
+    ],
+    detailedExamples: [
+      {
+        title: "IQ Score Probability",
+        table: {
+          headers: ["x (Score)", "Mean", "Std Dev", "Cumulative", "Result"],
+          rows: [
+            ["115", "100", "15", "TRUE", "0.8413"],
+            ["115", "100", "15", "FALSE", "0.0161"]
           ]
+        },
+        stepByStep: [
+          "Excel calculates the z-score: (115 - 100) / 15 = 1.00.",
+          "For TRUE, it finds the total area to the left of 1.00.",
+          "Result: 0.8413 (84.13% of people score 115 or less)."
         ]
-      },
-      "stepByStep": [
-        "1. Select NORM.DIST.",
-        "2. Calculate NORM.DIST."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "NORM.DIST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use NORM.DIST?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use NORM.DIST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Standard_dev ≤ 0", desc: "Standard deviation must be a positive number; otherwise Excel returns #NUM!." },
+      { title: "Probability vs Density", desc: "Remember that FALSE returns the 'height' of the curve, which is NOT a probability (probabilities for continuous data are area-based)." },
+      { title: "Reversing parameters", desc: "Ensure you don't swap the Mean and Standard Deviation." }
     ],
-    "expectedFormula": "NORM.DIST(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "norm.inv",
-  "title": "NORM.INV Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "NORM.INV",
-    "description": "Calculate the NORM.INV property for data analysis.",
-    "concept": "the NORM.INV analyzer"
-  },
-  "whyItExists": "Essential for NORM.INV property evaluation.",
-  "whenToUse": "Analyze NORM.INV in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform NORM.INV on monthly data.",
-    "formula": "=NORM.INV(B2:B50)"
-  },
-  "syntax": "=NORM.INV(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "For the probability of being ABOVE a value, use =1 - NORM.DIST(x, μ, σ, TRUE).",
+      "The 68-95-99.7 rule: ~68% of data is within ±1 SD, ~95% within ±2 SD.",
+      "Use FALSE as the cumulative flag to generate data points for drawing a bell curve on a chart."
+    ],
+    relatedFunctions: ["NORM.INV", "NORM.S.DIST", "STANDARDIZE"],
+    miniChallenge: {
+      question: "Heights have μ=68\" and σ=3\". What proportion of people are taller than 74\" (2 standard deviations above mean)?",
+      expectedAnswer: "≈ 2.28% (calculated as 1 - NORM.DIST(74, 68, 3, TRUE))."
+    },
+    practice: {
+      instructions: "In cell B8, calculate the probability P(X≤85) for a distribution with mean=75 and sd=8.",
+      initialData: [["Parameter", "Value"], ["x", 85], ["Mean", 75], ["Std_dev", 8], ["Cumulative", "TRUE"], ["", ""], ["Probability", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "NORM.DIST(B2,B3,B4,B5)",
+      expectedValue: 0.89435
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "NORM.INV Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "norm.inv",
+    title: "NORM.INV Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 300,
+    introduction: {
+      title: "Reverse Bell Curve: NORM.INV",
+      description: "Returns the inverse of the normal cumulative distribution for the specified mean and standard deviation.",
+      concept: "It answers the question: 'What value do I need to be in a certain percentile?' If you want to know what score is required to be in the top 5% of a test, NORM.INV is your tool."
+    },
+    internalLogic: "Finds the value x such that NORM.DIST(x, mean, standard_dev, TRUE) equals the specified probability.",
+    whyItExists: "In planning and risk management, you often have a target risk level (probability) and need to find the corresponding threshold value (like safety stock levels or budget limits).",
+    whenToUse: "Use NORM.INV to set grade cutoffs, determine inventory safety buffers, or find critical values for custom normal distributions.",
+    realWorldUseCases: [
+      "Setting the minimum score required to be in the top 10% of applicants.",
+      "Calculating how much safety stock is needed to avoid a stockout 99% of the time.",
+      "Determining the threshold for a 'High' vs 'Normal' reading in medical data."
+    ],
+    businessExample: {
+      scenario: "Find the score that marks the 95th percentile in a distribution with mean 100 and sd 15.",
+      formula: "=NORM.INV(0.95, 100, 15)"
+    },
+    syntax: "=NORM.INV(probability, mean, standard_dev)",
+    syntaxBreakdown: [
+      { arg: "probability", desc: "A probability corresponding to the normal distribution (between 0 and 1) (required)." },
+      { arg: "mean", desc: "The arithmetic mean of the distribution (required)." },
+      { arg: "standard_dev", desc: "The standard deviation of the distribution (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Target Percentile Search",
+        table: {
+          headers: ["Probability", "Mean", "Std Dev", "Result (Value)"],
+          rows: [
+            ["0.95", "100", "15", "124.67"]
           ]
+        },
+        stepByStep: [
+          "You provide a target probability of 95% (0.95).",
+          "Excel identifies the z-score for 95% is ~1.645.",
+          "Calculates x = 100 + (15 * 1.645) = 124.67.",
+          "Result: 124.67."
         ]
-      },
-      "stepByStep": [
-        "1. Select NORM.INV.",
-        "2. Calculate NORM.INV."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "NORM.INV is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use NORM.INV?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use NORM.INV on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Out of Bounds", desc: "Probability must be strictly between 0 and 1. Entering 0, 1, or numbers outside this range returns #NUM!." },
+      { title: "Standard Normal Mix-up", desc: "Don't confuse with NORM.S.INV, which is only for mean 0 and sd 1." },
+      { title: "Sample stats", desc: "Using sample statistics without verifying if the underlying data is actually normal." }
     ],
-    "expectedFormula": "NORM.INV(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "norm.s.dist",
-  "title": "NORM.S.DIST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "NORM.S.DIST",
-    "description": "Calculate the NORM.S.DIST property for data analysis.",
-    "concept": "the NORM.S.DIST analyzer"
-  },
-  "whyItExists": "Essential for NORM.S.DIST property evaluation.",
-  "whenToUse": "Analyze NORM.S.DIST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform NORM.S.DIST on monthly data.",
-    "formula": "=NORM.S.DIST(B2:B50)"
-  },
-  "syntax": "=NORM.S.DIST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "To find the top 5%, use 0.95. To find the bottom 5%, use 0.05.",
+      "Useful for inventory management: Lead Time Demand + NORM.INV(service_level, 0, σ_demand) gives your safety stock.",
+      "Check your work: NORM.DIST(result, mean, sd, TRUE) should return your original probability."
+    ],
+    relatedFunctions: ["NORM.DIST", "NORM.S.INV", "CONFIDENCE.NORM"],
+    miniChallenge: {
+      question: "Find the score at the 90th percentile for SAT scores (μ=500, σ=100).",
+      expectedAnswer: "≈ 628 (calculated as =NORM.INV(0.9, 500, 100))."
+    },
+    practice: {
+      instructions: "In cell B7, find the 10th percentile value for a distribution with mean=200 and sd=25.",
+      initialData: [["Parameter", "Value"], ["Probability", 0.1], ["Mean", 200], ["Std_dev", 25], ["", ""], ["Result", ""]],
+      targetCell: [6, 1],
+      expectedFormula: "NORM.INV(B2,B3,B4)",
+      expectedValue: 167.96
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "NORM.S.DIST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "norm.s.dist",
+    title: "NORM.S.DIST Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Standard Normal: NORM.S.DIST",
+      description: "Returns the standard normal distribution (has a mean of zero and a standard deviation of one).",
+      concept: "Think of this as the 'Pure Bell Curve'. In statistics, we often convert messy real-world data into z-scores (standard units) so we can compare different things fairly. NORM.S.DIST is the tool used for these z-scores."
+    },
+    internalLogic: "Evaluates the integral (area) or the height of the curve for the Standard Normal distribution (μ=0, σ=1) at point z.",
+    whyItExists: "Standardization allows us to compare variables measured in different units (like comparing weight in kg to height in cm) using a common scale.",
+    whenToUse: "Use NORM.S.DIST when you already have a z-score and want to find the p-value or the probability associated with it.",
+    realWorldUseCases: [
+      "Calculating p-values for hypothesis testing.",
+      "Finding the probability associated with a specific number of standard deviations from the mean.",
+      "Determining critical values for confidence intervals."
+    ],
+    businessExample: {
+      scenario: "Find the probability of a z-score being 1.96 or less.",
+      formula: "=NORM.S.DIST(1.96, TRUE)"
+    },
+    syntax: "=NORM.S.DIST(z, cumulative)",
+    syntaxBreakdown: [
+      { arg: "z", desc: "The value for which you want the distribution (standard deviations from mean) (required)." },
+      { arg: "cumulative", desc: "TRUE for cumulative distribution (probability); FALSE for probability density function (height of curve)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Standard Normal Probabilities",
+        table: {
+          headers: ["z", "Cumulative", "Result", "Meaning"],
+          rows: [
+            ["1.96", "TRUE", "0.9750", "97.5% below this point"],
+            ["0", "TRUE", "0.5000", "Exactly half (the mean)"],
+            ["-1.96", "TRUE", "0.0250", "2.5% below this point"]
           ]
+        },
+        stepByStep: [
+          "Input z = 1.96.",
+          "Excel finds the area under the curve from -infinity to 1.96.",
+          "Result: 0.9750."
         ]
-      },
-      "stepByStep": [
-        "1. Select NORM.S.DIST.",
-        "2. Calculate NORM.S.DIST."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "NORM.S.DIST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use NORM.S.DIST?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use NORM.S.DIST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Using Raw Data", desc: "Do NOT input your raw data value (x) here. You must first convert it to a z-score: z = (x - mean) / sd." },
+      { title: "Missing Parameter", desc: "Unlike older versions, you MUST specify the cumulative flag (TRUE or FALSE)." }
     ],
-    "expectedFormula": "NORM.S.DIST(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "norm.s.inv",
-  "title": "NORM.S.INV Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "NORM.S.INV",
-    "description": "Calculate the NORM.S.INV property for data analysis.",
-    "concept": "the NORM.S.INV analyzer"
-  },
-  "whyItExists": "Essential for NORM.S.INV property evaluation.",
-  "whenToUse": "Analyze NORM.S.INV in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform NORM.S.INV on monthly data.",
-    "formula": "=NORM.S.INV(B2:B50)"
-  },
-  "syntax": "=NORM.S.INV(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "NORM.S.DIST(z, TRUE) is identical to NORM.DIST(z, 0, 1, TRUE).",
+      "For a two-tailed p-value: =2 * (1 - NORM.S.DIST(ABS(z), TRUE)).",
+      "The value 1.96 is famous because it marks the point where only 2.5% remains in the right tail (making it the 5% threshold for two-tailed tests)."
+    ],
+    relatedFunctions: ["NORM.DIST", "NORM.S.INV", "STANDARDIZE"],
+    miniChallenge: {
+      question: "Find the total area between z = -1.5 and z = 1.5.",
+      expectedAnswer: "≈ 0.8664 (calculated as NORM.S.DIST(1.5, TRUE) - NORM.S.DIST(-1.5, TRUE))."
+    },
+    practice: {
+      instructions: "In cell B6, find the cumulative probability for a z-score of 2.5.",
+      initialData: [["z-score", "2.5"], ["Cumulative", "TRUE"], ["", ""], ["P(Z<=2.5)", ""]],
+      targetCell: [3, 1],
+      expectedFormula: "NORM.S.DIST(B1,TRUE)",
+      expectedValue: 0.99379
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "NORM.S.INV Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "norm.s.inv",
+    title: "NORM.S.INV Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Standard Inverse: NORM.S.INV",
+      description: "Returns the inverse of the standard normal cumulative distribution.",
+      concept: "It's the 'Z-Score Finder'. If you know you want to be in the 90th percentile, NORM.S.INV tells you how many standard deviations from the mean you need to be."
+    },
+    internalLogic: "Finds the z-value such that the area under the standard normal curve to the left of z is equal to the provided probability.",
+    whyItExists: "Crucial for calculating margin of error in confidence intervals and finding critical values for z-tests.",
+    whenToUse: "Use NORM.S.INV to find the z-value for a specific confidence level or to create thresholds for standardized comparisons.",
+    realWorldUseCases: [
+      "Finding the z-multiplier for a 95% confidence interval (1.96).",
+      "Determining thresholds for quality control 'sigma' levels.",
+      "Setting standardized performance tiers."
+    ],
+    businessExample: {
+      scenario: "Find the z-score for the 97.5th percentile.",
+      formula: "=NORM.S.INV(0.975)"
+    },
+    syntax: "=NORM.S.INV(probability)",
+    syntaxBreakdown: [
+      { arg: "probability", desc: "The probability associated with the normal distribution (between 0 and 1) (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Critical Z-Score Lookup",
+        table: {
+          headers: ["Target Probability", "Formula", "Result (Z-score)"],
+          rows: [
+            ["0.975", "=NORM.S.INV(0.975)", "1.96"],
+            ["0.95", "=NORM.S.INV(0.95)", "1.645"],
+            ["0.50", "=NORM.S.INV(0.50)", "0"]
           ]
+        },
+        stepByStep: [
+          "Enter target probability 0.975.",
+          "Excel finds the point where 97.5% of area is to the left.",
+          "Result: 1.96."
         ]
-      },
-      "stepByStep": [
-        "1. Select NORM.S.INV.",
-        "2. Calculate NORM.S.INV."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "NORM.S.INV is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use NORM.S.INV?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use NORM.S.INV on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Using 0 or 1", desc: "Standard normal curves are asymptotic; a probability of 0 or 1 returns a #NUM! error because the z-score would be ±infinity." },
+      { title: "One-tailed vs Two-tailed", desc: "For a 95% confidence level (two-tailed), you need the 97.5th percentile (leaving 2.5% in each tail)." }
     ],
-    "expectedFormula": "NORM.S.INV(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "pearson",
-  "title": "PEARSON Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "PEARSON",
-    "description": "Calculate the PEARSON property for data analysis.",
-    "concept": "the PEARSON analyzer"
-  },
-  "whyItExists": "Essential for PEARSON property evaluation.",
-  "whenToUse": "Analyze PEARSON in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform PEARSON on monthly data.",
-    "formula": "=PEARSON(B2:B50)"
-  },
-  "syntax": "=PEARSON(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "NORM.S.INV(p) = -NORM.S.INV(1-p) due to symmetry.",
+      "Common values: 1.645 (90%), 1.96 (95%), 2.576 (99%) for two-tailed confidence.",
+      "Used extensively in the formula for Confidence Intervals: Mean ± Z * (SD/sqrt(n))."
+    ],
+    relatedFunctions: ["NORM.S.DIST", "NORM.INV", "CONFIDENCE.NORM"],
+    miniChallenge: {
+      question: "Find the z-score for a 99% confidence level (two-tailed). Which probability should you input?",
+      expectedAnswer: "0.995 (Result ≈ 2.576)."
+    },
+    practice: {
+      instructions: "In cell B4, find the z-score for a 90% probability.",
+      initialData: [["Probability", 0.9], ["", ""], ["z-score", ""]],
+      targetCell: [2, 1],
+      expectedFormula: "NORM.S.INV(B1)",
+      expectedValue: 1.28155
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "PEARSON Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "pearson",
+    title: "PEARSON Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Measuring Relationships: PEARSON",
+      description: "Returns the Pearson product-moment correlation coefficient, r, a dimensionless index that ranges from -1.0 to 1.0 inclusive.",
+      concept: "It's the 'Teamwork Tracker'. It measures how well two variables move together. If one goes up when the other goes up, it's positive. If they have no pattern, it's zero."
+    },
+    internalLogic: "Calculates r = Σ(x-x̄)(y-ȳ) / √(Σ(x-x̄)² * Σ(y-ȳ)²). This measures the strength of the *linear* relationship between two sets of data.",
+    whyItExists: "Identifying correlations is the first step in predicting outcomes. If study hours and grades have a high Pearson r, we know they are strongly related.",
+    whenToUse: "Use PEARSON to quantify the relationship between two variables, like height vs. weight or advertising spend vs. revenue.",
+    realWorldUseCases: [
+      "Analyzing the relationship between study hours and exam scores.",
+      "Measuring how closely stock prices of two companies move together.",
+      "Checking if temperature correlates with ice cream sales."
+    ],
+    businessExample: {
+      scenario: "Calculate the correlation between study hours (A2:A6) and exam scores (B2:B6).",
+      formula: "=PEARSON(A2:A6, B2:B6)"
+    },
+    syntax: "=PEARSON(array1, array2)",
+    syntaxBreakdown: [
+      { arg: "array1", desc: "A set of independent values (required)." },
+      { arg: "array2", desc: "A set of dependent values (must be same size as array1) (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Study vs Exam Correlation",
+        table: {
+          headers: ["Study Hours (X)", "Exam Score (Y)"],
+          rows: [
+            ["2", "65"],
+            ["4", "75"],
+            ["6", "85"],
+            ["8", "90"],
+            ["10", "95"]
           ]
+        },
+        stepByStep: [
+          "Excel compares each X value to its mean and each Y value to its mean.",
+          "It calculates the degree to which they vary together.",
+          "Result: 0.9934.",
+          "Meaning: Extremely strong positive linear relationship."
         ]
-      },
-      "stepByStep": [
-        "1. Select PEARSON.",
-        "2. Calculate PEARSON."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "PEARSON is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use PEARSON?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use PEARSON on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Correlation vs Causation", desc: "Just because r is high doesn't mean X causes Y. They might both be caused by something else!" },
+      { title: "Size Mismatch", desc: "Both arrays must have the exact same number of data points, or Excel returns #N/A." },
+      { title: "Non-Linear Patterns", desc: "PEARSON only detects straight-line relationships. It might return 0 for a perfect curve (like a circle or U-shape)." }
     ],
-    "expectedFormula": "PEARSON(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "percentile.exc",
-  "title": "PERCENTILE.EXC Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "PERCENTILE.EXC",
-    "description": "Calculate the PERCENTILE.EXC property for data analysis.",
-    "concept": "the PERCENTILE.EXC analyzer"
-  },
-  "whyItExists": "Essential for PERCENTILE.EXC property evaluation.",
-  "whenToUse": "Analyze PERCENTILE.EXC in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform PERCENTILE.EXC on monthly data.",
-    "formula": "=PERCENTILE.EXC(B2:B50)"
-  },
-  "syntax": "=PERCENTILE.EXC(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "PEARSON and CORREL are identical functions in Excel.",
+      "Square the result (r²) to find the 'Coefficient of Determination' (RSQ), which tells you what percentage of the variance is shared.",
+      "Always look at a scatter plot; outliers can artificially inflate or deflate your Pearson r."
+    ],
+    relatedFunctions: ["CORREL", "RSQ", "COVARIANCE.P", "LINEST"],
+    miniChallenge: {
+      question: "Calculate r for: X={1,2,3,4,5}, Y={1,4,9,16,25}. Is it a perfect 1.0?",
+      expectedAnswer: "No (it's ≈ 0.981), because the relationship is a curve (Y=X²), not a perfect straight line."
+    },
+    practice: {
+      instructions: "In cell B8, find the correlation between Temperature (A2:A6) and Sales (B2:B6).",
+      initialData: [["Temp", "Sales"], [70, 50], [75, 65], [80, 80], [85, 95], [90, 110], ["", ""], ["Correlation", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "PEARSON(A2:A6,B2:B6)",
+      expectedValue: 1
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "PERCENTILE.EXC Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "percentile.exc",
+    title: "PERCENTILE.EXC Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Exclusive Percentile: PERCENTILE.EXC",
+      description: "Returns the k-th percentile of values in a range, where k is in the range 0..1, exclusive.",
+      concept: "Think of it as finding the 'cutoff point' for a specific percentage of your data. The exclusive method is preferred by statisticians as it's more conservative at the extremes."
+    },
+    internalLogic: "Uses the (n+1)th method for interpolation. Position = k × (n + 1). If the position is not an integer, Excel interpolates between the adjacent values.",
+    whyItExists: "Businesses need to identify outliers and set benchmarks (e.g., top 10% performance). PERCENTILE.EXC provides a mathematically robust way to find these points.",
+    whenToUse: "Use for professional statistical reporting and when you need to exclude the absolute minimum and maximum from your percentile bounds.",
+    realWorldUseCases: [
+      "Determining the 90th percentile for customer wait times.",
+      "Setting bonus thresholds for the top 25% of sales staff.",
+      "Identifying the first and third quartiles for a box plot (Q1=0.25, Q3=0.75)."
+    ],
+    businessExample: {
+      scenario: "Find the 25th percentile of sales in a list of 10 values.",
+      formula: "=PERCENTILE.EXC(A2:A11, 0.25)"
+    },
+    syntax: "=PERCENTILE.EXC(array, k)",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The range of data you want to analyze (required)." },
+      { arg: "k", desc: "The percentile value between 0 and 1, exclusive (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Interpolated Percentile",
+        table: {
+          headers: ["Value", "Formula", "Result", "Notes"],
+          rows: [
+            ["10, 20, 30, 40, 50, 60, 70, 80, 90, 100", "=PERCENTILE.EXC(A2:A11, 0.25)", "27.5", "Interpolated between 20 and 30"],
+            ["", "=PERCENTILE.EXC(A2:A11, 0.5)", "55", "Median using EXC method"]
           ]
+        },
+        stepByStep: [
+          "Count (n) = 10. Position = 0.25 × (10 + 1) = 2.75.",
+          "Excel looks at the 2nd value (20) and 3rd value (30).",
+          "It calculates 20 + 0.75 × (30 - 20) = 27.5."
         ]
-      },
-      "stepByStep": [
-        "1. Select PERCENTILE.EXC.",
-        "2. Calculate PERCENTILE.EXC."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "PERCENTILE.EXC is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use PERCENTILE.EXC?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use PERCENTILE.EXC on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "k=0 or k=1", desc: "PERCENTILE.EXC returns #NUM! for k=0 or k=1. Use PERCENTILE.INC if you need those values." },
+      { title: "k as whole number", desc: "You must use 0.25, not 25, to represent the 25th percentile." }
     ],
-    "expectedFormula": "PERCENTILE.EXC(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "percentile.inc",
-  "title": "PERCENTILE.INC Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "PERCENTILE.INC",
-    "description": "Calculate the PERCENTILE.INC property for data analysis.",
-    "concept": "the PERCENTILE.INC analyzer"
-  },
-  "whyItExists": "Essential for PERCENTILE.INC property evaluation.",
-  "whenToUse": "Analyze PERCENTILE.INC in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform PERCENTILE.INC on monthly data.",
-    "formula": "=PERCENTILE.INC(B2:B50)"
-  },
-  "syntax": "=PERCENTILE.INC(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "This is the NIST standard for calculating percentiles.",
+      "Always more conservative than the INC method at the top end.",
+      "Compatible with QUARTILE.EXC (Q1 = 0.25, Q2 = 0.5, Q3 = 0.75)."
+    ],
+    relatedFunctions: ["PERCENTILE.INC", "QUARTILE.EXC", "MEDIAN"],
+    miniChallenge: {
+      question: "Find the 90th percentile (exclusive) of: {5,10,15,20,25,30,35,40,45,50}.",
+      expectedAnswer: "Position = 0.9*11 = 9.9. Value = 45 + 0.9*(50-45) = 49.5."
+    },
+    practice: {
+      instructions: "In cell B11, find the 25th percentile (exclusive) of the salaries in B2:B9.",
+      initialData: [["Employee", "Salary"], ["1", 45000], ["2", 52000], ["3", 48000], ["4", 55000], ["5", 62000], ["6", 51000], ["7", 58000], ["8", 49000], ["", ""], ["25th Percentile", ""]],
+      targetCell: [10, 1],
+      expectedFormula: "PERCENTILE.EXC(B2:B9,0.25)",
+      expectedValue: 48250
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "PERCENTILE.INC Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "percentile.inc",
+    title: "PERCENTILE.INC Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Inclusive Percentile: PERCENTILE.INC",
+      description: "Returns the k-th percentile of values in a range, where k is in the range 0..1, inclusive.",
+      concept: "The 'everyday' percentile. Unlike the exclusive version, this one allows you to calculate the 0th percentile (the minimum) and the 100th percentile (the maximum)."
+    },
+    internalLogic: "Uses the (n-1)th method for interpolation. Position = k × (n - 1) + 1. It linearly interpolates between adjacent values.",
+    whyItExists: "Most business reporting and common standardized tests use the inclusive method because it's intuitive and covers the entire data range from min to max.",
+    whenToUse: "Use for standard business KPIs and whenever you need 0% or 100% to be valid inputs.",
+    realWorldUseCases: [
+      "Calculating the median (50th percentile) of a dataset.",
+      "Summarizing test scores where the minimum and maximum must be included.",
+      "Averaging percentiles from different sources."
+    ],
+    businessExample: {
+      scenario: "Find the 25th percentile of sales in a list of 10 values.",
+      formula: "=PERCENTILE.INC(A2:A11, 0.25)"
+    },
+    syntax: "=PERCENTILE.INC(array, k)",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The range of data you want to analyze (required)." },
+      { arg: "k", desc: "The percentile value between 0 and 1, inclusive (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Standard Percentile",
+        table: {
+          headers: ["Value", "k", "Formula", "Result"],
+          rows: [
+            ["10, 20, 30, 40, 50, 60, 70, 80, 90, 100", "0.25", "=PERCENTILE.INC(A2:A11, 0.25)", "32.5"],
+            ["", "0", "=PERCENTILE.INC(A2:A11, 0)", "10 (Min)"],
+            ["", "1", "=PERCENTILE.INC(A2:A11, 1)", "100 (Max)"]
           ]
+        },
+        stepByStep: [
+          "Count (n) = 10. Position = 0.25 × (10 - 1) + 1 = 3.25.",
+          "Excel looks at the 3rd value (30) and 4th value (40).",
+          "It calculates 30 + 0.25 × (40 - 30) = 32.5."
         ]
-      },
-      "stepByStep": [
-        "1. Select PERCENTILE.INC.",
-        "2. Calculate PERCENTILE.INC."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "PERCENTILE.INC is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use PERCENTILE.INC?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use PERCENTILE.INC on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "EXC vs INC", desc: "Forgetting that INC and EXC give different results for the same k. INC is generally 'tighter'." },
+      { title: "Input Format", desc: "Entering k as 25 instead of 0.25." }
     ],
-    "expectedFormula": "PERCENTILE.INC(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "percentrank.exc",
-  "title": "PERCENTRANK.EXC Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "PERCENTRANK.EXC",
-    "description": "Calculate the PERCENTRANK.EXC property for data analysis.",
-    "concept": "the PERCENTRANK.EXC analyzer"
-  },
-  "whyItExists": "Essential for PERCENTRANK.EXC property evaluation.",
-  "whenToUse": "Analyze PERCENTRANK.EXC in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform PERCENTRANK.EXC on monthly data.",
-    "formula": "=PERCENTRANK.EXC(B2:B50)"
-  },
-  "syntax": "=PERCENTRANK.EXC(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "PERCENTILE.INC(array, 0.5) is exactly the same as MEDIAN(array).",
+      "This function is compatible with older versions of Excel (the original PERCENTILE function).",
+      "Use this for 'Five-Number Summaries' in finance."
+    ],
+    relatedFunctions: ["PERCENTILE.EXC", "QUARTILE.INC", "MEDIAN"],
+    miniChallenge: {
+      question: "Find the 0th, 50th, and 100th percentiles of {12, 8, 15, 20, 10}.",
+      expectedAnswer: "8, 12, and 20."
+    },
+    practice: {
+      instructions: "In cell B11, find the 90th percentile (inclusive) of the test scores in B2:B9.",
+      initialData: [["Student", "Score"], ["1", 72], ["2", 85], ["3", 68], ["4", 91], ["5", 78], ["6", 88], ["7", 95], ["8", 74], ["", ""], ["90th Percentile", ""]],
+      targetCell: [10, 1],
+      expectedFormula: "PERCENTILE.INC(B2:B9,0.9)",
+      expectedValue: 92.2
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "PERCENTRANK.EXC Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "percentrank.exc",
+    title: "PERCENTRANK.EXC Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Relative Exclusive Rank: PERCENTRANK.EXC",
+      description: "Returns the rank of a value in a data set as a percentage (0..1, exclusive) of the data set.",
+      concept: "It's the reverse of the percentile function. Instead of 'What score is at 90%?', you ask 'What is the percentile rank of this specific score?' The exclusive method excludes the floor and ceiling from the calculation."
+    },
+    internalLogic: "Uses the (n+1) method: position/(n+1). If x is not in the array, Excel interpolates to find the rank.",
+    whyItExists: "Crucial for identifying where a specific data point falls relative to the rest of the group in a robust statistical way.",
+    whenToUse: "Use for standardized rankings where you want to avoid giving the top value a rank of exactly 1.0 (100%).",
+    realWorldUseCases: [
+      "Determining the percentile rank of a student's SAT score.",
+      "Finding where a company's profit margin sits compared to competitors.",
+      "Analyzing sensor data to find if a reading is unusually high or low."
+    ],
+    businessExample: {
+      scenario: "Find the percentage rank of the value 40 in a set of 6 numbers.",
+      formula: "=PERCENTRANK.EXC(A2:A7, 40)"
+    },
+    syntax: "=PERCENTRANK.EXC(array, x, [significance])",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The range of data (required)." },
+      { arg: "x", desc: "The value you want to rank (required)." },
+      { arg: "significance", desc: "The number of decimal places for the result (optional, defaults to 3)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Percent Rank Search",
+        table: {
+          headers: ["Data", "Target (x)", "Formula", "Result"],
+          rows: [
+            ["15, 25, 35, 45, 55, 65", "40", "=PERCENTRANK.EXC(A2:A7, 40)", "0.428"],
+            ["", "55", "=PERCENTRANK.EXC(A2:A7, 55)", "0.714"]
           ]
+        },
+        stepByStep: [
+          "Data count (n) = 6.",
+          "For x=40, Excel interpolates between the rank of 35 and 45.",
+          "Result: 0.4286 (rounded to 0.428 by default significance)."
         ]
-      },
-      "stepByStep": [
-        "1. Select PERCENTRANK.EXC.",
-        "2. Calculate PERCENTRANK.EXC."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "PERCENTRANK.EXC is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use PERCENTRANK.EXC?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use PERCENTRANK.EXC on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Out of range", desc: "If x is smaller than the minimum or larger than the maximum in the array, Excel returns #N/A." },
+      { title: "Significance", desc: "Forgetting that significance controls the display: 0.42 might be returned instead of 0.4286 if significance is set to 2." }
     ],
-    "expectedFormula": "PERCENTRANK.EXC(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "percentrank.inc",
-  "title": "PERCENTRANK.INC Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "PERCENTRANK.INC",
-    "description": "Calculate the PERCENTRANK.INC property for data analysis.",
-    "concept": "the PERCENTRANK.INC analyzer"
-  },
-  "whyItExists": "Essential for PERCENTRANK.INC property evaluation.",
-  "whenToUse": "Analyze PERCENTRANK.INC in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform PERCENTRANK.INC on monthly data.",
-    "formula": "=PERCENTRANK.INC(B2:B50)"
-  },
-  "syntax": "=PERCENTRANK.INC(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Use this when you want a more 'statistical' rank that doesn't reach 0 or 1.",
+      "If you need exactly 0 for min and 1 for max, use PERCENTRANK.INC.",
+      "This function is the inverse of PERCENTILE.EXC."
+    ],
+    relatedFunctions: ["PERCENTRANK.INC", "PERCENTILE.EXC", "RANK.EQ"],
+    miniChallenge: {
+      question: "What's the percent rank of 30 in {10, 20, 30, 40, 50}?",
+      expectedAnswer: "0.5 (Position 3 out of 5+1 gaps)."
+    },
+    practice: {
+      instructions: "In cell B10, find the percent rank (exclusive) of the value 53 in the stock price list.",
+      initialData: [["Stock Price", ""], [52, ""], [58, ""], [45, ""], [62, ""], [48, ""], [55, ""], [60, ""], ["", ""], ["% Rank of 53", ""]],
+      targetCell: [9, 1],
+      expectedFormula: "PERCENTRANK.EXC(B2:B8,53)",
+      expectedValue: 0.5
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "PERCENTRANK.INC Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "percentrank.inc",
+    title: "PERCENTRANK.INC Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Relative Inclusive Rank: PERCENTRANK.INC",
+      description: "Returns the rank of a value in a data set as a percentage (0..1, inclusive) of the data set.",
+      concept: "The 'intuitive' rank. If you have the lowest score, your rank is 0%. If you have the highest, it's 100%. It tells you exactly what percentage of the group you are equal to or better than."
+    },
+    internalLogic: "Uses the (n-1) method: rank / (n-1). It interpolates for values that are not exactly present in the array.",
+    whyItExists: "Standard in business and education for simple percentile ranking (e.g., 'scored in the 99th percentile').",
+    whenToUse: "Use for customer segment rankings, performance reporting, and whenever 0% and 100% are meaningful bounds.",
+    realWorldUseCases: [
+      "Ranking sales performance where top is 100%.",
+      "Identifying the percentile of a specific customer's spending.",
+      "Standardizing metrics across different departments."
+    ],
+    businessExample: {
+      scenario: "Find the percentage rank of 15 in a set where 15 is the minimum value.",
+      formula: "=PERCENTRANK.INC(A2:A7, 15)"
+    },
+    syntax: "=PERCENTRANK.INC(array, x, [significance])",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The range of data (required)." },
+      { arg: "x", desc: "The value you want to rank (required)." },
+      { arg: "significance", desc: "The number of decimal places (optional)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Standard Rankings",
+        table: {
+          headers: ["Data", "Target (x)", "Formula", "Result"],
+          rows: [
+            ["15, 25, 35, 45, 55, 65", "15", "=PERCENTRANK.INC(A2:A7, 15)", "0.000"],
+            ["", "40", "=PERCENTRANK.INC(A2:A7, 40)", "0.416"]
           ]
+        },
+        stepByStep: [
+          "For x=15 (the minimum), the rank is exactly 0.",
+          "For x=40, it sits between 35 and 45. Rank = 2.5 / (6-1) = 0.4166.",
+          "Result: 0.416."
         ]
-      },
-      "stepByStep": [
-        "1. Select PERCENTRANK.INC.",
-        "2. Calculate PERCENTRANK.INC."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "PERCENTRANK.INC is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use PERCENTRANK.INC?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use PERCENTRANK.INC on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "EXC vs INC", desc: "Choosing the wrong method can change a 'top 10%' ranking significantly." },
+      { title: "Sample Size", desc: "Small samples give large jumps in rank (e.g., with only 2 items, you are either 0% or 100%)." }
     ],
-    "expectedFormula": "PERCENTRANK.INC(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "permut",
-  "title": "PERMUT Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "PERMUT",
-    "description": "Calculate the PERMUT property for data analysis.",
-    "concept": "the PERMUT analyzer"
-  },
-  "whyItExists": "Essential for PERMUT property evaluation.",
-  "whenToUse": "Analyze PERMUT in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform PERMUT on monthly data.",
-    "formula": "=PERMUT(B2:B50)"
-  },
-  "syntax": "=PERMUT(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Inverse of the PERCENTILE.INC function.",
+      "The default significance is 3, meaning results like 0.123 are common.",
+      "This is the behavior of the legacy PERCENTRANK function."
+    ],
+    relatedFunctions: ["PERCENTRANK.EXC", "PERCENTILE.INC", "RANK.EQ"],
+    miniChallenge: {
+      question: "Percent rank of 75 in {50, 60, 70, 80, 90} using INC method?",
+      expectedAnswer: "0.625."
+    },
+    practice: {
+      instructions: "In cell B10, find the percent rank (inclusive) of the sales amount 140.",
+      initialData: [["Employee", "Sales"], ["A", 120], ["B", 150], ["C", 95], ["D", 180], ["E", 135], ["F", 165], ["", ""], ["%Rank of 140", ""]],
+      targetCell: [9, 1],
+      expectedFormula: "PERCENTRANK.INC(B2:B7,140)",
+      expectedValue: 0.533
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "PERMUT Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "permut",
+    title: "PERMUT Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Arrangements: PERMUT",
+      description: "Returns the number of permutations for a given number of objects that can be selected from a total number of objects.",
+      concept: "Think of it as 'Arranging items where order matters'. If you have 10 books and room for 3 on a shelf, how many distinct ways can you line them up?"
+    },
+    internalLogic: "Uses the formula: P(n,k) = n! / (n-k)!. It assumes sampling without replacement (you can't pick the same object twice).",
+    whyItExists: "Crucial for probability and combinatorial optimization where the sequence is important.",
+    whenToUse: "Use PERMUT for lottery odds (where order matters), race finish positions, or seating arrangements.",
+    realWorldUseCases: [
+      "Calculating ways to assign Gold, Silver, and Bronze medals among 8 athletes.",
+      "Finding permutations of characters in a password with no repeats.",
+      "Determining the number of ways to pick a President, VP, and Secretary from a group."
+    ],
+    businessExample: {
+      scenario: "Find the number of ways to arrange 3 items from a set of 8.",
+      formula: "=PERMUT(8, 3)"
+    },
+    syntax: "=PERMUT(number, number_chosen)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "Total number of objects (must be an integer ≥ 0)." },
+      { arg: "number_chosen", desc: "Number of objects in each permutation (must be an integer, 0 ≤ k ≤ n)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Medal Winners",
+        table: {
+          headers: ["Total (n)", "Chosen (k)", "Formula", "Ways"],
+          rows: [
+            ["8", "3", "=PERMUT(8, 3)", "336"]
           ]
+        },
+        stepByStep: [
+          "8 objects, 3 spots to fill.",
+          "Ways: 8 × 7 × 6 = 336.",
+          "Result: 336."
         ]
-      },
-      "stepByStep": [
-        "1. Select PERMUT.",
-        "2. Calculate PERMUT."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "PERMUT is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use PERMUT?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use PERMUT on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Order Matters", desc: "If order DOES NOT matter, use COMBIN. PERMUT gives a much larger number." },
+      { title: "Size limit", desc: "k cannot be larger than n." }
     ],
-    "expectedFormula": "PERMUT(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "permutationa",
-  "title": "PERMUTATIONA Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "PERMUTATIONA",
-    "description": "Calculate the PERMUTATIONA property for data analysis.",
-    "concept": "the PERMUTATIONA analyzer"
-  },
-  "whyItExists": "Essential for PERMUTATIONA property evaluation.",
-  "whenToUse": "Analyze PERMUTATIONA in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform PERMUTATIONA on monthly data.",
-    "formula": "=PERMUTATIONA(B2:B50)"
-  },
-  "syntax": "=PERMUTATIONA(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "PERMUT(n, n) is the same as FACT(n).",
+      "For password logic, PERMUT is for unique characters; PERMUTATIONA is for repeated ones.",
+      "Non-integers are truncated automatically."
+    ],
+    relatedFunctions: ["COMBIN", "PERMUTATIONA", "FACT"],
+    miniChallenge: {
+      question: "How many 4-letter arrangements from 26 distinct letters?",
+      expectedAnswer: "=PERMUT(26, 4) = 358,800."
+    },
+    practice: {
+      instructions: "In cell B4, calculate arrangements of 4 items from 15 using PERMUT.",
+      initialData: [["Total", 15], ["Chosen", 4], ["", ""], ["PERMUT", ""]],
+      targetCell: [3, 1],
+      expectedFormula: "PERMUT(B1,B2)",
+      expectedValue: 32760
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "PERMUTATIONA Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "permutationa",
+    title: "PERMUTATIONA Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Arrangements with Repeats: PERMUTATIONA",
+      description: "Returns the number of permutations for a given number of objects (with repetition) that can be selected from the total objects.",
+      concept: "The 'PIN Code' logic. If you can use the same number twice (like 1111), you use PERMUTATIONA. Order still matters, but items can repeat."
+    },
+    internalLogic: "Uses the formula: n^k. Each of the k positions has n possible choices.",
+    whyItExists: "Essential for calculating all possible outcomes in systems where repetition is allowed, such as digital codes and genetics.",
+    whenToUse: "Use for lock combinations, license plate possibilities, or any sampling with replacement scenario.",
+    realWorldUseCases: [
+      "Calculating possible 4-digit ATM PINs (10,000).",
+      "Finding total possible outcomes for multiple dice rolls.",
+      "Determining maximum possible unique IDs of a fixed length."
+    ],
+    businessExample: {
+      scenario: "Find the total possible 3-position arrangements of 5 items where repeats are allowed.",
+      formula: "=PERMUTATIONA(5, 3)"
+    },
+    syntax: "=PERMUTATIONA(number, number_chosen)",
+    syntaxBreakdown: [
+      { arg: "number", desc: "Total number of objects (n)." },
+      { arg: "number_chosen", desc: "Number of objects in each arrangement (k)." }
+    ],
+    detailedExamples: [
+      {
+        title: "PIN Possibilities",
+        table: {
+          headers: ["n (Options)", "k (Length)", "Formula", "Total"],
+          rows: [
+            ["10", "4", "=PERMUTATIONA(10, 4)", "10,000"],
+            ["5", "3", "=PERMUTATIONA(5, 3)", "125"]
           ]
+        },
+        stepByStep: [
+          "Length 3, each position has 5 options.",
+          "Calculation: 5 × 5 × 5 = 5³ = 125.",
+          "Result: 125."
         ]
-      },
-      "stepByStep": [
-        "1. Select PERMUTATIONA.",
-        "2. Calculate PERMUTATIONA."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "PERMUTATIONA is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use PERMUTATIONA?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use PERMUTATIONA on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "PERMUT vs PERMUTATIONA", desc: "If you can't repeat items, PERMUTATIONA will vastly overestimate the possibilities." },
+      { title: "Sampling logic", desc: "Confusing combinations with permutations; PERMUTATIONA counts {A,B} and {B,A} as distinct." }
     ],
-    "expectedFormula": "PERMUTATIONA(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "phi",
-  "title": "PHI Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "PHI",
-    "description": "Calculate the PHI property for data analysis.",
-    "concept": "the PHI analyzer"
-  },
-  "whyItExists": "Essential for PHI property evaluation.",
-  "whenToUse": "Analyze PHI in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform PHI on monthly data.",
-    "formula": "=PHI(B2:B50)"
-  },
-  "syntax": "=PHI(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Equivalent to =number^number_chosen.",
+      "Used in information theory to calculate possible bit strings.",
+      "Handy for 'sampling with replacement' scenarios."
+    ],
+    relatedFunctions: ["PERMUT", "COMBINA", "POWER"],
+    miniChallenge: {
+      question: "How many 3-digit codes using digits 0-9 (repetition allowed)?",
+      expectedAnswer: "1,000 (10^3)."
+    },
+    practice: {
+      instructions: "In cell B4, find total 3-character arrangements from 26 characters (repeats allowed).",
+      initialData: [["Chars", 26], ["Length", 3], ["", ""], ["PERMUTATIONA", ""]],
+      targetCell: [3, 1],
+      expectedFormula: "PERMUTATIONA(B1,B2)",
+      expectedValue: 17576
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "PHI Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "phi",
+    title: "PHI Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 250,
+    introduction: {
+      title: "Normal Density: PHI",
+      description: "Returns the value of the density function for a standard normal distribution.",
+      concept: "It tells you the 'Height' of the bell curve at a specific point. While cumulative functions tell you the area, PHI tells you exactly how high the line is at that point."
+    },
+    internalLogic: "Calculates φ(x) = (1/√(2π)) × e^(-x²/2). This is the probability density function (PDF) for a standard normal distribution.",
+    whyItExists: "Necessary for plotting normal curves and calculating densities in advanced statistical formulas.",
+    whenToUse: "Use PHI to find the likelihood of a value occurring in a standard normal distribution or for graphical modeling of the bell curve.",
+    realWorldUseCases: [
+      "Generating data points for a smooth bell curve chart.",
+      "Calculating the likelihood ratio in hypothesis testing.",
+      "Advanced risk assessments where exact density at a point is needed."
+    ],
+    businessExample: {
+      scenario: "Find the height of the standard normal curve at x=1.",
+      formula: "=PHI(1)"
+    },
+    syntax: "=PHI(x)",
+    syntaxBreakdown: [
+      { arg: "x", desc: "The number for which you want the density of the standard normal distribution (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Bell Curve Heights",
+        table: {
+          headers: ["x", "Formula", "Result", "Note"],
+          rows: [
+            ["0", "=PHI(0)", "0.3989", "Maximum height (the peak)"],
+            ["1", "=PHI(1)", "0.2420", ""],
+            ["2", "=PHI(2)", "0.0540", "Tails are very low"]
           ]
+        },
+        stepByStep: [
+          "For x=0: Excel calculates 1/sqrt(2π) ≈ 0.3989.",
+          "Result: 0.3989."
         ]
-      },
-      "stepByStep": [
-        "1. Select PHI.",
-        "2. Calculate PHI."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "PHI is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use PHI?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use PHI on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Probability vs Density", desc: "Density is NOT probability. It can even be greater than 1 for non-standard distributions (though not for PHI which is standard)." },
+      { title: "Cumulative confusion", desc: "Confusing PHI with NORM.S.DIST(z, TRUE). PHI is equivalent to NORM.S.DIST(z, FALSE)." }
     ],
-    "expectedFormula": "PHI(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "poisson.dist",
-  "title": "POISSON.DIST Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "POISSON.DIST",
-    "description": "Calculate the POISSON.DIST property for data analysis.",
-    "concept": "the POISSON.DIST analyzer"
-  },
-  "whyItExists": "Essential for POISSON.DIST property evaluation.",
-  "whenToUse": "Analyze POISSON.DIST in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform POISSON.DIST on monthly data.",
-    "formula": "=POISSON.DIST(B2:B50)"
-  },
-  "syntax": "=POISSON.DIST(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "PHI(z) = NORM.S.DIST(z, FALSE).",
+      "The density is symmetric: PHI(-x) = PHI(x).",
+      "Maximum value is at 0 (≈ 0.3989)."
+    ],
+    relatedFunctions: ["NORM.S.DIST", "GAUSS"],
+    miniChallenge: {
+      question: "Compare PHI(0) and PHI(2). Which is larger and why?",
+      expectedAnswer: "PHI(0) is larger because it is the peak of the bell curve."
+    },
+    practice: {
+      instructions: "In cell B4, find the density for a z-score of 1.5.",
+      initialData: [["z", 1.5], ["", ""], ["PHI", ""]],
+      targetCell: [2, 1],
+      expectedFormula: "PHI(B1)",
+      expectedValue: 0.12952
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "POISSON.DIST Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "poisson.dist",
+    title: "POISSON.DIST Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Count of Rare Events: POISSON.DIST",
+      description: "Returns the Poisson distribution. A common application of the Poisson distribution is predicting the number of events over a specific time, such as the number of cars arriving at a toll plaza in 1 minute.",
+      concept: "Think of it as the 'Arrivals Calculator'. If you know things happen at an average rate (like 4 calls per hour), POISSON.DIST tells you how likely it is to get exactly 3, or at most 5."
+    },
+    internalLogic: "Models the count of independent events occurring at a constant rate in a fixed interval. PMF: P(X=k) = (e^(-λ)×λ^k)/k!. Mean = Variance = λ.",
+    whyItExists: "Standard probability models fail for 'counts' in continuous intervals. Poisson is the mathematical gold standard for modeling arrivals and rare occurrences.",
+    whenToUse: "Use for modeling queues, customer arrivals, defect counts on a production line, or radioactive decay.",
+    realWorldUseCases: [
+      "Predicting number of website crashes per month.",
+      "Estimating inventory needs based on daily customer arrival rates.",
+      "Calculating the risk of rare medical occurrences in a population."
+    ],
+    businessExample: {
+      scenario: "Find the probability of exactly 3 calls arriving in an hour where the average rate is 4 per hour.",
+      formula: "=POISSON.DIST(3, 4, FALSE)"
+    },
+    syntax: "=POISSON.DIST(x, mean, cumulative)",
+    syntaxBreakdown: [
+      { arg: "x", desc: "The number of events (must be a non-negative integer) (required)." },
+      { arg: "mean", desc: "The expected numeric value (average rate) (required)." },
+      { arg: "cumulative", desc: "TRUE for cumulative distribution (at most x events); FALSE for probability mass function (exactly x events)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Call Center Arrivals",
+        table: {
+          headers: ["x (Events)", "λ (Mean Rate)", "Cumulative", "Result"],
+          rows: [
+            ["3", "4", "FALSE", "0.1954"],
+            ["3", "4", "TRUE", "0.4335"]
           ]
+        },
+        stepByStep: [
+          "Average λ = 4 calls per hour.",
+          "For x=3 (FALSE), P(X=3) = e^(-4)×4³/3! ≈ 0.1954.",
+          "For x=3 (TRUE), P(X≤3) = P(0)+P(1)+P(2)+P(3) ≈ 0.4335."
         ]
-      },
-      "stepByStep": [
-        "1. Select POISSON.DIST.",
-        "2. Calculate POISSON.DIST."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "POISSON.DIST is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use POISSON.DIST?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use POISSON.DIST on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Mean Rate Error", desc: "Ensure your mean rate is for the SAME time interval as your x value." },
+      { title: "Dependency", desc: "Using Poisson when events are not independent (e.g., people arriving in groups)." },
+      { title: "Non-positive Mean", desc: "The mean must be greater than zero." }
     ],
-    "expectedFormula": "POISSON.DIST(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "prob",
-  "title": "PROB Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "PROB",
-    "description": "Calculate the PROB property for data analysis.",
-    "concept": "the PROB analyzer"
-  },
-  "whyItExists": "Essential for PROB property evaluation.",
-  "whenToUse": "Analyze PROB in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform PROB on monthly data.",
-    "formula": "=PROB(B2:B50)"
-  },
-  "syntax": "=PROB(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Use for rare event counts: accidents, arrivals, defects.",
+      "If the mean (λ) is large (e.g., >20), the Poisson distribution looks like a Normal distribution.",
+      "To find the probability of 'more than k' events, use =1 - POISSON.DIST(k, λ, TRUE)."
+    ],
+    relatedFunctions: ["BINOM.DIST", "NORM.DIST", "EXPON.DIST"],
+    miniChallenge: {
+      question: "A store averages 2 customers per minute. What's the probability of exactly 0 customers in the next minute?",
+      expectedAnswer: "≈ 0.135 (calculated as =POISSON.DIST(0, 2, FALSE))."
+    },
+    practice: {
+      instructions: "In cell B8, calculate the probability of exactly 2 events when the average is 5.",
+      initialData: [["Parameter", "Value"], ["x", 2], ["Mean", 5], ["Cumulative", "FALSE"], ["", ""], ["P(X=2)", ""], ["P(X≤2)", ""]],
+      targetCell: [5, 1],
+      expectedFormula: "POISSON.DIST(B2,B3,FALSE)",
+      expectedValue: 0.08422
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "PROB Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "prob",
+    title: "PROB Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 250,
+    introduction: {
+      title: "Custom Range Probability: PROB",
+      description: "Returns the probability that values in a range are between two limits.",
+      concept: "Think of it as a 'Probability Adder'. If you have a list of possible outcomes (like dice rolls) and their odds, PROB adds them up for any range you specify."
+    },
+    internalLogic: "Sums the probabilities for all values in x_range that satisfy: lower_limit ≤ value ≤ upper_limit.",
+    whyItExists: "When dealing with discrete custom distributions (not standard ones like Normal or Poisson), you need a way to sum probabilities for specific segments.",
+    whenToUse: "Use PROB when you have a set of unique outcomes and their known probabilities and want to find the likelihood of a range of results.",
+    realWorldUseCases: [
+      "Calculating the chance of a project cost falling between two budget points.",
+      "Finding the probability of a shipment containing between 5 and 10 items based on history.",
+      "Estimating the likelihood of daily temperatures falling in a specific range."
+    ],
+    businessExample: {
+      scenario: "Find the probability of a value being between 20 and 40 based on a custom discrete distribution.",
+      formula: "=PROB(A2:A5, B2:B5, 20, 40)"
+    },
+    syntax: "=PROB(x_range, prob_range, lower_limit, [upper_limit])",
+    syntaxBreakdown: [
+      { arg: "x_range", desc: "The range of numeric independent variables (required)." },
+      { arg: "prob_range", desc: "A set of probabilities associated with values in x_range (required, sum must equal 1)." },
+      { arg: "lower_limit", desc: "The lower bound for which you want a probability (required)." },
+      { arg: "upper_limit", desc: "Optional. The upper bound. If omitted, PROB returns the probability of exactly lower_limit." }
+    ],
+    detailedExamples: [
+      {
+        title: "Discrete Event Probabilities",
+        table: {
+          headers: ["Value (X)", "Probability", "Range to Test", "Result"],
+          rows: [
+            ["10", "0.2", "20 to 40", "0.8"],
+            ["20", "0.3", "", ""],
+            ["30", "0.4", "", ""],
+            ["40", "0.1", "", ""]
           ]
+        },
+        stepByStep: [
+          "Target range: [20, 40].",
+          "Excel identifies values in range: 20 (0.3), 30 (0.4), 40 (0.1).",
+          "Sums probabilities: 0.3 + 0.4 + 0.1 = 0.8.",
+          "Result: 0.8."
         ]
-      },
-      "stepByStep": [
-        "1. Select PROB.",
-        "2. Calculate PROB."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "PROB is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use PROB?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use PROB on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Sum is not 1", desc: "If the probabilities in prob_range don't sum to 1, Excel returns #NUM!." },
+      { title: "Range Size", desc: "x_range and prob_range must be the exact same size." },
+      { title: "Negative Probabilities", desc: "If any probability is ≤ 0 or > 1, returns #NUM!." }
     ],
-    "expectedFormula": "PROB(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "quartile.exc",
-  "title": "QUARTILE.EXC Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "QUARTILE.EXC",
-    "description": "Calculate the QUARTILE.EXC property for data analysis.",
-    "concept": "the QUARTILE.EXC analyzer"
-  },
-  "whyItExists": "Essential for QUARTILE.EXC property evaluation.",
-  "whenToUse": "Analyze QUARTILE.EXC in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform QUARTILE.EXC on monthly data.",
-    "formula": "=QUARTILE.EXC(B2:B50)"
-  },
-  "syntax": "=QUARTILE.EXC(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Always verify that =SUM(prob_range) is 1.0.",
+      "Use PROB to find probabilities for non-standard, empirical data gathered from observations.",
+      "Combine with SUMPRODUCT(x_range, prob_range) to find the Expected Value (mean) of the distribution."
+    ],
+    relatedFunctions: ["SUMIF", "COUNTIF", "SUMPRODUCT"],
+    miniChallenge: {
+      question: "Values {1,2,3,4} with probabilities {0.1,0.2,0.3,0.4}. What is P(2 ≤ X ≤ 3)?",
+      expectedAnswer: "0.5 (0.2 + 0.3)."
+    },
+    practice: {
+      instructions: "In cell B8, find the probability that the outcome is between 200 and 350 inclusive.",
+      initialData: [["Outcome", "Prob"], [100, 0.15], [200, 0.35], [300, 0.3], [400, 0.2], ["", ""], ["P(X=200)", ""], ["P(200<=X<=350)", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "PROB(A2:A5,B2:B5,200,350)",
+      expectedValue: 0.65
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "QUARTILE.EXC Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "quartile.exc",
+    title: "QUARTILE.EXC Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Exclusive Quartiles: QUARTILE.EXC",
+      description: "Returns the quartile of a data set, based on percentile values from 0..1, exclusive.",
+      concept: "Think of it as slicing your data into four equal groups. The 'exclusive' method is the professional choice for identifying the 'middle 50%' of a dataset without including the very ends."
+    },
+    internalLogic: "Uses (n+1) interpolation. Position for Q1 = 0.25*(n+1), Q2 = 0.5*(n+1), Q3 = 0.75*(n+1).",
+    whyItExists: "Businesses use quartiles to categorize performance (e.g., 'Top Quartile' employees) and to build box-and-whisker plots.",
+    whenToUse: "Use for box-plot analysis and whenever you want a conservative estimate of the data splits that excludes the extremes.",
+    realWorldUseCases: [
+      "Categorizing students into performance quartiles.",
+      "Analyzing the spread of household income.",
+      "Determining the 'Interquartile Range' (IQR) to identify outliers."
+    ],
+    businessExample: {
+      scenario: "Find the first and third quartiles for a list of 10 sales values.",
+      formula: "=QUARTILE.EXC(A2:A11, 1)"
+    },
+    syntax: "=QUARTILE.EXC(array, quart)",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The range of numeric values to analyze (required)." },
+      { arg: "quart", desc: "The quartile to return: 1 (25th percentile), 2 (median), or 3 (75th percentile) (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Exclusive Slicing",
+        table: {
+          headers: ["Data", "Quartile", "Formula", "Result"],
+          rows: [
+            ["10 to 100 (steps of 10)", "1", "=QUARTILE.EXC(A2:A11, 1)", "27.5"],
+            ["", "3", "=QUARTILE.EXC(A2:A11, 3)", "82.5"]
           ]
+        },
+        stepByStep: [
+          "n=10. For Q1: position = 0.25 * 11 = 2.75.",
+          "Excel interpolates between the 2nd (20) and 3rd (30) values.",
+          "Result: 27.5."
         ]
-      },
-      "stepByStep": [
-        "1. Select QUARTILE.EXC.",
-        "2. Calculate QUARTILE.EXC."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "QUARTILE.EXC is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use QUARTILE.EXC?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use QUARTILE.EXC on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Input 0 or 4", desc: "Unlike QUARTILE.INC, the EXC version returns #NUM! for 0 (Min) and 4 (Max)." },
+      { title: "Small Data", desc: "If you have fewer than 3 values, QUARTILE.EXC may return #NUM! because there isn't enough data to 'exclude' the ends." }
     ],
-    "expectedFormula": "QUARTILE.EXC(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "quartile.inc",
-  "title": "QUARTILE.INC Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "QUARTILE.INC",
-    "description": "Calculate the QUARTILE.INC property for data analysis.",
-    "concept": "the QUARTILE.INC analyzer"
-  },
-  "whyItExists": "Essential for QUARTILE.INC property evaluation.",
-  "whenToUse": "Analyze QUARTILE.INC in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform QUARTILE.INC on monthly data.",
-    "formula": "=QUARTILE.INC(B2:B50)"
-  },
-  "syntax": "=QUARTILE.INC(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "QUARTILE.EXC(array, 2) is the same as MEDIAN(array).",
+      "This method is consistent with PERCENTILE.EXC.",
+      "Use this for Tukey-style box plots."
+    ],
+    relatedFunctions: ["QUARTILE.INC", "MEDIAN", "PERCENTILE.EXC"],
+    miniChallenge: {
+      question: "Find Q1 and Q3 using EXC for: {5, 10, 15, 20, 25, 30, 35, 40}.",
+      expectedAnswer: "Q1 = 11.25; Q3 = 33.75."
+    },
+    practice: {
+      instructions: "In cell B11, find the 1st quartile (exclusive) for the revenue data in B2:B9.",
+      initialData: [["Month", "Revenue ($K)"], ["1", 150], ["2", 200], ["3", 250], ["4", 300], ["5", 350], ["6", 400], ["7", 450], ["8", 500], ["", ""], ["Q1 (EXC)", ""]],
+      targetCell: [10, 1],
+      expectedFormula: "QUARTILE.EXC(B2:B9,1)",
+      expectedValue: 212.5
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "QUARTILE.INC Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "quartile.inc",
+    title: "QUARTILE.INC Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Inclusive Quartiles: QUARTILE.INC",
+      description: "Returns the quartile of a data set, based on percentile values from 0..1, inclusive.",
+      concept: "The 'Classic' quartile. It divides your data into four groups, but it includes the absolute floor (0) and ceiling (4) as valid options. It's the most common way to summarize data distribution."
+    },
+    internalLogic: "Uses (n-1) interpolation. Position = quart/4 * (n-1) + 1.",
+    whyItExists: "To provide a complete 'Five-Number Summary' (Min, Q1, Median, Q3, Max) in one function.",
+    whenToUse: "Use for general business summaries, legacy spreadsheet compatibility, and when you need the 0th or 100th percentile.",
+    realWorldUseCases: [
+      "Summarizing quarterly test results.",
+      "Finding the minimum and maximum alongside quartiles.",
+      "Analyzing general market surveys."
+    ],
+    businessExample: {
+      scenario: "Find the median (2nd quartile) of a list of 10 values.",
+      formula: "=QUARTILE.INC(A2:A11, 2)"
+    },
+    syntax: "=QUARTILE.INC(array, quart)",
+    syntaxBreakdown: [
+      { arg: "array", desc: "The range of numeric values (required)." },
+      { arg: "quart", desc: "The value to return: 0 (Min), 1 (25th %), 2 (Median), 3 (75th %), 4 (Max) (required)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Complete Summary",
+        table: {
+          headers: ["Quartile", "Description", "Formula", "Result"],
+          rows: [
+            ["0", "Minimum", "=QUARTILE.INC(A2:A11, 0)", "10"],
+            ["2", "Median", "=QUARTILE.INC(A2:A11, 2)", "55"],
+            ["4", "Maximum", "=QUARTILE.INC(A2:A11, 4)", "100"]
           ]
+        },
+        stepByStep: [
+          "n=10. For Q2: position = 0.5 * 9 + 1 = 5.5.",
+          "Excel averages the 5th (50) and 6th (60) values.",
+          "Result: 55."
         ]
-      },
-      "stepByStep": [
-        "1. Select QUARTILE.INC.",
-        "2. Calculate QUARTILE.INC."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "QUARTILE.INC is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use QUARTILE.INC?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use QUARTILE.INC on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "INC vs EXC", desc: "Forgetting that INC gives different (usually tighter) results than EXC for the same data." },
+      { title: "Data type", desc: "Non-numeric values in the array cause #VALUE!." }
     ],
-    "expectedFormula": "QUARTILE.INC(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "rank.avg",
-  "title": "RANK.AVG Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "RANK.AVG",
-    "description": "Calculate the RANK.AVG property for data analysis.",
-    "concept": "the RANK.AVG analyzer"
-  },
-  "whyItExists": "Essential for RANK.AVG property evaluation.",
-  "whenToUse": "Analyze RANK.AVG in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform RANK.AVG on monthly data.",
-    "formula": "=RANK.AVG(B2:B50)"
-  },
-  "syntax": "=RANK.AVG(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "QUARTILE.INC is the modern replacement for the legacy QUARTILE function.",
+      "It always works even with small datasets (as few as 1 value).",
+      "Handy for creating tiered rankings (e.g., 0-1, 1-2, 2-3, 3-4)."
+    ],
+    relatedFunctions: ["QUARTILE.EXC", "PERCENTILE.INC", "MIN", "MAX"],
+    miniChallenge: {
+      question: "Find all five quartiles (0,1,2,3,4) for {3, 7, 8, 12, 15, 18, 21}.",
+      expectedAnswer: "3, 7.5, 12, 16.5, 21."
+    },
+    practice: {
+      instructions: "In cell B11, find the 3rd quartile (inclusive) for the test scores in B2:B9.",
+      initialData: [["Student", "Score"], ["1", 65], ["2", 72], ["3", 78], ["4", 81], ["5", 85], ["6", 89], ["7", 92], ["8", 95], ["", ""], ["Q3 (INC)", ""]],
+      targetCell: [10, 1],
+      expectedFormula: "QUARTILE.INC(B2:B9,3)",
+      expectedValue: 90.5
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "RANK.AVG Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "rank.avg",
+    title: "RANK.AVG Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 300,
+    introduction: {
+      title: "Fair Tie-Breaking: RANK.AVG",
+      description: "Returns the rank of a number in a list of numbers: its size relative to other values in the list. If more than one value has the same rank, the average rank is returned.",
+      concept: "The 'Compassionate' rank. If two people tie for 1st place, instead of giving them both 1st, RANK.AVG gives them both 1.5 (the average of 1st and 2nd)."
+    },
+    internalLogic: "Identifies the position of the value. For ties, it finds all occupied positions (e.g., 3rd, 4th, 5th) and averages those position numbers.",
+    whyItExists: "Useful in competitions and statistical rankings where tied results should share a 'middle' rank rather than the highest one.",
+    whenToUse: "Use RANK.AVG when you want to avoid 'gaps' in your ranking logic and treat tied participants exactly the same.",
+    realWorldUseCases: [
+      "Averaging tied scores in a classroom test.",
+      "Ranking sales reps where ties are common.",
+      "Competition tie-breaking where positions are shared."
+    ],
+    businessExample: {
+      scenario: "Rank student scores {95, 85, 90, 85, 80} and handle ties with an average.",
+      formula: "=RANK.AVG(B2, $B$2:$B$6)"
+    },
+    syntax: "=RANK.AVG(number, ref, [order])",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The number whose rank you want to find (required)." },
+      { arg: "ref", desc: "The range of numbers to rank against (required)." },
+      { arg: "order", desc: "Optional. 0 (default) for descending (largest is 1); 1 for ascending (smallest is 1)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Averaging Ties",
+        table: {
+          headers: ["Name", "Score", "Formula", "Rank"],
+          rows: [
+            ["A", "95", "=RANK.AVG(B2,$B$2:$B$6)", "1"],
+            ["B", "85", "", "3.5"],
+            ["C", "90", "", "2"],
+            ["D", "85", "", "3.5"],
+            ["E", "80", "", "5"]
           ]
+        },
+        stepByStep: [
+          "Values sorted: 95, 90, 85, 85, 80.",
+          "Positions: 1st, 2nd, 3rd, 4th, 5th.",
+          "The two 85s take positions 3 and 4.",
+          "Average of 3 and 4 = 3.5.",
+          "Result: 3.5."
         ]
-      },
-      "stepByStep": [
-        "1. Select RANK.AVG.",
-        "2. Calculate RANK.AVG."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "RANK.AVG is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use RANK.AVG?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use RANK.AVG on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Relative References", desc: "Forgetting to use absolute references ($B$2:$B$6) for the 'ref' argument, which causes errors when dragging the formula down." },
+      { title: "Order mix-up", desc: "Confusing descending (0) with ascending (1)." }
     ],
-    "expectedFormula": "RANK.AVG(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "rank.eq",
-  "title": "RANK.EQ Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "RANK.EQ",
-    "description": "Calculate the RANK.EQ property for data analysis.",
-    "concept": "the RANK.EQ analyzer"
-  },
-  "whyItExists": "Essential for RANK.EQ property evaluation.",
-  "whenToUse": "Analyze RANK.EQ in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform RANK.EQ on monthly data.",
-    "formula": "=RANK.EQ(B2:B50)"
-  },
-  "syntax": "=RANK.EQ(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "Use order=1 if you are ranking things where lower is better (like race times or golf scores).",
+      "RANK.AVG ensures the sum of all ranks remains constant regardless of ties.",
+      "To avoid fractional ranks, use RANK.EQ."
+    ],
+    relatedFunctions: ["RANK.EQ", "COUNTIF"],
+    miniChallenge: {
+      question: "Rank {45, 45, 30, 60, 30} descending. What is the rank of 45?",
+      expectedAnswer: "1.5 (Average of 1st and 2nd)."
+    },
+    practice: {
+      instructions: "In column C, rank the student scores in B2:B7 using RANK.AVG (descending).",
+      initialData: [["Student", "Score", "RANK.AVG"], ["A", 88, ""], ["B", 92, ""], ["C", 88, ""], ["D", 75, ""], ["E", 95, ""], ["F", 88, ""]],
+      targetCell: [1, 2],
+      expectedFormula: "RANK.AVG(B2,$B$2:$B$7,0)",
+      expectedValue: 3.5
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "RANK.EQ Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "rank.eq",
+    title: "RANK.EQ Function",
+    category: "statistical",
+    difficulty: "Intermediate",
+    xp: 200,
+    introduction: {
+      title: "Top-Tier Ranking: RANK.EQ",
+      description: "Returns the rank of a number in a list of numbers. Its size is relative to other values in the list; if more than one value has the same rank, the top rank of that set of values is returned.",
+      concept: "The 'Traditional' rank. If two people tie for 1st, they both get '1'. The next person gets '3' (skipping 2nd). It's the standard way we think about leaderboards."
+    },
+    internalLogic: "Identifies the position of the value. For ties, all tied values receive the highest possible position in that group.",
+    whyItExists: "This is the classic way to rank performers where you only care about who was 'equal best'. It's identical to the legacy RANK function.",
+    whenToUse: "Use for sales leaderboards, competition results, and whenever you want to highlight the top tied position.",
+    realWorldUseCases: [
+      "Determining winners in a sports competition.",
+      "Ranking sales performance across a team.",
+      "Finding the relative position of a stock's return."
+    ],
+    businessExample: {
+      scenario: "Rank test scores {95, 85, 90, 85, 80} and give tied scores the same high rank.",
+      formula: "=RANK.EQ(B2, $B$2:$B$6)"
+    },
+    syntax: "=RANK.EQ(number, ref, [order])",
+    syntaxBreakdown: [
+      { arg: "number", desc: "The value whose rank you want to find (required)." },
+      { arg: "ref", desc: "The array or range of numbers to compare against (required)." },
+      { arg: "order", desc: "Optional. 0 (default) for descending; 1 for ascending." }
+    ],
+    detailedExamples: [
+      {
+        title: "Standard Leaderboard",
+        table: {
+          headers: ["Name", "Score", "Formula", "Rank"],
+          rows: [
+            ["A", "95", "=RANK.EQ(B2,$B$2:$B$6)", "1"],
+            ["B", "85", "", "3"],
+            ["C", "90", "", "2"],
+            ["D", "85", "", "3"],
+            ["E", "80", "", "5"]
           ]
+        },
+        stepByStep: [
+          "Values sorted: 95, 90, 85, 85, 80.",
+          "Both 85s take the 3rd rank.",
+          "The 4th rank is skipped.",
+          "Result: 3."
         ]
-      },
-      "stepByStep": [
-        "1. Select RANK.EQ.",
-        "2. Calculate RANK.EQ."
-      ]
-    }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "RANK.EQ is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use RANK.EQ?",
-    "expectedAnswer": "Yes"
-  },
-  "practice": {
-    "instructions": "Use RANK.EQ on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
+      }
     ],
-    "targetCell": [
-      3,
-      1
+    commonMistakes: [
+      { title: "Relative ref", desc: "Forgetting to lock your range with $ signs: B2:B6 vs $B$2:$B$6." },
+      { title: "Expectation", desc: "Expecting average ranks (use RANK.AVG) or expecting no gaps (use a SUMPRODUCT formula for 'Dense Ranking')." }
     ],
-    "expectedFormula": "RANK.EQ(B2:B3)",
-    "expectedValue": 150
-  }
-},
-{
-  "id": "rsq",
-  "title": "RSQ Function",
-  "category": "statistical",
-  "difficulty": "Intermediate",
-  "xp": 200,
-  "introduction": {
-    "title": "RSQ",
-    "description": "Calculate the RSQ property for data analysis.",
-    "concept": "the RSQ analyzer"
-  },
-  "whyItExists": "Essential for RSQ property evaluation.",
-  "whenToUse": "Analyze RSQ in datasets.",
-  "realWorldUseCases": [
-    "Business data modeling."
-  ],
-  "businessExample": {
-    "scenario": "Perform RSQ on monthly data.",
-    "formula": "=RSQ(B2:B50)"
-  },
-  "syntax": "=RSQ(range)",
-  "syntaxBreakdown": [
-    {
-      "arg": "range",
-      "desc": "Numerical data."
+    proTips: [
+      "RANK.EQ is the direct replacement for the legacy RANK function.",
+      "If you need unique ranks (1, 2, 3, 4, 5) even with ties, use: =RANK.EQ(B2, $B$2:$B$6) + COUNTIF($B$2:B2, B2) - 1.",
+      "Lower is better? Use order=1 (e.g., for race times)."
+    ],
+    relatedFunctions: ["RANK.AVG", "PERCENTRANK.INC", "LARGE"],
+    miniChallenge: {
+      question: "Rank {10, 20, 20, 30, 40} ascending. What is the rank of the first 20?",
+      expectedAnswer: "2 (It ties with the other 20 for 2nd place)."
+    },
+    practice: {
+      instructions: "In column C, rank the race times in B2:B6 where lower is better (Ascending).",
+      initialData: [["Athlete", "Time (sec)", "Rank (1=fastest)"], ["John", 10.5, ""], ["Mike", 10.2, ""], ["Sarah", 10.8, ""], ["Emma", 10.5, ""], ["Dave", 11, ""]],
+      targetCell: [1, 2],
+      expectedFormula: "RANK.EQ(B2,$B$2:$B$6,1)",
+      expectedValue: 2
     }
-  ],
-  "detailedExamples": [
-    {
-      "title": "RSQ Analysis",
-      "table": {
-        "headers": [
-          "Value"
-        ],
-        "rows": [
-          [
-            "100"
-          ],
-          [
-            "200"
+  },
+  {
+    id: "rsq",
+    title: "RSQ Function",
+    category: "statistical",
+    difficulty: "Advanced",
+    xp: 300,
+    introduction: {
+      title: "Goodness of Fit: RSQ",
+      description: "Returns the square of the Pearson product-moment correlation coefficient through data points in known_y's and known_x's.",
+      concept: "The 'R-Squared' value. It tells you what percentage of the change in Y can be explained by X. If R² is 0.9, then 90% of the movement is explained by the relationship."
+    },
+    internalLogic: "Calculates the proportion of the variance in the dependent variable that is predictable from the independent variable. RSQ = PEARSON(y,x)².",
+    whyItExists: "Correlation tells you how variables move; RSQ tells you how strong and reliable that relationship is for making predictions.",
+    whenToUse: "Use RSQ to evaluate the accuracy of a trendline or to see how much one factor (like advertising) influences another (like sales).",
+    realWorldUseCases: [
+      "Evaluating how well a linear model fits historical sales data.",
+      "Determining the reliability of a stock's 'Beta' relative to the market.",
+      "Analyzing the impact of price changes on consumer demand."
+    ],
+    businessExample: {
+      scenario: "Find the R² value for a set of X and Y data points to see how well they correlate.",
+      formula: "=RSQ(B2:B6, A2:A6)"
+    },
+    syntax: "=RSQ(known_y's, known_x's)",
+    syntaxBreakdown: [
+      { arg: "known_y's", desc: "The dependent set of observations (required)." },
+      { arg: "known_x's", desc: "The independent set of observations (required, must be same size as known_y's)." }
+    ],
+    detailedExamples: [
+      {
+        title: "Model Reliability Check",
+        table: {
+          headers: ["X", "Y", "Formula", "Result"],
+          rows: [
+            ["1", "2.1", "=RSQ(B2:B6, A2:A6)", "0.9987"],
+            ["2", "3.8", "", ""],
+            ["3", "6.2", "", ""],
+            ["4", "7.9", "", ""],
+            ["5", "10.1", "", ""]
           ]
+        },
+        stepByStep: [
+          "Excel calculates the Pearson r (≈ 0.9993).",
+          "Squares the value (0.9993²).",
+          "Result: 0.9987.",
+          "Meaning: 99.87% of the variation in Y is explained by X."
         ]
-      },
-      "stepByStep": [
-        "1. Select RSQ.",
-        "2. Calculate RSQ."
-      ]
+      }
+    ],
+    commonMistakes: [
+      { title: "Reversing Y and X", desc: "Though RSQ gives the same result if swapped, standard procedure is dependent variable FIRST." },
+      { title: "Misinterpreting Causation", desc: "A high RSQ doesn't mean X causes Y; it only means they vary together predictably." },
+      { title: "Non-Linear Data", desc: "A low RSQ might just mean the relationship is a curve, not that there is no relationship." }
+    ],
+    proTips: [
+      "Check residual plots to verify if a linear model is appropriate, even if RSQ is high.",
+      "In multiple regression, use 'Adjusted R-Squared' from the LINEST function instead.",
+      "An RSQ of 1.0 means a perfect linear fit."
+    ],
+    relatedFunctions: ["PEARSON", "CORREL", "LINEST", "SLOPE"],
+    miniChallenge: {
+      question: "If Pearson r = 0.8, what is the RSQ? What does it tell you?",
+      expectedAnswer: "0.64. It means 64% of the variance is explained by the model."
+    },
+    practice: {
+      instructions: "In cell B9, find the R² value for Price (A2:A6) and Demand (B2:B6).",
+      initialData: [["Price", "Demand"], [10, 100], [12, 85], [15, 70], [18, 55], [20, 40], ["", ""], ["RSQ", ""], ["PEARSON r", ""]],
+      targetCell: [7, 1],
+      expectedFormula: "RSQ(B2:B6,A2:A6)",
+      expectedValue: 0.991
     }
-  ],
-  "commonMistakes": [
-    {
-      "title": "Data type",
-      "desc": "Numbers only."
-    }
-  ],
-  "proTips": [
-    "RSQ is highly accurate."
-  ],
-  "relatedFunctions": [],
-  "miniChallenge": {
-    "question": "Use RSQ?",
-    "expectedAnswer": "Yes"
   },
-  "practice": {
-    "instructions": "Use RSQ on B2:B3.",
-    "initialData": [
-      [
-        "X"
-      ],
-      [
-        100
-      ],
-      [
-        200
-      ],
-      [
-        "R",
-        ""
-      ]
-    ],
-    "targetCell": [
-      3,
-      1
-    ],
-    "expectedFormula": "RSQ(B2:B3)",
-    "expectedValue": 150
-  }
-},
 {
   "id": "skew",
   "title": "SKEW Function",
