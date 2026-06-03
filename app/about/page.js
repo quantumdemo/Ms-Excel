@@ -34,10 +34,6 @@ export default function AboutPage() {
            />
         </section>
 
-        <div className="text-center pb-10">
-           <p className="text-xs font-bold text-slate-600 uppercase tracking-widest mb-2">Version 1.0.0</p>
-           <p className="text-[10px] text-slate-700">Built with Next.js & Supabase</p>
-        </div>
       </div>
     </InfoPageLayout>
   );
