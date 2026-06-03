@@ -172,10 +172,6 @@ SHEET
 SHEETS
 TYPE
 UNIQUE
-
---- NOT YET IMPLEMENTED ---
-CELL-REFERENCING
-EXCEL-OVERVIEW
 ARRAYTOTEXT
 ASC
 BAHTTEXT
@@ -329,6 +325,5 @@ ISOMITTED
 SORT
 
 --- SUMMARY ---
-Total Target Functions: 326
-Total Implemented: 173
-Total Missing: 153
+Total Target Functions: 324
+Total Implemented: 324
