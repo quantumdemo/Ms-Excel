@@ -22,7 +22,7 @@ export default function HomeDashboard({ onSelectLesson, activeTab, setActiveTab,
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { xp, completedLessons } = useProgressStore();
+  const { xp, completedLessons, streak } = useProgressStore();
   const { user, logout } = useAuthStore();
 
   const currentLevel = Math.floor(xp / 500) + 1;
@@ -68,7 +68,7 @@ export default function HomeDashboard({ onSelectLesson, activeTab, setActiveTab,
         <div className="flex items-center gap-4">
            <div className="flex items-center gap-1 bg-orange-500/10 px-3 py-1 rounded-full border border-orange-500/20">
               <Flame size={16} className="text-orange-500" fill="currentColor" />
-              <span className="text-orange-500 font-bold text-sm">3</span>
+              <span className="text-orange-500 font-bold text-sm">{streak}</span>
            </div>
            <div className="flex items-center gap-1 bg-excel-green/10 px-3 py-1 rounded-full border border-excel-green/20">
               <Zap size={16} className="text-excel-green" fill="currentColor" />
@@ -222,7 +222,7 @@ export default function HomeDashboard({ onSelectLesson, activeTab, setActiveTab,
                <div className="grid grid-cols-2 gap-4 w-full">
                   <AchievementCard icon={<Target />} label="First Lesson" description="Complete 1 lesson" completed={completedLessons.length >= 1} />
                   <AchievementCard icon={<Zap />} label="XP Booster" description="Earn 1,000 XP" completed={xp >= 1000} />
-                  <AchievementCard icon={<Flame />} label="Hot Streak" description="3 Day Streak" completed={false} />
+                  <AchievementCard icon={<Flame />} label="Hot Streak" description="3 Day Streak" completed={streak >= 3} />
                   <AchievementCard icon={<Award />} label="Master" description="All basics done" completed={completedLessons.length >= 10} />
                </div>
             </motion.div>
