@@ -103,25 +103,25 @@ export default function ExcelActions({ onImport, getGridData, isRegistryReady })
       <button
         onClick={() => fileInputRef.current?.click()}
         disabled={isImporting}
+        title="Import Excel"
         className={cn(
-          "flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 rounded-xl transition-all border border-white/5 text-sm font-medium",
+          "flex items-center justify-center w-10 h-10 bg-white/5 hover:bg-white/10 rounded-xl transition-all border border-white/5",
           isImporting && "opacity-50 cursor-not-allowed"
         )}
       >
-        {isImporting ? <Loader2 size={18} className="animate-spin text-excel-green" /> : <Upload size={18} className="text-excel-green" />}
-        <span>Import Excel</span>
+        {isImporting ? <Loader2 size={20} className="animate-spin text-excel-green" /> : <Upload size={20} className="text-excel-green" />}
       </button>
 
       <button
         onClick={handleExport}
         disabled={isExporting || !isRegistryReady}
+        title="Export Excel"
         className={cn(
-          "flex items-center gap-2 px-4 py-2 bg-excel-green hover:bg-excel-green-dark text-bg-dark rounded-xl transition-all shadow-lg shadow-excel-green/20 text-sm font-bold",
+          "flex items-center justify-center w-10 h-10 bg-excel-green hover:bg-excel-green-dark text-bg-dark rounded-xl transition-all shadow-lg shadow-excel-green/20",
           (isExporting || !isRegistryReady) && "opacity-50 cursor-not-allowed"
         )}
       >
-        {isExporting ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
-        <span>Export</span>
+        {isExporting ? <Loader2 size={20} className="animate-spin" /> : <Download size={20} />}
       </button>
 
       <input
