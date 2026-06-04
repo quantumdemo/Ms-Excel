@@ -12,7 +12,7 @@ import { getFunctionSuggestions, extractQuery, findActiveFunction } from '@/lib/
 import _ from 'lodash';
 
 // Grid size constants for SheetLab
-const INITIAL_ROWS = 4000;
+const INITIAL_ROWS = 100;
 const INITIAL_COLS = 26;
 const getColLabel = (index) => {
   let label = "";
