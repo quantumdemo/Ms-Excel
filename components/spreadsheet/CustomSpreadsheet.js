@@ -5,6 +5,10 @@ import { cn } from '@/lib/utils';
 import { Parser } from 'hot-formula-parser';
 import { RotateCcw, MousePointer2 } from 'lucide-react';
 import { CellRegistry, ReferenceResolver } from '@/lib/excel-core';
+import FormulaAutoComplete from './FormulaAutoComplete';
+import FunctionScreentip from './FunctionScreentip';
+import { getFunctionSuggestions, extractQuery, findActiveFunction } from '@/lib/formula-ui-utils';
+import _ from 'lodash';
 
 // Advanced Formula Engine with LET and specialized functions
 class ExcelEngine extends Parser {
@@ -77,6 +81,13 @@ export default function CustomSpreadsheet({
   const [fillRange, setFillRange] = useState(null);
   const [isFilling, setIsFilling] = useState(false);
 
+  // Formula UI State
+  const [suggestions, setSuggestions] = useState([]);
+  const [suggestionIndex, setSelectedIndex] = useState(0);
+  const [activeFunction, setActiveFunction] = useState(null);
+  const [cursorPos, setCursorPos] = useState(0);
+  const inputRef = useRef(null);
+
   const formulaParser = useMemo(() => new ExcelEngine(), []);
   const registryRef = useRef();
 
@@ -130,6 +141,68 @@ export default function CustomSpreadsheet({
   }, [initialData, formulaParser]);
 
   registryRef.current = registry;
+
+  const updateFormulaUI = useCallback(_.debounce((val, pos) => {
+    if (!val.startsWith('=')) {
+      setSuggestions([]);
+      setActiveFunction(null);
+      return;
+    }
+
+    const query = extractQuery(val, pos);
+    if (query) {
+      const results = getFunctionSuggestions(query);
+      setSuggestions(results);
+      setSelectedIndex(0);
+    } else {
+      setSuggestions([]);
+    }
+
+    const active = findActiveFunction(val, pos);
+    setActiveFunction(active);
+  }, 50), []);
+
+  const handleSuggestionSelect = (func) => {
+    const query = extractQuery(inputValue, cursorPos);
+    if (!query) return;
+
+    const before = inputValue.substring(0, cursorPos - query.length);
+    const after = inputValue.substring(cursorPos);
+    const newVal = before + func.name + "(" + after;
+
+    setInputValue(newVal);
+    setSuggestions([]);
+
+    const newPos = before.length + func.name.length + 1;
+    setCursorPos(newPos);
+
+    // Focus and move cursor
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+        inputRef.current.setSelectionRange(newPos, newPos);
+      }
+    }, 0);
+
+    registry.updateCell(activeCellId, newVal);
+  };
+
+  const handleInputKeyDown = (e) => {
+    if (suggestions.length > 0) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setSelectedIndex(prev => (prev + 1) % suggestions.length);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setSelectedIndex(prev => (prev - 1 + suggestions.length) % suggestions.length);
+      } else if (e.key === 'Enter' || e.key === 'Tab') {
+        e.preventDefault();
+        handleSuggestionSelect(suggestions[suggestionIndex]);
+      } else if (e.key === 'Escape') {
+        setSuggestions([]);
+      }
+    }
+  };
 
   const activeCellId = useMemo(() =>
     ReferenceResolver.coordToId(selected.r, selected.c),
@@ -259,20 +332,42 @@ export default function CustomSpreadsheet({
         <div className="px-3 py-1 bg-excel-green/10 rounded-md font-mono font-bold text-excel-green text-sm">
           {activeCellId}
         </div>
-        <div className="flex-1 flex items-center gap-3 bg-white/5 rounded-xl px-4 py-2 border border-white/5 focus-within:border-excel-green/50 transition-all">
-          <span className="text-slate-500 font-mono italic text-sm">fx</span>
-          <input
-            className="bg-transparent border-none outline-none text-sm font-mono w-full text-slate-100"
-            value={inputValue}
-            onChange={(e) => {
-                const val = e.target.value;
-                setInputValue(val);
-                registry.updateCell(activeCellId, val);
-                if (onCellChange && selected.r === targetCell[0] && selected.c === targetCell[1]) {
-                    onCellChange(val, registry.getCell(activeCellId).computed);
-                }
-            }}
-            placeholder="Enter formula or value..."
+        <div className="flex-1 flex flex-col relative">
+          <div className="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-2 border border-white/5 focus-within:border-excel-green/50 transition-all">
+            <span className="text-slate-500 font-mono italic text-sm">fx</span>
+            <input
+              ref={inputRef}
+              className="bg-transparent border-none outline-none text-sm font-mono w-full text-slate-100"
+              value={inputValue}
+              onKeyDown={handleInputKeyDown}
+              onSelect={(e) => {
+                const pos = e.target.selectionStart;
+                setCursorPos(pos);
+                updateFormulaUI(inputValue, pos);
+              }}
+              onChange={(e) => {
+                  const val = e.target.value;
+                  const pos = e.target.selectionStart;
+                  setInputValue(val);
+                  setCursorPos(pos);
+                  registry.updateCell(activeCellId, val);
+                  updateFormulaUI(val, pos);
+                  if (onCellChange && selected.r === targetCell[0] && selected.c === targetCell[1]) {
+                      onCellChange(val, registry.getCell(activeCellId).computed);
+                  }
+              }}
+              placeholder="Enter formula or value..."
+            />
+          </div>
+          <FormulaAutoComplete
+            suggestions={suggestions}
+            selectedIndex={suggestionIndex}
+            onSelect={handleSuggestionSelect}
+            visible={suggestions.length > 0}
+          />
+          <FunctionScreentip
+            activeFunction={activeFunction}
+            visible={!!activeFunction && suggestions.length === 0}
           />
         </div>
       </div>
