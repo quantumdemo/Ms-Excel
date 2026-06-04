@@ -5,6 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, RotateCcw, Database, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { CellRegistry, ReferenceResolver } from '@/lib/excel-core';
+import FormulaAutoComplete from '../spreadsheet/FormulaAutoComplete';
+import FunctionScreentip from '../spreadsheet/FunctionScreentip';
+import { getFunctionSuggestions, extractQuery, findActiveFunction } from '@/lib/formula-ui-utils';
+import _ from 'lodash';
 
 // Grid size constants for SheetLab
 const INITIAL_ROWS = 40;
@@ -18,6 +22,12 @@ export default function SheetLab({ onBack }) {
   const [dragStarted, setDragStarted] = useState(false);
   const pointerStartPos = useRef(null);
   const inputRef = useRef(null);
+
+  // Formula UI State
+  const [suggestions, setSuggestions] = useState([]);
+  const [suggestionIndex, setSelectedIndex] = useState(0);
+  const [activeFunction, setActiveFunction] = useState(null);
+  const [cursorPos, setCursorPos] = useState(0);
 
   const [fillRange, setFillRange] = useState(null);
   const [isFilling, setIsFilling] = useState(false);
@@ -38,6 +48,77 @@ export default function SheetLab({ onBack }) {
     ReferenceResolver.coordToId(selected.r, selected.c),
     [selected]
   );
+
+  const updateFormulaUI = useCallback(_.debounce((val, pos) => {
+    if (!val.startsWith('=')) {
+      setSuggestions([]);
+      setActiveFunction(null);
+      return;
+    }
+
+    const query = extractQuery(val, pos);
+    if (query) {
+      const results = getFunctionSuggestions(query);
+      setSuggestions(results);
+      setSelectedIndex(0);
+    } else {
+      setSuggestions([]);
+    }
+
+    const active = findActiveFunction(val, pos);
+    setActiveFunction(active);
+  }, 50), []);
+
+  const handleSuggestionSelect = (func) => {
+    const query = extractQuery(inputValue, cursorPos);
+    if (!query) return;
+
+    const before = inputValue.substring(0, cursorPos - query.length);
+    const after = inputValue.substring(cursorPos);
+    const newVal = before + func.name + "(" + after;
+
+    setInputValue(newVal);
+    setSuggestions([]);
+
+    const newPos = before.length + func.name.length + 1;
+    setCursorPos(newPos);
+
+    // Focus and move cursor
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+        inputRef.current.setSelectionRange(newPos, newPos);
+      }
+    }, 0);
+
+    registry.updateCell(activeCellId, newVal);
+  };
+
+  const handleInputKeyDown = (e) => {
+    if (suggestions.length > 0) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setSelectedIndex(prev => (prev + 1) % suggestions.length);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setSelectedIndex(prev => (prev - 1 + suggestions.length) % suggestions.length);
+      } else if (e.key === 'Enter' || e.key === 'Tab') {
+        e.preventDefault();
+        handleSuggestionSelect(suggestions[suggestionIndex]);
+      } else if (e.key === 'Escape') {
+        setSuggestions([]);
+      }
+    } else {
+      if (e.key === 'Enter') {
+        registry.updateCell(activeCellId, inputValue);
+        e.currentTarget.blur();
+      }
+      if (e.key === 'Escape') {
+        setInputValue(registry.getCell(activeCellId).raw || "");
+        e.currentTarget.blur();
+      }
+    }
+  };
 
   const handleFillEnd = useCallback(() => {
     setDragStarted(false);
@@ -180,27 +261,42 @@ export default function SheetLab({ onBack }) {
         <div className="px-3 py-2 bg-excel-green/10 rounded-xl font-mono font-bold text-excel-green text-sm min-w-[3.5rem] text-center border border-excel-green/20">
           {activeCellId}
         </div>
-        <div className="flex-1 flex items-center gap-3 bg-white/5 rounded-2xl px-4 py-3 border border-white/5 focus-within:border-excel-green/50 transition-all shadow-inner">
-          <span className="text-excel-green font-mono italic font-bold">fx</span>
-          <input
-            ref={inputRef}
-            className="bg-transparent border-none outline-none text-base font-mono w-full text-slate-100"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                registry.updateCell(activeCellId, inputValue);
-                e.currentTarget.blur();
-              }
-              if (e.key === 'Escape') {
-                setInputValue(registry.getCell(activeCellId).raw || "");
-                e.currentTarget.blur();
-              }
-            }}
-            onBlur={() => {
-               registry.updateCell(activeCellId, inputValue);
-            }}
-            placeholder="Enter formula or value..."
+        <div className="flex-1 flex flex-col relative">
+          <div className="flex items-center gap-3 bg-white/5 rounded-2xl px-4 py-3 border border-white/5 focus-within:border-excel-green/50 transition-all shadow-inner">
+            <span className="text-excel-green font-mono italic font-bold">fx</span>
+            <input
+              ref={inputRef}
+              className="bg-transparent border-none outline-none text-base font-mono w-full text-slate-100"
+              value={inputValue}
+              onSelect={(e) => {
+                const pos = e.target.selectionStart;
+                setCursorPos(pos);
+                updateFormulaUI(inputValue, pos);
+              }}
+              onChange={(e) => {
+                const val = e.target.value;
+                const pos = e.target.selectionStart;
+                setInputValue(val);
+                setCursorPos(pos);
+                registry.updateCell(activeCellId, val);
+                updateFormulaUI(val, pos);
+              }}
+              onKeyDown={handleInputKeyDown}
+              onBlur={() => {
+                 registry.updateCell(activeCellId, inputValue);
+              }}
+              placeholder="Enter formula or value..."
+            />
+          </div>
+          <FormulaAutoComplete
+            suggestions={suggestions}
+            selectedIndex={suggestionIndex}
+            onSelect={handleSuggestionSelect}
+            visible={suggestions.length > 0}
+          />
+          <FunctionScreentip
+            activeFunction={activeFunction}
+            visible={!!activeFunction && suggestions.length === 0}
           />
         </div>
       </div>
