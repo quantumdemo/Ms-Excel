@@ -12,7 +12,9 @@ export default function FormulaAutoComplete({
   if (!visible || suggestions.length === 0) return null;
 
   return (
-    <div className="absolute z-[100] mt-1 w-64 bg-slate-900 border border-white/10 rounded-lg shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-100">
+    <div
+      data-formula-ui="autocomplete"
+      className="absolute z-[100] mt-1 w-64 bg-slate-900 border border-white/10 rounded-lg shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-100">
       <div className="max-h-60 overflow-y-auto no-scrollbar">
         {suggestions.map((suggestion, index) => (
           <div
