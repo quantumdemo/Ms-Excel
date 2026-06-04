@@ -99,6 +99,10 @@ export default function CustomSpreadsheet({
 
   // Wire formula parser to registry
   useEffect(() => {
+    hideFormulaUI();
+  }, [selected, hideFormulaUI]);
+
+  useEffect(() => {
     const handleClickOutside = (e) => {
       // Check if click is inside autocomplete or screentip
       const isAuto = e.target.closest('[data-formula-ui="autocomplete"]');
