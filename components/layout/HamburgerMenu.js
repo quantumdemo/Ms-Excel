@@ -75,7 +75,7 @@ export default function HamburgerMenu({ isOpen, onClose, onSelectCategory, setAc
                  <MenuLink
                    icon={<Home size={20} />}
                    label="Home"
-                   active={activeTab === 'home'}
+                   active={activeTab === 'home' && !categoryFilter}
                    onClick={() => { setActiveTab('home'); onSelectCategory(null); onClose(); }}
                  />
                  <MenuLink
