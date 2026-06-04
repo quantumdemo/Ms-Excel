@@ -299,7 +299,7 @@ export default function HomeDashboard({ onSelectLesson, activeTab, setActiveTab,
       </div>
 
       <nav className="fixed bottom-6 left-6 right-6 h-20 bg-bg-dark/90 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] px-8 flex items-center justify-between z-40 shadow-2xl overflow-hidden">
-         <NavItem icon={<Home size={26} />} active={activeTab === 'home'} onClick={() => { setActiveTab('home'); setCategoryFilter(null); }} />
+         <NavItem icon={<Home size={26} />} active={activeTab === 'home' && !categoryFilter} onClick={() => { setActiveTab('home'); setCategoryFilter(null); }} />
          <NavItem icon={<SearchIcon size={26} />} active={activeTab === 'search'} onClick={() => setActiveTab('search')} />
          <NavItem icon={<Award size={26} />} active={activeTab === 'achievements'} onClick={() => setActiveTab('achievements')} />
          <NavItem icon={<Settings size={26} />} active={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
