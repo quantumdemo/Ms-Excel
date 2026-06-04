@@ -1127,12 +1127,12 @@ export const lookupLessons = [
             ["Alice", "Sales", "55,000"],
             ["Ben", "Marketing", "62,000"],
             ["Carla", "Sales", "70,000"],
-            ["Result", "=SORTBY(A2:C5, B2:B5, 1, C2:C5, -1)", ""]
+            ["Result", "=SORTBY(A2:C4, B2:B4, 1, C2:C4, -1)", ""]
           ]
         },
         stepByStep: [
-          "First sort by Department (B2:B5), ascending.",
-          "Within each department, sort by Salary (C2:C5), descending."
+          "First sort by Department (B2:B4), ascending.",
+          "Within each department, sort by Salary (C2:C4), descending."
         ]
       }
     ],
@@ -1149,11 +1149,16 @@ export const lookupLessons = [
       expectedAnswer: "SORTBY"
     },
     practice: {
-      instructions: "In cell E1, use SORTBY to sort range A1:A3 by B1:B3 ascending.",
-      initialData: [["A", "2", "", "", ""], ["B", "1", "", "", ""], ["C", "3", "", "", ""]],
-      targetCell: [0, 4],
-      expectedFormula: "SORTBY(A1:A3,B1:B3,1)",
-      expectedValue: "B"
+      instructions: "In cell E2, use SORTBY to sort the list in A2:A4 based on the numeric order in B2:B4 (ascending).",
+      initialData: [
+        ["Fruit", "Order", "", "", ""],
+        ["Apple", 2, "", "", ""],
+        ["Banana", 1, "", "", ""],
+        ["Cherry", 3, "", "", ""]
+      ],
+      targetCell: [1, 4],
+      expectedFormula: "SORTBY(A2:A4,B2:B4,1)",
+      expectedValue: "Banana"
     }
   },
   {
