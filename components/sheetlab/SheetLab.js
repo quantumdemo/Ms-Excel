@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { CellRegistry, ReferenceResolver } from '@/lib/excel-core';
 import FormulaAutoComplete from '../spreadsheet/FormulaAutoComplete';
 import FunctionScreentip from '../spreadsheet/FunctionScreentip';
+import ExcelActions from './ExcelActions';
 import { getFunctionSuggestions, extractQuery, findActiveFunction } from '@/lib/formula-ui-utils';
 import _ from 'lodash';
 
@@ -48,6 +49,65 @@ export default function SheetLab({ onBack }) {
     ReferenceResolver.coordToId(selected.r, selected.c),
     [selected]
   );
+
+  const handleImport = (data) => {
+    if (!registry) return;
+
+    // Reset registry
+    const newRegistry = new CellRegistry(
+      Math.max(INITIAL_ROWS, data.length),
+      Math.max(INITIAL_COLS, data[0]?.length || 0)
+    );
+
+    newRegistry.onUpdate = () => {
+      setRegistry(Object.assign(Object.create(Object.getPrototypeOf(newRegistry)), newRegistry));
+    };
+
+    // Fill data
+    data.forEach((row, r) => {
+      row.forEach((cell, c) => {
+        if (cell === null || cell === undefined || cell === "") return;
+
+        const id = ReferenceResolver.coordToId(r, c);
+        if (typeof cell === 'object' && cell.formula) {
+            newRegistry.updateCell(id, cell.formula);
+        } else {
+            newRegistry.updateCell(id, cell.toString());
+        }
+      });
+    });
+
+    setRegistry(newRegistry);
+    setSelected({ r: 0, c: 0 });
+    setInputValue(newRegistry.getCell("A1").raw || "");
+  };
+
+  const getExportData = () => {
+    if (!registry) return [];
+
+    const rows = registry.rows;
+    const cols = registry.cols;
+    const data = [];
+
+    for (let r = 0; r < rows; r++) {
+      const row = [];
+      for (let c = 0; c < cols; c++) {
+        const id = ReferenceResolver.coordToId(r, c);
+        const cell = registry.getCell(id);
+
+        if (cell.type === 'formula') {
+            row.push({
+                value: cell.computed,
+                formula: "=" + cell.parsedFormula
+            });
+        } else {
+            row.push(cell.raw || "");
+        }
+      }
+      data.push(row);
+    }
+    return data;
+  };
 
   const updateFormulaUI = useCallback(_.debounce((val, pos) => {
     if (!val.startsWith('=')) {
@@ -243,17 +303,24 @@ export default function SheetLab({ onBack }) {
             <p className="text-[10px] text-excel-green font-bold uppercase tracking-widest mt-1">Professional Sandbox</p>
           </div>
         </div>
-        <button onClick={() => {
-          const r = new CellRegistry(INITIAL_ROWS, INITIAL_COLS);
-          r.onUpdate = () => {
-            setRegistry(Object.assign(Object.create(Object.getPrototypeOf(r)), r));
-          };
-          setRegistry(r);
-          setSelected({ r: 0, c: 0 });
-          setInputValue("");
-        }} className="p-2 bg-white/5 rounded-full active:rotate-180 transition-all duration-500">
-          <RotateCcw size={20} className="text-slate-400" />
-        </button>
+        <div className="flex items-center gap-4">
+          <ExcelActions
+            onImport={handleImport}
+            getGridData={getExportData}
+            isRegistryReady={!!registry}
+          />
+          <button onClick={() => {
+            const r = new CellRegistry(INITIAL_ROWS, INITIAL_COLS);
+            r.onUpdate = () => {
+              setRegistry(Object.assign(Object.create(Object.getPrototypeOf(r)), r));
+            };
+            setRegistry(r);
+            setSelected({ r: 0, c: 0 });
+            setInputValue("");
+          }} className="p-2 bg-white/5 rounded-full active:rotate-180 transition-all duration-500">
+            <RotateCcw size={20} className="text-slate-400" />
+          </button>
+        </div>
       </header>
 
       {/* Formula Bar */}
