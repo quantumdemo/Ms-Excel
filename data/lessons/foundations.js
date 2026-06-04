@@ -80,7 +80,7 @@ export const foundationLessons = [
     syntaxBreakdown: [
       { arg: "Relative (A1)", desc: "The default. Changes automatically when you copy the formula to other cells. Excel thinks 'one cell to the left'." },
       { arg: "Absolute ($A$1)", desc: "The 'Lock'. Does NOT change when copied. The $ signs lock the column and row." },
-      { arg: "Mixed ($A1 or A$1)", desc: "Locks only the Column ($A) or only the Row (₦1). Used in advanced matrix tables." }
+      { arg: "Mixed ($A1 or A$1)", desc: "Locks only the Column ($A) or only the Row ($1). Used in advanced matrix tables." }
     ],
     detailedExamples: [
       {
