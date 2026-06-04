@@ -66,6 +66,7 @@ export default function SheetLab({ onBack }) {
   const [dragStarted, setDragStarted] = useState(false);
   const pointerStartPos = useRef(null);
   const inputRef = useRef(null);
+  const containerRef = useRef(null);
 
   // Formula UI State
   const [suggestions, setSuggestions] = useState([]);
@@ -75,6 +76,11 @@ export default function SheetLab({ onBack }) {
 
   const [fillRange, setFillRange] = useState(null);
   const [isFilling, setIsFilling] = useState(false);
+
+  const hideFormulaUI = useCallback(() => {
+    setSuggestions([]);
+    setActiveFunction(null);
+  }, []);
 
   // Initialize Registry
   useEffect(() => {
@@ -98,7 +104,8 @@ export default function SheetLab({ onBack }) {
     registry.updateCell(activeCellId, inputValue);
     setSelected({ r, c });
     setInputValue(registry.getCell(id).raw || "");
-  }, [registry, activeCellId, inputValue, dragStarted]);
+    hideFormulaUI();
+  }, [registry, activeCellId, inputValue, dragStarted, hideFormulaUI]);
 
   const handleCellPointerDown = useCallback((e, r, c) => {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
@@ -220,16 +227,18 @@ export default function SheetLab({ onBack }) {
         e.preventDefault();
         handleSuggestionSelect(suggestions[suggestionIndex]);
       } else if (e.key === 'Escape') {
-        setSuggestions([]);
+        hideFormulaUI();
       }
     } else {
-      if (e.key === 'Enter') {
+      if (e.key === 'Enter' || e.key === 'Tab') {
         registry.updateCell(activeCellId, inputValue);
         e.currentTarget.blur();
+        hideFormulaUI();
       }
       if (e.key === 'Escape') {
         setInputValue(registry.getCell(activeCellId).raw || "");
         e.currentTarget.blur();
+        hideFormulaUI();
       }
     }
   };
@@ -331,6 +340,24 @@ export default function SheetLab({ onBack }) {
   };
 
   useEffect(() => {
+    const handleClickOutside = (e) => {
+      // Check if click is inside autocomplete or screentip
+      const isAuto = e.target.closest('[data-formula-ui="autocomplete"]');
+      const isTip = e.target.closest('[data-formula-ui="screentip"]');
+      if (isAuto || isTip) return;
+
+      // Check if click is inside formula bar or grid
+      const isInside = containerRef.current?.contains(e.target);
+      if (!isInside) {
+        hideFormulaUI();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [hideFormulaUI]);
+
+  useEffect(() => {
     const handleGlobalKeyDown = (e) => {
       if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
       if (e.key.length === 1 || e.key === 'Backspace' || e.key === 'Delete') {
@@ -344,7 +371,9 @@ export default function SheetLab({ onBack }) {
   if (!registry) return null;
 
   return (
-    <div className="flex flex-col h-screen bg-bg-dark text-slate-100 overflow-hidden fixed inset-0 z-50 select-none"
+    <div
+         ref={containerRef}
+         className="flex flex-col h-screen bg-bg-dark text-slate-100 overflow-hidden fixed inset-0 z-50 select-none"
          onPointerUp={handleFillEnd} onPointerMove={handlePointerMove}>
       {/* Header */}
       <header className="px-6 py-4 flex items-center justify-between border-b border-white/5 bg-bg-dark/80 backdrop-blur-md">
@@ -405,6 +434,7 @@ export default function SheetLab({ onBack }) {
               onKeyDown={handleInputKeyDown}
               onBlur={() => {
                  registry.updateCell(activeCellId, inputValue);
+                 hideFormulaUI();
               }}
               placeholder="Enter formula or value..."
             />
