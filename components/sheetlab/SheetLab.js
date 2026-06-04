@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, RotateCcw, Database, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -12,9 +12,52 @@ import { getFunctionSuggestions, extractQuery, findActiveFunction } from '@/lib/
 import _ from 'lodash';
 
 // Grid size constants for SheetLab
-const INITIAL_ROWS = 40;
+const INITIAL_ROWS = 4000;
 const INITIAL_COLS = 26;
-const getColLabel = (index) => String.fromCharCode(65 + index);
+const getColLabel = (index) => {
+  let label = "";
+  let temp = index + 1;
+  while (temp > 0) {
+    let rem = (temp - 1) % 26;
+    label = String.fromCharCode(65 + rem) + label;
+    temp = Math.floor((temp - rem) / 26);
+  }
+  return label;
+};
+
+const GridCell = React.memo(({ r, c, id, cellData, isS, isF, editValue, onSelect, onPointerDown, onFillStart }) => {
+  const displayValue = isS ? editValue : cellData?.computed;
+
+  return (
+    <td
+      data-row={r}
+      data-col={c}
+      onClick={() => onSelect(r, c, id)}
+      onPointerDown={(e) => onPointerDown(e, r, c)}
+      className={cn(
+        "border border-white/5 h-12 min-w-[100px] min-h-[48px] p-2 text-sm transition-all relative outline-none cursor-cell",
+        isS && "ring-2 ring-inset ring-excel-green bg-excel-green/5 z-20",
+        !isS && "hover:bg-white/[0.02]",
+        isF && "bg-excel-green/20"
+      )}
+    >
+      <div className={cn(
+        "px-2 truncate text-center font-medium pointer-events-none",
+        displayValue?.toString().startsWith("#") ? "text-red-400 font-bold" : (typeof displayValue === 'number' ? "text-blue-400" : "text-slate-300")
+      )}>
+        {displayValue?.toString() ?? ""}
+      </div>
+      {isS && (
+        <div
+          className="absolute bottom-[-10px] right-[-10px] w-6 h-6 bg-excel-green border-2 border-white rounded-full z-30 cursor-crosshair shadow-lg"
+          onPointerDown={(e) => onFillStart(e, r, c)}
+        />
+      )}
+    </td>
+  );
+});
+
+GridCell.displayName = 'GridCell';
 
 export default function SheetLab({ onBack }) {
   const [registry, setRegistry] = useState(null);
@@ -49,6 +92,25 @@ export default function SheetLab({ onBack }) {
     ReferenceResolver.coordToId(selected.r, selected.c),
     [selected]
   );
+
+  const handleCellSelect = useCallback((r, c, id) => {
+    if (dragStarted) return;
+    registry.updateCell(activeCellId, inputValue);
+    setSelected({ r, c });
+    setInputValue(registry.getCell(id).raw || "");
+  }, [registry, activeCellId, inputValue, dragStarted]);
+
+  const handleCellPointerDown = useCallback((e, r, c) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    pointerStartPos.current = { x: e.clientX, y: e.clientY };
+    setDragStarted(false);
+  }, []);
+
+  const handleFillStart = useCallback((e, r, c) => {
+    e.stopPropagation();
+    setIsFilling(true);
+    setFillRange({ startR: r, startC: c, endR: r, endC: c });
+  }, []);
 
   const handleImport = (data) => {
     if (!registry) return;
@@ -382,7 +444,7 @@ export default function SheetLab({ onBack }) {
                     "w-[100px] h-10 bg-surface border-b border-r border-white/10 text-[10px] font-black uppercase tracking-widest transition-colors",
                     selected.c === c ? "text-excel-green bg-excel-green/5" : "text-slate-500"
                   )}>
-                    {getColLabel(c)}
+                    {ReferenceResolver.formatReference(0, c, false, false).replace(/[0-9]/g, '')}
                   </th>
                 ))}
               </tr>
@@ -400,51 +462,22 @@ export default function SheetLab({ onBack }) {
                     const id = ReferenceResolver.coordToId(r, c);
                     const cellData = registry.getCell(id);
                     const isS = selected.r === r && selected.c === c;
-
-                    const displayValue = isS ? inputValue : cellData.computed;
-
                     const isF = fillRange && r >= Math.min(fillRange.startR, fillRange.endR) && r <= Math.max(fillRange.startR, fillRange.endR) && c >= Math.min(fillRange.startC, fillRange.endC) && c <= Math.max(fillRange.startC, fillRange.endC);
 
                     return (
-                      <td
+                      <GridCell
                         key={c}
-                        data-row={r}
-                        data-col={c}
-                        onClick={() => {
-                          if (dragStarted) return;
-                          registry.updateCell(activeCellId, inputValue);
-                          setSelected({r,c});
-                          setInputValue(registry.getCell(id).raw || "");
-                        }}
-                        onPointerDown={(e) => {
-                          if (e.pointerType === 'mouse' && e.button !== 0) return;
-                          pointerStartPos.current = { x: e.clientX, y: e.clientY };
-                          setDragStarted(false);
-                        }}
-                        className={cn(
-                          "border border-white/5 h-12 min-w-[100px] min-h-[48px] p-2 text-sm transition-all relative outline-none cursor-cell",
-                          isS && "ring-2 ring-inset ring-excel-green bg-excel-green/5 z-20",
-                          !isS && "hover:bg-white/[0.02]",
-                          isF && "bg-excel-green/20"
-                        )}
-                      >
-                        <div className={cn(
-                          "px-2 truncate text-center font-medium pointer-events-none",
-                          displayValue?.toString().startsWith("#") ? "text-red-400 font-bold" : (typeof displayValue === 'number' ? "text-blue-400" : "text-slate-300")
-                        )}>
-                          {displayValue?.toString()}
-                        </div>
-                        {isS && (
-                          <div
-                            className="absolute bottom-[-10px] right-[-10px] w-6 h-6 bg-excel-green border-2 border-white rounded-full z-30 cursor-crosshair shadow-lg"
-                            onPointerDown={(e) => {
-                               e.stopPropagation();
-                               setIsFilling(true);
-                               setFillRange({startR:r, startC:c, endR:r, endC:c});
-                            }}
-                          />
-                        )}
-                      </td>
+                        r={r}
+                        c={c}
+                        id={id}
+                        cellData={cellData}
+                        isS={isS}
+                        isF={isF}
+                        editValue={isS ? inputValue : null}
+                        onSelect={handleCellSelect}
+                        onPointerDown={handleCellPointerDown}
+                        onFillStart={handleFillStart}
+                      />
                     );
                   })}
                 </tr>
