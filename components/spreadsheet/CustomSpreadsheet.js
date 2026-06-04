@@ -81,17 +81,41 @@ export default function CustomSpreadsheet({
   const [fillRange, setFillRange] = useState(null);
   const [isFilling, setIsFilling] = useState(false);
 
+  const hideFormulaUI = useCallback(() => {
+    setSuggestions([]);
+    setActiveFunction(null);
+  }, []);
+
   // Formula UI State
   const [suggestions, setSuggestions] = useState([]);
   const [suggestionIndex, setSelectedIndex] = useState(0);
   const [activeFunction, setActiveFunction] = useState(null);
   const [cursorPos, setCursorPos] = useState(0);
   const inputRef = useRef(null);
+  const containerRef = useRef(null);
 
   const formulaParser = useMemo(() => new ExcelEngine(), []);
   const registryRef = useRef();
 
   // Wire formula parser to registry
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      // Check if click is inside autocomplete or screentip
+      const isAuto = e.target.closest('[data-formula-ui="autocomplete"]');
+      const isTip = e.target.closest('[data-formula-ui="screentip"]');
+      if (isAuto || isTip) return;
+
+      // Check if click is inside formula bar or grid
+      const isInside = containerRef.current?.contains(e.target);
+      if (!isInside) {
+        hideFormulaUI();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [hideFormulaUI]);
+
   useEffect(() => {
     formulaParser.on('callCellValue', (coord, done) => {
       if (registryRef.current) {
@@ -199,7 +223,17 @@ export default function CustomSpreadsheet({
         e.preventDefault();
         handleSuggestionSelect(suggestions[suggestionIndex]);
       } else if (e.key === 'Escape') {
-        setSuggestions([]);
+        hideFormulaUI();
+      }
+    } else {
+      if (e.key === 'Enter' || e.key === 'Tab') {
+        hideFormulaUI();
+        e.currentTarget.blur();
+      }
+      if (e.key === 'Escape') {
+        setInputValue(registry.getCell(activeCellId).raw || "");
+        hideFormulaUI();
+        e.currentTarget.blur();
       }
     }
   };
@@ -315,7 +349,9 @@ export default function CustomSpreadsheet({
   if (!registry) return null;
 
   return (
-    <div className="flex flex-col w-full bg-card-dark rounded-3xl overflow-hidden border border-white/5 shadow-2xl"
+    <div
+         ref={containerRef}
+         className="flex flex-col w-full bg-card-dark rounded-3xl overflow-hidden border border-white/5 shadow-2xl"
          onPointerUp={handleFillEnd} onPointerMove={handlePointerMove}>
       <div className="px-5 py-4 bg-white/5 border-b border-white/5 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -356,6 +392,7 @@ export default function CustomSpreadsheet({
                       onCellChange(val, registry.getCell(activeCellId).computed);
                   }
               }}
+              onBlur={hideFormulaUI}
               placeholder="Enter formula or value..."
             />
           </div>
@@ -409,6 +446,7 @@ export default function CustomSpreadsheet({
                          if (dragStarted) return;
                          setSelected({r,c});
                          setInputValue(registry.getCell(id).raw || "");
+                         hideFormulaUI();
                       }}
                       onPointerDown={(e) => {
                          if (e.pointerType === 'mouse' && e.button !== 0) return;
