@@ -115,10 +115,13 @@ export default function SheetLab({ onBack }) {
   const handleImport = (data) => {
     if (!registry) return;
 
-    // Reset registry
+    // Constrain data to 100 rows for performance
+    const constrainedData = data.slice(0, INITIAL_ROWS);
+
+    // Reset registry with fixed INITIAL_ROWS
     const newRegistry = new CellRegistry(
-      Math.max(INITIAL_ROWS, data.length),
-      Math.max(INITIAL_COLS, data[0]?.length || 0)
+      INITIAL_ROWS,
+      Math.max(INITIAL_COLS, constrainedData[0]?.length || 0)
     );
 
     newRegistry.onUpdate = () => {
@@ -126,7 +129,7 @@ export default function SheetLab({ onBack }) {
     };
 
     // Batch Load Data
-    newRegistry.loadData(data);
+    newRegistry.loadData(constrainedData);
 
     setRegistry(newRegistry);
     setSelected({ r: 0, c: 0 });
