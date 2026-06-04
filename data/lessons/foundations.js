@@ -29,10 +29,12 @@ export const foundationLessons = [
       {
         title: "The Spreadsheet Grid",
         table: {
-          headers: ["", "A (Column)", "B (Column)"],
+          headers: ["Component", "Description"],
           rows: [
-            ["1 (Row)", "Cell A1", "Cell B1"],
-            ["2 (Row)", "Cell A2", "Cell B2"]
+            ["Cell", "The intersection of a row and a column."],
+            ["Row", "Horizontal blocks identified by numbers."],
+            ["Column", "Vertical blocks identified by letters."],
+            ["Worksheet", "The entire grid of cells where data is stored."]
           ]
         },
         explanation: "Every box you see in Excel is a cell with a unique address."
