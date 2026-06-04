@@ -1,8 +1,10 @@
 "use client";
 
 import InfoPageLayout from "@/components/layout/InfoPageLayout";
-import { HelpCircle, MessageSquare, ShieldAlert, Zap } from "lucide-react";
+import { HelpCircle, MessageSquare, ShieldAlert, Zap, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { supabase } from "@/lib/supabase";
+import { useAuthStore } from "@/hooks/useAuth";
 
 const faqs = [
   { q: "How do I reset my progress?", a: "Go to Settings > Account and select 'Clear Cache' or contact support for full account reset." },
@@ -12,7 +14,37 @@ const faqs = [
 ];
 
 export default function SupportPage() {
+  const { user } = useAuthStore();
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [category, setCategory] = useState("Other");
+  const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!message.trim()) return alert("Please enter a message.");
+    setSubmitting(true);
+
+    try {
+      const fullMessage = name ? `Sender: ${name}\n\n${message}` : message;
+
+      const { error } = await supabase.from('feedback').insert({
+        user_id: user?.uid || null,
+        category: `Support: ${category}`,
+        message: fullMessage,
+        rating: 0 // Default for support messages
+      });
+
+      if (error) throw error;
+      setSubmitted(true);
+    } catch (err) {
+      console.error("Error sending message:", err);
+      alert("Failed to send message. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <InfoPageLayout title="Support Center">
@@ -47,10 +79,14 @@ export default function SupportPage() {
                <p className="text-slate-500 text-sm">We'll get back to you shortly.</p>
             </div>
           ) : (
-            <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2 px-2">Issue Category</label>
-                <select className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-excel-green outline-none">
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-excel-green outline-none"
+                >
                   <option>Login Problem</option>
                   <option>Lesson Content Issue</option>
                   <option>Bug Report</option>
@@ -61,15 +97,23 @@ export default function SupportPage() {
               <input
                 type="text"
                 placeholder="Your Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-sm outline-none focus:ring-2 focus:ring-excel-green"
               />
               <textarea
                 rows={4}
                 placeholder="Describe your issue..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-sm outline-none focus:ring-2 focus:ring-excel-green"
               />
-              <button className="w-full bg-excel-green text-white font-black py-5 rounded-[2rem] active:scale-95 transition-all shadow-xl shadow-excel-green/20">
-                Send Message
+              <button
+                disabled={submitting}
+                className="w-full bg-excel-green text-white font-black py-5 rounded-[2rem] active:scale-95 transition-all shadow-xl shadow-excel-green/20 flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                {submitting && <Loader2 className="animate-spin" size={20} />}
+                {submitting ? "Sending..." : "Send Message"}
               </button>
             </form>
           )}
