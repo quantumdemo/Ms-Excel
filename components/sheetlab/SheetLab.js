@@ -125,19 +125,8 @@ export default function SheetLab({ onBack }) {
       setRegistry(Object.assign(Object.create(Object.getPrototypeOf(newRegistry)), newRegistry));
     };
 
-    // Fill data
-    data.forEach((row, r) => {
-      row.forEach((cell, c) => {
-        if (cell === null || cell === undefined || cell === "") return;
-
-        const id = ReferenceResolver.coordToId(r, c);
-        if (typeof cell === 'object' && cell.formula) {
-            newRegistry.updateCell(id, cell.formula);
-        } else {
-            newRegistry.updateCell(id, cell.toString());
-        }
-      });
-    });
+    // Batch Load Data
+    newRegistry.loadData(data);
 
     setRegistry(newRegistry);
     setSelected({ r: 0, c: 0 });
