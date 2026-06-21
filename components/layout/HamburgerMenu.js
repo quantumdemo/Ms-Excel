@@ -4,11 +4,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   X, Home, BookOpen, Search, Trophy, Settings, LogOut,
   ChevronRight, Layout, BrainCircuit, Calculator, Type,
-  Zap, Landmark, Rocket, Calendar, BarChart3, Info
+  Zap, Landmark, Rocket, Calendar, BarChart3, Info,
+  ShieldCheck
 } from "lucide-react";
 import Image from "next/image";
 import { useAuthStore } from "@/hooks/useAuth";
 import { useProgressStore } from "@/hooks/useProgress";
+import { useRouter } from "next/navigation";
 
 const categories = [
   { id: 'foundations', title: 'Basics', icon: Layout },
@@ -24,8 +26,9 @@ const categories = [
 ];
 
 export default function HamburgerMenu({ isOpen, onClose, onSelectCategory, setActiveTab, activeTab, categoryFilter }) {
-  const { user, logout } = useAuthStore();
+  const { user, logout, isAdmin } = useAuthStore();
   const { xp } = useProgressStore();
+  const router = useRouter();
   const currentLevel = Math.floor(xp / 500) + 1;
 
   return (
@@ -96,6 +99,15 @@ export default function HamburgerMenu({ isOpen, onClose, onSelectCategory, setAc
                    active={activeTab === 'sheetlab'}
                    onClick={() => { setActiveTab('sheetlab'); onClose(); }}
                  />
+
+                 {isAdmin && (
+                   <MenuLink
+                     icon={<ShieldCheck size={20} className="text-amber-500" />}
+                     label="Admin Portal"
+                     active={false}
+                     onClick={() => { router.push('/admin-exclusive-portal'); onClose(); }}
+                   />
+                 )}
 
                  <div className="pt-6 pb-2 px-4">
                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Learning Roadmap</p>
