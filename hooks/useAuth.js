@@ -43,14 +43,16 @@ export const useAuthStore = create((set, get) => ({
         });
       }
 
-      // 3. Check for approval and admin status
+      // 3. Check for approval and admin status (case-insensitive)
+      const emailLower = sbUser.email.toLowerCase().trim();
       const [adminCheck, approvedCheck] = await Promise.all([
-        supabase.from('admins').select('email').eq('email', sbUser.email).maybeSingle(),
-        supabase.from('allowed_users').select('email').eq('email', sbUser.email).maybeSingle()
+        supabase.from('admins').select('email').ilike('email', emailLower).maybeSingle(),
+        supabase.from('allowed_users').select('email').ilike('email', emailLower).maybeSingle()
       ]);
 
       const isAdmin = !!adminCheck.data;
       const isApproved = isAdmin || !!approvedCheck.data;
+
 
       set({ isAdmin, isApproved });
     } catch (err) {
