@@ -1,5 +1,4 @@
--- Enable RLS on all tables
--- Create users table (linked to Supabase Auth UUID)
+-- Users Table
 CREATE TABLE users (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email TEXT UNIQUE,
@@ -9,7 +8,7 @@ CREATE TABLE users (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Create progress table
+-- Progress Table
 CREATE TABLE progress (
   user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
   xp INTEGER DEFAULT 0,
@@ -18,7 +17,7 @@ CREATE TABLE progress (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Create lesson_completion table
+-- Lesson Completion Table
 CREATE TABLE lesson_completion (
   id BIGSERIAL PRIMARY KEY,
   user_id UUID REFERENCES users(id) ON DELETE CASCADE,
@@ -27,7 +26,7 @@ CREATE TABLE lesson_completion (
   completed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Create achievements table
+-- Achievements Table
 CREATE TABLE achievements (
   id BIGSERIAL PRIMARY KEY,
   user_id UUID REFERENCES users(id) ON DELETE CASCADE,
@@ -35,7 +34,7 @@ CREATE TABLE achievements (
   unlocked_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Create feedback table
+-- Feedback Table
 CREATE TABLE feedback (
   id BIGSERIAL PRIMARY KEY,
   user_id UUID REFERENCES users(id) ON DELETE SET NULL,
@@ -45,7 +44,7 @@ CREATE TABLE feedback (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Create feature_votes table
+-- Feature Votes Table
 CREATE TABLE feature_votes (
   id BIGSERIAL PRIMARY KEY,
   user_id UUID REFERENCES users(id) ON DELETE CASCADE,
@@ -54,19 +53,19 @@ CREATE TABLE feature_votes (
   UNIQUE(user_id, feature_id)
 );
 
--- Create allowed_users table
+-- Whitelist Table
 CREATE TABLE allowed_users (
   email TEXT PRIMARY KEY,
   added_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Create admins table
+-- Admin Emails Table
 CREATE TABLE admins (
   email TEXT PRIMARY KEY,
   added_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Enable Row Level Security
+-- ENABLE ROW LEVEL SECURITY
 ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE progress ENABLE ROW LEVEL SECURITY;
 ALTER TABLE lesson_completion ENABLE ROW LEVEL SECURITY;
@@ -76,51 +75,35 @@ ALTER TABLE feature_votes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE allowed_users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE admins ENABLE ROW LEVEL SECURITY;
 
--- RLS POLICIES
+-- POLICIES
 
--- Users Table Policies
-CREATE POLICY "Users can manage own profile" ON users
-  FOR ALL USING (auth.uid() = id);
+-- Users can manage their own data
+CREATE POLICY "Manage own user profile" ON users FOR ALL USING (auth.uid() = id);
+CREATE POLICY "Manage own progress" ON progress FOR ALL USING (auth.uid() = user_id);
+CREATE POLICY "Manage own completions" ON lesson_completion FOR ALL USING (auth.uid() = user_id);
+CREATE POLICY "Manage own achievements" ON achievements FOR ALL USING (auth.uid() = user_id);
+CREATE POLICY "Manage own votes" ON feature_votes FOR ALL USING (auth.uid() = user_id);
 
-CREATE POLICY "Admins can view all profiles" ON users
-  FOR SELECT USING (EXISTS (SELECT 1 FROM admins WHERE email = auth.jwt() ->> 'email'));
+-- Feedback
+CREATE POLICY "Users can insert feedback" ON feedback FOR INSERT WITH CHECK (true);
 
--- Progress Table Policies
-CREATE POLICY "Users can manage own progress" ON progress
-  FOR ALL USING (auth.uid() = user_id);
+-- Whitelist check (Users can only check their own email)
+CREATE POLICY "Check own approval" ON allowed_users FOR SELECT USING (LOWER(email) = LOWER(auth.jwt() ->> 'email'));
 
-CREATE POLICY "Admins can view all progress" ON progress
-  FOR SELECT USING (EXISTS (SELECT 1 FROM admins WHERE email = auth.jwt() ->> 'email'));
+-- Admin check (Users can only check their own email to avoid recursion)
+CREATE POLICY "Check own admin status" ON admins FOR SELECT USING (LOWER(email) = LOWER(auth.jwt() ->> 'email'));
 
--- Lesson Completion Policies
-CREATE POLICY "Users can manage own completions" ON lesson_completion
-  FOR ALL USING (auth.uid() = user_id);
-
--- Achievements Policies
-CREATE POLICY "Users can manage own achievements" ON achievements
-  FOR ALL USING (auth.uid() = user_id);
-
--- Feedback Policies (Users can create, Admins can view)
-CREATE POLICY "Anyone can create feedback" ON feedback
-  FOR INSERT WITH CHECK (true);
-
-CREATE POLICY "Admins can view feedback" ON feedback
-  FOR SELECT USING (EXISTS (SELECT 1 FROM admins WHERE email = auth.jwt() ->> 'email'));
-
--- Allowed Users Policies
-CREATE POLICY "Users can check their own approval status"
-  ON allowed_users FOR SELECT
-  USING (auth.jwt() ->> 'email' = email);
-
+-- Admin-only management policies
+-- Note: We use auth.jwt() to check if the current user's email is in the admins table.
+-- To avoid recursion, we check against the auth table or use a simpler check.
 CREATE POLICY "Admins can manage allowed_users"
   ON allowed_users FOR ALL
-  USING (EXISTS (SELECT 1 FROM admins WHERE email = auth.jwt() ->> 'email'));
+  USING (EXISTS (SELECT 1 FROM admins WHERE LOWER(email) = LOWER(auth.jwt() ->> 'email')));
 
--- Admins Policies
-CREATE POLICY "Users can check their own admin status"
-  ON admins FOR SELECT
-  USING (auth.jwt() ->> 'email' = email);
+CREATE POLICY "Admins can view feedback"
+  ON feedback FOR SELECT
+  USING (EXISTS (SELECT 1 FROM admins WHERE LOWER(email) = LOWER(auth.jwt() ->> 'email')));
 
-CREATE POLICY "Admins can view admins list"
-  ON admins FOR SELECT
-  USING (EXISTS (SELECT 1 FROM admins WHERE email = auth.jwt() ->> 'email'));
+CREATE POLICY "Admins can view all users"
+  ON users FOR SELECT
+  USING (EXISTS (SELECT 1 FROM admins WHERE LOWER(email) = LOWER(auth.jwt() ->> 'email')));
