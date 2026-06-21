@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useAuthStore } from "@/hooks/useAuth";
 
 export default function AuthScreen() {
-  const { login, loading, error } = useAuthStore();
+  const { login, loginWithPopup, loading, error } = useAuthStore();
 
   return (
     <div className="h-screen bg-bg-dark flex flex-col items-center justify-between p-10 overflow-hidden relative">
@@ -49,10 +49,19 @@ export default function AuthScreen() {
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="p-5 bg-red-500/10 border border-red-500/20 rounded-[2rem] text-red-500 text-sm font-bold flex items-center gap-3 backdrop-blur-xl"
+            className="flex flex-col gap-3"
           >
-            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-            {error}
+            <div className="p-5 bg-red-500/10 border border-red-500/20 rounded-[2rem] text-red-500 text-sm font-bold flex items-center gap-3 backdrop-blur-xl">
+              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse flex-shrink-0" />
+              <p className="flex-1">{error}</p>
+            </div>
+
+            <button
+              onClick={loginWithPopup}
+              className="text-xs text-slate-500 font-black uppercase tracking-widest py-2 hover:text-white transition-colors"
+            >
+              Try Alternative Sign-in
+            </button>
           </motion.div>
         )}
       </div>

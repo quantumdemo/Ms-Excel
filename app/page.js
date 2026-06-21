@@ -23,7 +23,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState('home');
   const [categoryFilter, setCategoryFilter] = useState(null);
 
-  const { user, loading, init } = useAuthStore();
+  const { user, loading } = useAuthStore();
   const { fetchProgress } = useProgressStore();
 
   useEffect(() => {
@@ -35,12 +35,10 @@ export default function Home() {
       }
     }, 2500);
 
-    const unsubscribe = init();
     return () => {
       clearTimeout(timer);
-      unsubscribe();
     };
-  }, [init]);
+  }, []);
 
   useEffect(() => {
     if (user) {

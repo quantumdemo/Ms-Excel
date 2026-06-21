@@ -70,6 +70,18 @@ ALTER TABLE allowed_users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE admins ENABLE ROW LEVEL SECURITY;
 
 -- Simple policies (assuming the app will use service role for admin tasks or we'll configure JWT claims)
--- For the purpose of this task, we'll define the structure.
--- In a real scenario, we'd use:
--- CREATE POLICY "Admins can manage allowed_users" ON allowed_users FOR ALL USING (auth.jwt() ->> 'email' IN (SELECT email FROM admins));
+-- RLS Policies
+-- Since we use Firebase Auth, we need to allow the client (anon role)
+-- to read the whitelist and admin tables to verify access.
+
+CREATE POLICY "Allow anonymous read access to allowed_users"
+  ON allowed_users FOR SELECT
+  USING (true);
+
+CREATE POLICY "Allow anonymous read access to admins"
+  ON admins FOR SELECT
+  USING (true);
+
+-- Management policies (These would ideally be restricted by service role or custom claims)
+-- For this setup, we rely on the application logic for write operations,
+-- but for true security on the database level, one could use a service role key.
