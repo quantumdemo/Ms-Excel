@@ -52,3 +52,24 @@ CREATE TABLE feature_votes (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   UNIQUE(user_id, feature_id)
 );
+
+-- Create allowed_users table
+CREATE TABLE allowed_users (
+  email TEXT PRIMARY KEY,
+  added_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create admins table
+CREATE TABLE admins (
+  email TEXT PRIMARY KEY,
+  added_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Enable RLS
+ALTER TABLE allowed_users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE admins ENABLE ROW LEVEL SECURITY;
+
+-- Simple policies (assuming the app will use service role for admin tasks or we'll configure JWT claims)
+-- For the purpose of this task, we'll define the structure.
+-- In a real scenario, we'd use:
+-- CREATE POLICY "Admins can manage allowed_users" ON allowed_users FOR ALL USING (auth.jwt() ->> 'email' IN (SELECT email FROM admins));
