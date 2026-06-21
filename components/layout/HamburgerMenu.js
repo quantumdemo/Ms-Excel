@@ -65,10 +65,10 @@ export default function HamburgerMenu({ isOpen, onClose, onSelectCategory, setAc
               <div className="px-6 mb-8">
                 <div className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/5">
                   <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-excel-green flex-shrink-0 bg-slate-800">
-                    <img src={user?.photoURL || `https://ui-avatars.com/api/?name=${user?.displayName || 'User'}&background=217346&color=fff`} alt="Avatar" />
+                    <img src={user?.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${user?.user_metadata?.full_name || 'User'}&background=217346&color=fff`} alt="Avatar" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-sm leading-none mb-1 truncate">{user?.displayName || "Excel Explorer"}</h3>
+                    <h3 className="font-bold text-sm leading-none mb-1 truncate">{user?.user_metadata?.full_name || "Excel Explorer"}</h3>
                     <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Lvl {currentLevel} {currentLevel > 5 ? 'Wizard' : 'Beginner'}</p>
                   </div>
                 </div>
