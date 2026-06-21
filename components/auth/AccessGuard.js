@@ -49,7 +49,7 @@ export default function AccessGuard({ children }) {
      return null; // The useEffect will redirect
   }
 
-  if (!user && pathname !== '/access-denied') {
+  if (!user) {
     return <AuthScreen />;
   }
 
