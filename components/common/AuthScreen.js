@@ -57,10 +57,10 @@ export default function AuthScreen() {
             </div>
 
             <button
-              onClick={loginWithPopup}
+              onClick={login}
               className="text-xs text-slate-500 font-black uppercase tracking-widest py-2 hover:text-white transition-colors"
             >
-              Try Alternative Sign-in
+              Try Again
             </button>
           </motion.div>
         )}

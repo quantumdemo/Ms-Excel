@@ -1,7 +1,4 @@
 import { create } from 'zustand';
-import { auth } from '@/lib/firebase';
-import { onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, signOut } from 'firebase/auth';
-import { googleProvider } from '@/lib/firebase';
 import { supabase } from '@/lib/supabase';
 
 export const useAuthStore = create((set, get) => ({
@@ -14,40 +11,42 @@ export const useAuthStore = create((set, get) => ({
   setUser: (user) => set({ user, loading: false }),
   setLoading: (loading) => set({ loading }),
 
-  // Internal helper to sync Firebase user to Supabase
-  syncToSupabase: async (firebaseUser) => {
-    if (!firebaseUser) return;
+  // Internal helper to sync user to Supabase tables
+  syncToSupabase: async (sbUser) => {
+    if (!sbUser) return;
 
     try {
-      // Upsert user into Supabase users table
-      await supabase.from('users').upsert({
-        id: firebaseUser.uid,
-        email: firebaseUser.email,
-        display_name: firebaseUser.displayName,
-        photo_url: firebaseUser.photoURL,
+      // 1. Upsert user into users table
+      const { error: upsertError } = await supabase.from('users').upsert({
+        id: sbUser.id,
+        email: sbUser.email,
+        display_name: sbUser.user_metadata?.full_name || sbUser.user_metadata?.display_name,
+        photo_url: sbUser.user_metadata?.avatar_url || sbUser.user_metadata?.photo_url,
         updated_at: new Date().toISOString()
       });
 
-      // Ensure a progress record exists for the user
+      if (upsertError) console.error("Upsert user error:", upsertError);
+
+      // 2. Ensure progress record
       const { data: progress } = await supabase
         .from('progress')
         .select('user_id')
-        .eq('user_id', firebaseUser.uid)
+        .eq('user_id', sbUser.id)
         .single();
 
       if (!progress) {
         await supabase.from('progress').insert({
-          user_id: firebaseUser.uid,
+          user_id: sbUser.id,
           xp: 0,
           streak: 0,
           completed_lessons: []
         });
       }
 
-      // Check for approval and admin status
+      // 3. Check for approval and admin status
       const [adminCheck, approvedCheck] = await Promise.all([
-        supabase.from('admins').select('email').eq('email', firebaseUser.email).single(),
-        supabase.from('allowed_users').select('email').eq('email', firebaseUser.email).single()
+        supabase.from('admins').select('email').eq('email', sbUser.email).maybeSingle(),
+        supabase.from('allowed_users').select('email').eq('email', sbUser.email).maybeSingle()
       ]);
 
       const isAdmin = !!adminCheck.data;
@@ -55,49 +54,35 @@ export const useAuthStore = create((set, get) => ({
 
       set({ isAdmin, isApproved });
     } catch (err) {
-      console.error("Error syncing user to Supabase:", err);
+      console.error("Error in syncToSupabase:", err);
     }
   },
 
-  login: async (method = 'auto') => {
+  login: async () => {
     set({ loading: true, error: null });
-    if (!auth || !googleProvider) {
-      const errorMsg = "Authentication is not properly initialized. Please contact admin.";
-      set({ error: errorMsg, loading: false });
-      return;
-    }
-
     try {
-      // Auto-detect best method if not specified
-      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      const useRedirect = method === 'redirect' || (method === 'auto' && isMobile);
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: typeof window !== 'undefined' ? `${window.location.origin}/` : undefined
+        }
+      });
 
-      if (useRedirect) {
-        await signInWithRedirect(auth, googleProvider);
-      } else {
-        const result = await signInWithPopup(auth, googleProvider);
-        await get().syncToSupabase(result.user);
-        set({ user: result.user, loading: false });
-        return result.user;
-      }
+      if (error) throw error;
+      // Note: Redirect will happen here
     } catch (error) {
       console.error("Auth Error:", error);
-      let errorMessage = error.message;
-      if (error.code === 'auth/popup-blocked') errorMessage = "Popup blocked. Use the 'Alternative Sign-in' below.";
-      if (error.code === 'auth/network-request-failed') errorMessage = "Connection failed. Please check your internet.";
-      if (error.code === 'auth/unauthorized-domain') errorMessage = "This domain is not authorized. Check Firebase Console.";
-
-      set({ error: errorMessage, loading: false });
+      set({ error: error.message, loading: false });
     }
   },
 
-  // Helper for explicit fallback
-  loginWithPopup: () => get().login('popup'),
+  // Supabase uses the same method for everything, but we'll keep the alias for compatibility
+  loginWithPopup: () => get().login(),
 
   logout: async () => {
     set({ loading: true });
     try {
-      await signOut(auth);
+      await supabase.auth.signOut();
       set({ user: null, isAdmin: false, isApproved: false, loading: false });
     } catch (error) {
       set({ error: error.message, loading: false });
@@ -105,27 +90,26 @@ export const useAuthStore = create((set, get) => ({
   },
 
   init: () => {
-    if (!auth) return () => {};
-
-    // Handle redirect result
-    getRedirectResult(auth).then(async (result) => {
-      if (result?.user) {
-        await get().syncToSupabase(result.user);
-        set({ user: result.user, loading: false });
-      }
-    }).catch((error) => {
-      console.error("Redirect auth error:", error);
-      set({ error: error.message, loading: false });
-    });
-
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        await get().syncToSupabase(user);
+    // 1. Get initial session
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (session?.user) {
+        await get().syncToSupabase(session.user);
+        set({ user: session.user, loading: false });
       } else {
-        set({ isAdmin: false, isApproved: false });
+        set({ loading: false });
       }
-      set({ user, loading: false });
     });
-    return unsubscribe;
+
+    // 2. Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        await get().syncToSupabase(session.user);
+        set({ user: session.user, loading: false });
+      } else if (event === 'SIGNED_OUT') {
+        set({ user: null, isAdmin: false, isApproved: false, loading: false });
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }
 }));

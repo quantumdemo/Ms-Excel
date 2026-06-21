@@ -74,14 +74,35 @@ ALTER TABLE admins ENABLE ROW LEVEL SECURITY;
 -- Since we use Firebase Auth, we need to allow the client (anon role)
 -- to read the whitelist and admin tables to verify access.
 
-CREATE POLICY "Allow anonymous read access to allowed_users"
+-- RLS Policies
+-- To handle security properly even when using client-side checks:
+
+-- 1. Users can check if their OWN email is in the allowed_users table
+CREATE POLICY "Users can check their own approval status"
   ON allowed_users FOR SELECT
-  USING (true);
+  USING (auth.jwt() ->> 'email' = email);
 
-CREATE POLICY "Allow anonymous read access to admins"
+-- 2. Users can check if their OWN email is in the admins table
+CREATE POLICY "Users can check their own admin status"
   ON admins FOR SELECT
-  USING (true);
+  USING (auth.jwt() ->> 'email' = email);
 
--- Management policies (These would ideally be restricted by service role or custom claims)
--- For this setup, we rely on the application logic for write operations,
--- but for true security on the database level, one could use a service role key.
+-- 3. Admins have full access to manage allowed_users
+CREATE POLICY "Admins can manage all allowed_users"
+  ON allowed_users FOR ALL
+  USING (
+    EXISTS (
+      SELECT 1 FROM admins
+      WHERE email = auth.jwt() ->> 'email'
+    )
+  );
+
+-- 4. Admins can view the admins table
+CREATE POLICY "Admins can view other admins"
+  ON admins FOR SELECT
+  USING (
+    EXISTS (
+      SELECT 1 FROM admins
+      WHERE email = auth.jwt() ->> 'email'
+    )
+  );
