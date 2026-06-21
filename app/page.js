@@ -61,9 +61,7 @@ export default function Home() {
     return <Onboarding onComplete={handleOnboardingComplete} />;
   }
 
-  if (!user && !loading) {
-    return <AuthScreen />;
-  }
+  // Note: Authentication and Authorization are now handled by AccessGuard in layout.js
 
   if (loading) {
      return <SplashScreen />;

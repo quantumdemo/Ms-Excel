@@ -4,9 +4,11 @@ import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
 import { googleProvider } from '@/lib/firebase';
 import { supabase } from '@/lib/supabase';
 
-export const useAuthStore = create((set) => ({
+export const useAuthStore = create((set, get) => ({
   user: null,
   loading: true,
+  isApproved: false,
+  isAdmin: false,
   error: null,
 
   setUser: (user) => set({ user, loading: false }),
@@ -41,6 +43,17 @@ export const useAuthStore = create((set) => ({
           completed_lessons: []
         });
       }
+
+      // Check for approval and admin status
+      const [adminCheck, approvedCheck] = await Promise.all([
+        supabase.from('admins').select('email').eq('email', firebaseUser.email).single(),
+        supabase.from('allowed_users').select('email').eq('email', firebaseUser.email).single()
+      ]);
+
+      const isAdmin = !!adminCheck.data;
+      const isApproved = isAdmin || !!approvedCheck.data;
+
+      set({ isAdmin, isApproved });
     } catch (err) {
       console.error("Error syncing user to Supabase:", err);
     }
@@ -55,7 +68,7 @@ export const useAuthStore = create((set) => ({
     }
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      await useAuthStore.getState().syncToSupabase(result.user);
+      await get().syncToSupabase(result.user);
       set({ user: result.user, loading: false });
       return result.user;
     } catch (error) {
@@ -68,7 +81,7 @@ export const useAuthStore = create((set) => ({
     set({ loading: true });
     try {
       await signOut(auth);
-      set({ user: null, loading: false });
+      set({ user: null, isAdmin: false, isApproved: false, loading: false });
     } catch (error) {
       set({ error: error.message, loading: false });
     }
@@ -78,7 +91,9 @@ export const useAuthStore = create((set) => ({
     if (!auth) return () => {};
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        await useAuthStore.getState().syncToSupabase(user);
+        await get().syncToSupabase(user);
+      } else {
+        set({ isAdmin: false, isApproved: false });
       }
       set({ user, loading: false });
     });
