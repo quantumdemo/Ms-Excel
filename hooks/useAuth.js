@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { auth } from '@/lib/firebase';
-import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
+import { onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, signOut } from 'firebase/auth';
 import { googleProvider } from '@/lib/firebase';
 import { supabase } from '@/lib/supabase';
 
@@ -59,23 +59,40 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
-  login: async () => {
+  login: async (method = 'auto') => {
     set({ loading: true, error: null });
     if (!auth || !googleProvider) {
-      const errorMsg = "Authentication is not properly initialized. Check your environment variables.";
+      const errorMsg = "Authentication is not properly initialized. Please contact admin.";
       set({ error: errorMsg, loading: false });
-      throw new Error(errorMsg);
+      return;
     }
+
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      await get().syncToSupabase(result.user);
-      set({ user: result.user, loading: false });
-      return result.user;
+      // Auto-detect best method if not specified
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const useRedirect = method === 'redirect' || (method === 'auto' && isMobile);
+
+      if (useRedirect) {
+        await signInWithRedirect(auth, googleProvider);
+      } else {
+        const result = await signInWithPopup(auth, googleProvider);
+        await get().syncToSupabase(result.user);
+        set({ user: result.user, loading: false });
+        return result.user;
+      }
     } catch (error) {
-      set({ error: error.message, loading: false });
-      throw error;
+      console.error("Auth Error:", error);
+      let errorMessage = error.message;
+      if (error.code === 'auth/popup-blocked') errorMessage = "Popup blocked. Use the 'Alternative Sign-in' below.";
+      if (error.code === 'auth/network-request-failed') errorMessage = "Connection failed. Please check your internet.";
+      if (error.code === 'auth/unauthorized-domain') errorMessage = "This domain is not authorized. Check Firebase Console.";
+
+      set({ error: errorMessage, loading: false });
     }
   },
+
+  // Helper for explicit fallback
+  loginWithPopup: () => get().login('popup'),
 
   logout: async () => {
     set({ loading: true });
@@ -89,6 +106,18 @@ export const useAuthStore = create((set, get) => ({
 
   init: () => {
     if (!auth) return () => {};
+
+    // Handle redirect result
+    getRedirectResult(auth).then(async (result) => {
+      if (result?.user) {
+        await get().syncToSupabase(result.user);
+        set({ user: result.user, loading: false });
+      }
+    }).catch((error) => {
+      console.error("Redirect auth error:", error);
+      set({ error: error.message, loading: false });
+    });
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         await get().syncToSupabase(user);
