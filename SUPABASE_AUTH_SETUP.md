@@ -30,5 +30,28 @@ Ensure your environment variables in Vercel (or your hosting provider) are set c
 - **Improved Reliability**: Supabase Auth is often more stable for mobile redirects compared to Firebase when not fully configured.
 - **Simplified Code**: We no longer need to bridge two different authentication providers.
 
-### Note on Admin Access
-Once you have enabled Google Auth, you can add your email to the `admins` table via the Supabase SQL Editor or Table Editor to gain access to the Admin Dashboard.
+### 4. How to Add Your First Admin Email
+To access the Admin Dashboard, your email must be in the `admins` table. Follow these steps:
+
+#### Method A: Using the Table Editor (Easiest)
+1. Go to your **Supabase Dashboard**.
+2. Click on **Table Editor** (the table icon on the left sidebar).
+3. Select the `admins` table.
+4. Click **Insert row** at the top.
+5. In the `email` column, type the exact email address you will use to sign in with Google.
+6. Click **Save**.
+
+#### Method B: Using the SQL Editor
+1. Click on **SQL Editor** (the code icon `>_` on the left sidebar).
+2. Click **New query**.
+3. Paste and run the following command (replace with your email):
+   ```sql
+   INSERT INTO admins (email) VALUES ('your-email@gmail.com');
+   ```
+
+### 5. Accessing the Admin Dashboard
+Once your email is added:
+1. Visit your website and sign in with Google.
+2. Open the side menu (Hamburger menu).
+3. You will now see a **Shield icon** labeled **Admin Portal**.
+4. You can also visit it directly at `/admin-exclusive-portal`.
