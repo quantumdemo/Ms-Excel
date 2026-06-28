@@ -15,7 +15,6 @@ const LessonViewer = dynamic(() => import("@/components/lesson/LessonViewer"), {
 const SheetLab = dynamic(() => import("@/components/sheetlab/SheetLab"), { ssr: false });
 
 export default function Home() {
-  const [showSplash, setShowSplash] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState(null);
 
@@ -27,22 +26,16 @@ export default function Home() {
   const { fetchProgress } = useProgressStore();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSplash(false);
-      const hasSeenOnboarding = typeof window !== "undefined" && localStorage.getItem("hasSeenOnboarding");
-      if (!hasSeenOnboarding) {
-        setShowOnboarding(true);
-      }
-    }, 2500);
-
-    return () => {
-      clearTimeout(timer);
-    };
+    // Check onboarding after initial load
+    const hasSeenOnboarding = typeof window !== "undefined" && localStorage.getItem("hasSeenOnboarding");
+    if (!hasSeenOnboarding) {
+      setShowOnboarding(true);
+    }
   }, []);
 
   useEffect(() => {
     if (user) {
-      fetchProgress(user.uid);
+      fetchProgress(user.id);
     }
   }, [user, fetchProgress]);
 
@@ -50,10 +43,6 @@ export default function Home() {
     localStorage.setItem("hasSeenOnboarding", "true");
     setShowOnboarding(false);
   };
-
-  if (showSplash) {
-    return <SplashScreen />;
-  }
 
   if (showOnboarding) {
     return <Onboarding onComplete={handleOnboardingComplete} />;
