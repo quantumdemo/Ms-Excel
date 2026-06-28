@@ -16,25 +16,26 @@ export const useAuthStore = create((set, get) => ({
     if (!sbUser) return;
 
     try {
-      // 1. Upsert user into users table
-      const { error: upsertError } = await supabase.from('users').upsert({
-        id: sbUser.id,
-        email: sbUser.email,
-        display_name: sbUser.user_metadata?.full_name || sbUser.user_metadata?.display_name,
-        photo_url: sbUser.user_metadata?.avatar_url || sbUser.user_metadata?.photo_url,
-        updated_at: new Date().toISOString()
-      });
+      const emailLower = sbUser.email.toLowerCase().trim();
 
-      if (upsertError) console.error("Upsert user error:", upsertError);
+      // Parallelize initial checks and user upsert
+      const [upsertRes, progressRes, adminRes, approvedRes] = await Promise.all([
+        supabase.from('users').upsert({
+          id: sbUser.id,
+          email: sbUser.email,
+          display_name: sbUser.user_metadata?.full_name || sbUser.user_metadata?.display_name,
+          photo_url: sbUser.user_metadata?.avatar_url || sbUser.user_metadata?.photo_url,
+          updated_at: new Date().toISOString()
+        }),
+        supabase.from('progress').select('user_id').eq('user_id', sbUser.id).maybeSingle(),
+        supabase.from('admins').select('email').ilike('email', emailLower).maybeSingle(),
+        supabase.from('allowed_users').select('email').ilike('email', emailLower).maybeSingle()
+      ]);
 
-      // 2. Ensure progress record
-      const { data: progress } = await supabase
-        .from('progress')
-        .select('user_id')
-        .eq('user_id', sbUser.id)
-        .single();
+      if (upsertRes.error) console.error("Upsert user error:", upsertRes.error);
 
-      if (!progress) {
+      // Ensure progress record exists if not found
+      if (!progressRes.data) {
         await supabase.from('progress').insert({
           user_id: sbUser.id,
           xp: 0,
@@ -43,16 +44,8 @@ export const useAuthStore = create((set, get) => ({
         });
       }
 
-      // 3. Check for approval and admin status (case-insensitive)
-      const emailLower = sbUser.email.toLowerCase().trim();
-      const [adminCheck, approvedCheck] = await Promise.all([
-        supabase.from('admins').select('email').ilike('email', emailLower).maybeSingle(),
-        supabase.from('allowed_users').select('email').ilike('email', emailLower).maybeSingle()
-      ]);
-
-      const isAdmin = !!adminCheck.data;
-      const isApproved = isAdmin || !!approvedCheck.data;
-
+      const isAdmin = !!adminRes.data;
+      const isApproved = isAdmin || !!approvedRes.data;
 
       set({ isAdmin, isApproved });
     } catch (err) {
@@ -82,12 +75,22 @@ export const useAuthStore = create((set, get) => ({
   loginWithPopup: () => get().login(),
 
   logout: async () => {
-    set({ loading: true });
+    // Optimistic update: clear user state immediately to trigger instantaneous UI transition
+    set({ user: null, isAdmin: false, isApproved: false, loading: false });
+
+    // Also clear progress state if available
+    try {
+      const { useProgressStore } = await import('@/hooks/useProgress');
+      useProgressStore.getState().reset();
+    } catch (e) {
+      console.error("Error resetting progress store:", e);
+    }
+
     try {
       await supabase.auth.signOut();
-      set({ user: null, isAdmin: false, isApproved: false, loading: false });
     } catch (error) {
-      set({ error: error.message, loading: false });
+      console.error("Logout Error:", error);
+      // We don't set error here to avoid blocking the UI on a failed sign out call
     }
   },
 

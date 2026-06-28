@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "@/hooks/useAuth";
 import { useRouter, usePathname } from "next/navigation";
 import AuthScreen from "@/components/common/AuthScreen";
@@ -8,6 +8,7 @@ import SplashScreen from "@/components/common/SplashScreen";
 
 export default function AccessGuard({ children }) {
   const { user, loading, isApproved, isAdmin, init } = useAuthStore();
+  const [showSplash, setShowSplash] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -16,12 +17,21 @@ export default function AccessGuard({ children }) {
     return () => unsubscribe && unsubscribe();
   }, [init]);
 
+  // Handle branding splash screen timer
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 2500); // 2.5s branding requirement
+
+    return () => clearTimeout(timer);
+  }, []);
+
   useEffect(() => {
     // Public routes that don't need protection (optional based on requirements)
     // But user said "Protect all routes and pages"
     const isPublicRoute = false; // We can add some if needed, e.g. pathname === '/terms'
 
-    if (!loading) {
+    if (!loading && !showSplash) {
       if (!user) {
         // If not logged in and on a protected route, we'll show AuthScreen (handled below)
       } else {
@@ -37,9 +47,9 @@ export default function AccessGuard({ children }) {
         }
       }
     }
-  }, [user, loading, isApproved, isAdmin, pathname, router]);
+  }, [user, loading, isApproved, isAdmin, pathname, router, showSplash]);
 
-  if (loading) {
+  if (loading || showSplash) {
     return <SplashScreen />;
   }
 

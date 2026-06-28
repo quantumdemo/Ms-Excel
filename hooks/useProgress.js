@@ -68,6 +68,10 @@ export const useProgressStore = create(
       console.error("Error saving progress:", err);
     }
   },
+
+  reset: () => {
+    set({ xp: 0, streak: 0, completedLessons: [], loading: false });
+  },
     }),
     {
       name: 'excel-progress-storage',
