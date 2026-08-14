@@ -2,9 +2,9 @@
 
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, RotateCcw, Database, Sparkles, Bot } from 'lucide-react';
+import { ChevronLeft, RotateCcw, Database, Sparkles, Bot, Hash, Calendar, DollarSign, Percent, Type } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { CellRegistry, ReferenceResolver } from '@/lib/excel-core';
+import { CellRegistry, ReferenceResolver, formatCellValue } from '@/lib/excel-core';
 import FormulaAutoComplete from '../spreadsheet/FormulaAutoComplete';
 import FunctionScreentip from '../spreadsheet/FunctionScreentip';
 import ExcelActions from './ExcelActions';
@@ -17,8 +17,18 @@ import _ from 'lodash';
 const INITIAL_ROWS = 100;
 const INITIAL_COLS = 26;
 
+const FORMAT_OPTIONS = [
+  { id: 'general', label: 'General', icon: Hash },
+  { id: 'number', label: 'Number (1,234.56)', icon: Hash },
+  { id: 'currency', label: 'Currency ($1,234.56)', icon: DollarSign },
+  { id: 'date', label: 'Date (2024-01-01)', icon: Calendar },
+  { id: 'percentage', label: 'Percentage (12.50%)', icon: Percent },
+  { id: 'text', label: 'Text', icon: Type }
+];
+
 const GridCell = React.memo(({ r, c, id, cellData, isS, isF, editValue, onSelect, onPointerDown, onFillStart }) => {
-  const displayValue = isS ? editValue : cellData?.computed;
+  const rawDisplay = isS ? editValue : cellData?.computed;
+  const displayValue = isS ? editValue : formatCellValue(rawDisplay, cellData?.format || 'general');
 
   return (
     <td
@@ -35,7 +45,7 @@ const GridCell = React.memo(({ r, c, id, cellData, isS, isF, editValue, onSelect
     >
       <div className={cn(
         "px-2 truncate text-center font-medium pointer-events-none",
-        displayValue?.toString().startsWith("#") ? "text-red-400 font-bold" : (typeof displayValue === 'number' ? "text-blue-400" : "text-slate-300")
+        displayValue?.toString().startsWith("#") ? "text-red-400 font-bold" : (typeof rawDisplay === 'number' ? "text-blue-400" : "text-slate-300")
       )}>
         {displayValue?.toString() ?? ""}
       </div>
@@ -93,6 +103,11 @@ export default function SheetLab({ onBack }) {
     ReferenceResolver.coordToId(selected.r, selected.c),
     [selected]
   );
+
+  const activeCellData = useMemo(() => {
+    if (!registry) return null;
+    return registry.getCell(activeCellId);
+  }, [registry, activeCellId]);
 
   // Build active spreadsheet context for AI Coach
   const spreadsheetContext = useMemo(() => {
@@ -186,15 +201,20 @@ export default function SheetLab({ onBack }) {
       return;
     }
 
-    // Execute through standard CellRegistry update mechanism
     registry.updateCell(targetCellId, formulaStr);
 
-    // Update active UI selection & input
     setSelected({ r: coord.r, c: coord.c });
     setInputValue(formulaStr);
 
     setActionNotification(`Applied ${formulaStr} to cell ${targetCellId}`);
     setTimeout(() => setActionNotification(null), 3500);
+  };
+
+  const handleFormatChange = (e) => {
+    const fmt = e.target.value;
+    if (registry && activeCellId) {
+      registry.setCellFormat(activeCellId, fmt);
+    }
   };
 
   const updateFormulaUI = useCallback(_.debounce((val, pos) => {
@@ -464,11 +484,27 @@ export default function SheetLab({ onBack }) {
         </div>
       </header>
 
-      {/* Formula Bar */}
-      <div className="flex items-center gap-3 p-4 bg-black/40 border-b border-white/5">
-        <div className="px-3 py-2 bg-excel-green/10 rounded-xl font-mono font-bold text-excel-green text-sm min-w-[3.5rem] text-center border border-excel-green/20">
-          {activeCellId}
+      {/* Formula & Formatting Bar */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 p-4 bg-black/40 border-b border-white/5">
+        <div className="flex items-center gap-2">
+          <div className="px-3 py-2 bg-excel-green/10 rounded-xl font-mono font-bold text-excel-green text-sm min-w-[3.5rem] text-center border border-excel-green/20">
+            {activeCellId}
+          </div>
+
+          {/* Cell Format Selector */}
+          <select
+            value={activeCellData?.format || 'general'}
+            onChange={handleFormatChange}
+            className="bg-white/5 border border-white/10 text-slate-300 font-bold text-xs rounded-xl px-3 py-2.5 outline-none focus:border-excel-green/50 cursor-pointer"
+          >
+            {FORMAT_OPTIONS.map(opt => (
+              <option key={opt.id} value={opt.id} className="bg-bg-dark text-slate-100">
+                {opt.label}
+              </option>
+            ))}
+          </select>
         </div>
+
         <div className="flex-1 flex flex-col relative">
           <div className="flex items-center gap-3 bg-white/5 rounded-2xl px-4 py-3 border border-white/5 focus-within:border-excel-green/50 transition-all shadow-inner">
             <span className="text-excel-green font-mono italic font-bold">fx</span>
