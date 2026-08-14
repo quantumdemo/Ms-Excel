@@ -160,57 +160,117 @@ export async function POST(req) {
       );
     }
 
-    const apiKey = process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.OPENAI_API_KEY;
+    const groqKey = process.env.GROQ_API_KEY;
+    const geminiKey = process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+    const openaiKey = process.env.OPENAI_API_KEY;
 
-    // Call external AI provider if API key is present
-    if (apiKey) {
-      try {
-        if (process.env.OPENAI_API_KEY) {
-          const systemPrompt = `You are an AI Data Coach for LearnExcelAI.
-Your goal is to act as a helpful tutor.
+    const systemPrompt = `You are an AI Data Coach for LearnExcelAI.
+Your goal is to act as a helpful spreadsheet learning tutor.
 Spreadsheet Context:
 ${JSON.stringify(context, null, 2)}
 Learner Question: ${question}
 Attempted Formula: ${attemptedFormula || 'None'}
 
-Return ONLY a valid JSON object with key properties:
+Return ONLY a valid JSON object strictly adhering to this schema:
 {
   "type": "explanation" | "guided_solution" | "formula_help" | "error_help" | "data_analysis" | "practice",
-  "answer": "short summary",
+  "answer": "short summary heading",
   "explanation": "clear educational breakdown",
   "formula": "=FORMULA(...)" or null,
-  "hint": "helpful hint",
+  "hint": "helpful hint for learner",
   "learningObjective": "learning goal",
   "difficulty": "beginner" | "intermediate" | "advanced",
   "action": null or { "type": "insert_formula", "cell": "CELL_ID", "formula": "=FORMULA(...)" }
 }`;
 
-          const aiRes = await fetch("https://api.openai.com/v1/chat/completions", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-              model: "gpt-4o-mini",
-              messages: [{ role: "system", content: systemPrompt }],
-              response_format: { type: "json_object" },
-              temperature: 0.3
-            })
-          });
+    // 1. Try Groq Cloud (Free Tier)
+    if (groqKey) {
+      try {
+        const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${groqKey}`
+          },
+          body: JSON.stringify({
+            model: "llama-3.1-8b-instant",
+            messages: [
+              { role: "system", content: systemPrompt },
+              { role: "user", content: question }
+            ],
+            response_format: { type: "json_object" },
+            temperature: 0.2
+          })
+        });
 
-          if (aiRes.ok) {
-            const data = await aiRes.json();
-            const parsed = JSON.parse(data.choices[0].message.content);
-            return (NextResponse?.json || Response.json)(parsed);
-          }
+        if (groqRes.ok) {
+          const data = await groqRes.json();
+          const parsed = JSON.parse(data.choices[0].message.content);
+          return (NextResponse?.json || Response.json)(parsed);
         }
-      } catch (externalErr) {
-        console.warn("External AI call failed, using fallback coach engine:", externalErr?.message);
+      } catch (err) {
+        console.warn("Groq AI call failed, trying next provider:", err?.message);
       }
     }
 
-    // Use intelligent fallback rule engine
+    // 2. Try Google Gemini (Free Tier)
+    if (geminiKey) {
+      try {
+        const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{ text: systemPrompt + "\nUser Question: " + question }]
+            }],
+            generationConfig: {
+              response_mime_type: "application/json",
+              temperature: 0.2
+            }
+          })
+        });
+
+        if (geminiRes.ok) {
+          const data = await geminiRes.json();
+          const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (rawText) {
+            const parsed = JSON.parse(rawText);
+            return (NextResponse?.json || Response.json)(parsed);
+          }
+        }
+      } catch (err) {
+        console.warn("Gemini AI call failed, trying next provider:", err?.message);
+      }
+    }
+
+    // 3. Try OpenAI
+    if (openaiKey) {
+      try {
+        const openaiRes = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${openaiKey}`
+          },
+          body: JSON.stringify({
+            model: "gpt-4o-mini",
+            messages: [{ role: "system", content: systemPrompt }],
+            response_format: { type: "json_object" },
+            temperature: 0.2
+          })
+        });
+
+        if (openaiRes.ok) {
+          const data = await openaiRes.json();
+          const parsed = JSON.parse(data.choices[0].message.content);
+          return (NextResponse?.json || Response.json)(parsed);
+        }
+      } catch (err) {
+        console.warn("OpenAI call failed, using fallback engine:", err?.message);
+      }
+    }
+
+    // 4. Use Intelligent Rule Engine Fallback (Zero Config Needed)
     const fallbackResponse = generateFallbackResponse(question, context, attemptedFormula);
     return (NextResponse?.json || Response.json)(fallbackResponse);
 
