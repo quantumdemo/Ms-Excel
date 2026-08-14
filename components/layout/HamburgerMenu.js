@@ -5,7 +5,7 @@ import {
   X, Home, BookOpen, Search, Trophy, Settings, LogOut,
   ChevronRight, Layout, BrainCircuit, Calculator, Type,
   Zap, Landmark, Rocket, Calendar, BarChart3, Info,
-  ShieldCheck
+  ShieldCheck, Sparkles
 } from "lucide-react";
 import Image from "next/image";
 import { useAuthStore } from "@/hooks/useAuth";
@@ -54,7 +54,7 @@ export default function HamburgerMenu({ isOpen, onClose, onSelectCategory, setAc
                 <div className="relative w-10 h-10">
                   <Image src="/logo.png" alt="Logo" fill className="object-contain" />
                 </div>
-                <span className="font-bold text-xl">LearnExcel</span>
+                <span className="font-bold text-xl">LearnExcel<span className="text-excel-green">AI</span></span>
               </div>
               <button onClick={onClose} className="p-2 bg-white/5 rounded-full active:scale-90 transition-all">
                 <X size={20} />
@@ -95,9 +95,16 @@ export default function HamburgerMenu({ isOpen, onClose, onSelectCategory, setAc
                  />
                  <MenuLink
                    icon={<Layout size={20} className="text-excel-green" />}
-                   label="SheetLab"
+                   label="SheetLab + AI Coach"
                    active={activeTab === 'sheetlab'}
                    onClick={() => { setActiveTab('sheetlab'); onClose(); }}
+                 />
+
+                 <MenuLink
+                   icon={<Sparkles size={20} className="text-excel-green" />}
+                   label="AI Landing Page"
+                   active={false}
+                   onClick={() => { router.push('/landing'); onClose(); }}
                  />
 
                  {isAdmin && (

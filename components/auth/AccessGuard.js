@@ -26,14 +26,12 @@ export default function AccessGuard({ children }) {
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    // Public routes that don't need protection (optional based on requirements)
-    // But user said "Protect all routes and pages"
-    const isPublicRoute = false; // We can add some if needed, e.g. pathname === '/terms'
+  const isPublicRoute = pathname === '/landing' || pathname === '/terms' || pathname === '/privacy' || pathname === '/about' || pathname === '/contact' || pathname === '/donate' || pathname === '/support';
 
+  useEffect(() => {
     if (!loading && !showSplash) {
       if (!user) {
-        // If not logged in and on a protected route, we'll show AuthScreen (handled below)
+        // Unauthenticated user
       } else {
         // If logged in
         if (!isApproved && !isAdmin && pathname !== '/access-denied') {
@@ -53,18 +51,16 @@ export default function AccessGuard({ children }) {
     return <SplashScreen />;
   }
 
-  // If on admin page, we already have internal check in the page component,
-  // but we can also handle it here if we want more strictness.
+  // If on admin page, internal check handles it
   if (pathname.startsWith('/admin-exclusive-portal') && !isAdmin && !loading && user) {
-     return null; // The useEffect will redirect
+     return null;
   }
 
-  if (!user) {
+  if (!user && !isPublicRoute) {
     return <AuthScreen />;
   }
 
-  // If user is authenticated but not approved/admin, we must not render children
-  // while we are waiting for the redirect to /access-denied in useEffect.
+  // If user is authenticated but not approved/admin
   if (user && !isApproved && !isAdmin && pathname !== '/access-denied') {
     return <SplashScreen />;
   }
