@@ -2,28 +2,20 @@
 
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, RotateCcw, Database, Sparkles } from 'lucide-react';
+import { ChevronLeft, RotateCcw, Database, Sparkles, Bot } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { CellRegistry, ReferenceResolver } from '@/lib/excel-core';
 import FormulaAutoComplete from '../spreadsheet/FormulaAutoComplete';
 import FunctionScreentip from '../spreadsheet/FunctionScreentip';
 import ExcelActions from './ExcelActions';
+import AICoachPanel from './AICoachPanel';
+import { buildSpreadsheetContext } from '@/lib/ai/spreadsheet-context';
 import { getFunctionSuggestions, extractQuery, findActiveFunction } from '@/lib/formula-ui-utils';
 import _ from 'lodash';
 
 // Grid size constants for SheetLab
 const INITIAL_ROWS = 100;
 const INITIAL_COLS = 26;
-const getColLabel = (index) => {
-  let label = "";
-  let temp = index + 1;
-  while (temp > 0) {
-    let rem = (temp - 1) % 26;
-    label = String.fromCharCode(65 + rem) + label;
-    temp = Math.floor((temp - rem) / 26);
-  }
-  return label;
-};
 
 const GridCell = React.memo(({ r, c, id, cellData, isS, isF, editValue, onSelect, onPointerDown, onFillStart }) => {
   const displayValue = isS ? editValue : cellData?.computed;
@@ -74,6 +66,10 @@ export default function SheetLab({ onBack }) {
   const [activeFunction, setActiveFunction] = useState(null);
   const [cursorPos, setCursorPos] = useState(0);
 
+  // AI Coach State
+  const [isAICoachOpen, setIsAICoachOpen] = useState(false);
+  const [actionNotification, setActionNotification] = useState(null);
+
   const [fillRange, setFillRange] = useState(null);
   const [isFilling, setIsFilling] = useState(false);
 
@@ -86,7 +82,6 @@ export default function SheetLab({ onBack }) {
   useEffect(() => {
     const r = new CellRegistry(INITIAL_ROWS, INITIAL_COLS);
     r.onUpdate = () => {
-      // Trigger re-render by creating a shallow copy
       setRegistry(Object.assign(Object.create(Object.getPrototypeOf(r)), r));
     };
     setRegistry(r);
@@ -98,6 +93,12 @@ export default function SheetLab({ onBack }) {
     ReferenceResolver.coordToId(selected.r, selected.c),
     [selected]
   );
+
+  // Build active spreadsheet context for AI Coach
+  const spreadsheetContext = useMemo(() => {
+    if (!registry) return null;
+    return buildSpreadsheetContext(registry, selected);
+  }, [registry, selected]);
 
   const handleCellSelect = useCallback((r, c, id) => {
     if (dragStarted) return;
@@ -122,10 +123,8 @@ export default function SheetLab({ onBack }) {
   const handleImport = (data) => {
     if (!registry) return;
 
-    // Constrain data to 100 rows for performance
     const constrainedData = data.slice(0, INITIAL_ROWS);
 
-    // Reset registry with fixed INITIAL_ROWS
     const newRegistry = new CellRegistry(
       INITIAL_ROWS,
       Math.max(INITIAL_COLS, constrainedData[0]?.length || 0)
@@ -135,7 +134,6 @@ export default function SheetLab({ onBack }) {
       setRegistry(Object.assign(Object.create(Object.getPrototypeOf(newRegistry)), newRegistry));
     };
 
-    // Batch Load Data
     newRegistry.loadData(constrainedData);
 
     setRegistry(newRegistry);
@@ -168,6 +166,35 @@ export default function SheetLab({ onBack }) {
       data.push(row);
     }
     return data;
+  };
+
+  // Controlled Action Validation & Execution
+  const handleApplyAIAction = (action) => {
+    if (!action || action.type !== 'insert_formula' || !registry) return;
+
+    const targetCellId = (action.cell || activeCellId).toUpperCase();
+    const coord = ReferenceResolver.idToCoord(targetCellId);
+
+    if (!coord || coord.r < 0 || coord.r >= INITIAL_ROWS || coord.c < 0 || coord.c >= INITIAL_COLS) {
+      console.warn("Invalid cell action coordinates:", action);
+      return;
+    }
+
+    const formulaStr = String(action.formula || "").trim();
+    if (!formulaStr.startsWith("=")) {
+      console.warn("Invalid formula action syntax (must start with '='):", action);
+      return;
+    }
+
+    // Execute through standard CellRegistry update mechanism
+    registry.updateCell(targetCellId, formulaStr);
+
+    // Update active UI selection & input
+    setSelected({ r: coord.r, c: coord.c });
+    setInputValue(formulaStr);
+
+    setActionNotification(`Applied ${formulaStr} to cell ${targetCellId}`);
+    setTimeout(() => setActionNotification(null), 3500);
   };
 
   const updateFormulaUI = useCallback(_.debounce((val, pos) => {
@@ -204,7 +231,6 @@ export default function SheetLab({ onBack }) {
     const newPos = before.length + func.name.length + 1;
     setCursorPos(newPos);
 
-    // Focus and move cursor
     setTimeout(() => {
       if (inputRef.current) {
         inputRef.current.focus();
@@ -345,12 +371,10 @@ export default function SheetLab({ onBack }) {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      // Check if click is inside autocomplete or screentip
       const isAuto = e.target.closest('[data-formula-ui="autocomplete"]');
       const isTip = e.target.closest('[data-formula-ui="screentip"]');
       if (isAuto || isTip) return;
 
-      // Check if click is inside formula bar or grid
       const isInside = containerRef.current?.contains(e.target);
       if (!isInside) {
         hideFormulaUI();
@@ -376,9 +400,26 @@ export default function SheetLab({ onBack }) {
 
   return (
     <div
-         ref={containerRef}
-         className="flex flex-col h-screen bg-bg-dark text-slate-100 overflow-hidden fixed inset-0 z-50 select-none"
-         onPointerUp={handleFillEnd} onPointerMove={handlePointerMove}>
+      ref={containerRef}
+      className="flex flex-col h-screen bg-bg-dark text-slate-100 overflow-hidden fixed inset-0 z-50 select-none"
+      onPointerUp={handleFillEnd}
+      onPointerMove={handlePointerMove}
+    >
+      {/* Action Notification Toast */}
+      <AnimatePresence>
+        {actionNotification && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-20 left-1/2 -translate-x-1/2 z-[120] bg-excel-green text-white font-bold text-xs px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-2 border border-white/20"
+          >
+            <Sparkles size={16} />
+            <span>{actionNotification}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Header */}
       <header className="px-6 py-4 flex items-center justify-between border-b border-white/5 bg-bg-dark/80 backdrop-blur-md">
         <div className="flex items-center gap-4">
@@ -387,15 +428,28 @@ export default function SheetLab({ onBack }) {
           </button>
           <div>
             <h2 className="font-bold text-lg leading-none">SheetLab</h2>
-            <p className="text-[10px] text-excel-green font-bold uppercase tracking-widest mt-1">Professional Sandbox</p>
+            <p className="text-[10px] text-excel-green font-bold uppercase tracking-widest mt-1">
+              Professional Sandbox
+            </p>
           </div>
         </div>
-        <div className="flex items-center gap-4">
+
+        <div className="flex items-center gap-3">
+          {/* AI Coach Entry Button */}
+          <button
+            onClick={() => setIsAICoachOpen(true)}
+            className="flex items-center gap-2 px-3 py-1.5 bg-excel-green/20 border border-excel-green/40 hover:bg-excel-green/30 text-excel-green rounded-xl font-bold text-xs transition-all active:scale-95 shadow-md shadow-excel-green/10"
+          >
+            <Sparkles size={16} className="text-excel-green" />
+            <span>✨ AI Coach</span>
+          </button>
+
           <ExcelActions
             onImport={handleImport}
             getGridData={getExportData}
             isRegistryReady={!!registry}
           />
+
           <button onClick={() => {
             const r = new CellRegistry(INITIAL_ROWS, INITIAL_COLS);
             r.onUpdate = () => {
@@ -517,13 +571,21 @@ export default function SheetLab({ onBack }) {
       <div className="p-4 bg-black/40 border-t border-white/5 flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
         <div className="flex items-center gap-2">
           <Sparkles size={12} className="text-excel-green" />
-          <span>Real-time Engine Active</span>
+          <span>LearnExcelAI Engine Active</span>
         </div>
         <div className="flex items-center gap-4">
           <span>{INITIAL_ROWS} Rows</span>
           <span>{INITIAL_COLS} Columns</span>
         </div>
       </div>
+
+      {/* AI Coach Drawer Panel */}
+      <AICoachPanel
+        isOpen={isAICoachOpen}
+        onClose={() => setIsAICoachOpen(false)}
+        context={spreadsheetContext}
+        onApplyAction={handleApplyAIAction}
+      />
     </div>
   );
 }
