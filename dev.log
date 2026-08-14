@@ -24,3 +24,7 @@
  ✓ Compiled in 953ms (1543 modules)
  GET /landing 200 in 241ms
  GET /landing 200 in 47ms
+ ✓ Compiled in 6.6s (1545 modules)
+ ✓ Compiled in 687ms (1539 modules)
+ ✓ Compiled in 338ms (740 modules)
+ GET /landing 200 in 521ms

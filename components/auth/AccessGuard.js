@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/hooks/useAuth";
 import { useRouter, usePathname } from "next/navigation";
-import AuthScreen from "@/components/common/AuthScreen";
+import LandingPage from "@/components/landing/LandingPage";
 import SplashScreen from "@/components/common/SplashScreen";
 
 export default function AccessGuard({ children }) {
@@ -51,16 +51,21 @@ export default function AccessGuard({ children }) {
     return <SplashScreen />;
   }
 
-  // If on admin page, internal check handles it
   if (pathname.startsWith('/admin-exclusive-portal') && !isAdmin && !loading && user) {
      return null;
   }
 
+  // Unauthenticated users see LandingPage directly
   if (!user && !isPublicRoute) {
-    return <AuthScreen />;
+    return (
+      <LandingPage
+        onGetStarted={() => {
+          // Trigger Google login or navigation
+        }}
+      />
+    );
   }
 
-  // If user is authenticated but not approved/admin
   if (user && !isApproved && !isAdmin && pathname !== '/access-denied') {
     return <SplashScreen />;
   }
