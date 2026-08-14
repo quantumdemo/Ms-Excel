@@ -4,12 +4,23 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import {
   Sparkles, CheckCircle2, ArrowRight, Play, Database,
-  Brain, Zap, Target, BookOpen, Layers, Shield, ChevronRight, MessageSquare
+  Brain, Zap, Target, BookOpen, Layers, Shield, ChevronRight, MessageSquare, AlertCircle
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useAuthStore } from '@/hooks/useAuth';
 
 export default function LandingPage({ onGetStarted }) {
+  const { user, login, loading, error } = useAuthStore();
+
+  const handleAuthAction = () => {
+    if (user) {
+      if (onGetStarted) onGetStarted();
+    } else {
+      login();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-bg-dark text-slate-100 flex flex-col font-sans overflow-x-hidden">
       {/* Navigation Bar */}
@@ -23,11 +34,28 @@ export default function LandingPage({ onGetStarted }) {
           </span>
         </div>
         <button
-          onClick={onGetStarted}
-          className="px-5 py-2.5 bg-excel-green hover:bg-excel-green/90 text-white font-bold text-xs rounded-2xl shadow-lg shadow-excel-green/20 transition-all active:scale-95 flex items-center gap-2"
+          onClick={handleAuthAction}
+          disabled={loading}
+          className="px-5 py-2.5 bg-excel-green hover:bg-excel-green/90 text-white font-bold text-xs rounded-2xl shadow-lg shadow-excel-green/20 transition-all active:scale-95 flex items-center gap-2 disabled:opacity-50"
         >
-          <span>Launch App</span>
-          <ArrowRight size={14} />
+          {loading ? (
+            <span>Authenticating...</span>
+          ) : user ? (
+            <>
+              <span>Launch App</span>
+              <ArrowRight size={14} />
+            </>
+          ) : (
+            <>
+              <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-1 .67-2.28 1.07-3.71 1.07-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.11c-.22-.66-.35-1.36-.35-2.11s.13-1.45.35-2.11V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l3.66-2.83z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.83c.87-2.6 3.3-4.51 6.16-4.51z" fill="#EA4335"/>
+              </svg>
+              <span>Sign in with Google</span>
+            </>
+          )}
         </button>
       </header>
 
@@ -64,6 +92,16 @@ export default function LandingPage({ onGetStarted }) {
           "Ask your spreadsheet a question. Learn how to solve it. Understand the result."
         </motion.p>
 
+        {error && (
+          <div className="max-w-md mx-auto mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-400 text-xs font-bold flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <AlertCircle size={16} />
+              <span>{error}</span>
+            </div>
+            <button onClick={login} className="underline text-white">Retry</button>
+          </div>
+        )}
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -71,54 +109,100 @@ export default function LandingPage({ onGetStarted }) {
           className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto mb-16"
         >
           <button
-            onClick={onGetStarted}
-            className="w-full sm:w-auto px-8 py-4 bg-excel-green hover:bg-excel-green/90 text-white font-black rounded-2xl text-base shadow-2xl shadow-excel-green/30 flex items-center justify-center gap-3 active:scale-95 transition-all"
+            onClick={handleAuthAction}
+            disabled={loading}
+            className="w-full sm:w-auto px-8 py-4 bg-excel-green hover:bg-excel-green/90 text-white font-black rounded-2xl text-base shadow-2xl shadow-excel-green/30 flex items-center justify-center gap-3 active:scale-95 transition-all disabled:opacity-50"
           >
-            <span>Start Learning Free</span>
-            <ArrowRight size={18} />
+            {loading ? (
+              <span>Connecting...</span>
+            ) : user ? (
+              <>
+                <span>Enter Dashboard</span>
+                <ArrowRight size={18} />
+              </>
+            ) : (
+              <>
+                <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-1 .67-2.28 1.07-3.71 1.07-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                  <path d="M5.84 14.11c-.22-.66-.35-1.36-.35-2.11s.13-1.45.35-2.11V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l3.66-2.83z" fill="#FBBC05"/>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.83c.87-2.6 3.3-4.51 6.16-4.51z" fill="#EA4335"/>
+                </svg>
+                <span>Sign in with Google</span>
+              </>
+            )}
           </button>
         </motion.div>
 
-        {/* AI Coach UI Demonstration Mockup */}
+        {/* Interface Screenshot / Mockup Showcase */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
           className="max-w-2xl mx-auto bg-card-dark border border-white/10 rounded-[2.5rem] p-6 shadow-2xl text-left relative overflow-hidden"
         >
+          {/* Header Bar Mockup */}
           <div className="flex items-center justify-between pb-4 border-b border-white/5 mb-4">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-excel-green/20 rounded-xl flex items-center justify-center border border-excel-green/30">
-                <Sparkles size={16} className="text-excel-green" />
+                <Database size={16} className="text-excel-green" />
               </div>
-              <span className="font-bold text-sm text-white">AI Data Coach Demonstration</span>
+              <div>
+                <span className="font-bold text-sm text-white">SheetLab + AI Coach Interface</span>
+                <p className="text-[10px] text-slate-400">Live Interactive Grid & AI Assistant</p>
+              </div>
             </div>
             <span className="text-[10px] font-mono text-excel-green bg-excel-green/10 px-2.5 py-1 rounded-full uppercase font-bold">
-              Live Engine
+              ✨ AI Coach Active
             </span>
           </div>
 
-          <div className="space-y-3 font-sans text-xs">
-            <div className="bg-white/5 p-3 rounded-2xl border border-white/5 flex items-center justify-between">
-              <span className="text-slate-400">User Prompt:</span>
-              <span className="text-slate-200 font-medium">"Which region generated the highest revenue?"</span>
-            </div>
+          {/* Formula Bar Mockup */}
+          <div className="p-3 bg-black/50 border border-white/10 rounded-2xl mb-4 flex items-center gap-3 font-mono text-xs">
+            <span className="px-2 py-1 bg-excel-green/10 text-excel-green rounded-lg font-bold">E2</span>
+            <span className="text-excel-green font-bold italic">fx</span>
+            <span className="text-white flex-1">=SUMIF(A2:A100, "Lagos", C2:C100)</span>
+          </div>
 
-            <div className="bg-excel-green/10 border border-excel-green/20 p-4 rounded-2xl space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="font-bold text-excel-green flex items-center gap-1.5">
-                  <Sparkles size={14} />
-                  Guided Solution
-                </span>
-                <span className="text-[10px] text-slate-400 font-mono">SUMIF Analysis</span>
-              </div>
-              <p className="text-slate-300 leading-relaxed">
-                I found a <strong>Region</strong> column and a <strong>Revenue</strong> column. To calculate conditional revenue, let's start with <code>SUMIF</code>.
-              </p>
-              <div className="p-2.5 bg-black/60 rounded-xl font-mono text-excel-green text-[11px] flex items-center justify-between">
-                <span>=SUMIF(A2:A100, "Lagos", C2:C100)</span>
-                <span className="text-[10px] text-slate-400 uppercase font-bold">Safe Action</span>
-              </div>
+          {/* Spreadsheet Data Grid Mockup */}
+          <div className="border border-white/10 rounded-2xl overflow-hidden bg-bg-dark mb-4 text-xs font-mono">
+            <div className="grid grid-cols-4 bg-white/5 text-slate-400 font-bold border-b border-white/10 text-[10px] uppercase text-center py-2">
+              <div>A (Region)</div>
+              <div>B (Category)</div>
+              <div>C (Revenue)</div>
+              <div>E (Total)</div>
+            </div>
+            <div className="grid grid-cols-4 border-b border-white/5 text-center py-2 text-slate-300">
+              <div>Lagos</div>
+              <div>Tech</div>
+              <div className="text-blue-400">45,000</div>
+              <div className="bg-excel-green/20 text-excel-green font-bold rounded ring-1 ring-excel-green">85,000</div>
+            </div>
+            <div className="grid grid-cols-4 border-b border-white/5 text-center py-2 text-slate-300">
+              <div>Abuja</div>
+              <div>Retail</div>
+              <div className="text-blue-400">30,000</div>
+              <div className="text-slate-500">-</div>
+            </div>
+          </div>
+
+          {/* AI Coach Live Insight Response Box */}
+          <div className="bg-excel-green/10 border border-excel-green/20 p-4 rounded-2xl space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="font-bold text-excel-green flex items-center gap-1.5 text-xs">
+                <Sparkles size={14} />
+                AI Data Coach Solution
+              </span>
+              <span className="text-[10px] text-slate-400 font-mono">SUMIF Calculation</span>
+            </div>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              Found <strong>Region</strong> in Column A and <strong>Revenue</strong> in Column C. Applied conditional sum for <em>Lagos</em> into cell E2.
+            </p>
+            <div className="p-2.5 bg-black/60 rounded-xl font-mono text-excel-green text-[11px] flex items-center justify-between">
+              <span>=SUMIF(A2:A100, "Lagos", C2:C100)</span>
+              <span className="text-[10px] text-excel-light bg-excel-green px-2 py-0.5 rounded font-bold uppercase">
+                Applied
+              </span>
             </div>
           </div>
         </motion.div>
@@ -227,11 +311,26 @@ export default function LandingPage({ onGetStarted }) {
             Join thousands of learners building real data analysis skills today with LearnExcelAI.
           </p>
           <button
-            onClick={onGetStarted}
-            className="w-full sm:w-auto px-10 py-5 bg-excel-green hover:bg-excel-green/90 text-white font-black rounded-2xl text-lg shadow-2xl shadow-excel-green/40 active:scale-95 transition-all inline-flex items-center justify-center gap-3"
+            onClick={handleAuthAction}
+            disabled={loading}
+            className="w-full sm:w-auto px-10 py-5 bg-excel-green hover:bg-excel-green/90 text-white font-black rounded-2xl text-lg shadow-2xl shadow-excel-green/40 active:scale-95 transition-all inline-flex items-center justify-center gap-3 disabled:opacity-50"
           >
-            <span>Start Learning Now</span>
-            <ArrowRight size={20} />
+            {user ? (
+              <>
+                <span>Launch Application</span>
+                <ArrowRight size={20} />
+              </>
+            ) : (
+              <>
+                <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-1 .67-2.28 1.07-3.71 1.07-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                  <path d="M5.84 14.11c-.22-.66-.35-1.36-.35-2.11s.13-1.45.35-2.11V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l3.66-2.83z" fill="#FBBC05"/>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.83c.87-2.6 3.3-4.51 6.16-4.51z" fill="#EA4335"/>
+                </svg>
+                <span>Sign in with Google</span>
+              </>
+            )}
           </button>
         </div>
       </section>
