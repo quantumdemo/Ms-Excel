@@ -6,17 +6,46 @@ import { NextResponse } from 'next/server.js';
 function generateFallbackResponse(question, context = {}, attemptedFormula = null) {
   const q = (question || "").toLowerCase();
   const selected = context.selectedCell || {};
-  const headers = (context.headers || []).map(h => h.text);
-  const headerStr = headers.length > 0 ? headers.join(", ") : "your columns";
+  const headers = context.headers || [];
+  const headerStr = headers.length > 0 ? headers.map(h => h.text).join(", ") : "your columns";
   const selectedCellId = selected.id || "the selected cell";
   const selectedVal = selected.computed;
   const selectedRaw = selected.raw || "";
 
-  // 0. Pivot Table Generation
+  const lastRow = context.dataBounds?.lastRowNumber || 100;
+  const startRow = context.dataBounds?.startDataRowNumber || 2;
+
+  // Find column matching target or default to C or B
+  const colC = headers.find(h => h.colLabel === 'C') || headers[0] || { colLabel: 'C', text: 'Column' };
+  const colB = headers.find(h => h.colLabel === 'B') || headers[1] || { colLabel: 'B', text: 'Value' };
+  const colA = headers.find(h => h.colLabel === 'A') || headers[0] || { colLabel: 'A', text: 'Category' };
+
+  const exactRangeC = `${colC.colLabel}${startRow}:${colC.colLabel}${lastRow}`;
+  const exactRangeB = `${colB.colLabel}${startRow}:${colB.colLabel}${lastRow}`;
+  const exactRangeA = `${colA.colLabel}${startRow}:${colA.colLabel}${lastRow}`;
+
+  // 0. UNIQUE Function Request
+  if (q.includes("unique")) {
+    return {
+      type: "formula_help",
+      answer: `Extract Unique Values for ${colC.text}`,
+      explanation: `To extract all distinct items from the ${colC.text} column (spanning rows ${startRow} to ${lastRow}), use the \`UNIQUE\` function.`,
+      formula: `=UNIQUE(${exactRangeC})`,
+      hint: `Reference options: Relative \`=UNIQUE(${exactRangeC})\`, Absolute \`=UNIQUE($${colC.colLabel}$${startRow}:$${colC.colLabel}$${lastRow})\`, or Full Column \`=UNIQUE(${colC.colLabel}:${colC.colLabel})\`.`,
+      learningObjective: "Master dynamic array UNIQUE function and proper Excel range referencing.",
+      difficulty: "intermediate",
+      action: {
+        type: "insert_formula",
+        cell: selectedCellId,
+        formula: `=UNIQUE(${exactRangeC})`
+      }
+    };
+  }
+
+  // 1. Pivot Table Generation
   if (q.includes("pivot") || context.requestType === "generate_pivot") {
-    const headersList = (context.headers || []).map(h => h.text);
-    const catColName = headersList[0] || "Category";
-    const numColName = headersList[1] || headersList[headersList.length - 1] || "Value";
+    const catColName = colA.text || "Category";
+    const numColName = colB.text || "Value";
 
     const catMap = new Map();
     const sampleRows = context.sampleData || [];
@@ -43,8 +72,8 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
     return {
       type: "data_analysis",
       answer: "AI Intelligent Pivot Table Analysis",
-      explanation: `Analyzed dataset and identified primary category '${catColName}' and metric '${numColName}'. Generated automated grouped aggregation summary.`,
-      formula: `=SUMIF(${catColName}, A2, ${numColName})`,
+      explanation: `Analyzed dataset spanning rows ${startRow} to ${lastRow}. Grouped primary category '${catColName}' and metric '${numColName}'.`,
+      formula: `=SUMIF(${exactRangeA}, A2, ${exactRangeB})`,
       hint: "Pivot summary worksheet created with intelligent categorical aggregation.",
       learningObjective: "Master Pivot Table grouped summaries and categorical aggregation.",
       difficulty: "intermediate",
@@ -59,7 +88,7 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
     };
   }
 
-  // 1. Formula Error Diagnosis
+  // 2. Formula Error Diagnosis
   if (q.includes("error") || (selected.hasError && typeof selectedVal === 'string')) {
     const errType = typeof selectedVal === 'string' && selectedVal.startsWith("#") ? selectedVal : "#VALUE!";
     let explanation = "Errors happen when formulas encounter unexpected inputs or range mismatches.";
@@ -73,7 +102,7 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
       hint = "Clear the empty cells below or to the right of " + selectedCellId + " to allow the results to display.";
     } else if (errType === "#REF!") {
       explanation = "This cell references a range or cell that was deleted or moved.";
-      hint = "Re-enter the correct range e.g. A2:A10 in your formula.";
+      hint = "Re-enter the correct range e.g. " + exactRangeB + " in your formula.";
     } else if (errType === "#VALUE!") {
       explanation = "A parameter type mismatch occurred (e.g. supplying text where a number was required).";
       hint = "Ensure all cells in your formula range contain numeric values.";
@@ -83,7 +112,7 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
       type: "error_help",
       answer: `Found error ${errType} in cell ${selectedCellId}.`,
       explanation,
-      formula: selectedRaw.startsWith("=") ? selectedRaw : "=SUM(A1:A10)",
+      formula: selectedRaw.startsWith("=") ? selectedRaw : `=SUM(${exactRangeB})`,
       hint,
       learningObjective: "Identify and resolve common Excel formula evaluation errors.",
       difficulty: "beginner",
@@ -91,7 +120,7 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
     };
   }
 
-  // 2. Explain Formula
+  // 3. Explain Formula
   if (q.includes("explain") || q.includes("what does this formula do")) {
     if (selectedRaw.startsWith("=")) {
       const funcNameMatch = selectedRaw.match(/^=([A-Z0-9_\.]+)/i);
@@ -110,8 +139,8 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
       return {
         type: "explanation",
         answer: `Cell ${selectedCellId} currently contains a raw value (${selectedVal ?? 'empty'}).`,
-        explanation: `To add a calculation, start typing with an equals sign \`=\` e.g., \`=SUM(A1:A10)\`.`,
-        formula: "=SUM(A1:A10)",
+        explanation: `To add a calculation, start typing with an equals sign \`=\` e.g., \`=SUM(${exactRangeB})\`.`,
+        formula: `=SUM(${exactRangeB})`,
         hint: "Select a cell containing a formula starting with '=' to get a detailed breakdown.",
         learningObjective: "Understand Excel raw cell values vs formulas.",
         difficulty: "beginner",
@@ -120,40 +149,35 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
     }
   }
 
-  // 3. Data Analysis / What to analyze
+  // 4. Data Analysis
   if (q.includes("analyze") || q.includes("what should i analyze") || q.includes("help me analyze")) {
-    const numCols = Object.keys(context.columnTypes || {}).filter(k => context.columnTypes[k] === "numeric");
-    const numColName = numCols[0] || (headers[1] || headers[0] || "Revenue");
-    const catColName = headers[0] || "Category";
-
     return {
       type: "data_analysis",
       answer: `Analysis Guide for your dataset (${headerStr}).`,
-      explanation: `I detected dataset headers: ${headerStr}. A great first step is to summarize total and conditional metrics for ${numColName}.`,
-      formula: `=SUMIF(A2:A10, "${catColName}", B2:B10)`,
-      hint: `Try calculating total ${numColName} using =SUM(...) or category breakdowns with =SUMIF(...)`,
+      explanation: `I detected dataset headers: ${headerStr} spanning rows ${startRow} to ${lastRow}. A great first step is to summarize total and conditional metrics for ${colB.text}.`,
+      formula: `=SUMIF(${exactRangeA}, "${colA.text}", ${exactRangeB})`,
+      hint: `Try calculating total ${colB.text} using =SUM(${exactRangeB}) or category breakdowns with =SUMIF(...)`,
       learningObjective: "Perform basic aggregation and conditional analysis on spreadsheet data.",
       difficulty: "intermediate",
       action: {
         type: "insert_formula",
         cell: selectedCellId,
-        formula: `=SUM(B2:B100)`
+        formula: `=SUM(${exactRangeB})`
       }
     };
   }
 
-  // 4. Calculate / Suggest Formula
+  // 5. Calculate / Suggest Formula
   if (q.includes("calculate") || q.includes("sum") || q.includes("total") || q.includes("average") || q.includes("how to")) {
-    const targetCol = headers[1] ? "B" : "A";
-    const suggestedFormula = `=SUM(${targetCol}2:${targetCol}100)`;
+    const suggestedFormula = `=SUM(${exactRangeB})`;
 
     return {
       type: "formula_help",
       answer: `Recommended Formula for ${selectedCellId}`,
-      explanation: `To aggregate numeric values in column ${targetCol}, use the \`SUM\` function. It automatically adds up all numbers within the specified range.`,
+      explanation: `To aggregate numeric values in column ${colB.colLabel} (${colB.text}) across rows ${startRow} to ${lastRow}, use the \`SUM\` function.`,
       formula: suggestedFormula,
-      hint: `You can replace ${targetCol}2:${targetCol}100 with your actual data range.`,
-      learningObjective: "Apply SUM function for totals.",
+      hint: `Options: Relative \`=SUM(${exactRangeB})\`, Absolute \`=SUM($${colB.colLabel}$${startRow}:$${colB.colLabel}$${lastRow})\`, or Full Column \`=SUM(${colB.colLabel}:${colB.colLabel})\`.`,
+      learningObjective: "Apply SUM function for totals with proper Excel referencing.",
       difficulty: "beginner",
       action: {
         type: "insert_formula",
@@ -163,20 +187,20 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
     };
   }
 
-  // 5. Answer Checking / Practice Mode
+  // 6. Answer Checking / Practice Mode
   if (attemptedFormula || q.includes("check")) {
     const userFormula = attemptedFormula || selectedRaw;
-    const isCorrect = userFormula.toUpperCase().startsWith("=") && (userFormula.includes("SUM") || userFormula.includes("AVERAGE") || userFormula.includes("IF"));
+    const isCorrect = userFormula.toUpperCase().startsWith("=") && (userFormula.includes("SUM") || userFormula.includes("AVERAGE") || userFormula.includes("IF") || userFormula.includes("UNIQUE"));
 
     return {
       type: "practice",
       answer: isCorrect ? "Great work! Your formula structure looks correct." : "Good attempt! Let's refine your formula.",
       explanation: isCorrect
         ? `Your formula \`${userFormula}\` is valid and computes expected results.`
-        : `Your formula \`${userFormula}\` might need adjustment. Make sure it starts with \`=\` and uses valid functions like \`SUM\`, \`AVERAGE\`, or \`SUMIF\`.`,
-      formula: isCorrect ? userFormula : "=SUM(A1:A10)",
-      hint: isCorrect ? "Try exploring conditional totals next with SUMIF!" : "Check parentheses and commas between arguments.",
-      learningObjective: "Master Excel formula syntax and error resolution.",
+        : `Your formula \`${userFormula}\` might need adjustment. Make sure it starts with \`=\` and uses valid ranges e.g. \`${exactRangeB}\`.`,
+      formula: isCorrect ? userFormula : `=SUM(${exactRangeB})`,
+      hint: isCorrect ? "Try exploring absolute or mixed referencing next!" : "Check range bounds and argument commas.",
+      learningObjective: "Master Excel formula syntax and range referencing.",
       difficulty: "beginner",
       action: null
     };
@@ -186,9 +210,9 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
   return {
     type: "guided_solution",
     answer: "Spreadsheet Assistant Ready",
-    explanation: `I've analyzed your spreadsheet with columns: [${headerStr}]. Selected cell: ${selectedCellId} (Value: ${selectedVal ?? 'empty'}). Ask me to explain formulas, diagnose errors, or suggest calculations!`,
+    explanation: `I've analyzed your spreadsheet with columns [${headerStr}] spanning rows ${startRow} to ${lastRow}. Selected cell: ${selectedCellId} (Value: ${selectedVal ?? 'empty'}). Ask me to extract unique items, explain formulas, or calculate totals!`,
     formula: null,
-    hint: "Try one of the suggested prompts below e.g. 'Help me analyze this data'.",
+    hint: "Try asking: 'Get unique products' or 'Help me analyze this data'.",
     learningObjective: "Explore AI Data Coach capabilities.",
     difficulty: "beginner",
     action: null
@@ -213,10 +237,22 @@ export async function POST(req) {
 
     const systemPrompt = `You are an AI Data Coach for LearnExcelAI.
 Your goal is to act as a helpful spreadsheet learning tutor.
+
 Spreadsheet Context:
 ${JSON.stringify(context, null, 2)}
 Learner Question: ${question}
 Attempted Formula: ${attemptedFormula || 'None'}
+
+CRITICAL SPREADSHEET RANGE & REFERENCING INSTRUCTIONS:
+1. ALWAYS inspect the 'headers' and 'dataBounds' in the spreadsheet context for exact column ranges.
+   - For example, if header 'Product' in column C has dataRange: "C2:C100" (or dataBounds.lastRowNumber = 100), ALWAYS use "C2:C100" or full column "C:C" in suggested formulas!
+   - NEVER truncate or guess ranges like "C2:C12" when the actual data spans to row 100.
+2. SPREADSHEET REFERENCING RULES:
+   - Relative References: e.g. C2:C100 (for standard calculations)
+   - Absolute References: e.g. $C$2:$C$100 (when formulas will be copied/dragged)
+   - Mixed References: e.g. C$2:C$100 or $C2:$C100 (when locking only row or column)
+   - Full-Column References: e.g. C:C or UNIQUE(C:C) (for full column functions)
+   - Cross-Sheet References: e.g. Sheet2!C2:C100 or 'PivotSummary'!A2:A10 (when referencing other sheets in the workbook)
 
 Return ONLY a valid JSON object strictly adhering to this schema:
 {
