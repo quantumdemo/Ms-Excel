@@ -145,7 +145,9 @@ export default function SheetLab({ onBack }) {
 
   const handleCellSelect = useCallback((r, c, id, newDirectValue = null) => {
     if (dragStarted || !activeRegistry) return;
-    setSelectedCol(null);
+    if (selectedCol !== null) {
+      setSelectedCol(null);
+    }
     if (newDirectValue !== null) {
       activeRegistry.updateCell(id, newDirectValue);
       setInputValue(newDirectValue);
@@ -156,11 +158,26 @@ export default function SheetLab({ onBack }) {
     setSelected({ r, c });
     setInputValue(activeRegistry.getCell(id).raw || "");
     hideFormulaUI();
-  }, [activeRegistry, activeCellId, inputValue, dragStarted, hideFormulaUI]);
+  }, [activeRegistry, activeCellId, inputValue, selectedCol, dragStarted, hideFormulaUI]);
 
   const handleColumnHeaderClick = (c) => {
+    if (!activeRegistry) return;
+
+    // Flush edits on the currently active cell before switching selection
+    if (activeCellId) {
+      activeRegistry.updateCell(activeCellId, inputValue);
+    }
+
     setSelectedCol(c);
     setSelected({ r: 0, c });
+
+    // Set inputValue to the top cell's raw string so it is NOT overwritten with empty string
+    const targetCellId = ReferenceResolver.coordToId(0, c);
+    const targetCell = activeRegistry.getCell(targetCellId);
+    setInputValue(targetCell?.raw || "");
+
+    hideFormulaUI();
+
     const colLetter = ReferenceResolver.formatReference(0, c, false, false).replace(/[0-9]/g, '');
     setActionNotification(`Selected Column ${colLetter}. Choose a data format to apply to the entire column.`);
     setTimeout(() => setActionNotification(null), 3500);
@@ -278,11 +295,11 @@ export default function SheetLab({ onBack }) {
     }
   };
 
-  // AI-Driven Quick Pivot Table Generator
+  // AI-Driven Quick Pivot Table Generator with Full Grid Scanning
   const handleGeneratePivot = async () => {
     if (!activeRegistry || !workbook) return;
 
-    setActionNotification("✨ AI analyzing dataset for optimal Pivot Table breakdown...");
+    setActionNotification("✨ AI scanning all active columns & generating Pivot Table...");
 
     let pivotCatHeader = "Category";
     let pivotMeasureHeader = "Total Value";
@@ -293,7 +310,7 @@ export default function SheetLab({ onBack }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          question: "Generate an intelligent pivot table summary for this dataset",
+          question: "Generate an intelligent pivot table summary scanning all populated columns and rows in this dataset",
           context: { ...spreadsheetContext, requestType: "generate_pivot" }
         })
       });
@@ -308,21 +325,46 @@ export default function SheetLab({ onBack }) {
         }
       }
     } catch (err) {
-      console.warn("AI Pivot generation error, using local fallback:", err);
+      console.warn("AI Pivot generation error, using dynamic grid fallback:", err);
     }
 
-    // Fallback if AI returned no rows
+    // Dynamic full-grid scanning fallback across ALL active columns and rows
     if (pivotRows.length === 0) {
+      const headers = spreadsheetContext?.headers || [];
+      const lastRowNumber = spreadsheetContext?.dataBounds?.lastRowNumber || 100;
+      const maxCol = spreadsheetContext?.dataBounds?.maxPopulatedCol || 5;
+
+      let catColIdx = 0;
+      let measureColIdx = 1;
+
+      // Detect text category column and numeric measure column across all active columns
+      for (let c = 0; c <= maxCol; c++) {
+        const headerCell = activeRegistry.getCell(ReferenceResolver.coordToId(0, c));
+        const sampleCell = activeRegistry.getCell(ReferenceResolver.coordToId(1, c));
+        if (sampleCell.type === 'number' || !isNaN(Number(sampleCell.computed))) {
+          measureColIdx = c;
+        } else if (sampleCell.raw !== "") {
+          catColIdx = c;
+        }
+      }
+
+      const catHeaderCell = activeRegistry.getCell(ReferenceResolver.coordToId(0, catColIdx));
+      const measureHeaderCell = activeRegistry.getCell(ReferenceResolver.coordToId(0, measureColIdx));
+
+      pivotCatHeader = catHeaderCell.computed || catHeaderCell.raw || `Column ${ReferenceResolver.coordToId(0, catColIdx).replace(/[0-9]/g, '')}`;
+      pivotMeasureHeader = measureHeaderCell.computed || measureHeaderCell.raw || `Column ${ReferenceResolver.coordToId(0, measureColIdx).replace(/[0-9]/g, '')}`;
+
       const catMap = new Map();
-      for (let r = 1; r < 100; r++) {
-        const catCell = activeRegistry.getCell(ReferenceResolver.coordToId(r, 0));
-        const valCell = activeRegistry.getCell(ReferenceResolver.coordToId(r, 1));
+      for (let r = 1; r < lastRowNumber; r++) {
+        const catCell = activeRegistry.getCell(ReferenceResolver.coordToId(r, catColIdx));
+        const valCell = activeRegistry.getCell(ReferenceResolver.coordToId(r, measureColIdx));
         if (catCell.raw) {
           const cat = String(catCell.computed || catCell.raw);
           const val = Number(valCell.computed || valCell.raw) || 0;
           catMap.set(cat, (catMap.get(cat) || 0) + val);
         }
       }
+
       catMap.forEach((sumVal, catName) => {
         pivotRows.push({ category: catName, value: sumVal });
       });
