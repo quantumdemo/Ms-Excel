@@ -583,9 +583,6 @@ export default function SheetLab({ onBack }) {
           </button>
           <div>
             <h2 className="font-bold text-lg leading-none">SheetLab</h2>
-            <p className="text-[10px] text-excel-green font-bold uppercase tracking-widest mt-1">
-              Professional Sandbox
-            </p>
           </div>
         </div>
 

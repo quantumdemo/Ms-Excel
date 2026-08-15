@@ -24,7 +24,7 @@ export default function LandingPage({ onGetStarted }) {
   return (
     <div className="min-h-screen bg-bg-dark text-slate-100 flex flex-col font-sans overflow-x-hidden">
       {/* Navigation Bar */}
-      <header className="sticky top-0 z-50 px-6 py-4 bg-bg-dark/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between">
+      <header className="sticky top-0 z-[100] px-6 py-4 bg-bg-dark/95 backdrop-blur-md border-b border-white/10 flex items-center justify-between shadow-lg">
         <div className="flex items-center gap-3">
           <div className="relative w-10 h-10">
             <Image src="/logo.png" alt="LearnExcelAI Logo" fill className="object-contain" priority />
