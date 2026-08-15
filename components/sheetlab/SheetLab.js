@@ -26,7 +26,7 @@ const FORMAT_OPTIONS = [
   { id: 'text', label: 'Text', icon: Type }
 ];
 
-const GridCell = React.memo(({ r, c, id, cellData, isS, isF, editValue, onSelect, onPointerDown, onFillStart }) => {
+const GridCell = React.memo(({ r, c, id, cellData, isS, isColS, isF, editValue, onSelect, onPointerDown, onFillStart }) => {
   const rawDisplay = isS ? editValue : cellData?.computed;
   const displayValue = isS ? editValue : formatCellValue(rawDisplay, cellData?.format || 'general');
 
@@ -39,7 +39,8 @@ const GridCell = React.memo(({ r, c, id, cellData, isS, isF, editValue, onSelect
       className={cn(
         "border border-white/5 h-12 min-w-[100px] min-h-[48px] p-2 text-sm transition-all relative outline-none cursor-cell",
         isS && "ring-2 ring-inset ring-excel-green bg-excel-green/5 z-20",
-        !isS && "hover:bg-white/[0.02]",
+        isColS && !isS && "bg-excel-green/10 border-excel-green/20",
+        !isS && !isColS && "hover:bg-white/[0.02]",
         isF && "bg-excel-green/20"
       )}
     >
@@ -78,6 +79,7 @@ export default function SheetLab({ onBack }) {
   const [workbook, setWorkbook] = useState(null);
   const [activeSheetName, setActiveSheetName] = useState("Sheet1");
   const [selected, setSelected] = useState({ r: 0, c: 0 });
+  const [selectedCol, setSelectedCol] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [editingSheetName, setEditingSheetName] = useState(null);
   const [sheetNameInput, setSheetNameInput] = useState("");
@@ -143,6 +145,7 @@ export default function SheetLab({ onBack }) {
 
   const handleCellSelect = useCallback((r, c, id, newDirectValue = null) => {
     if (dragStarted || !activeRegistry) return;
+    setSelectedCol(null);
     if (newDirectValue !== null) {
       activeRegistry.updateCell(id, newDirectValue);
       setInputValue(newDirectValue);
@@ -154,6 +157,14 @@ export default function SheetLab({ onBack }) {
     setInputValue(activeRegistry.getCell(id).raw || "");
     hideFormulaUI();
   }, [activeRegistry, activeCellId, inputValue, dragStarted, hideFormulaUI]);
+
+  const handleColumnHeaderClick = (c) => {
+    setSelectedCol(c);
+    setSelected({ r: 0, c });
+    const colLetter = ReferenceResolver.formatReference(0, c, false, false).replace(/[0-9]/g, '');
+    setActionNotification(`Selected Column ${colLetter}. Choose a data format to apply to the entire column.`);
+    setTimeout(() => setActionNotification(null), 3500);
+  };
 
   const handleCellPointerDown = useCallback((e, r, c) => {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
@@ -193,6 +204,7 @@ export default function SheetLab({ onBack }) {
     setWorkbook(newWb);
     setActiveSheetName(firstSheetName);
     setSelected({ r: 0, c: 0 });
+    setSelectedCol(null);
     setInputValue(newWb.getCell("A1")?.raw || "");
   };
 
@@ -254,7 +266,14 @@ export default function SheetLab({ onBack }) {
 
   const handleFormatChange = (e) => {
     const fmt = e.target.value;
-    if (activeRegistry && activeCellId) {
+    if (!activeRegistry) return;
+
+    if (selectedCol !== null) {
+      activeRegistry.setColumnFormat(selectedCol, fmt);
+      const colLetter = ReferenceResolver.formatReference(0, selectedCol, false, false).replace(/[0-9]/g, '');
+      setActionNotification(`Applied ${fmt} data format to Column ${colLetter}`);
+      setTimeout(() => setActionNotification(null), 3500);
+    } else if (activeCellId) {
       activeRegistry.setCellFormat(activeCellId, fmt);
     }
   };
@@ -317,6 +336,7 @@ export default function SheetLab({ onBack }) {
     workbook.setActiveSheet(newName);
     setActiveSheetName(newName);
     setSelected({ r: 0, c: 0 });
+    setSelectedCol(null);
     setInputValue("");
   };
 
@@ -325,6 +345,7 @@ export default function SheetLab({ onBack }) {
     workbook.setActiveSheet(sName);
     setActiveSheetName(sName);
     setSelected({ r: 0, c: 0 });
+    setSelectedCol(null);
     const reg = workbook.sheets.get(sName);
     setInputValue(reg?.getCell("A1")?.raw || "");
     hideFormulaUI();
@@ -349,6 +370,7 @@ export default function SheetLab({ onBack }) {
       workbook.deleteSheet(sName);
       setActiveSheetName(workbook.activeSheetName);
       setSelected({ r: 0, c: 0 });
+      setSelectedCol(null);
     }
   };
 
@@ -609,6 +631,7 @@ export default function SheetLab({ onBack }) {
             setWorkbook(wb);
             setActiveSheetName("Sheet1");
             setSelected({ r: 0, c: 0 });
+            setSelectedCol(null);
             setInputValue("");
           }} className="p-2 bg-white/5 rounded-full active:rotate-180 transition-all duration-500">
             <RotateCcw size={20} className="text-slate-400" />
@@ -620,7 +643,7 @@ export default function SheetLab({ onBack }) {
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 p-4 bg-black/40 border-b border-white/5 relative">
         <div className="flex items-center gap-2 relative">
           <div className="px-3 py-2 bg-excel-green/10 rounded-xl font-mono font-bold text-excel-green text-sm min-w-[3.5rem] text-center border border-excel-green/20">
-            {activeCellId}
+            {selectedCol !== null ? `Col ${ReferenceResolver.formatReference(0, selectedCol, false, false).replace(/[0-9]/g, '')}` : activeCellId}
           </div>
 
           {/* Cell Format Selector */}
@@ -751,14 +774,23 @@ export default function SheetLab({ onBack }) {
                 <th className="w-12 h-10 bg-surface border-b border-r border-white/10 flex items-center justify-center">
                   <Database size={14} className="text-slate-600" />
                 </th>
-                {Array(INITIAL_COLS).fill(0).map((_, c) => (
-                  <th key={c} className={cn(
-                    "w-[100px] h-10 bg-surface border-b border-r border-white/10 text-[10px] font-black uppercase tracking-widest transition-colors",
-                    selected.c === c ? "text-excel-green bg-excel-green/5" : "text-slate-500"
-                  )}>
-                    {ReferenceResolver.formatReference(0, c, false, false).replace(/[0-9]/g, '')}
-                  </th>
-                ))}
+                {Array(INITIAL_COLS).fill(0).map((_, c) => {
+                  const colLetter = ReferenceResolver.formatReference(0, c, false, false).replace(/[0-9]/g, '');
+                  const isColS = selectedCol === c;
+                  return (
+                    <th
+                      key={c}
+                      onClick={() => handleColumnHeaderClick(c)}
+                      className={cn(
+                        "w-[100px] h-10 bg-surface border-b border-r border-white/10 text-[10px] font-black uppercase tracking-widest transition-colors cursor-pointer hover:bg-excel-green/20 hover:text-excel-green select-none",
+                        isColS || selected.c === c ? "text-excel-green bg-excel-green/10 font-bold" : "text-slate-500"
+                      )}
+                      title={`Click to select and format entire Column ${colLetter}`}
+                    >
+                      {colLetter}
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
             <tbody>
@@ -774,6 +806,7 @@ export default function SheetLab({ onBack }) {
                     const id = ReferenceResolver.coordToId(r, c);
                     const cellData = activeRegistry.getCell(id);
                     const isS = selected.r === r && selected.c === c;
+                    const isColS = selectedCol === c;
                     const isF = fillRange && r >= Math.min(fillRange.startR, fillRange.endR) && r <= Math.max(fillRange.startR, fillRange.endR) && c >= Math.min(fillRange.startC, fillRange.endC) && c <= Math.max(fillRange.startC, fillRange.endC);
 
                     return (
@@ -784,6 +817,7 @@ export default function SheetLab({ onBack }) {
                         id={id}
                         cellData={cellData}
                         isS={isS}
+                        isColS={isColS}
                         isF={isF}
                         editValue={isS ? inputValue : null}
                         onSelect={handleCellSelect}
