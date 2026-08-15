@@ -266,7 +266,6 @@ export default function SheetLab({ onBack }) {
     const pivotSheetName = "PivotSummary";
     const pivotSheet = workbook.addSheet(pivotSheetName);
 
-    // Group Col A (Category/Region) and Sum Col B or C (Values)
     const catMap = new Map();
     for (let r = 1; r < 50; r++) {
       const catCell = activeRegistry.getCell(ReferenceResolver.coordToId(r, 0));
@@ -591,15 +590,6 @@ export default function SheetLab({ onBack }) {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* Quick Tools 4-Dot Popup Menu Button */}
-          <button
-            onClick={() => setIsToolsOpen(!isToolsOpen)}
-            className="p-2 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 text-slate-300 transition-all active:scale-95"
-            title="Quick Tools Menu"
-          >
-            <LayoutGrid size={20} className="text-excel-green" />
-          </button>
-
           {/* AI Coach Entry Button */}
           <button
             onClick={() => setIsAICoachOpen(true)}
@@ -630,68 +620,14 @@ export default function SheetLab({ onBack }) {
         </div>
       </header>
 
-      {/* Quick Tools Popup Modal */}
-      <AnimatePresence>
-        {isToolsOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: -10 }}
-            className="absolute top-16 right-6 z-[110] w-80 bg-card-dark border border-white/10 rounded-3xl p-5 shadow-2xl space-y-4"
-          >
-            <div className="flex items-center justify-between border-b border-white/5 pb-3">
-              <span className="font-bold text-sm text-white flex items-center gap-2">
-                <LayoutGrid size={16} className="text-excel-green" />
-                Quick Tools
-              </span>
-              <button onClick={() => setIsToolsOpen(false)} className="text-slate-400 hover:text-white">
-                <X size={16} />
-              </button>
-            </div>
-
-            {/* Pivot Table Action */}
-            <button
-              onClick={handleGeneratePivot}
-              className="w-full bg-white/5 hover:bg-white/10 border border-white/5 p-3 rounded-2xl flex items-center gap-3 text-left transition-all active:scale-98"
-            >
-              <PieChart size={18} className="text-excel-green" />
-              <div>
-                <p className="font-bold text-xs text-white">Generate Pivot Table</p>
-                <p className="text-[10px] text-slate-400">Summarize categories into a clean summary sheet</p>
-              </div>
-            </button>
-
-            {/* In-Cell Validation Action */}
-            <div className="bg-white/5 border border-white/5 p-3 rounded-2xl space-y-2">
-              <div className="flex items-center gap-2 text-xs font-bold text-white">
-                <CheckSquare size={16} className="text-excel-green" />
-                <span>Set Dropdown Rule on {activeCellId}</span>
-              </div>
-              <input
-                type="text"
-                value={validationInput}
-                onChange={(e) => setValidationInput(e.target.value)}
-                placeholder="Comma separated e.g. East, West"
-                className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white outline-none"
-              />
-              <button
-                onClick={handleApplyValidation}
-                className="w-full bg-excel-green hover:bg-excel-green/90 text-white font-bold py-1.5 rounded-xl text-xs active:scale-98 transition-all"
-              >
-                Apply In-Cell Dropdown
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Formula & Formatting Bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 p-4 bg-black/40 border-b border-white/5">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 p-4 bg-black/40 border-b border-white/5 relative">
+        <div className="flex items-center gap-2 relative">
           <div className="px-3 py-2 bg-excel-green/10 rounded-xl font-mono font-bold text-excel-green text-sm min-w-[3.5rem] text-center border border-excel-green/20">
             {activeCellId}
           </div>
 
+          {/* Cell Format Selector */}
           <select
             value={activeCellData?.format || 'general'}
             onChange={handleFormatChange}
@@ -703,7 +639,71 @@ export default function SheetLab({ onBack }) {
               </option>
             ))}
           </select>
+
+          {/* Quick Tools 4-Dot Popup Menu Button - Placed directly AFTER Data Format option */}
+          <button
+            onClick={() => setIsToolsOpen(!isToolsOpen)}
+            className="p-2.5 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 text-slate-300 transition-all active:scale-95 flex items-center justify-center"
+            title="Quick Tools Menu"
+          >
+            <LayoutGrid size={18} className="text-excel-green" />
+          </button>
         </div>
+
+        {/* Quick Tools Popup Modal */}
+        <AnimatePresence>
+          {isToolsOpen && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: -10 }}
+              className="absolute top-16 left-4 sm:left-auto z-[110] w-80 bg-card-dark border border-white/10 rounded-3xl p-5 shadow-2xl space-y-4"
+            >
+              <div className="flex items-center justify-between border-b border-white/5 pb-3">
+                <span className="font-bold text-sm text-white flex items-center gap-2">
+                  <LayoutGrid size={16} className="text-excel-green" />
+                  Quick Tools
+                </span>
+                <button onClick={() => setIsToolsOpen(false)} className="text-slate-400 hover:text-white">
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Pivot Table Action */}
+              <button
+                onClick={handleGeneratePivot}
+                className="w-full bg-white/5 hover:bg-white/10 border border-white/5 p-3 rounded-2xl flex items-center gap-3 text-left transition-all active:scale-98"
+              >
+                <PieChart size={18} className="text-excel-green" />
+                <div>
+                  <p className="font-bold text-xs text-white">Generate Pivot Table</p>
+                  <p className="text-[10px] text-slate-400">Summarize categories into a clean summary sheet</p>
+                </div>
+              </button>
+
+              {/* In-Cell Validation Action */}
+              <div className="bg-white/5 border border-white/5 p-3 rounded-2xl space-y-2">
+                <div className="flex items-center gap-2 text-xs font-bold text-white">
+                  <CheckSquare size={16} className="text-excel-green" />
+                  <span>Set Dropdown Rule on {activeCellId}</span>
+                </div>
+                <input
+                  type="text"
+                  value={validationInput}
+                  onChange={(e) => setValidationInput(e.target.value)}
+                  placeholder="Comma separated e.g. East, West"
+                  className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white outline-none"
+                />
+                <button
+                  onClick={handleApplyValidation}
+                  className="w-full bg-excel-green hover:bg-excel-green/90 text-white font-bold py-1.5 rounded-xl text-xs active:scale-98 transition-all"
+                >
+                  Apply In-Cell Dropdown
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <div className="flex-1 flex flex-col relative">
           <div className="flex items-center gap-3 bg-white/5 rounded-2xl px-4 py-3 border border-white/5 focus-within:border-excel-green/50 transition-all shadow-inner">
