@@ -1,5 +1,40 @@
 import { NextResponse } from 'next/server.js';
 
+function detectPivotColumns(headers = []) {
+  let catCol = null;
+  let measureCol = null;
+
+  if (!headers || headers.length === 0) {
+    return {
+      catCol: { colIndex: 0, colLabel: 'A', text: 'Category' },
+      measureCol: { colIndex: 1, colLabel: 'B', text: 'Value' }
+    };
+  }
+
+  const measureKeywords = ["total price", "price", "total", "revenue", "sales", "amount", "cost", "quantity", "units", "score", "val", "sum"];
+  const categoryKeywords = ["product", "item", "category", "region", "department", "status", "name", "brand", "type", "city", "country", "store"];
+
+  // Keyword cross-examination
+  headers.forEach(h => {
+    const textLower = (h.text || "").toLowerCase();
+    if (!measureCol && measureKeywords.some(kw => textLower.includes(kw))) {
+      measureCol = h;
+    }
+    if (!catCol && categoryKeywords.some(kw => textLower.includes(kw))) {
+      catCol = h;
+    }
+  });
+
+  if (!catCol) {
+    catCol = headers.find(h => h.inferredType === "text") || headers[0];
+  }
+  if (!measureCol) {
+    measureCol = headers.find(h => h.colIndex !== catCol?.colIndex && h.inferredType === "numeric") || headers.find(h => h.colIndex !== catCol?.colIndex) || headers[1] || headers[0];
+  }
+
+  return { catCol, measureCol };
+}
+
 /**
  * Fallback Intelligent Rule Engine for AI Data Coach when AI API Key is unavailable.
  */
@@ -15,38 +50,34 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
   const lastRow = context.dataBounds?.lastRowNumber || 100;
   const startRow = context.dataBounds?.startDataRowNumber || 2;
 
-  // Find column matching target or default to C or B
-  const colC = headers.find(h => h.colLabel === 'C') || headers[0] || { colLabel: 'C', text: 'Column' };
-  const colB = headers.find(h => h.colLabel === 'B') || headers[1] || { colLabel: 'B', text: 'Value' };
-  const colA = headers.find(h => h.colLabel === 'A') || headers[0] || { colLabel: 'A', text: 'Category' };
+  const { catCol, measureCol } = detectPivotColumns(headers);
 
-  const exactRangeC = `${colC.colLabel}${startRow}:${colC.colLabel}${lastRow}`;
-  const exactRangeB = `${colB.colLabel}${startRow}:${colB.colLabel}${lastRow}`;
-  const exactRangeA = `${colA.colLabel}${startRow}:${colA.colLabel}${lastRow}`;
+  const exactRangeCat = `${catCol.colLabel}${startRow}:${catCol.colLabel}${lastRow}`;
+  const exactRangeMeas = `${measureCol.colLabel}${startRow}:${measureCol.colLabel}${lastRow}`;
 
   // 0. UNIQUE Function Request
   if (q.includes("unique")) {
+    const targetCol = headers.find(h => (h.text || "").toLowerCase().includes("product")) || catCol;
+    const targetRange = `${targetCol.colLabel}${startRow}:${targetCol.colLabel}${lastRow}`;
+
     return {
       type: "formula_help",
-      answer: `Extract Unique Values for ${colC.text}`,
-      explanation: `To extract all distinct items from the ${colC.text} column (spanning rows ${startRow} to ${lastRow}), use the \`UNIQUE\` function.`,
-      formula: `=UNIQUE(${exactRangeC})`,
-      hint: `Reference options: Relative \`=UNIQUE(${exactRangeC})\`, Absolute \`=UNIQUE($${colC.colLabel}$${startRow}:$${colC.colLabel}$${lastRow})\`, or Full Column \`=UNIQUE(${colC.colLabel}:${colC.colLabel})\`.`,
+      answer: `Extract Unique Values for ${targetCol.text}`,
+      explanation: `To extract all distinct items from the ${targetCol.text} column (Column ${targetCol.colLabel}, rows ${startRow} to ${lastRow}), use the \`UNIQUE\` function.`,
+      formula: `=UNIQUE(${targetRange})`,
+      hint: `Options: Relative \`=UNIQUE(${targetRange})\`, Absolute \`=UNIQUE($${targetCol.colLabel}$${startRow}:$${targetCol.colLabel}$${lastRow})\`, or Full Column \`=UNIQUE(${targetCol.colLabel}:${targetCol.colLabel})\`.`,
       learningObjective: "Master dynamic array UNIQUE function and proper Excel range referencing.",
       difficulty: "intermediate",
       action: {
         type: "insert_formula",
         cell: selectedCellId,
-        formula: `=UNIQUE(${exactRangeC})`
+        formula: `=UNIQUE(${targetRange})`
       }
     };
   }
 
   // 1. Pivot Table Generation
   if (q.includes("pivot") || context.requestType === "generate_pivot") {
-    const catColName = colA.text || "Category";
-    const numColName = colB.text || "Value";
-
     let aggType = "SUM";
     if (q.includes("average") || q.includes("mean")) aggType = "AVERAGE";
     else if (q.includes("count") || q.includes("frequency")) aggType = "COUNT";
@@ -57,9 +88,11 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
     const sampleRows = context.sampleData || [];
 
     sampleRows.forEach(row => {
-      const catVal = row[0] ? String(row[0]).trim() : null;
-      const numVal = Number(row[1] || row[row.length - 1]) || 0;
-      if (catVal && catVal.toLowerCase() !== catColName.toLowerCase()) {
+      const catCellId = `${catCol.colLabel}2`;
+      const catVal = row[catCellId] || Object.values(row)[catCol.colIndex] ? String(row[catCellId] || Object.values(row)[catCol.colIndex]).trim() : null;
+      const numVal = Number(row[`${measureCol.colLabel}2`] || Object.values(row)[measureCol.colIndex]) || 0;
+
+      if (catVal && catVal.toLowerCase() !== (catCol.text || "").toLowerCase()) {
         catMap.set(catVal, (catMap.get(catVal) || 0) + numVal);
       }
     });
@@ -76,19 +109,19 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
     }
 
     const funcFormula = aggType === "AVERAGE"
-      ? `=AVERAGEIF(${exactRangeA}, A2, ${exactRangeB})`
+      ? `=AVERAGEIF(${exactRangeCat}, A2, ${exactRangeMeas})`
       : aggType === "COUNT"
-      ? `=COUNTIF(${exactRangeA}, A2)`
+      ? `=COUNTIF(${exactRangeCat}, A2)`
       : aggType === "MAX"
-      ? `=MAXIFS(${exactRangeB}, ${exactRangeA}, A2)`
+      ? `=MAXIFS(${exactRangeMeas}, ${exactRangeCat}, A2)`
       : aggType === "MIN"
-      ? `=MINIFS(${exactRangeB}, ${exactRangeA}, A2)`
-      : `=SUMIF(${exactRangeA}, A2, ${exactRangeB})`;
+      ? `=MINIFS(${exactRangeMeas}, ${exactRangeCat}, A2)`
+      : `=SUMIF(${exactRangeCat}, A2, ${exactRangeMeas})`;
 
     return {
       type: "data_analysis",
       answer: `AI Intelligent Pivot Table (${aggType}) Analysis`,
-      explanation: `Analyzed dataset spanning rows ${startRow} to ${lastRow}. Grouped primary category '${catColName}' and metric '${numColName}' using ${aggType} aggregation.`,
+      explanation: `Cross-examined dataset columns: identified Category '${catCol.text}' (Col ${catCol.colLabel}) and Metric '${measureCol.text}' (Col ${measureCol.colLabel}) across rows ${startRow} to ${lastRow}.`,
       formula: funcFormula,
       hint: `Pivot summary worksheet created using ${aggType} aggregation.`,
       learningObjective: `Master Pivot Table multi-aggregation (${aggType}) and categorical analysis.`,
@@ -96,8 +129,10 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
       action: {
         type: "generate_pivot",
         pivotData: {
-          categoryHeader: catColName,
-          measureHeader: numColName,
+          categoryHeader: catCol.text,
+          measureHeader: measureCol.text,
+          categoryColLabel: catCol.colLabel,
+          measureColLabel: measureCol.colLabel,
           aggregationType: aggType,
           rows: pivotRows
         }
@@ -119,7 +154,7 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
       hint = "Clear the empty cells below or to the right of " + selectedCellId + " to allow the results to display.";
     } else if (errType === "#REF!") {
       explanation = "This cell references a range or cell that was deleted or moved.";
-      hint = "Re-enter the correct range e.g. " + exactRangeB + " in your formula.";
+      hint = "Re-enter the correct range e.g. " + exactRangeMeas + " in your formula.";
     } else if (errType === "#VALUE!") {
       explanation = "A parameter type mismatch occurred (e.g. supplying text where a number was required).";
       hint = "Ensure all cells in your formula range contain numeric values.";
@@ -129,7 +164,7 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
       type: "error_help",
       answer: `Found error ${errType} in cell ${selectedCellId}.`,
       explanation,
-      formula: selectedRaw.startsWith("=") ? selectedRaw : `=SUM(${exactRangeB})`,
+      formula: selectedRaw.startsWith("=") ? selectedRaw : `=SUM(${exactRangeMeas})`,
       hint,
       learningObjective: "Identify and resolve common Excel formula evaluation errors.",
       difficulty: "beginner",
@@ -156,8 +191,8 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
       return {
         type: "explanation",
         answer: `Cell ${selectedCellId} currently contains a raw value (${selectedVal ?? 'empty'}).`,
-        explanation: `To add a calculation, start typing with an equals sign \`=\` e.g., \`=SUM(${exactRangeB})\`.`,
-        formula: `=SUM(${exactRangeB})`,
+        explanation: `To add a calculation, start typing with an equals sign \`=\` e.g., \`=SUM(${exactRangeMeas})\`.`,
+        formula: `=SUM(${exactRangeMeas})`,
         hint: "Select a cell containing a formula starting with '=' to get a detailed breakdown.",
         learningObjective: "Understand Excel raw cell values vs formulas.",
         difficulty: "beginner",
@@ -171,29 +206,29 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
     return {
       type: "data_analysis",
       answer: `Analysis Guide for your dataset (${headerStr}).`,
-      explanation: `I detected dataset headers: ${headerStr} spanning rows ${startRow} to ${lastRow}. A great first step is to summarize total and conditional metrics for ${colB.text}.`,
-      formula: `=SUMIF(${exactRangeA}, "${colA.text}", ${exactRangeB})`,
-      hint: `Try calculating total ${colB.text} using =SUM(${exactRangeB}) or category breakdowns with =SUMIF(...)`,
+      explanation: `Cross-examined dataset headers: ${headerStr} spanning rows ${startRow} to ${lastRow}. Key metrics detected in ${measureCol.text} (Col ${measureCol.colLabel}).`,
+      formula: `=SUMIF(${exactRangeCat}, "${catCol.text}", ${exactRangeMeas})`,
+      hint: `Try calculating total ${measureCol.text} using =SUM(${exactRangeMeas}) or category breakdowns with =SUMIF(...)`,
       learningObjective: "Perform basic aggregation and conditional analysis on spreadsheet data.",
       difficulty: "intermediate",
       action: {
         type: "insert_formula",
         cell: selectedCellId,
-        formula: `=SUM(${exactRangeB})`
+        formula: `=SUM(${exactRangeMeas})`
       }
     };
   }
 
   // 5. Calculate / Suggest Formula
   if (q.includes("calculate") || q.includes("sum") || q.includes("total") || q.includes("average") || q.includes("how to")) {
-    const suggestedFormula = `=SUM(${exactRangeB})`;
+    const suggestedFormula = `=SUM(${exactRangeMeas})`;
 
     return {
       type: "formula_help",
       answer: `Recommended Formula for ${selectedCellId}`,
-      explanation: `To aggregate numeric values in column ${colB.colLabel} (${colB.text}) across rows ${startRow} to ${lastRow}, use the \`SUM\` function.`,
+      explanation: `To aggregate numeric values in column ${measureCol.colLabel} (${measureCol.text}) across rows ${startRow} to ${lastRow}, use the \`SUM\` function.`,
       formula: suggestedFormula,
-      hint: `Options: Relative \`=SUM(${exactRangeB})\`, Absolute \`=SUM($${colB.colLabel}$${startRow}:$${colB.colLabel}$${lastRow})\`, or Full Column \`=SUM(${colB.colLabel}:${colB.colLabel})\`.`,
+      hint: `Options: Relative \`=SUM(${exactRangeMeas})\`, Absolute \`=SUM($${measureCol.colLabel}$${startRow}:$${measureCol.colLabel}$${lastRow})\`, or Full Column \`=SUM(${measureCol.colLabel}:${measureCol.colLabel})\`.`,
       learningObjective: "Apply SUM function for totals with proper Excel referencing.",
       difficulty: "beginner",
       action: {
@@ -214,8 +249,8 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
       answer: isCorrect ? "Great work! Your formula structure looks correct." : "Good attempt! Let's refine your formula.",
       explanation: isCorrect
         ? `Your formula \`${userFormula}\` is valid and computes expected results.`
-        : `Your formula \`${userFormula}\` might need adjustment. Make sure it starts with \`=\` and uses valid ranges e.g. \`${exactRangeB}\`.`,
-      formula: isCorrect ? userFormula : `=SUM(${exactRangeB})`,
+        : `Your formula \`${userFormula}\` might need adjustment. Make sure it starts with \`=\` and uses valid ranges e.g. \`${exactRangeMeas}\`.`,
+      formula: isCorrect ? userFormula : `=SUM(${exactRangeMeas})`,
       hint: isCorrect ? "Try exploring absolute or mixed referencing next!" : "Check range bounds and argument commas.",
       learningObjective: "Master Excel formula syntax and range referencing.",
       difficulty: "beginner",
@@ -261,15 +296,15 @@ Learner Question: ${question}
 Attempted Formula: ${attemptedFormula || 'None'}
 
 CRITICAL SPREADSHEET RANGE & REFERENCING INSTRUCTIONS:
-1. ALWAYS inspect the 'headers' and 'dataBounds' in the spreadsheet context for exact column ranges.
-   - For example, if header 'Product' in column C has dataRange: "C2:C100" (or dataBounds.lastRowNumber = 100), ALWAYS use "C2:C100" or full column "C:C" in suggested formulas!
-   - NEVER truncate or guess ranges like "C2:C12" when the actual data spans to row 100.
+1. Cross-examine EVERY column header and data type in the spreadsheet context!
+   - Identify the exact Category text column (e.g., 'Product' in Column D) and Measure numeric column (e.g., 'Total Price' in Column N).
+   - ALWAYS use the exact column labels and data ranges (e.g., D2:D100 and N2:N100 or D:D and N:N). NEVER guess or truncate ranges like C2:C12 when data extends to row 100.
 2. SPREADSHEET REFERENCING RULES:
-   - Relative References: e.g. C2:C100 (for standard calculations)
-   - Absolute References: e.g. $C$2:$C$100 (when formulas will be copied/dragged)
-   - Mixed References: e.g. C$2:C$100 or $C2:$C100 (when locking only row or column)
-   - Full-Column References: e.g. C:C or UNIQUE(C:C) (for full column functions)
-   - Cross-Sheet References: e.g. Sheet2!C2:C100 or 'PivotSummary'!A2:A10 (when referencing other sheets in the workbook)
+   - Relative References: e.g. D2:D100
+   - Absolute References: e.g. $D$2:$D$100
+   - Mixed References: e.g. D$2:D$100 or $D2:$D100
+   - Full-Column References: e.g. D:D or UNIQUE(D:D)
+   - Cross-Sheet References: e.g. Sheet1!$D$2:$D$100 or Sheet1!$N$2:$N$100
 
 Return ONLY a valid JSON object strictly adhering to this schema:
 {
@@ -280,7 +315,7 @@ Return ONLY a valid JSON object strictly adhering to this schema:
   "hint": "helpful hint for learner",
   "learningObjective": "learning goal",
   "difficulty": "beginner" | "intermediate" | "advanced",
-  "action": null or { "type": "insert_formula", "cell": "CELL_ID", "formula": "=FORMULA(...)" } or { "type": "generate_pivot", "pivotData": { "categoryHeader": "...", "measureHeader": "...", "aggregationType": "SUM" | "AVERAGE" | "COUNT" | "MAX" | "MIN", "rows": [{ "category": "...", "value": 100 }] } }
+  "action": null or { "type": "insert_formula", "cell": "CELL_ID", "formula": "=FORMULA(...)" } or { "type": "generate_pivot", "pivotData": { "categoryHeader": "...", "measureHeader": "...", "categoryColLabel": "D", "measureColLabel": "N", "aggregationType": "SUM" | "AVERAGE" | "COUNT" | "MAX" | "MIN", "rows": [{ "category": "...", "value": 100 }] } }
 }`;
 
     // 1. Try Groq Cloud (Free Tier)
