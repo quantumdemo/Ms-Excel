@@ -47,6 +47,12 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
     const catColName = colA.text || "Category";
     const numColName = colB.text || "Value";
 
+    let aggType = "SUM";
+    if (q.includes("average") || q.includes("mean")) aggType = "AVERAGE";
+    else if (q.includes("count") || q.includes("frequency")) aggType = "COUNT";
+    else if (q.includes("max") || q.includes("highest")) aggType = "MAX";
+    else if (q.includes("min") || q.includes("lowest")) aggType = "MIN";
+
     const catMap = new Map();
     const sampleRows = context.sampleData || [];
 
@@ -69,19 +75,30 @@ function generateFallbackResponse(question, context = {}, attemptedFormula = nul
       pivotRows.push({ category: "Group C", value: 45000 });
     }
 
+    const funcFormula = aggType === "AVERAGE"
+      ? `=AVERAGEIF(${exactRangeA}, A2, ${exactRangeB})`
+      : aggType === "COUNT"
+      ? `=COUNTIF(${exactRangeA}, A2)`
+      : aggType === "MAX"
+      ? `=MAXIFS(${exactRangeB}, ${exactRangeA}, A2)`
+      : aggType === "MIN"
+      ? `=MINIFS(${exactRangeB}, ${exactRangeA}, A2)`
+      : `=SUMIF(${exactRangeA}, A2, ${exactRangeB})`;
+
     return {
       type: "data_analysis",
-      answer: "AI Intelligent Pivot Table Analysis",
-      explanation: `Analyzed dataset spanning rows ${startRow} to ${lastRow}. Grouped primary category '${catColName}' and metric '${numColName}'.`,
-      formula: `=SUMIF(${exactRangeA}, A2, ${exactRangeB})`,
-      hint: "Pivot summary worksheet created with intelligent categorical aggregation.",
-      learningObjective: "Master Pivot Table grouped summaries and categorical aggregation.",
+      answer: `AI Intelligent Pivot Table (${aggType}) Analysis`,
+      explanation: `Analyzed dataset spanning rows ${startRow} to ${lastRow}. Grouped primary category '${catColName}' and metric '${numColName}' using ${aggType} aggregation.`,
+      formula: funcFormula,
+      hint: `Pivot summary worksheet created using ${aggType} aggregation.`,
+      learningObjective: `Master Pivot Table multi-aggregation (${aggType}) and categorical analysis.`,
       difficulty: "intermediate",
       action: {
         type: "generate_pivot",
         pivotData: {
           categoryHeader: catColName,
           measureHeader: numColName,
+          aggregationType: aggType,
           rows: pivotRows
         }
       }
@@ -263,7 +280,7 @@ Return ONLY a valid JSON object strictly adhering to this schema:
   "hint": "helpful hint for learner",
   "learningObjective": "learning goal",
   "difficulty": "beginner" | "intermediate" | "advanced",
-  "action": null or { "type": "insert_formula", "cell": "CELL_ID", "formula": "=FORMULA(...)" } or { "type": "generate_pivot", "pivotData": { "categoryHeader": "...", "measureHeader": "...", "rows": [{ "category": "...", "value": 100 }] } }
+  "action": null or { "type": "insert_formula", "cell": "CELL_ID", "formula": "=FORMULA(...)" } or { "type": "generate_pivot", "pivotData": { "categoryHeader": "...", "measureHeader": "...", "aggregationType": "SUM" | "AVERAGE" | "COUNT" | "MAX" | "MIN", "rows": [{ "category": "...", "value": 100 }] } }
 }`;
 
     // 1. Try Groq Cloud (Free Tier)
