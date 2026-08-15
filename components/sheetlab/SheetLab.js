@@ -278,41 +278,83 @@ export default function SheetLab({ onBack }) {
     }
   };
 
-  // Quick Pivot Table Generator
-  const handleGeneratePivot = () => {
+  // AI-Driven Quick Pivot Table Generator
+  const handleGeneratePivot = async () => {
     if (!activeRegistry || !workbook) return;
+
+    setActionNotification("✨ AI analyzing dataset for optimal Pivot Table breakdown...");
+
+    let pivotCatHeader = "Category";
+    let pivotMeasureHeader = "Total Value";
+    let pivotRows = [];
+
+    try {
+      const res = await fetch("/api/ai/coach", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question: "Generate an intelligent pivot table summary for this dataset",
+          context: { ...spreadsheetContext, requestType: "generate_pivot" }
+        })
+      });
+
+      if (res.ok) {
+        const aiResponse = await res.json();
+        if (aiResponse?.action?.type === "generate_pivot" && aiResponse.action.pivotData) {
+          const pData = aiResponse.action.pivotData;
+          pivotCatHeader = pData.categoryHeader || "Category";
+          pivotMeasureHeader = pData.measureHeader || "Total Value";
+          pivotRows = pData.rows || [];
+        }
+      }
+    } catch (err) {
+      console.warn("AI Pivot generation error, using local fallback:", err);
+    }
+
+    // Fallback if AI returned no rows
+    if (pivotRows.length === 0) {
+      const catMap = new Map();
+      for (let r = 1; r < 100; r++) {
+        const catCell = activeRegistry.getCell(ReferenceResolver.coordToId(r, 0));
+        const valCell = activeRegistry.getCell(ReferenceResolver.coordToId(r, 1));
+        if (catCell.raw) {
+          const cat = String(catCell.computed || catCell.raw);
+          const val = Number(valCell.computed || valCell.raw) || 0;
+          catMap.set(cat, (catMap.get(cat) || 0) + val);
+        }
+      }
+      catMap.forEach((sumVal, catName) => {
+        pivotRows.push({ category: catName, value: sumVal });
+      });
+    }
 
     const pivotSheetName = "PivotSummary";
     const pivotSheet = workbook.addSheet(pivotSheetName);
 
-    const catMap = new Map();
-    for (let r = 1; r < 50; r++) {
-      const catCell = activeRegistry.getCell(ReferenceResolver.coordToId(r, 0));
-      const valCell = activeRegistry.getCell(ReferenceResolver.coordToId(r, 1));
-
-      if (catCell.raw) {
-        const cat = String(catCell.computed || catCell.raw);
-        const val = Number(valCell.computed || valCell.raw) || 0;
-        catMap.set(cat, (catMap.get(cat) || 0) + val);
-      }
-    }
-
-    pivotSheet.updateCell("A1", "Category Summary");
-    pivotSheet.updateCell("B1", "Total Value");
+    pivotSheet.updateCell("A1", pivotCatHeader);
+    pivotSheet.updateCell("B1", pivotMeasureHeader);
 
     let rowIdx = 2;
-    catMap.forEach((totalVal, catName) => {
-      pivotSheet.updateCell(`A${rowIdx}`, catName);
-      pivotSheet.updateCell(`B${rowIdx}`, String(totalVal));
+    let grandTotal = 0;
+    pivotRows.forEach((pRow) => {
+      pivotSheet.updateCell(`A${rowIdx}`, pRow.category);
+      pivotSheet.updateCell(`B${rowIdx}`, String(pRow.value));
+      pivotSheet.setCellFormat(`B${rowIdx}`, 'currency');
+      grandTotal += Number(pRow.value) || 0;
       rowIdx++;
     });
+
+    // Add Grand Total Row
+    pivotSheet.updateCell(`A${rowIdx}`, "Grand Total");
+    pivotSheet.updateCell(`B${rowIdx}`, String(grandTotal));
+    pivotSheet.setCellFormat(`B${rowIdx}`, 'currency');
 
     workbook.setActiveSheet(pivotSheetName);
     setActiveSheetName(pivotSheetName);
     setIsToolsOpen(false);
 
-    setActionNotification(`Generated Pivot Table in worksheet '${pivotSheetName}'`);
-    setTimeout(() => setActionNotification(null), 3500);
+    setActionNotification(`✨ AI generated Pivot Table in worksheet '${pivotSheetName}'`);
+    setTimeout(() => setActionNotification(null), 4000);
   };
 
   // Apply Cell Data Validation Dropdown
