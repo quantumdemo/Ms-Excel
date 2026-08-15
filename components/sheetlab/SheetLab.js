@@ -14,7 +14,8 @@ import { getFunctionSuggestions, extractQuery, findActiveFunction } from '@/lib/
 import _ from 'lodash';
 
 // Grid size constants for SheetLab
-const INITIAL_ROWS = 100;
+const INITIAL_ROWS = 120; // Expanded to 120 rows for user editing flexibility
+const MAX_IMPORT_ROWS = 100; // Strict 100-record import cap maintained for imports
 const INITIAL_COLS = 26;
 
 const FORMAT_OPTIONS = [
@@ -138,7 +139,8 @@ export default function SheetLab({ onBack }) {
   const handleImport = (data) => {
     if (!registry) return;
 
-    const constrainedData = data.slice(0, INITIAL_ROWS);
+    // Constrain imported records strictly to 100
+    const constrainedData = data.slice(0, MAX_IMPORT_ROWS);
 
     const newRegistry = new CellRegistry(
       INITIAL_ROWS,
