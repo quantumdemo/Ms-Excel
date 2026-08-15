@@ -2,9 +2,9 @@
 
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, RotateCcw, Database, Sparkles, Bot, Hash, Calendar, DollarSign, Percent, Type } from 'lucide-react';
+import { ChevronLeft, RotateCcw, Database, Sparkles, Plus, X, Edit2, Hash, Calendar, DollarSign, Percent, Type, LayoutGrid, MoreVertical, Layers, PieChart, CheckSquare } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { CellRegistry, ReferenceResolver, formatCellValue } from '@/lib/excel-core';
+import { WorkbookManager, ReferenceResolver, formatCellValue } from '@/lib/excel-core';
 import FormulaAutoComplete from '../spreadsheet/FormulaAutoComplete';
 import FunctionScreentip from '../spreadsheet/FunctionScreentip';
 import ExcelActions from './ExcelActions';
@@ -13,9 +13,8 @@ import { buildSpreadsheetContext } from '@/lib/ai/spreadsheet-context';
 import { getFunctionSuggestions, extractQuery, findActiveFunction } from '@/lib/formula-ui-utils';
 import _ from 'lodash';
 
-// Grid size constants for SheetLab
-const INITIAL_ROWS = 120; // Expanded to 120 rows for user editing flexibility
-const MAX_IMPORT_ROWS = 100; // Strict 100-record import cap maintained for imports
+const INITIAL_ROWS = 120;
+const MAX_IMPORT_ROWS = 100;
 const INITIAL_COLS = 26;
 
 const FORMAT_OPTIONS = [
@@ -50,6 +49,19 @@ const GridCell = React.memo(({ r, c, id, cellData, isS, isF, editValue, onSelect
       )}>
         {displayValue?.toString() ?? ""}
       </div>
+      {cellData?.validation?.type === 'list' && (
+        <select
+          className="absolute right-1 top-1/2 -translate-y-1/2 bg-black/80 border border-white/20 text-[10px] text-excel-green font-bold rounded px-1 outline-none opacity-80 hover:opacity-100 cursor-pointer"
+          value={rawDisplay || ''}
+          onChange={(e) => onSelect(r, c, id, e.target.value)}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <option value="" disabled>-- Select --</option>
+          {(cellData.validation.values || []).map((opt, i) => (
+            <option key={i} value={opt} className="bg-bg-dark text-slate-100">{opt}</option>
+          ))}
+        </select>
+      )}
       {isS && (
         <div
           className="absolute bottom-[-10px] right-[-10px] w-6 h-6 bg-excel-green border-2 border-white rounded-full z-30 cursor-crosshair shadow-lg"
@@ -63,9 +75,13 @@ const GridCell = React.memo(({ r, c, id, cellData, isS, isF, editValue, onSelect
 GridCell.displayName = 'GridCell';
 
 export default function SheetLab({ onBack }) {
-  const [registry, setRegistry] = useState(null);
+  const [workbook, setWorkbook] = useState(null);
+  const [activeSheetName, setActiveSheetName] = useState("Sheet1");
   const [selected, setSelected] = useState({ r: 0, c: 0 });
   const [inputValue, setInputValue] = useState("");
+  const [editingSheetName, setEditingSheetName] = useState(null);
+  const [sheetNameInput, setSheetNameInput] = useState("");
+
   const [dragStarted, setDragStarted] = useState(false);
   const pointerStartPos = useRef(null);
   const inputRef = useRef(null);
@@ -76,6 +92,10 @@ export default function SheetLab({ onBack }) {
   const [suggestionIndex, setSelectedIndex] = useState(0);
   const [activeFunction, setActiveFunction] = useState(null);
   const [cursorPos, setCursorPos] = useState(0);
+
+  // Quick Tools Popup State
+  const [isToolsOpen, setIsToolsOpen] = useState(false);
+  const [validationInput, setValidationInput] = useState("East, West, North, South");
 
   // AI Coach State
   const [isAICoachOpen, setIsAICoachOpen] = useState(false);
@@ -89,16 +109,22 @@ export default function SheetLab({ onBack }) {
     setActiveFunction(null);
   }, []);
 
-  // Initialize Registry
+  // Initialize Workbook
   useEffect(() => {
-    const r = new CellRegistry(INITIAL_ROWS, INITIAL_COLS);
-    r.onUpdate = () => {
-      setRegistry(Object.assign(Object.create(Object.getPrototypeOf(r)), r));
+    const wb = new WorkbookManager(INITIAL_ROWS, INITIAL_COLS);
+    wb.onUpdate = () => {
+      setWorkbook(Object.assign(Object.create(Object.getPrototypeOf(wb)), wb));
     };
-    setRegistry(r);
+    setWorkbook(wb);
+    setActiveSheetName(wb.activeSheetName);
     setSelected({ r: 0, c: 0 });
     setInputValue("");
   }, []);
+
+  const activeRegistry = useMemo(() => {
+    if (!workbook) return null;
+    return workbook.sheets.get(activeSheetName) || workbook.activeSheet;
+  }, [workbook, activeSheetName]);
 
   const activeCellId = useMemo(() =>
     ReferenceResolver.coordToId(selected.r, selected.c),
@@ -106,23 +132,28 @@ export default function SheetLab({ onBack }) {
   );
 
   const activeCellData = useMemo(() => {
-    if (!registry) return null;
-    return registry.getCell(activeCellId);
-  }, [registry, activeCellId]);
+    if (!activeRegistry) return null;
+    return activeRegistry.getCell(activeCellId);
+  }, [activeRegistry, activeCellId]);
 
-  // Build active spreadsheet context for AI Coach
   const spreadsheetContext = useMemo(() => {
-    if (!registry) return null;
-    return buildSpreadsheetContext(registry, selected);
-  }, [registry, selected]);
+    if (!activeRegistry) return null;
+    return buildSpreadsheetContext(activeRegistry, selected);
+  }, [activeRegistry, selected]);
 
-  const handleCellSelect = useCallback((r, c, id) => {
-    if (dragStarted) return;
-    registry.updateCell(activeCellId, inputValue);
+  const handleCellSelect = useCallback((r, c, id, newDirectValue = null) => {
+    if (dragStarted || !activeRegistry) return;
+    if (newDirectValue !== null) {
+      activeRegistry.updateCell(id, newDirectValue);
+      setInputValue(newDirectValue);
+      setSelected({ r, c });
+      return;
+    }
+    activeRegistry.updateCell(activeCellId, inputValue);
     setSelected({ r, c });
-    setInputValue(registry.getCell(id).raw || "");
+    setInputValue(activeRegistry.getCell(id).raw || "");
     hideFormulaUI();
-  }, [registry, activeCellId, inputValue, dragStarted, hideFormulaUI]);
+  }, [activeRegistry, activeCellId, inputValue, dragStarted, hideFormulaUI]);
 
   const handleCellPointerDown = useCallback((e, r, c) => {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
@@ -136,58 +167,67 @@ export default function SheetLab({ onBack }) {
     setFillRange({ startR: r, startC: c, endR: r, endC: c });
   }, []);
 
-  const handleImport = (data) => {
-    if (!registry) return;
+  // Multi-sheet Import
+  const handleImport = (incomingSheets) => {
+    if (!workbook) return;
 
-    // Constrain imported records strictly to 100
-    const constrainedData = data.slice(0, MAX_IMPORT_ROWS);
+    const newWb = new WorkbookManager(INITIAL_ROWS, INITIAL_COLS);
+    newWb.sheets.clear();
 
-    const newRegistry = new CellRegistry(
-      INITIAL_ROWS,
-      Math.max(INITIAL_COLS, constrainedData[0]?.length || 0)
-    );
+    if (Array.isArray(incomingSheets)) {
+      incomingSheets.forEach(s => {
+        const name = s.name || "Sheet1";
+        const constrainedData = (s.data || []).slice(0, MAX_IMPORT_ROWS);
+        const reg = newWb.addSheet(name);
+        reg.loadData(constrainedData);
+      });
+    }
 
-    newRegistry.onUpdate = () => {
-      setRegistry(Object.assign(Object.create(Object.getPrototypeOf(newRegistry)), newRegistry));
+    newWb.onUpdate = () => {
+      setWorkbook(Object.assign(Object.create(Object.getPrototypeOf(newWb)), newWb));
     };
 
-    newRegistry.loadData(constrainedData);
+    const firstSheetName = Array.from(newWb.sheets.keys())[0] || "Sheet1";
+    newWb.setActiveSheet(firstSheetName);
 
-    setRegistry(newRegistry);
+    setWorkbook(newWb);
+    setActiveSheetName(firstSheetName);
     setSelected({ r: 0, c: 0 });
-    setInputValue(newRegistry.getCell("A1").raw || "");
+    setInputValue(newWb.getCell("A1")?.raw || "");
   };
 
-  const getExportData = () => {
-    if (!registry) return [];
+  // Multi-sheet Export with formatting
+  const getWorkbookExportData = () => {
+    if (!workbook) return { sheets: [] };
 
-    const rows = registry.rows;
-    const cols = registry.cols;
-    const data = [];
+    const sheets = [];
+    workbook.sheets.forEach((reg, sName) => {
+      const rows = reg.rows;
+      const cols = reg.cols;
+      const data = [];
 
-    for (let r = 0; r < rows; r++) {
-      const row = [];
-      for (let c = 0; c < cols; c++) {
-        const id = ReferenceResolver.coordToId(r, c);
-        const cell = registry.getCell(id);
-
-        if (cell.type === 'formula') {
-            row.push({
-                value: cell.computed,
-                formula: "=" + cell.parsedFormula
-            });
-        } else {
-            row.push(cell.raw || "");
+      for (let r = 0; r < rows; r++) {
+        const row = [];
+        for (let c = 0; c < cols; c++) {
+          const id = ReferenceResolver.coordToId(r, c);
+          const cell = reg.getCell(id);
+          row.push({
+            value: cell.computed,
+            formula: cell.type === 'formula' ? "=" + cell.parsedFormula : null,
+            format: cell.format || 'general'
+          });
         }
+        data.push(row);
       }
-      data.push(row);
-    }
-    return data;
+      sheets.push({ name: sName, data });
+    });
+
+    return { sheets };
   };
 
-  // Controlled Action Validation & Execution
+  // Controlled AI Action
   const handleApplyAIAction = (action) => {
-    if (!action || action.type !== 'insert_formula' || !registry) return;
+    if (!action || action.type !== 'insert_formula' || !activeRegistry) return;
 
     const targetCellId = (action.cell || activeCellId).toUpperCase();
     const coord = ReferenceResolver.idToCoord(targetCellId);
@@ -203,7 +243,7 @@ export default function SheetLab({ onBack }) {
       return;
     }
 
-    registry.updateCell(targetCellId, formulaStr);
+    activeRegistry.updateCell(targetCellId, formulaStr);
 
     setSelected({ r: coord.r, c: coord.c });
     setInputValue(formulaStr);
@@ -214,8 +254,102 @@ export default function SheetLab({ onBack }) {
 
   const handleFormatChange = (e) => {
     const fmt = e.target.value;
-    if (registry && activeCellId) {
-      registry.setCellFormat(activeCellId, fmt);
+    if (activeRegistry && activeCellId) {
+      activeRegistry.setCellFormat(activeCellId, fmt);
+    }
+  };
+
+  // Quick Pivot Table Generator
+  const handleGeneratePivot = () => {
+    if (!activeRegistry || !workbook) return;
+
+    const pivotSheetName = "PivotSummary";
+    const pivotSheet = workbook.addSheet(pivotSheetName);
+
+    // Group Col A (Category/Region) and Sum Col B or C (Values)
+    const catMap = new Map();
+    for (let r = 1; r < 50; r++) {
+      const catCell = activeRegistry.getCell(ReferenceResolver.coordToId(r, 0));
+      const valCell = activeRegistry.getCell(ReferenceResolver.coordToId(r, 1));
+
+      if (catCell.raw) {
+        const cat = String(catCell.computed || catCell.raw);
+        const val = Number(valCell.computed || valCell.raw) || 0;
+        catMap.set(cat, (catMap.get(cat) || 0) + val);
+      }
+    }
+
+    pivotSheet.updateCell("A1", "Category Summary");
+    pivotSheet.updateCell("B1", "Total Value");
+
+    let rowIdx = 2;
+    catMap.forEach((totalVal, catName) => {
+      pivotSheet.updateCell(`A${rowIdx}`, catName);
+      pivotSheet.updateCell(`B${rowIdx}`, String(totalVal));
+      rowIdx++;
+    });
+
+    workbook.setActiveSheet(pivotSheetName);
+    setActiveSheetName(pivotSheetName);
+    setIsToolsOpen(false);
+
+    setActionNotification(`Generated Pivot Table in worksheet '${pivotSheetName}'`);
+    setTimeout(() => setActionNotification(null), 3500);
+  };
+
+  // Apply Cell Data Validation Dropdown
+  const handleApplyValidation = () => {
+    if (!activeRegistry || !activeCellId) return;
+    const items = validationInput.split(',').map(s => s.trim()).filter(Boolean);
+    if (items.length === 0) return;
+
+    activeRegistry.setCellValidation(activeCellId, { type: 'list', values: items });
+    setIsToolsOpen(false);
+
+    setActionNotification(`Set dropdown list rule [${items.join(', ')}] on cell ${activeCellId}`);
+    setTimeout(() => setActionNotification(null), 3500);
+  };
+
+  // Sheet Tabs Actions
+  const handleAddSheet = () => {
+    if (!workbook) return;
+    const newName = `Sheet${workbook.sheets.size + 1}`;
+    workbook.addSheet(newName);
+    workbook.setActiveSheet(newName);
+    setActiveSheetName(newName);
+    setSelected({ r: 0, c: 0 });
+    setInputValue("");
+  };
+
+  const handleSwitchSheet = (sName) => {
+    if (!workbook || sName === activeSheetName) return;
+    workbook.setActiveSheet(sName);
+    setActiveSheetName(sName);
+    setSelected({ r: 0, c: 0 });
+    const reg = workbook.sheets.get(sName);
+    setInputValue(reg?.getCell("A1")?.raw || "");
+    hideFormulaUI();
+  };
+
+  const handleStartRename = (sName) => {
+    setEditingSheetName(sName);
+    setSheetNameInput(sName);
+  };
+
+  const handleConfirmRename = () => {
+    if (workbook && editingSheetName && sheetNameInput.trim()) {
+      workbook.renameSheet(editingSheetName, sheetNameInput.trim());
+      setActiveSheetName(workbook.activeSheetName);
+    }
+    setEditingSheetName(null);
+  };
+
+  const handleDeleteSheet = (sName, e) => {
+    e.stopPropagation();
+    if (workbook && workbook.sheets.size > 1) {
+      workbook.deleteSheet(sName);
+      setActiveSheetName(workbook.activeSheetName);
+      setSelected({ r: 0, c: 0 });
     }
   };
 
@@ -260,7 +394,7 @@ export default function SheetLab({ onBack }) {
       }
     }, 0);
 
-    registry.updateCell(activeCellId, newVal);
+    if (activeRegistry) activeRegistry.updateCell(activeCellId, newVal);
   };
 
   const handleInputKeyDown = (e) => {
@@ -279,12 +413,12 @@ export default function SheetLab({ onBack }) {
       }
     } else {
       if (e.key === 'Enter' || e.key === 'Tab') {
-        registry.updateCell(activeCellId, inputValue);
+        if (activeRegistry) activeRegistry.updateCell(activeCellId, inputValue);
         e.currentTarget.blur();
         hideFormulaUI();
       }
       if (e.key === 'Escape') {
-        setInputValue(registry.getCell(activeCellId).raw || "");
+        setInputValue(activeRegistry?.getCell(activeCellId).raw || "");
         e.currentTarget.blur();
         hideFormulaUI();
       }
@@ -294,7 +428,7 @@ export default function SheetLab({ onBack }) {
   const handleFillEnd = useCallback(() => {
     setDragStarted(false);
     pointerStartPos.current = null;
-    if (!isFilling || !fillRange || !registry) return;
+    if (!isFilling || !fillRange || !activeRegistry) return;
 
     const { startR, startC, endR, endC } = fillRange;
     if (startR === endR && startC === endC) {
@@ -307,7 +441,7 @@ export default function SheetLab({ onBack }) {
     const cDir = endC > startC ? 1 : (endC < startC ? -1 : 0);
 
     const sourceId = ReferenceResolver.coordToId(startR, startC);
-    const sourceCell = registry.getCell(sourceId);
+    const sourceCell = activeRegistry.getCell(sourceId);
     const sourceRaw = sourceCell.raw;
 
     let step = 0;
@@ -319,14 +453,14 @@ export default function SheetLab({ onBack }) {
 
       if (rDir !== 0 && prevR !== -1) {
         const pId = ReferenceResolver.coordToId(prevR, startC);
-        const pCell = registry.getCell(pId);
+        const pCell = activeRegistry.getCell(pId);
         if (pCell.type === "number") {
           step = sVal - Number(pCell.raw);
           hasPattern = true;
         }
       } else if (cDir !== 0 && prevC !== -1) {
         const pId = ReferenceResolver.coordToId(startR, prevC);
-        const pCell = registry.getCell(pId);
+        const pCell = activeRegistry.getCell(pId);
         if (pCell.type === "number") {
           step = sVal - Number(pCell.raw);
           hasPattern = true;
@@ -339,11 +473,11 @@ export default function SheetLab({ onBack }) {
         const offset = Math.abs(r - startR);
         const targetId = ReferenceResolver.coordToId(r, startC);
         if (sourceCell.type === "formula") {
-          registry.updateCell(targetId, ReferenceResolver.adjustFormula(sourceRaw, r - startR, 0));
+          activeRegistry.updateCell(targetId, ReferenceResolver.adjustFormula(sourceRaw, r - startR, 0));
         } else if (hasPattern) {
-          registry.updateCell(targetId, (Number(sourceRaw) + step * offset).toString());
+          activeRegistry.updateCell(targetId, (Number(sourceRaw) + step * offset).toString());
         } else {
-          registry.updateCell(targetId, sourceRaw);
+          activeRegistry.updateCell(targetId, sourceRaw);
         }
       }
     } else if (cDir !== 0) {
@@ -351,18 +485,18 @@ export default function SheetLab({ onBack }) {
         const offset = Math.abs(c - startC);
         const targetId = ReferenceResolver.coordToId(startR, c);
         if (sourceCell.type === "formula") {
-          registry.updateCell(targetId, ReferenceResolver.adjustFormula(sourceRaw, 0, c - startC));
+          activeRegistry.updateCell(targetId, ReferenceResolver.adjustFormula(sourceRaw, 0, c - startC));
         } else if (hasPattern) {
-          registry.updateCell(targetId, (Number(sourceRaw) + step * offset).toString());
+          activeRegistry.updateCell(targetId, (Number(sourceRaw) + step * offset).toString());
         } else {
-          registry.updateCell(targetId, sourceRaw);
+          activeRegistry.updateCell(targetId, sourceRaw);
         }
       }
     }
 
     setIsFilling(false);
     setFillRange(null);
-  }, [isFilling, fillRange, registry]);
+  }, [isFilling, fillRange, activeRegistry]);
 
   const handlePointerMove = (e) => {
     if (!isFilling) return;
@@ -409,7 +543,7 @@ export default function SheetLab({ onBack }) {
 
   useEffect(() => {
     const handleGlobalKeyDown = (e) => {
-      if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+      if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA' || document.activeElement.tagName === 'SELECT') return;
       if (e.key.length === 1 || e.key === 'Backspace' || e.key === 'Delete') {
         inputRef.current?.focus();
       }
@@ -418,7 +552,7 @@ export default function SheetLab({ onBack }) {
     return () => window.removeEventListener('keydown', handleGlobalKeyDown);
   }, []);
 
-  if (!registry) return null;
+  if (!workbook || !activeRegistry) return null;
 
   return (
     <div
@@ -457,6 +591,15 @@ export default function SheetLab({ onBack }) {
         </div>
 
         <div className="flex items-center gap-3">
+          {/* Quick Tools 4-Dot Popup Menu Button */}
+          <button
+            onClick={() => setIsToolsOpen(!isToolsOpen)}
+            className="p-2 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 text-slate-300 transition-all active:scale-95"
+            title="Quick Tools Menu"
+          >
+            <LayoutGrid size={20} className="text-excel-green" />
+          </button>
+
           {/* AI Coach Entry Button */}
           <button
             onClick={() => setIsAICoachOpen(true)}
@@ -468,16 +611,17 @@ export default function SheetLab({ onBack }) {
 
           <ExcelActions
             onImport={handleImport}
-            getGridData={getExportData}
-            isRegistryReady={!!registry}
+            getWorkbookExportData={getWorkbookExportData}
+            isRegistryReady={!!activeRegistry}
           />
 
           <button onClick={() => {
-            const r = new CellRegistry(INITIAL_ROWS, INITIAL_COLS);
-            r.onUpdate = () => {
-              setRegistry(Object.assign(Object.create(Object.getPrototypeOf(r)), r));
+            const wb = new WorkbookManager(INITIAL_ROWS, INITIAL_COLS);
+            wb.onUpdate = () => {
+              setWorkbook(Object.assign(Object.create(Object.getPrototypeOf(wb)), wb));
             };
-            setRegistry(r);
+            setWorkbook(wb);
+            setActiveSheetName("Sheet1");
             setSelected({ r: 0, c: 0 });
             setInputValue("");
           }} className="p-2 bg-white/5 rounded-full active:rotate-180 transition-all duration-500">
@@ -486,6 +630,61 @@ export default function SheetLab({ onBack }) {
         </div>
       </header>
 
+      {/* Quick Tools Popup Modal */}
+      <AnimatePresence>
+        {isToolsOpen && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: -10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: -10 }}
+            className="absolute top-16 right-6 z-[110] w-80 bg-card-dark border border-white/10 rounded-3xl p-5 shadow-2xl space-y-4"
+          >
+            <div className="flex items-center justify-between border-b border-white/5 pb-3">
+              <span className="font-bold text-sm text-white flex items-center gap-2">
+                <LayoutGrid size={16} className="text-excel-green" />
+                Quick Tools
+              </span>
+              <button onClick={() => setIsToolsOpen(false)} className="text-slate-400 hover:text-white">
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Pivot Table Action */}
+            <button
+              onClick={handleGeneratePivot}
+              className="w-full bg-white/5 hover:bg-white/10 border border-white/5 p-3 rounded-2xl flex items-center gap-3 text-left transition-all active:scale-98"
+            >
+              <PieChart size={18} className="text-excel-green" />
+              <div>
+                <p className="font-bold text-xs text-white">Generate Pivot Table</p>
+                <p className="text-[10px] text-slate-400">Summarize categories into a clean summary sheet</p>
+              </div>
+            </button>
+
+            {/* In-Cell Validation Action */}
+            <div className="bg-white/5 border border-white/5 p-3 rounded-2xl space-y-2">
+              <div className="flex items-center gap-2 text-xs font-bold text-white">
+                <CheckSquare size={16} className="text-excel-green" />
+                <span>Set Dropdown Rule on {activeCellId}</span>
+              </div>
+              <input
+                type="text"
+                value={validationInput}
+                onChange={(e) => setValidationInput(e.target.value)}
+                placeholder="Comma separated e.g. East, West"
+                className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white outline-none"
+              />
+              <button
+                onClick={handleApplyValidation}
+                className="w-full bg-excel-green hover:bg-excel-green/90 text-white font-bold py-1.5 rounded-xl text-xs active:scale-98 transition-all"
+              >
+                Apply In-Cell Dropdown
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Formula & Formatting Bar */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 p-4 bg-black/40 border-b border-white/5">
         <div className="flex items-center gap-2">
@@ -493,7 +692,6 @@ export default function SheetLab({ onBack }) {
             {activeCellId}
           </div>
 
-          {/* Cell Format Selector */}
           <select
             value={activeCellData?.format || 'general'}
             onChange={handleFormatChange}
@@ -524,12 +722,12 @@ export default function SheetLab({ onBack }) {
                 const pos = e.target.selectionStart;
                 setInputValue(val);
                 setCursorPos(pos);
-                registry.updateCell(activeCellId, val);
+                activeRegistry.updateCell(activeCellId, val);
                 updateFormulaUI(val, pos);
               }}
               onKeyDown={handleInputKeyDown}
               onBlur={() => {
-                 registry.updateCell(activeCellId, inputValue);
+                 activeRegistry.updateCell(activeCellId, inputValue);
                  hideFormulaUI();
               }}
               placeholder="Enter formula or value..."
@@ -578,7 +776,7 @@ export default function SheetLab({ onBack }) {
                   </td>
                   {Array(INITIAL_COLS).fill(0).map((_, c) => {
                     const id = ReferenceResolver.coordToId(r, c);
-                    const cellData = registry.getCell(id);
+                    const cellData = activeRegistry.getCell(id);
                     const isS = selected.r === r && selected.c === c;
                     const isF = fillRange && r >= Math.min(fillRange.startR, fillRange.endR) && r <= Math.max(fillRange.startR, fillRange.endR) && c >= Math.min(fillRange.startC, fillRange.endC) && c <= Math.max(fillRange.startC, fillRange.endC);
 
@@ -605,15 +803,64 @@ export default function SheetLab({ onBack }) {
         </div>
       </div>
 
-      {/* Footer Info */}
-      <div className="p-4 bg-black/40 border-t border-white/5 flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-        <div className="flex items-center gap-2">
-          <Sparkles size={12} className="text-excel-green" />
-          <span>LearnExcelAI Engine Active</span>
+      {/* Multi-Sheet Tabs Bar */}
+      <div className="p-2 bg-black/60 border-t border-white/10 flex items-center justify-between overflow-x-auto no-scrollbar gap-2">
+        <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
+          {Array.from(workbook.sheets.keys()).map((sName) => {
+            const isActive = sName === activeSheetName;
+            const isEditing = editingSheetName === sName;
+
+            return (
+              <div
+                key={sName}
+                onClick={() => handleSwitchSheet(sName)}
+                onDoubleClick={() => handleStartRename(sName)}
+                className={cn(
+                  "flex items-center gap-2 px-3 py-1.5 rounded-xl font-bold text-xs cursor-pointer transition-all border",
+                  isActive
+                    ? "bg-excel-green text-white border-excel-green/50 shadow-md shadow-excel-green/20"
+                    : "bg-white/5 text-slate-400 hover:bg-white/10 border-white/5"
+                )}
+              >
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={sheetNameInput}
+                    onChange={(e) => setSheetNameInput(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleConfirmRename()}
+                    onBlur={handleConfirmRename}
+                    autoFocus
+                    className="bg-black/50 text-white font-bold text-xs px-1.5 py-0.5 rounded outline-none border border-white/20 w-20"
+                  />
+                ) : (
+                  <span>{sName}</span>
+                )}
+
+                {workbook.sheets.size > 1 && !isEditing && (
+                  <button
+                    onClick={(e) => handleDeleteSheet(sName, e)}
+                    className="p-0.5 rounded hover:bg-black/20 text-slate-300 opacity-60 hover:opacity-100 transition-opacity"
+                    title="Delete Sheet"
+                  >
+                    <X size={12} />
+                  </button>
+                )}
+              </div>
+            );
+          })}
+
+          <button
+            onClick={handleAddSheet}
+            title="Add New Worksheet"
+            className="flex items-center justify-center p-2 bg-white/5 hover:bg-white/10 text-excel-green rounded-xl border border-white/10 transition-all active:scale-95"
+          >
+            <Plus size={16} />
+          </button>
         </div>
-        <div className="flex items-center gap-4">
+
+        <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 px-2 flex-shrink-0">
           <span>{INITIAL_ROWS} Rows</span>
-          <span>{INITIAL_COLS} Columns</span>
+          <span>{INITIAL_COLS} Cols</span>
         </div>
       </div>
 
