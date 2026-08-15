@@ -5,9 +5,7 @@ import dynamic from "next/dynamic";
 import { AnimatePresence } from "framer-motion";
 import { useAuthStore } from "@/hooks/useAuth";
 import { useProgressStore } from "@/hooks/useProgress";
-import SplashScreen from "@/components/common/SplashScreen";
 import Onboarding from "@/components/common/Onboarding";
-import AuthScreen from "@/components/common/AuthScreen";
 
 // Dynamic imports for heavy components
 const HomeDashboard = dynamic(() => import("@/components/home/HomeDashboard"), { ssr: false });
@@ -48,10 +46,12 @@ export default function Home() {
     return <Onboarding onComplete={handleOnboardingComplete} />;
   }
 
-  // Note: Authentication and Authorization are now handled by AccessGuard in layout.js
-
   if (loading) {
-     return <SplashScreen />;
+     return (
+       <div className="fixed inset-0 z-[100] bg-bg-dark flex items-center justify-center">
+         <div className="w-8 h-8 border-3 border-excel-green border-t-transparent rounded-full animate-spin" />
+       </div>
+     );
   }
 
   return (
