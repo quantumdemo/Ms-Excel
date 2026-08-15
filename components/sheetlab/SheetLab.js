@@ -294,17 +294,19 @@ export default function SheetLab({ onBack }) {
     }
   };
 
-  // AI-Driven Quick Pivot Table Generator with Multi-Aggregation Support
+  // AI-Driven Quick Pivot Table Generator with Full Grid Cross-Examination
   const handleGeneratePivot = async () => {
     if (!activeRegistry || !workbook) return;
 
-    setActionNotification(`✨ AI generating Pivot Table (${pivotAggType})...`);
+    setActionNotification(`✨ AI cross-examining headers & generating Pivot Table (${pivotAggType})...`);
 
     let pivotCatHeader = "Category";
     let pivotMeasureHeader = "Value";
     let pivotRows = [];
-
     let aggName = pivotAggType;
+
+    let aiCatColLabel = null;
+    let aiMeasureColLabel = null;
 
     try {
       const res = await fetch("/api/ai/coach", {
@@ -322,6 +324,8 @@ export default function SheetLab({ onBack }) {
           const pData = aiResponse.action.pivotData;
           pivotCatHeader = pData.categoryHeader || "Category";
           pivotMeasureHeader = pData.measureHeader || "Value";
+          aiCatColLabel = pData.categoryColLabel || null;
+          aiMeasureColLabel = pData.measureColLabel || null;
           if (pData.aggregationType) aggName = pData.aggregationType;
           pivotRows = pData.rows || [];
         }
@@ -330,41 +334,64 @@ export default function SheetLab({ onBack }) {
       console.warn("AI Pivot generation error, using dynamic grid fallback:", err);
     }
 
+    const headers = spreadsheetContext?.headers || [];
     const lastRowNumber = spreadsheetContext?.dataBounds?.lastRowNumber || 100;
     const maxCol = spreadsheetContext?.dataBounds?.maxPopulatedCol || 5;
 
     let catColIdx = 0;
     let measureColIdx = 1;
 
-    // Detect category & measure column indices across active columns
-    for (let c = 0; c <= maxCol; c++) {
-      const sampleCell = activeRegistry.getCell(ReferenceResolver.coordToId(1, c));
-      if (sampleCell.type === 'number' || !isNaN(Number(sampleCell.computed))) {
-        measureColIdx = c;
-      } else if (sampleCell.raw !== "") {
-        catColIdx = c;
+    // Resolve column index from AI response or cross-examine all headers
+    if (aiCatColLabel) {
+      const matchCat = headers.find(h => h.colLabel === aiCatColLabel);
+      if (matchCat) catColIdx = matchCat.colIndex;
+    }
+    if (aiMeasureColLabel) {
+      const matchMeas = headers.find(h => h.colLabel === aiMeasureColLabel);
+      if (matchMeas) measureColIdx = matchMeas.colIndex;
+    }
+
+    if (!aiCatColLabel || !aiMeasureColLabel) {
+      const measureKeywords = ["total price", "price", "total", "revenue", "sales", "amount", "cost", "quantity", "units", "score", "val", "sum"];
+      const categoryKeywords = ["product", "item", "category", "region", "department", "status", "name", "brand", "type", "city", "country", "store"];
+
+      headers.forEach(h => {
+        const textLower = (h.text || "").toLowerCase();
+        if (categoryKeywords.some(kw => textLower.includes(kw))) {
+          catColIdx = h.colIndex;
+        }
+        if (measureKeywords.some(kw => textLower.includes(kw))) {
+          measureColIdx = h.colIndex;
+        }
+      });
+    }
+
+    const catHeaderCell = activeRegistry.getCell(ReferenceResolver.coordToId(0, catColIdx));
+    const measureHeaderCell = activeRegistry.getCell(ReferenceResolver.coordToId(0, measureColIdx));
+
+    if (pivotCatHeader === "Category") {
+      pivotCatHeader = catHeaderCell.computed || catHeaderCell.raw || "Category";
+    }
+    if (pivotMeasureHeader === "Value") {
+      pivotMeasureHeader = measureHeaderCell.computed || measureHeaderCell.raw || "Value";
+    }
+
+    // Extract exact UNIQUE values from category column across all populated rows
+    const uniqueCatSet = new Set();
+    for (let r = 1; r < lastRowNumber; r++) {
+      const catCell = activeRegistry.getCell(ReferenceResolver.coordToId(r, catColIdx));
+      if (catCell.raw && catCell.computed !== null) {
+        const valStr = String(catCell.computed || catCell.raw).trim();
+        if (valStr && valStr.toLowerCase() !== String(pivotCatHeader).toLowerCase()) {
+          uniqueCatSet.add(valStr);
+        }
       }
     }
 
-    if (pivotRows.length === 0) {
-      const catHeaderCell = activeRegistry.getCell(ReferenceResolver.coordToId(0, catColIdx));
-      const measureHeaderCell = activeRegistry.getCell(ReferenceResolver.coordToId(0, measureColIdx));
-
-      pivotCatHeader = catHeaderCell.computed || catHeaderCell.raw || "Category";
-      pivotMeasureHeader = measureHeaderCell.computed || measureHeaderCell.raw || "Value";
-
-      const catMap = new Map();
-      for (let r = 1; r < lastRowNumber; r++) {
-        const catCell = activeRegistry.getCell(ReferenceResolver.coordToId(r, catColIdx));
-        if (catCell.raw) {
-          const cat = String(catCell.computed || catCell.raw);
-          if (!catMap.has(cat)) catMap.set(cat, true);
-        }
-      }
-
-      catMap.forEach((_, catName) => {
-        pivotRows.push({ category: catName });
-      });
+    if (uniqueCatSet.size > 0) {
+      pivotRows = Array.from(uniqueCatSet).map(cName => ({ category: cName }));
+    } else if (pivotRows.length === 0) {
+      pivotRows = [{ category: "Group A" }, { category: "Group B" }, { category: "Group C" }];
     }
 
     const sourceSheet = activeSheetName;
@@ -822,7 +849,7 @@ export default function SheetLab({ onBack }) {
                   </select>
                 </div>
                 <p className="text-[10px] text-slate-400 leading-relaxed">
-                  Scans all active columns and builds a Pivot Table sheet using Excel dynamic formulas.
+                  Cross-examines all headers & builds a Pivot Table using dynamic MS Excel formulas.
                 </p>
                 <button
                   onClick={handleGeneratePivot}
