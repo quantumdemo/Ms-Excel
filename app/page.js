@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { AnimatePresence } from "framer-motion";
 import { useAuthStore } from "@/hooks/useAuth";
 import { useProgressStore } from "@/hooks/useProgress";
-import Onboarding from "@/components/common/Onboarding";
 
 // Dynamic imports for heavy components
 const HomeDashboard = dynamic(() => import("@/components/home/HomeDashboard"), { ssr: false });
@@ -13,7 +12,6 @@ const LessonViewer = dynamic(() => import("@/components/lesson/LessonViewer"), {
 const SheetLab = dynamic(() => import("@/components/sheetlab/SheetLab"), { ssr: false });
 
 export default function Home() {
-  const [showOnboarding, setShowOnboarding] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState(null);
 
   // Dashboard UI State (lifted for persistence when returning from Lesson)
@@ -24,27 +22,10 @@ export default function Home() {
   const { fetchProgress } = useProgressStore();
 
   useEffect(() => {
-    // Check onboarding after initial load
-    const hasSeenOnboarding = typeof window !== "undefined" && localStorage.getItem("hasSeenOnboarding");
-    if (!hasSeenOnboarding) {
-      setShowOnboarding(true);
-    }
-  }, []);
-
-  useEffect(() => {
     if (user) {
       fetchProgress(user.id);
     }
   }, [user, fetchProgress]);
-
-  const handleOnboardingComplete = () => {
-    localStorage.setItem("hasSeenOnboarding", "true");
-    setShowOnboarding(false);
-  };
-
-  if (showOnboarding) {
-    return <Onboarding onComplete={handleOnboardingComplete} />;
-  }
 
   if (loading) {
      return (

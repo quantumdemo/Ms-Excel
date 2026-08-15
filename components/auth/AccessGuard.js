@@ -19,7 +19,9 @@ export default function AccessGuard({ children }) {
 
   useEffect(() => {
     if (!loading) {
-      if (user) {
+      if (!user && !isPublicRoute) {
+        router.replace('/landing');
+      } else if (user) {
         if (!isApproved && !isAdmin && pathname !== '/access-denied') {
           router.push('/access-denied');
         }
@@ -31,7 +33,7 @@ export default function AccessGuard({ children }) {
         }
       }
     }
-  }, [user, loading, isApproved, isAdmin, pathname, router]);
+  }, [user, loading, isApproved, isAdmin, pathname, isPublicRoute, router]);
 
   if (loading) {
     return (
@@ -45,15 +47,9 @@ export default function AccessGuard({ children }) {
      return null;
   }
 
-  // Unauthenticated users see LandingPage directly
+  // Unauthenticated users see LandingPage directly if on /landing or redirected
   if (!user && !isPublicRoute) {
-    return (
-      <LandingPage
-        onGetStarted={() => {
-          // Trigger Google login or navigation
-        }}
-      />
-    );
+    return <LandingPage />;
   }
 
   if (user && !isApproved && !isAdmin && pathname !== '/access-denied') {
