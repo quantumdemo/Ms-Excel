@@ -102,7 +102,7 @@ export default function HamburgerMenu({ isOpen, onClose, onSelectCategory, setAc
 
                  <MenuLink
                    icon={<Sparkles size={20} className="text-excel-green" />}
-                   label="AI Landing Page"
+                   label="About AI"
                    active={false}
                    onClick={() => { router.push('/landing'); onClose(); }}
                  />
