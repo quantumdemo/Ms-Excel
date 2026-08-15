@@ -97,6 +97,7 @@ export default function SheetLab({ onBack }) {
 
   // Quick Tools Popup State
   const [isToolsOpen, setIsToolsOpen] = useState(false);
+  const [pivotAggType, setPivotAggType] = useState("SUM");
   const [validationInput, setValidationInput] = useState("East, West, North, South");
 
   // AI Coach State
@@ -163,7 +164,6 @@ export default function SheetLab({ onBack }) {
   const handleColumnHeaderClick = (c) => {
     if (!activeRegistry) return;
 
-    // Flush edits on the currently active cell before switching selection
     if (activeCellId) {
       activeRegistry.updateCell(activeCellId, inputValue);
     }
@@ -171,7 +171,6 @@ export default function SheetLab({ onBack }) {
     setSelectedCol(c);
     setSelected({ r: 0, c });
 
-    // Set inputValue to the top cell's raw string so it is NOT overwritten with empty string
     const targetCellId = ReferenceResolver.coordToId(0, c);
     const targetCell = activeRegistry.getCell(targetCellId);
     setInputValue(targetCell?.raw || "");
@@ -295,22 +294,24 @@ export default function SheetLab({ onBack }) {
     }
   };
 
-  // AI-Driven Quick Pivot Table Generator with Full Grid Scanning
+  // AI-Driven Quick Pivot Table Generator with Multi-Aggregation Support
   const handleGeneratePivot = async () => {
     if (!activeRegistry || !workbook) return;
 
-    setActionNotification("✨ AI scanning all active columns & generating Pivot Table...");
+    setActionNotification(`✨ AI generating Pivot Table (${pivotAggType})...`);
 
     let pivotCatHeader = "Category";
-    let pivotMeasureHeader = "Total Value";
+    let pivotMeasureHeader = "Value";
     let pivotRows = [];
+
+    let aggName = pivotAggType;
 
     try {
       const res = await fetch("/api/ai/coach", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          question: "Generate an intelligent pivot table summary scanning all populated columns and rows in this dataset",
+          question: `Generate an intelligent pivot table summary for this dataset using ${pivotAggType} aggregation`,
           context: { ...spreadsheetContext, requestType: "generate_pivot" }
         })
       });
@@ -320,7 +321,8 @@ export default function SheetLab({ onBack }) {
         if (aiResponse?.action?.type === "generate_pivot" && aiResponse.action.pivotData) {
           const pData = aiResponse.action.pivotData;
           pivotCatHeader = pData.categoryHeader || "Category";
-          pivotMeasureHeader = pData.measureHeader || "Total Value";
+          pivotMeasureHeader = pData.measureHeader || "Value";
+          if (pData.aggregationType) aggName = pData.aggregationType;
           pivotRows = pData.rows || [];
         }
       }
@@ -328,74 +330,102 @@ export default function SheetLab({ onBack }) {
       console.warn("AI Pivot generation error, using dynamic grid fallback:", err);
     }
 
-    // Dynamic full-grid scanning fallback across ALL active columns and rows
-    if (pivotRows.length === 0) {
-      const headers = spreadsheetContext?.headers || [];
-      const lastRowNumber = spreadsheetContext?.dataBounds?.lastRowNumber || 100;
-      const maxCol = spreadsheetContext?.dataBounds?.maxPopulatedCol || 5;
+    const lastRowNumber = spreadsheetContext?.dataBounds?.lastRowNumber || 100;
+    const maxCol = spreadsheetContext?.dataBounds?.maxPopulatedCol || 5;
 
-      let catColIdx = 0;
-      let measureColIdx = 1;
+    let catColIdx = 0;
+    let measureColIdx = 1;
 
-      // Detect text category column and numeric measure column across all active columns
-      for (let c = 0; c <= maxCol; c++) {
-        const headerCell = activeRegistry.getCell(ReferenceResolver.coordToId(0, c));
-        const sampleCell = activeRegistry.getCell(ReferenceResolver.coordToId(1, c));
-        if (sampleCell.type === 'number' || !isNaN(Number(sampleCell.computed))) {
-          measureColIdx = c;
-        } else if (sampleCell.raw !== "") {
-          catColIdx = c;
-        }
+    // Detect category & measure column indices across active columns
+    for (let c = 0; c <= maxCol; c++) {
+      const sampleCell = activeRegistry.getCell(ReferenceResolver.coordToId(1, c));
+      if (sampleCell.type === 'number' || !isNaN(Number(sampleCell.computed))) {
+        measureColIdx = c;
+      } else if (sampleCell.raw !== "") {
+        catColIdx = c;
       }
+    }
 
+    if (pivotRows.length === 0) {
       const catHeaderCell = activeRegistry.getCell(ReferenceResolver.coordToId(0, catColIdx));
       const measureHeaderCell = activeRegistry.getCell(ReferenceResolver.coordToId(0, measureColIdx));
 
-      pivotCatHeader = catHeaderCell.computed || catHeaderCell.raw || `Column ${ReferenceResolver.coordToId(0, catColIdx).replace(/[0-9]/g, '')}`;
-      pivotMeasureHeader = measureHeaderCell.computed || measureHeaderCell.raw || `Column ${ReferenceResolver.coordToId(0, measureColIdx).replace(/[0-9]/g, '')}`;
+      pivotCatHeader = catHeaderCell.computed || catHeaderCell.raw || "Category";
+      pivotMeasureHeader = measureHeaderCell.computed || measureHeaderCell.raw || "Value";
 
       const catMap = new Map();
       for (let r = 1; r < lastRowNumber; r++) {
         const catCell = activeRegistry.getCell(ReferenceResolver.coordToId(r, catColIdx));
-        const valCell = activeRegistry.getCell(ReferenceResolver.coordToId(r, measureColIdx));
         if (catCell.raw) {
           const cat = String(catCell.computed || catCell.raw);
-          const val = Number(valCell.computed || valCell.raw) || 0;
-          catMap.set(cat, (catMap.get(cat) || 0) + val);
+          if (!catMap.has(cat)) catMap.set(cat, true);
         }
       }
 
-      catMap.forEach((sumVal, catName) => {
-        pivotRows.push({ category: catName, value: sumVal });
+      catMap.forEach((_, catName) => {
+        pivotRows.push({ category: catName });
       });
     }
+
+    const sourceSheet = activeSheetName;
+    const catColLetter = ReferenceResolver.formatReference(0, catColIdx, false, false).replace(/[0-9]/g, '');
+    const valColLetter = ReferenceResolver.formatReference(0, measureColIdx, false, false).replace(/[0-9]/g, '');
+
+    const catRangeStr = `'${sourceSheet}'!$${catColLetter}$2:$${catColLetter}$${lastRowNumber}`;
+    const valRangeStr = `'${sourceSheet}'!$${valColLetter}$2:$${valColLetter}$${lastRowNumber}`;
 
     const pivotSheetName = "PivotSummary";
     const pivotSheet = workbook.addSheet(pivotSheetName);
 
     pivotSheet.updateCell("A1", pivotCatHeader);
-    pivotSheet.updateCell("B1", pivotMeasureHeader);
+    pivotSheet.updateCell("B1", `${aggName} of ${pivotMeasureHeader}`);
 
     let rowIdx = 2;
-    let grandTotal = 0;
     pivotRows.forEach((pRow) => {
       pivotSheet.updateCell(`A${rowIdx}`, pRow.category);
-      pivotSheet.updateCell(`B${rowIdx}`, String(pRow.value));
-      pivotSheet.setCellFormat(`B${rowIdx}`, 'currency');
-      grandTotal += Number(pRow.value) || 0;
+
+      let formulaStr = "";
+      if (aggName === "AVERAGE") {
+        formulaStr = `=AVERAGEIF(${catRangeStr}, A${rowIdx}, ${valRangeStr})`;
+      } else if (aggName === "COUNT") {
+        formulaStr = `=COUNTIF(${catRangeStr}, A${rowIdx})`;
+      } else if (aggName === "MAX") {
+        formulaStr = `=MAXIFS(${valRangeStr}, ${catRangeStr}, A${rowIdx})`;
+      } else if (aggName === "MIN") {
+        formulaStr = `=MINIFS(${valRangeStr}, ${catRangeStr}, A${rowIdx})`;
+      } else {
+        formulaStr = `=SUMIF(${catRangeStr}, A${rowIdx}, ${valRangeStr})`;
+      }
+
+      pivotSheet.updateCell(`B${rowIdx}`, formulaStr);
+      if (aggName !== "COUNT") {
+        pivotSheet.setCellFormat(`B${rowIdx}`, 'currency');
+      }
       rowIdx++;
     });
 
-    // Add Grand Total Row
+    // Grand Total Row
     pivotSheet.updateCell(`A${rowIdx}`, "Grand Total");
-    pivotSheet.updateCell(`B${rowIdx}`, String(grandTotal));
-    pivotSheet.setCellFormat(`B${rowIdx}`, 'currency');
+    let totalFormula = "";
+    if (aggName === "AVERAGE") {
+      totalFormula = `=AVERAGE(B2:B${rowIdx - 1})`;
+    } else if (aggName === "MAX") {
+      totalFormula = `=MAX(B2:B${rowIdx - 1})`;
+    } else if (aggName === "MIN") {
+      totalFormula = `=MIN(B2:B${rowIdx - 1})`;
+    } else {
+      totalFormula = `=SUM(B2:B${rowIdx - 1})`;
+    }
+    pivotSheet.updateCell(`B${rowIdx}`, totalFormula);
+    if (aggName !== "COUNT") {
+      pivotSheet.setCellFormat(`B${rowIdx}`, 'currency');
+    }
 
     workbook.setActiveSheet(pivotSheetName);
     setActiveSheetName(pivotSheetName);
     setIsToolsOpen(false);
 
-    setActionNotification(`✨ AI generated Pivot Table in worksheet '${pivotSheetName}'`);
+    setActionNotification(`✨ Generated ${aggName} Pivot Table in '${pivotSheetName}'`);
     setTimeout(() => setActionNotification(null), 4000);
   };
 
@@ -772,17 +802,36 @@ export default function SheetLab({ onBack }) {
                 </button>
               </div>
 
-              {/* Pivot Table Action */}
-              <button
-                onClick={handleGeneratePivot}
-                className="w-full bg-white/5 hover:bg-white/10 border border-white/5 p-3 rounded-2xl flex items-center gap-3 text-left transition-all active:scale-98"
-              >
-                <PieChart size={18} className="text-excel-green" />
-                <div>
-                  <p className="font-bold text-xs text-white">Generate Pivot Table</p>
-                  <p className="text-[10px] text-slate-400">Summarize categories into a clean summary sheet</p>
+              {/* Pivot Table Action with Aggregation Selector */}
+              <div className="bg-white/5 border border-white/5 p-3 rounded-2xl space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <PieChart size={18} className="text-excel-green" />
+                    <span className="font-bold text-xs text-white">Generate Pivot Table</span>
+                  </div>
+                  <select
+                    value={pivotAggType}
+                    onChange={(e) => setPivotAggType(e.target.value)}
+                    className="bg-black/60 border border-white/20 text-excel-green font-bold text-[11px] rounded-lg px-2 py-1 outline-none cursor-pointer"
+                  >
+                    <option value="SUM" className="bg-bg-dark text-slate-100">SUM (Sumif)</option>
+                    <option value="AVERAGE" className="bg-bg-dark text-slate-100">AVERAGE (Averageif)</option>
+                    <option value="COUNT" className="bg-bg-dark text-slate-100">COUNT (Countif)</option>
+                    <option value="MAX" className="bg-bg-dark text-slate-100">MAX (Maxifs)</option>
+                    <option value="MIN" className="bg-bg-dark text-slate-100">MIN (Minifs)</option>
+                  </select>
                 </div>
-              </button>
+                <p className="text-[10px] text-slate-400 leading-relaxed">
+                  Scans all active columns and builds a Pivot Table sheet using Excel dynamic formulas.
+                </p>
+                <button
+                  onClick={handleGeneratePivot}
+                  className="w-full bg-excel-green hover:bg-excel-green/90 text-white font-bold py-2 rounded-xl text-xs active:scale-98 transition-all flex items-center justify-center gap-2"
+                >
+                  <Sparkles size={14} />
+                  <span>Generate Pivot Summary</span>
+                </button>
+              </div>
 
               {/* In-Cell Validation Action */}
               <div className="bg-white/5 border border-white/5 p-3 rounded-2xl space-y-2">
