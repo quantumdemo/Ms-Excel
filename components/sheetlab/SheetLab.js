@@ -89,6 +89,9 @@ export default function SheetLab({ onBack }) {
   const inputRef = useRef(null);
   const containerRef = useRef(null);
 
+  // Refresh Confirmation Modal State
+  const [isRefreshModalOpen, setIsRefreshModalOpen] = useState(false);
+
   // Formula UI State
   const [suggestions, setSuggestions] = useState([]);
   const [suggestionIndex, setSelectedIndex] = useState(0);
@@ -122,6 +125,17 @@ export default function SheetLab({ onBack }) {
     setActiveSheetName(wb.activeSheetName);
     setSelected({ r: 0, c: 0 });
     setInputValue("");
+  }, []);
+
+  // Browser refresh / unload protection dialog
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = "Do you want to refresh? Any unsaved edits will be lost.";
+      return e.returnValue;
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
   const activeRegistry = useMemo(() => {
@@ -341,7 +355,6 @@ export default function SheetLab({ onBack }) {
     let catColIdx = 0;
     let measureColIdx = 1;
 
-    // Resolve column index from AI response or cross-examine all headers
     if (aiCatColLabel) {
       const matchCat = headers.find(h => h.colLabel === aiCatColLabel);
       if (matchCat) catColIdx = matchCat.colIndex;
@@ -376,7 +389,6 @@ export default function SheetLab({ onBack }) {
       pivotMeasureHeader = measureHeaderCell.computed || measureHeaderCell.raw || "Value";
     }
 
-    // Extract exact UNIQUE values from category column across all populated rows
     const uniqueCatSet = new Set();
     for (let r = 1; r < lastRowNumber; r++) {
       const catCell = activeRegistry.getCell(ReferenceResolver.coordToId(r, catColIdx));
@@ -764,17 +776,11 @@ export default function SheetLab({ onBack }) {
             isRegistryReady={!!activeRegistry}
           />
 
-          <button onClick={() => {
-            const wb = new WorkbookManager(INITIAL_ROWS, INITIAL_COLS);
-            wb.onUpdate = () => {
-              setWorkbook(Object.assign(Object.create(Object.getPrototypeOf(wb)), wb));
-            };
-            setWorkbook(wb);
-            setActiveSheetName("Sheet1");
-            setSelected({ r: 0, c: 0 });
-            setSelectedCol(null);
-            setInputValue("");
-          }} className="p-2 bg-white/5 rounded-full active:rotate-180 transition-all duration-500">
+          <button
+            onClick={() => setIsRefreshModalOpen(true)}
+            className="p-2 bg-white/5 rounded-full active:rotate-180 transition-all duration-500"
+            title="Refresh Worksheet"
+          >
             <RotateCcw size={20} className="text-slate-400" />
           </button>
         </div>
@@ -1061,6 +1067,63 @@ export default function SheetLab({ onBack }) {
         context={spreadsheetContext}
         onApplyAction={handleApplyAIAction}
       />
+
+      {/* Refresh Confirmation Dialog Modal */}
+      <AnimatePresence>
+        {isRefreshModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[150] bg-black/70 backdrop-blur-sm flex items-center justify-center p-6"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="bg-card-dark border border-white/10 rounded-[2.5rem] p-8 max-w-sm w-full shadow-2xl text-center space-y-6 relative overflow-hidden"
+            >
+              <div className="w-16 h-16 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-full mx-auto flex items-center justify-center shadow-inner">
+                <RotateCcw size={28} />
+              </div>
+
+              <div>
+                <h3 className="text-xl font-black text-white">Do you want to refresh?</h3>
+                <p className="text-xs text-slate-400 mt-2 leading-relaxed">
+                  Refreshing will reset your current worksheet and formula state. Any unsaved edits will be cleared.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3 pt-2">
+                <button
+                  onClick={() => setIsRefreshModalOpen(false)}
+                  className="flex-1 py-3.5 bg-white/5 hover:bg-white/10 text-slate-300 font-bold text-xs rounded-2xl border border-white/10 active:scale-95 transition-all"
+                >
+                  No
+                </button>
+                <button
+                  onClick={() => {
+                    setIsRefreshModalOpen(false);
+                    const wb = new WorkbookManager(INITIAL_ROWS, INITIAL_COLS);
+                    wb.onUpdate = () => {
+                      setWorkbook(Object.assign(Object.create(Object.getPrototypeOf(wb)), wb));
+                    };
+                    setWorkbook(wb);
+                    setActiveSheetName("Sheet1");
+                    setSelected({ r: 0, c: 0 });
+                    setSelectedCol(null);
+                    setInputValue("");
+                    window.location.reload();
+                  }}
+                  className="flex-1 py-3.5 bg-excel-green hover:bg-excel-green/90 text-white font-black text-xs rounded-2xl shadow-lg shadow-excel-green/20 active:scale-95 transition-all"
+                >
+                  Yes
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
