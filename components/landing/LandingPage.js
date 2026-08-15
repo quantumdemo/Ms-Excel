@@ -47,13 +47,8 @@ export default function LandingPage({ onGetStarted }) {
             </>
           ) : (
             <>
-              <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-1 .67-2.28 1.07-3.71 1.07-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                <path d="M5.84 14.11c-.22-.66-.35-1.36-.35-2.11s.13-1.45.35-2.11V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l3.66-2.83z" fill="#FBBC05"/>
-                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.83c.87-2.6 3.3-4.51 6.16-4.51z" fill="#EA4335"/>
-              </svg>
-              <span>Sign in with Google</span>
+              <span>Get Started</span>
+              <ArrowRight size={14} />
             </>
           )}
         </button>
@@ -264,6 +259,80 @@ export default function LandingPage({ onGetStarted }) {
               title="Apply & Master"
               description="Review proposed formula actions, apply them safely with 1-click, and test your understanding through guided feedback."
             />
+          </div>
+        </div>
+      </section>
+
+      {/* Access Control & Admin Approval Policy Section */}
+      <section className="px-6 py-16 bg-black/50 border-t border-white/5 relative overflow-hidden">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-card-dark border border-amber-500/20 rounded-[2.5rem] p-8 sm:p-10 relative overflow-hidden shadow-2xl">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div className="space-y-3 max-w-xl">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-400 text-xs font-bold">
+                  <Shield size={14} />
+                  <span>Account Approval Policy</span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight">
+                  Admin Approval Required for New Accounts
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                  To prevent platform misuse and maintain system security, all new user accounts must be reviewed and approved by the administrator before gaining access.
+                </p>
+                <div className="p-3 bg-black/60 rounded-2xl border border-white/10 text-xs text-slate-300 font-mono">
+                  Pre-loaded WhatsApp Request: <br />
+                  <span className="text-excel-green font-bold italic">
+                    "Hello, I would like to request access to LearnExcel. My email is: {user?.email || '[your_email]'}"
+                  </span>
+                </div>
+              </div>
+
+              <a
+                href={`https://wa.me/2348140020576?text=Hello,%20I%20would%20like%20to%20request%20access%20to%20LearnExcel.%20My%20email%20is:%20${user?.email || ''}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full md:w-auto px-6 py-4 bg-[#25D366] hover:bg-[#20bd5a] text-white font-black rounded-2xl text-sm shadow-xl flex items-center justify-center gap-2.5 active:scale-95 transition-all flex-shrink-0"
+              >
+                <MessageSquare size={18} />
+                <span>Request Access via WhatsApp</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Creator / Founder Section */}
+      <section className="px-6 py-16 border-t border-white/5 bg-bg-dark">
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          <div>
+            <span className="text-xs font-bold text-excel-green uppercase tracking-widest bg-excel-green/10 px-3 py-1.5 rounded-full border border-excel-green/20">
+              The Visionary Behind LearnExcelAI
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black mt-4 text-white">Meet the Creator</h2>
+          </div>
+
+          <div className="max-w-md mx-auto bg-card-dark border border-white/10 rounded-[2.5rem] p-8 shadow-2xl space-y-4">
+            <div className="w-20 h-20 bg-excel-green/20 border-2 border-excel-green rounded-full mx-auto flex items-center justify-center overflow-hidden shadow-lg">
+              <span className="text-2xl font-black text-excel-green">AO</span>
+            </div>
+            <div>
+              <h3 className="text-xl font-black text-white">Afeez Olalekan</h3>
+              <p className="text-xs text-excel-green font-bold mt-1">Founder & Developer of LearnExcelAI</p>
+            </div>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Passionate about empowering learners worldwide with intelligent, interactive spreadsheet analytics tools and practical AI coaching.
+            </p>
+            <a
+              href="https://ng.linkedin.com/in/afeezolalekan23"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0A66C2] hover:bg-[#084e96] text-white font-bold text-xs rounded-xl transition-all shadow-md active:scale-95"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+              </svg>
+              <span>Connect on LinkedIn</span>
+            </a>
           </div>
         </div>
       </section>
