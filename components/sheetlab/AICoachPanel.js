@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, Sparkles, Send, Lightbulb, CheckCircle2, AlertCircle,
-  HelpCircle, ArrowRight, Play, Copy, Check, ChevronDown, RefreshCw
+  HelpCircle, ArrowRight, Play, Copy, Check, ChevronDown, RefreshCw, Mic, MicOff, Wrench
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAILearningStore } from '@/lib/ai/ai-progress';
@@ -27,14 +27,58 @@ export default function AICoachPanel({
   const [messages, setMessages] = useState([]);
   const [inputQuestion, setInputQuestion] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   const [copiedFormula, setCopiedFormula] = useState(null);
   const chatEndRef = useRef(null);
+  const recognitionRef = useRef(null);
 
   useEffect(() => {
     if (chatEndRef.current) {
       chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages, loading]);
+
+  // Speech Recognition Setup
+  const toggleVoiceListening = () => {
+    if (isListening) {
+      if (recognitionRef.current) recognitionRef.current.stop();
+      setIsListening(false);
+      return;
+    }
+
+    const SpeechRecognition = typeof window !== 'undefined' && (window.SpeechRecognition || window.webkitSpeechRecognition);
+    if (!SpeechRecognition) {
+      alert("Voice recognition is not supported in this browser. Please type your query.");
+      return;
+    }
+
+    try {
+      const rec = new SpeechRecognition();
+      rec.continuous = false;
+      rec.interimResults = false;
+      rec.lang = 'en-US';
+
+      rec.onstart = () => setIsListening(true);
+      rec.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        if (transcript) {
+          setInputQuestion(transcript);
+        }
+        setIsListening(false);
+      };
+      rec.onerror = (err) => {
+        console.warn("Voice dictation error:", err);
+        setIsListening(false);
+      };
+      rec.onend = () => setIsListening(false);
+
+      recognitionRef.current = rec;
+      rec.start();
+    } catch (e) {
+      console.warn("Failed to initialize speech recognition:", e);
+      setIsListening(false);
+    }
+  };
 
   const handleSendPrompt = async (promptText) => {
     const q = promptText || inputQuestion;
@@ -65,7 +109,6 @@ export default function AICoachPanel({
 
       setMessages(prev => [...prev, aiMsg]);
 
-      // Record AI learning signal & award XP
       useAILearningStore.getState().recordAIQuestion(q, aiData.type);
 
       if (onRecordProgress) {
@@ -99,6 +142,8 @@ export default function AICoachPanel({
     setCopiedFormula(formulaStr);
     setTimeout(() => setCopiedFormula(null), 2000);
   };
+
+  const hasFormulaError = context?.selectedCell?.hasError;
 
   return (
     <AnimatePresence>
@@ -153,6 +198,30 @@ export default function AICoachPanel({
                   {context?.nonEmptyCellCount || 0} Data Cells
                 </span>
               </div>
+
+              {/* Instant 1-Click "Fix Formula" Repair Banner if active cell has an error */}
+              {hasFormulaError && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl space-y-2"
+                >
+                  <div className="flex items-center gap-2 text-red-400 font-bold text-xs">
+                    <AlertCircle size={16} />
+                    <span>Formula Error Detected in {context.selectedCell.id}</span>
+                  </div>
+                  <p className="text-xs text-slate-300">
+                    Cell contains <code className="text-red-400 font-mono">{context.selectedCell.computed}</code>. Would you like the AI Coach to fix it?
+                  </p>
+                  <button
+                    onClick={() => handleSendPrompt(`Fix formula error in cell ${context.selectedCell.id}`)}
+                    className="w-full py-2 bg-red-500 hover:bg-red-600 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 active:scale-98 transition-all shadow-md shadow-red-500/20"
+                  >
+                    <Wrench size={14} />
+                    <span>⚡ 1-Click Fix Formula</span>
+                  </button>
+                </motion.div>
+              )}
 
               {/* Messages */}
               {messages.length === 0 ? (
@@ -256,7 +325,7 @@ export default function AICoachPanel({
               <div ref={chatEndRef} />
             </div>
 
-            {/* Input Bar */}
+            {/* Input Bar with Voice Dictation */}
             <div className="p-4 border-t border-white/10 bg-black/60">
               <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-2xl px-4 py-2 focus-within:border-excel-green/50 transition-all">
                 <input
@@ -264,9 +333,23 @@ export default function AICoachPanel({
                   value={inputQuestion}
                   onChange={(e) => setInputQuestion(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSendPrompt()}
-                  placeholder="Ask about this spreadsheet..."
+                  placeholder={isListening ? "Listening..." : "Ask about this spreadsheet..."}
                   className="bg-transparent border-none outline-none text-sm text-slate-100 placeholder-slate-500 flex-1"
                 />
+
+                {/* Voice Dictation Button */}
+                <button
+                  type="button"
+                  onClick={toggleVoiceListening}
+                  title="Voice Dictation Query"
+                  className={cn(
+                    "p-2 rounded-xl transition-all active:scale-95",
+                    isListening ? "bg-red-500 text-white animate-pulse" : "bg-white/10 text-slate-300 hover:text-white"
+                  )}
+                >
+                  {isListening ? <MicOff size={16} /> : <Mic size={16} />}
+                </button>
+
                 <button
                   onClick={() => handleSendPrompt()}
                   disabled={!inputQuestion.trim() || loading}
