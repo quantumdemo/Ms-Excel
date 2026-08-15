@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { supabase } from '@/lib/supabase';
 
+let isInitialized = false;
+
 export const useAuthStore = create((set, get) => ({
   user: null,
   loading: true,
@@ -18,8 +20,8 @@ export const useAuthStore = create((set, get) => ({
     try {
       const emailLower = sbUser.email.toLowerCase().trim();
 
-      // Parallelize initial checks and user upsert
-      const [upsertRes, progressRes, adminRes, approvedRes] = await Promise.all([
+      // Parallelize initial checks and user upsert with timeout protection
+      const [upsertRes, progressRes, adminRes, approvedRes] = await Promise.allSettled([
         supabase.from('users').upsert({
           id: sbUser.id,
           email: sbUser.email,
@@ -32,20 +34,18 @@ export const useAuthStore = create((set, get) => ({
         supabase.from('allowed_users').select('email').ilike('email', emailLower).maybeSingle()
       ]);
 
-      if (upsertRes.error) console.error("Upsert user error:", upsertRes.error);
-
       // Ensure progress record exists if not found
-      if (!progressRes.data) {
-        await supabase.from('progress').insert({
+      if (progressRes.status === 'fulfilled' && !progressRes.value.data) {
+        supabase.from('progress').insert({
           user_id: sbUser.id,
           xp: 0,
           streak: 0,
           completed_lessons: []
-        });
+        }).catch(err => console.error("Insert progress error:", err));
       }
 
-      const isAdmin = !!adminRes.data;
-      const isApproved = isAdmin || !!approvedRes.data;
+      const isAdmin = adminRes.status === 'fulfilled' && !!adminRes.value.data;
+      const isApproved = isAdmin || (approvedRes.status === 'fulfilled' && !!approvedRes.value.data);
 
       set({ isAdmin, isApproved });
     } catch (err) {
@@ -64,21 +64,18 @@ export const useAuthStore = create((set, get) => ({
       });
 
       if (error) throw error;
-      // Note: Redirect will happen here
     } catch (error) {
       console.error("Auth Error:", error);
       set({ error: error.message, loading: false });
     }
   },
 
-  // Supabase uses the same method for everything, but we'll keep the alias for compatibility
   loginWithPopup: () => get().login(),
 
   logout: async () => {
-    // Optimistic update: clear user state immediately to trigger instantaneous UI transition
+    // Clear user state immediately to trigger instantaneous UI transition
     set({ user: null, isAdmin: false, isApproved: false, loading: false });
 
-    // Also clear progress state if available
     try {
       const { useProgressStore } = await import('@/hooks/useProgress');
       useProgressStore.getState().reset();
@@ -90,31 +87,46 @@ export const useAuthStore = create((set, get) => ({
       await supabase.auth.signOut();
     } catch (error) {
       console.error("Logout Error:", error);
-      // We don't set error here to avoid blocking the UI on a failed sign out call
     }
   },
 
   init: () => {
-    // 1. Get initial session
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (session?.user) {
-        await get().syncToSupabase(session.user);
-        set({ user: session.user, loading: false });
-      } else {
+    // Guarantee loading resolves within 800ms max regardless of network
+    const hardTimeout = setTimeout(() => {
+      if (get().loading) {
         set({ loading: false });
       }
-    });
+    }, 800);
 
-    // 2. Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN' && session?.user) {
-        await get().syncToSupabase(session.user);
-        set({ user: session.user, loading: false });
-      } else if (event === 'SIGNED_OUT') {
-        set({ user: null, isAdmin: false, isApproved: false, loading: false });
-      }
-    });
+    if (!isInitialized) {
+      isInitialized = true;
 
-    return () => subscription.unsubscribe();
+      // 1. Get initial session and resolve loading immediately
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        clearTimeout(hardTimeout);
+        if (session?.user) {
+          set({ user: session.user, loading: false });
+          get().syncToSupabase(session.user);
+        } else {
+          set({ user: null, loading: false });
+        }
+      }).catch((err) => {
+        console.error("getSession error:", err);
+        clearTimeout(hardTimeout);
+        set({ loading: false });
+      });
+
+      // 2. Listen for auth changes
+      supabase.auth.onAuthStateChange((event, session) => {
+        if (event === 'SIGNED_IN' && session?.user) {
+          set({ user: session.user, loading: false });
+          get().syncToSupabase(session.user);
+        } else if (event === 'SIGNED_OUT') {
+          set({ user: null, isAdmin: false, isApproved: false, loading: false });
+        }
+      });
+    }
+
+    return () => {};
   }
 }));

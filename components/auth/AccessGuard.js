@@ -15,6 +15,17 @@ export default function AccessGuard({ children }) {
     return () => unsubscribe && unsubscribe();
   }, [init]);
 
+  // Unregister any legacy Service Worker registrations to clear stale page caches on mobile
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        for (const registration of registrations) {
+          registration.unregister();
+        }
+      }).catch((e) => console.error("SW unregister error:", e));
+    }
+  }, []);
+
   const isPublicRoute = pathname === '/landing' || pathname === '/terms' || pathname === '/privacy' || pathname === '/about' || pathname === '/contact' || pathname === '/donate' || pathname === '/support';
 
   useEffect(() => {
