@@ -593,10 +593,9 @@ export default function SheetLab({ onBack }) {
           {/* AI Coach Entry Button */}
           <button
             onClick={() => setIsAICoachOpen(true)}
-            className="flex items-center gap-2 px-3 py-1.5 bg-excel-green/20 border border-excel-green/40 hover:bg-excel-green/30 text-excel-green rounded-xl font-bold text-xs transition-all active:scale-95 shadow-md shadow-excel-green/10"
+            className="flex items-center gap-2 px-3.5 py-1.5 bg-excel-green/20 border border-excel-green/40 hover:bg-excel-green/30 text-excel-green rounded-xl font-bold text-xs transition-all active:scale-95 shadow-md shadow-excel-green/10"
           >
-            <Sparkles size={16} className="text-excel-green" />
-            <span>✨ AI Coach</span>
+            <span>AI Coach</span>
           </button>
 
           <ExcelActions
@@ -640,7 +639,7 @@ export default function SheetLab({ onBack }) {
             ))}
           </select>
 
-          {/* Quick Tools 4-Dot Popup Menu Button - Placed directly AFTER Data Format option */}
+          {/* Quick Tools 4-Dot Popup Menu Button */}
           <button
             onClick={() => setIsToolsOpen(!isToolsOpen)}
             className="p-2.5 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 text-slate-300 transition-all active:scale-95 flex items-center justify-center"
