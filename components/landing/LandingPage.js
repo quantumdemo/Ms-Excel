@@ -283,7 +283,7 @@ export default function LandingPage({ onGetStarted }) {
               icon={<Zap className="text-excel-green" />}
               title="Interactive SheetLab Sandbox"
               items={[
-                "100x26 responsive grid powered by CellRegistry engine",
+                "120x26 responsive grid powered by CellRegistry engine",
                 "Full formula evaluator supporting 100+ functions",
                 "Excel Import/Export with SheetJS integration",
                 "Controlled formula actions with safety verification"
