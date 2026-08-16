@@ -4,7 +4,7 @@ import { Target, Rocket, Users } from "lucide-react";
 
 export default function AboutPage() {
   return (
-    <InfoPageLayout title="About LearnExcel">
+    <InfoPageLayout title="About LearnExcelAI">
       <div className="space-y-12">
         <section className="text-center py-6">
           <div className="relative w-24 h-24 mx-auto mb-6">
