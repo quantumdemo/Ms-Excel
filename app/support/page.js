@@ -10,7 +10,7 @@ const faqs = [
   { q: "How do I reset my progress?", a: "Go to Settings > Account and select 'Clear Cache' or contact support for full account reset." },
   { q: "Why is login failing?", a: "Ensure you have a stable internet connection and are using a valid Google account." },
   { q: "How do streaks work?", a: "Complete at least one lesson every 24 hours to keep your streak alive!" },
-  { q: "Can I use LearnExcel offline?", a: "As a PWA, basic functionality is available offline once cached, but progress sync requires a connection." },
+  { q: "Can I use LearnExcelAI offline?", a: "As a PWA, basic functionality is available offline once cached, but progress sync requires a connection." },
 ];
 
 export default function SupportPage() {
