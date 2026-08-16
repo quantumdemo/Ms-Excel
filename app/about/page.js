@@ -25,7 +25,7 @@ export default function AboutPage() {
            <AboutCard
              icon={<Users className="text-blue-500" />}
              title="The Developer"
-             text="LearnExcel was founded with a vision to empower African and global learners with professional analytics skills."
+             text="LearnExcelAI was founded with a vision to empower African and global learners with professional analytics skills."
            />
            <AboutCard
              icon={<Rocket className="text-excel-green" />}
