@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, RotateCcw, Database, Sparkles, Plus, X, Edit2, Hash, Calendar, DollarSign, Percent, Type, LayoutGrid, MoreVertical, Layers, PieChart, CheckSquare } from 'lucide-react';
+import { ChevronLeft, RotateCcw, Database, Sparkles, Plus, X, Edit2, Hash, Calendar, DollarSign, Percent, Type, LayoutGrid, MoreVertical, Layers, PieChart, CheckSquare, SlidersHorizontal } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { WorkbookManager, ReferenceResolver, formatCellValue } from '@/lib/excel-core';
 import FormulaAutoComplete from '../spreadsheet/FormulaAutoComplete';
@@ -11,6 +11,7 @@ import ExcelActions from './ExcelActions';
 import AICoachPanel from './AICoachPanel';
 import { buildSpreadsheetContext } from '@/lib/ai/spreadsheet-context';
 import { getFunctionSuggestions, extractQuery, findActiveFunction } from '@/lib/formula-ui-utils';
+import { computePivotTable, generatePivotSheetGrid, AGGREGATIONS } from '@/lib/pivot-engine';
 import _ from 'lodash';
 
 const INITIAL_ROWS = 120;
@@ -101,6 +102,10 @@ export default function SheetLab({ onBack }) {
   // Quick Tools Popup State
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const [pivotAggType, setPivotAggType] = useState("SUM");
+  const [manualRowField, setManualRowField] = useState("");
+  const [manualColField, setManualColField] = useState("");
+  const [manualValField, setManualValField] = useState("");
+  const [manualValAgg, setManualValAgg] = useState("SUM");
   const [validationInput, setValidationInput] = useState("East, West, North, South");
 
   // AI Coach State
@@ -267,31 +272,118 @@ export default function SheetLab({ onBack }) {
     return { sheets };
   };
 
-  // Controlled AI Action
+  /**
+   * Deterministic Pivot Engine Launcher & New Sheet Renderer
+   */
+  const renderPivotToNewSheet = useCallback((pivotConfig = {}) => {
+    if (!activeRegistry || !workbook) return;
+
+    const headersObj = spreadsheetContext?.headers || [];
+    const headerNames = headersObj.map(h => h.text);
+
+    // Extract raw source records from active sheet registry
+    const lastRowNumber = spreadsheetContext?.dataBounds?.lastRowNumber || 100;
+    const maxCol = spreadsheetContext?.dataBounds?.maxPopulatedCol || headersObj.length;
+
+    const records = [];
+    for (let r = 1; r < lastRowNumber; r++) {
+      const rec = {};
+      let hasVal = false;
+      headersObj.forEach(h => {
+        const id = ReferenceResolver.coordToId(r, h.colIndex);
+        const cell = activeRegistry.getCell(id);
+        const val = cell.computed ?? cell.raw ?? null;
+        if (val !== null && val !== "") hasVal = true;
+        rec[h.text] = val;
+      });
+      if (hasVal) records.push(rec);
+    }
+
+    if (records.length === 0) {
+      setActionNotification("⚠️ No data records found to generate PivotTable.");
+      setTimeout(() => setActionNotification(null), 3500);
+      return;
+    }
+
+    // Compute PivotTable using Deterministic Pivot Engine
+    const pivotResult = computePivotTable({
+      records,
+      headers: headerNames,
+      rows: pivotConfig.rows || [],
+      columns: pivotConfig.columns || [],
+      values: pivotConfig.values || [],
+      filters: pivotConfig.filters || []
+    });
+
+    // Generate 2D Table Grid
+    const titleStr = `PivotTable - ${activeSheetName}`;
+    const grid2D = generatePivotSheetGrid(pivotResult, titleStr);
+
+    // Generate unique new sheet name e.g. PivotTable1, PivotTable2
+    let pIdx = 1;
+    let newSheetName = `PivotTable${pIdx}`;
+    while (workbook.sheets.has(newSheetName)) {
+      pIdx++;
+      newSheetName = `PivotTable${pIdx}`;
+    }
+
+    // Add new worksheet and load 2D grid into CellRegistry
+    const newReg = workbook.addSheet(newSheetName);
+    newReg.loadData(grid2D);
+
+    // Apply number formats to measure columns if values contain currency/number hints
+    grid2D.forEach((row, rIdx) => {
+      row.forEach((cellVal, cIdx) => {
+        const cellId = ReferenceResolver.coordToId(rIdx, cIdx);
+        if (typeof cellVal === 'number') {
+          // Check if value looks like monetary amount
+          if (Math.abs(cellVal) > 10) {
+            newReg.setCellFormat(cellId, 'number');
+          }
+        }
+      });
+    });
+
+    workbook.setActiveSheet(newSheetName);
+    setActiveSheetName(newSheetName);
+    setSelected({ r: 0, c: 0 });
+    setSelectedCol(null);
+    setInputValue(newReg.getCell("A1")?.raw || "");
+    setIsToolsOpen(false);
+
+    setActionNotification(`✨ Created Excel PivotTable in '${newSheetName}'`);
+    setTimeout(() => setActionNotification(null), 4000);
+  }, [activeRegistry, workbook, spreadsheetContext, activeSheetName]);
+
+  // Controlled AI Action Execution
   const handleApplyAIAction = (action) => {
-    if (!action || action.type !== 'insert_formula' || !activeRegistry) return;
+    if (!action) return;
 
-    const targetCellId = (action.cell || activeCellId).toUpperCase();
-    const coord = ReferenceResolver.idToCoord(targetCellId);
+    if (action.type === 'insert_formula' && activeRegistry) {
+      const targetCellId = (action.cell || activeCellId).toUpperCase();
+      const coord = ReferenceResolver.idToCoord(targetCellId);
 
-    if (!coord || coord.r < 0 || coord.r >= INITIAL_ROWS || coord.c < 0 || coord.c >= INITIAL_COLS) {
-      console.warn("Invalid cell action coordinates:", action);
-      return;
+      if (!coord || coord.r < 0 || coord.r >= INITIAL_ROWS || coord.c < 0 || coord.c >= INITIAL_COLS) {
+        console.warn("Invalid cell action coordinates:", action);
+        return;
+      }
+
+      const formulaStr = String(action.formula || "").trim();
+      if (!formulaStr.startsWith("=")) {
+        console.warn("Invalid formula action syntax (must start with '='):", action);
+        return;
+      }
+
+      activeRegistry.updateCell(targetCellId, formulaStr);
+      setSelected({ r: coord.r, c: coord.c });
+      setInputValue(formulaStr);
+
+      setActionNotification(`Applied ${formulaStr} to cell ${targetCellId}`);
+      setTimeout(() => setActionNotification(null), 3500);
+    } else if (action.type === 'generate_pivot') {
+      const config = action.pivotConfig || action.pivotData || {};
+      renderPivotToNewSheet(config);
     }
-
-    const formulaStr = String(action.formula || "").trim();
-    if (!formulaStr.startsWith("=")) {
-      console.warn("Invalid formula action syntax (must start with '='):", action);
-      return;
-    }
-
-    activeRegistry.updateCell(targetCellId, formulaStr);
-
-    setSelected({ r: coord.r, c: coord.c });
-    setInputValue(formulaStr);
-
-    setActionNotification(`Applied ${formulaStr} to cell ${targetCellId}`);
-    setTimeout(() => setActionNotification(null), 3500);
   };
 
   const handleFormatChange = (e) => {
@@ -308,19 +400,11 @@ export default function SheetLab({ onBack }) {
     }
   };
 
-  // AI-Driven Quick Pivot Table Generator with Full Grid Cross-Examination
+  // AI Natural Language Pivot Table Request
   const handleGeneratePivot = async () => {
     if (!activeRegistry || !workbook) return;
 
-    setActionNotification(`✨ AI cross-examining headers & generating Pivot Table (${pivotAggType})...`);
-
-    let pivotCatHeader = "Category";
-    let pivotMeasureHeader = "Value";
-    let pivotRows = [];
-    let aggName = pivotAggType;
-
-    let aiCatColLabel = null;
-    let aiMeasureColLabel = null;
+    setActionNotification(`✨ AI parsing intent & computing PivotTable...`);
 
     try {
       const res = await fetch("/api/ai/coach", {
@@ -334,138 +418,37 @@ export default function SheetLab({ onBack }) {
 
       if (res.ok) {
         const aiResponse = await res.json();
-        if (aiResponse?.action?.type === "generate_pivot" && aiResponse.action.pivotData) {
-          const pData = aiResponse.action.pivotData;
-          pivotCatHeader = pData.categoryHeader || "Category";
-          pivotMeasureHeader = pData.measureHeader || "Value";
-          aiCatColLabel = pData.categoryColLabel || null;
-          aiMeasureColLabel = pData.measureColLabel || null;
-          if (pData.aggregationType) aggName = pData.aggregationType;
-          pivotRows = pData.rows || [];
+        if (aiResponse?.action?.type === "generate_pivot") {
+          const config = aiResponse.action.pivotConfig || aiResponse.action.pivotData || {};
+          renderPivotToNewSheet(config);
+          return;
         }
       }
     } catch (err) {
-      console.warn("AI Pivot generation error, using dynamic grid fallback:", err);
+      console.warn("AI Pivot call failed, using deterministic default:", err);
     }
 
-    const headers = spreadsheetContext?.headers || [];
-    const lastRowNumber = spreadsheetContext?.dataBounds?.lastRowNumber || 100;
-    const maxCol = spreadsheetContext?.dataBounds?.maxPopulatedCol || 5;
-
-    let catColIdx = 0;
-    let measureColIdx = 1;
-
-    if (aiCatColLabel) {
-      const matchCat = headers.find(h => h.colLabel === aiCatColLabel);
-      if (matchCat) catColIdx = matchCat.colIndex;
-    }
-    if (aiMeasureColLabel) {
-      const matchMeas = headers.find(h => h.colLabel === aiMeasureColLabel);
-      if (matchMeas) measureColIdx = matchMeas.colIndex;
-    }
-
-    if (!aiCatColLabel || !aiMeasureColLabel) {
-      const measureKeywords = ["total price", "price", "total", "revenue", "sales", "amount", "cost", "quantity", "units", "score", "val", "sum"];
-      const categoryKeywords = ["product", "item", "category", "region", "department", "status", "name", "brand", "type", "city", "country", "store"];
-
-      headers.forEach(h => {
-        const textLower = (h.text || "").toLowerCase();
-        if (categoryKeywords.some(kw => textLower.includes(kw))) {
-          catColIdx = h.colIndex;
-        }
-        if (measureKeywords.some(kw => textLower.includes(kw))) {
-          measureColIdx = h.colIndex;
-        }
-      });
-    }
-
-    const catHeaderCell = activeRegistry.getCell(ReferenceResolver.coordToId(0, catColIdx));
-    const measureHeaderCell = activeRegistry.getCell(ReferenceResolver.coordToId(0, measureColIdx));
-
-    if (pivotCatHeader === "Category") {
-      pivotCatHeader = catHeaderCell.computed || catHeaderCell.raw || "Category";
-    }
-    if (pivotMeasureHeader === "Value") {
-      pivotMeasureHeader = measureHeaderCell.computed || measureHeaderCell.raw || "Value";
-    }
-
-    const uniqueCatSet = new Set();
-    for (let r = 1; r < lastRowNumber; r++) {
-      const catCell = activeRegistry.getCell(ReferenceResolver.coordToId(r, catColIdx));
-      if (catCell.raw && catCell.computed !== null) {
-        const valStr = String(catCell.computed || catCell.raw).trim();
-        if (valStr && valStr.toLowerCase() !== String(pivotCatHeader).toLowerCase()) {
-          uniqueCatSet.add(valStr);
-        }
-      }
-    }
-
-    if (uniqueCatSet.size > 0) {
-      pivotRows = Array.from(uniqueCatSet).map(cName => ({ category: cName }));
-    } else if (pivotRows.length === 0) {
-      pivotRows = [{ category: "Group A" }, { category: "Group B" }, { category: "Group C" }];
-    }
-
-    const sourceSheet = activeSheetName;
-    const catColLetter = ReferenceResolver.formatReference(0, catColIdx, false, false).replace(/[0-9]/g, '');
-    const valColLetter = ReferenceResolver.formatReference(0, measureColIdx, false, false).replace(/[0-9]/g, '');
-
-    const catRangeStr = `'${sourceSheet}'!$${catColLetter}$2:$${catColLetter}$${lastRowNumber}`;
-    const valRangeStr = `'${sourceSheet}'!$${valColLetter}$2:$${valColLetter}$${lastRowNumber}`;
-
-    const pivotSheetName = "PivotSummary";
-    const pivotSheet = workbook.addSheet(pivotSheetName);
-
-    pivotSheet.updateCell("A1", pivotCatHeader);
-    pivotSheet.updateCell("B1", `${aggName} of ${pivotMeasureHeader}`);
-
-    let rowIdx = 2;
-    pivotRows.forEach((pRow) => {
-      pivotSheet.updateCell(`A${rowIdx}`, pRow.category);
-
-      let formulaStr = "";
-      if (aggName === "AVERAGE") {
-        formulaStr = `=AVERAGEIF(${catRangeStr}, A${rowIdx}, ${valRangeStr})`;
-      } else if (aggName === "COUNT") {
-        formulaStr = `=COUNTIF(${catRangeStr}, A${rowIdx})`;
-      } else if (aggName === "MAX") {
-        formulaStr = `=MAXIFS(${valRangeStr}, ${catRangeStr}, A${rowIdx})`;
-      } else if (aggName === "MIN") {
-        formulaStr = `=MINIFS(${valRangeStr}, ${catRangeStr}, A${rowIdx})`;
-      } else {
-        formulaStr = `=SUMIF(${catRangeStr}, A${rowIdx}, ${valRangeStr})`;
-      }
-
-      pivotSheet.updateCell(`B${rowIdx}`, formulaStr);
-      if (aggName !== "COUNT") {
-        pivotSheet.setCellFormat(`B${rowIdx}`, 'currency');
-      }
-      rowIdx++;
+    // Fallback default
+    renderPivotToNewSheet({
+      rows: [manualRowField || "Category"],
+      values: [{ field: manualValField || "Value", aggregation: pivotAggType }]
     });
+  };
 
-    // Grand Total Row
-    pivotSheet.updateCell(`A${rowIdx}`, "Grand Total");
-    let totalFormula = "";
-    if (aggName === "AVERAGE") {
-      totalFormula = `=AVERAGE(B2:B${rowIdx - 1})`;
-    } else if (aggName === "MAX") {
-      totalFormula = `=MAX(B2:B${rowIdx - 1})`;
-    } else if (aggName === "MIN") {
-      totalFormula = `=MIN(B2:B${rowIdx - 1})`;
-    } else {
-      totalFormula = `=SUM(B2:B${rowIdx - 1})`;
-    }
-    pivotSheet.updateCell(`B${rowIdx}`, totalFormula);
-    if (aggName !== "COUNT") {
-      pivotSheet.setCellFormat(`B${rowIdx}`, 'currency');
-    }
+  // Manual Custom Pivot Table Execution
+  const handleGenerateManualPivot = () => {
+    const headers = spreadsheetContext?.headers?.map(h => h.text) || [];
+    const rowF = manualRowField || headers[0] || "Region";
+    const valF = manualValField || headers.find(h => h !== rowF) || "Sales";
+    const colF = manualColField || null;
 
-    workbook.setActiveSheet(pivotSheetName);
-    setActiveSheetName(pivotSheetName);
-    setIsToolsOpen(false);
+    const config = {
+      rows: [rowF],
+      columns: colF ? [colF] : [],
+      values: [{ field: valF, aggregation: manualValAgg || "SUM" }]
+    };
 
-    setActionNotification(`✨ Generated ${aggName} Pivot Table in '${pivotSheetName}'`);
-    setTimeout(() => setActionNotification(null), 4000);
+    renderPivotToNewSheet(config);
   };
 
   // Apply Cell Data Validation Dropdown
@@ -728,6 +711,8 @@ export default function SheetLab({ onBack }) {
 
   if (!workbook || !activeRegistry) return null;
 
+  const currentHeaders = spreadsheetContext?.headers || [];
+
   return (
     <div
       ref={containerRef}
@@ -806,7 +791,7 @@ export default function SheetLab({ onBack }) {
             ))}
           </select>
 
-          {/* Quick Tools 4-Dot Popup Menu Button */}
+          {/* Quick Tools Popup Menu Button */}
           <button
             onClick={() => setIsToolsOpen(!isToolsOpen)}
             className="p-2.5 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 text-slate-300 transition-all active:scale-95 flex items-center justify-center"
@@ -823,46 +808,127 @@ export default function SheetLab({ onBack }) {
               initial={{ opacity: 0, scale: 0.9, y: -10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: -10 }}
-              className="absolute top-16 left-4 sm:left-auto z-[110] w-80 bg-card-dark border border-white/10 rounded-3xl p-5 shadow-2xl space-y-4"
+              className="absolute top-16 left-4 sm:left-auto z-[110] w-84 bg-card-dark border border-white/10 rounded-3xl p-5 shadow-2xl space-y-4 max-h-[80vh] overflow-y-auto no-scrollbar"
             >
               <div className="flex items-center justify-between border-b border-white/5 pb-3">
                 <span className="font-bold text-sm text-white flex items-center gap-2">
                   <LayoutGrid size={16} className="text-excel-green" />
-                  Quick Tools
+                  PivotTable & Quick Tools
                 </span>
                 <button onClick={() => setIsToolsOpen(false)} className="text-slate-400 hover:text-white">
                   <X size={16} />
                 </button>
               </div>
 
-              {/* Pivot Table Action with Aggregation Selector */}
+              {/* AI Auto Pivot Action */}
               <div className="bg-white/5 border border-white/5 p-3 rounded-2xl space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <PieChart size={18} className="text-excel-green" />
-                    <span className="font-bold text-xs text-white">Generate Pivot Table</span>
+                    <span className="font-bold text-xs text-white">AI Auto PivotTable</span>
                   </div>
                   <select
                     value={pivotAggType}
                     onChange={(e) => setPivotAggType(e.target.value)}
                     className="bg-black/60 border border-white/20 text-excel-green font-bold text-[11px] rounded-lg px-2 py-1 outline-none cursor-pointer"
                   >
-                    <option value="SUM" className="bg-bg-dark text-slate-100">SUM (Sumif)</option>
-                    <option value="AVERAGE" className="bg-bg-dark text-slate-100">AVERAGE (Averageif)</option>
-                    <option value="COUNT" className="bg-bg-dark text-slate-100">COUNT (Countif)</option>
-                    <option value="MAX" className="bg-bg-dark text-slate-100">MAX (Maxifs)</option>
-                    <option value="MIN" className="bg-bg-dark text-slate-100">MIN (Minifs)</option>
+                    <option value="SUM" className="bg-bg-dark text-slate-100">SUM</option>
+                    <option value="AVERAGE" className="bg-bg-dark text-slate-100">AVERAGE</option>
+                    <option value="COUNT" className="bg-bg-dark text-slate-100">COUNT</option>
+                    <option value="COUNTA" className="bg-bg-dark text-slate-100">COUNTA</option>
+                    <option value="COUNTUNIQUE" className="bg-bg-dark text-slate-100">COUNTUNIQUE</option>
+                    <option value="MAX" className="bg-bg-dark text-slate-100">MAX</option>
+                    <option value="MIN" className="bg-bg-dark text-slate-100">MIN</option>
+                    <option value="MEDIAN" className="bg-bg-dark text-slate-100">MEDIAN</option>
+                    <option value="STDEV" className="bg-bg-dark text-slate-100">STDEV</option>
                   </select>
                 </div>
-                <p className="text-[10px] text-slate-400 leading-relaxed">
-                  Cross-examines all headers & builds a Pivot Table using dynamic MS Excel formulas.
-                </p>
                 <button
                   onClick={handleGeneratePivot}
                   className="w-full bg-excel-green hover:bg-excel-green/90 text-white font-bold py-2 rounded-xl text-xs active:scale-98 transition-all flex items-center justify-center gap-2"
                 >
                   <Sparkles size={14} />
-                  <span>Generate Pivot Summary</span>
+                  <span>AI Pivot Breakdown</span>
+                </button>
+              </div>
+
+              {/* Manual Custom Pivot Field Picker */}
+              <div className="bg-white/5 border border-white/5 p-3 rounded-2xl space-y-2.5">
+                <div className="flex items-center gap-2 text-xs font-bold text-white">
+                  <SlidersHorizontal size={16} className="text-excel-green" />
+                  <span>Manual Pivot Config (Override)</span>
+                </div>
+
+                <div className="space-y-2 text-[11px]">
+                  <div>
+                    <label className="text-slate-400 font-bold block mb-1">Rows Field</label>
+                    <select
+                      value={manualRowField}
+                      onChange={(e) => setManualRowField(e.target.value)}
+                      className="w-full bg-black/50 border border-white/10 rounded-xl px-2.5 py-1.5 text-slate-200 outline-none cursor-pointer"
+                    >
+                      <option value="">-- Select Row Field --</option>
+                      {currentHeaders.map((h, i) => (
+                        <option key={i} value={h.text} className="bg-bg-dark text-slate-100">{h.text}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-slate-400 font-bold block mb-1">Columns Field (Optional)</label>
+                    <select
+                      value={manualColField}
+                      onChange={(e) => setManualColField(e.target.value)}
+                      className="w-full bg-black/50 border border-white/10 rounded-xl px-2.5 py-1.5 text-slate-200 outline-none cursor-pointer"
+                    >
+                      <option value="">-- None --</option>
+                      {currentHeaders.map((h, i) => (
+                        <option key={i} value={h.text} className="bg-bg-dark text-slate-100">{h.text}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1">
+                      <label className="text-slate-400 font-bold block mb-1">Values Field</label>
+                      <select
+                        value={manualValField}
+                        onChange={(e) => setManualValField(e.target.value)}
+                        className="w-full bg-black/50 border border-white/10 rounded-xl px-2.5 py-1.5 text-slate-200 outline-none cursor-pointer"
+                      >
+                        <option value="">-- Select Value --</option>
+                        {currentHeaders.map((h, i) => (
+                          <option key={i} value={h.text} className="bg-bg-dark text-slate-100">{h.text}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="w-28">
+                      <label className="text-slate-400 font-bold block mb-1">Function</label>
+                      <select
+                        value={manualValAgg}
+                        onChange={(e) => setManualValAgg(e.target.value)}
+                        className="w-full bg-black/50 border border-white/10 text-excel-green font-bold rounded-xl px-2 py-1.5 text-[11px] outline-none cursor-pointer"
+                      >
+                        <option value="SUM" className="bg-bg-dark text-slate-100">SUM</option>
+                        <option value="AVERAGE" className="bg-bg-dark text-slate-100">AVERAGE</option>
+                        <option value="COUNT" className="bg-bg-dark text-slate-100">COUNT</option>
+                        <option value="COUNTA" className="bg-bg-dark text-slate-100">COUNTA</option>
+                        <option value="COUNTUNIQUE" className="bg-bg-dark text-slate-100">COUNTUNIQUE</option>
+                        <option value="MAX" className="bg-bg-dark text-slate-100">MAX</option>
+                        <option value="MIN" className="bg-bg-dark text-slate-100">MIN</option>
+                        <option value="MEDIAN" className="bg-bg-dark text-slate-100">MEDIAN</option>
+                        <option value="STDEV" className="bg-bg-dark text-slate-100">STDEV</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleGenerateManualPivot}
+                  className="w-full bg-white/10 hover:bg-white/20 text-white font-bold py-1.5 rounded-xl text-xs active:scale-98 transition-all border border-white/10 mt-1"
+                >
+                  Generate Custom PivotTable
                 </button>
               </div>
 
