@@ -7,14 +7,14 @@ export default function TermsPage() {
         <section>
           <h2 className="text-xl font-bold text-white mb-3">Acceptance of Terms</h2>
           <p className="text-slate-400 leading-relaxed">
-            By using LearnExcel, you agree to comply with these terms. If you do not agree, please do not use the platform.
+            By using LearnExcelAI, you agree to comply with these terms. If you do not agree, please do not use the platform.
           </p>
         </section>
 
         <section>
           <h2 className="text-xl font-bold text-white mb-3">Educational Purpose</h2>
           <p className="text-slate-400 leading-relaxed italic">
-            LearnExcel is provided for educational purposes only. While we strive for accuracy, users should verify professional Excel tasks independently.
+            LearnExcelAI is provided for educational purposes only. While we strive for accuracy, users should verify professional Excel tasks independently.
           </p>
         </section>
 
@@ -22,7 +22,7 @@ export default function TermsPage() {
           <h2 className="text-xl font-bold text-white mb-3">User Responsibilities</h2>
           <p className="text-slate-400 mb-4">Users agree not to:</p>
           <ul className="list-disc list-inside text-slate-400 space-y-2">
-            <li>Attempt to scrape or resell content from LearnExcel.</li>
+            <li>Attempt to scrape or resell content from LearnExcelAI.</li>
             <li>Use the platform for spam or unauthorized commercial activities.</li>
             <li>Attempt to bypass security or rate-limiting layers.</li>
           </ul>
@@ -31,14 +31,14 @@ export default function TermsPage() {
         <section>
           <h2 className="text-xl font-bold text-white mb-3">Intellectual Property</h2>
           <p className="text-slate-400 leading-relaxed">
-            All content, including lesson text, interactive spreadsheets, custom UI designs, and animations, belong exclusively to LearnExcel.
+            All content, including lesson text, interactive spreadsheets, custom UI designs, and animations, belong exclusively to LearnExcelAI.
           </p>
         </section>
 
         <section>
           <h2 className="text-xl font-bold text-white mb-3">Future Services</h2>
           <p className="text-slate-400 leading-relaxed">
-            LearnExcel may introduce premium features or subscriptions in the future. Current free features are subject to change.
+            LearnExcelAI may introduce premium features or subscriptions in the future. Current free features are subject to change.
           </p>
         </section>
 
