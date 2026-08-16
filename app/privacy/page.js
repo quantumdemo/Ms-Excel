@@ -7,7 +7,7 @@ export default function PrivacyPage() {
         <section>
           <h2 className="text-xl font-bold text-white mb-3">Introduction</h2>
           <p className="text-slate-400 leading-relaxed">
-            LearnExcel respects your privacy and is committed to protecting your personal information. This policy explains how we handle your data.
+            LearnExcelAI respects your privacy and is committed to protecting your personal information. This policy explains how we handle your data.
           </p>
         </section>
 
