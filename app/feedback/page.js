@@ -84,7 +84,7 @@ export default function FeedbackPage() {
       <div className="space-y-12">
         <section className="text-center">
           <h2 className="text-2xl font-black mb-2">How's your experience?</h2>
-          <p className="text-slate-500 text-sm mb-8">Your feedback shapes the future of LearnExcel.</p>
+          <p className="text-slate-500 text-sm mb-8">Your feedback shapes the future of LearnExcelAI.</p>
 
           <div className="flex justify-between max-w-xs mx-auto mb-8">
             {[
