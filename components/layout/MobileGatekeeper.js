@@ -57,7 +57,7 @@ export default function MobileGatekeeper({ children }) {
             </h1>
 
             <p className="text-slate-400 text-base md:text-xl mb-10 md:mb-12 max-w-md mx-auto leading-relaxed">
-              The full LearnExcel experience is optimized for touch-first mobile learning. Please open this page on your mobile device.
+              The full LearnExcelAI experience is optimized for touch-first mobile learning. Please open this page on your mobile device.
             </p>
 
             <div className="flex flex-col items-center gap-6">
