@@ -30,7 +30,7 @@ export default function DonatePage() {
           >
             <Heart fill="currentColor" size={48} />
           </motion.div>
-          <h2 className="text-4xl font-black mb-4 relative z-10 leading-tight">Keep LearnExcel <br/><span className="text-excel-green font-black">100% Free</span></h2>
+          <h2 className="text-4xl font-black mb-4 relative z-10 leading-tight">Keep LearnExcelAI <br/><span className="text-excel-green font-black">100% Free</span></h2>
           <p className="text-slate-500 text-lg leading-relaxed relative z-10 px-4">
             Join the community in making professional Excel education accessible to everyone, everywhere.
           </p>
