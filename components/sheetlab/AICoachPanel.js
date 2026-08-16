@@ -287,6 +287,20 @@ export default function AICoachPanel({
                           </div>
                         )}
 
+                        {msg.data?.action && msg.data.action.type === 'generate_pivot' && (
+                          <div className="pt-2">
+                            <button
+                              onClick={() => {
+                                if (onApplyAction) onApplyAction(msg.data.action);
+                              }}
+                              className="w-full bg-excel-green hover:bg-excel-green/90 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-2 active:scale-98 transition-all shadow-lg shadow-excel-green/20"
+                            >
+                              <Play size={14} fill="currentColor" />
+                              <span>Generate PivotTable Worksheet</span>
+                            </button>
+                          </div>
+                        )}
+
                         {/* Hint */}
                         {msg.data?.hint && (
                           <div className="flex items-start gap-2 text-xs text-amber-400/90 bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/20">
