@@ -27,6 +27,22 @@ const FORMAT_OPTIONS = [
   { id: 'text', label: 'Text', icon: Type }
 ];
 
+/**
+ * Normalizes numeric values (handles "$1,500", "₦25,000", "1,000", etc.)
+ */
+function normalizeNumericValue(val) {
+  if (typeof val === 'number') return val;
+  if (val === null || val === undefined) return null;
+  const str = String(val).trim();
+  if (str === '') return null;
+
+  const cleaned = str.replace(/[$₦€£¥,\s]/g, '');
+  if (!isNaN(Number(cleaned)) && cleaned !== '') {
+    return Number(cleaned);
+  }
+  return str;
+}
+
 const GridCell = React.memo(({ r, c, id, cellData, isS, isColS, isF, editValue, onSelect, onPointerDown, onFillStart }) => {
   const rawDisplay = isS ? editValue : cellData?.computed;
   const displayValue = isS ? editValue : formatCellValue(rawDisplay, cellData?.format || 'general');
@@ -278,15 +294,39 @@ export default function SheetLab({ onBack }) {
   const renderPivotToNewSheet = useCallback((pivotConfig = {}) => {
     if (!activeRegistry || !workbook) return;
 
-    const headersObj = spreadsheetContext?.headers || [];
+    // Dynamically inspect row 0 of active sheet to get headers & column indices
+    const headersObj = [];
+    for (let c = 0; c < activeRegistry.cols; c++) {
+      const cellId = ReferenceResolver.coordToId(0, c);
+      const cell = activeRegistry.getCell(cellId);
+      const rawVal = cell.computed ?? cell.raw;
+      if (rawVal !== null && rawVal !== undefined && String(rawVal).trim() !== "") {
+        headersObj.push({
+          colIndex: c,
+          text: String(rawVal).trim()
+        });
+      }
+    }
+
+    if (headersObj.length === 0) {
+      setActionNotification("⚠️ No column headers detected in row 1.");
+      setTimeout(() => setActionNotification(null), 3500);
+      return;
+    }
+
     const headerNames = headersObj.map(h => h.text);
 
-    // Extract raw source records from active sheet registry
-    const lastRowNumber = spreadsheetContext?.dataBounds?.lastRowNumber || 100;
-    const maxCol = spreadsheetContext?.dataBounds?.maxPopulatedCol || headersObj.length;
+    // Extract records from row 1 to last populated row
+    let maxRow = 1;
+    activeRegistry.cells.forEach((cell, id) => {
+      if (cell.raw !== "" || cell.computed !== null) {
+        const coord = ReferenceResolver.idToCoord(id);
+        if (coord && coord.r > maxRow) maxRow = coord.r;
+      }
+    });
 
     const records = [];
-    for (let r = 1; r < lastRowNumber; r++) {
+    for (let r = 1; r <= maxRow; r++) {
       const rec = {};
       let hasVal = false;
       headersObj.forEach(h => {
@@ -294,7 +334,7 @@ export default function SheetLab({ onBack }) {
         const cell = activeRegistry.getCell(id);
         const val = cell.computed ?? cell.raw ?? null;
         if (val !== null && val !== "") hasVal = true;
-        rec[h.text] = val;
+        rec[h.text] = normalizeNumericValue(val);
       });
       if (hasVal) records.push(rec);
     }
@@ -305,13 +345,22 @@ export default function SheetLab({ onBack }) {
       return;
     }
 
+    // Normalize Pivot Configuration
+    const rows = pivotConfig.rows || (pivotConfig.categoryHeader ? [pivotConfig.categoryHeader] : (pivotConfig.rowField ? [pivotConfig.rowField] : []));
+    let values = pivotConfig.values || [];
+    if (values.length === 0 && (pivotConfig.measureHeader || pivotConfig.valueField)) {
+      const vField = pivotConfig.measureHeader || pivotConfig.valueField;
+      const agg = pivotConfig.aggregationType || pivotConfig.aggregation || pivotConfig.function || "SUM";
+      values = [{ field: vField, aggregation: agg }];
+    }
+
     // Compute PivotTable using Deterministic Pivot Engine
     const pivotResult = computePivotTable({
       records,
       headers: headerNames,
-      rows: pivotConfig.rows || [],
-      columns: pivotConfig.columns || [],
-      values: pivotConfig.values || [],
+      rows,
+      columns: pivotConfig.columns || (pivotConfig.columnField ? [pivotConfig.columnField] : []),
+      values,
       filters: pivotConfig.filters || []
     });
 
@@ -331,15 +380,12 @@ export default function SheetLab({ onBack }) {
     const newReg = workbook.addSheet(newSheetName);
     newReg.loadData(grid2D);
 
-    // Apply number formats to measure columns if values contain currency/number hints
+    // Apply number formats to numeric value cells
     grid2D.forEach((row, rIdx) => {
       row.forEach((cellVal, cIdx) => {
         const cellId = ReferenceResolver.coordToId(rIdx, cIdx);
-        if (typeof cellVal === 'number') {
-          // Check if value looks like monetary amount
-          if (Math.abs(cellVal) > 10) {
-            newReg.setCellFormat(cellId, 'number');
-          }
+        if (typeof cellVal === 'number' && Math.abs(cellVal) > 10) {
+          newReg.setCellFormat(cellId, 'number');
         }
       });
     });
@@ -353,7 +399,7 @@ export default function SheetLab({ onBack }) {
 
     setActionNotification(`✨ Created Excel PivotTable in '${newSheetName}'`);
     setTimeout(() => setActionNotification(null), 4000);
-  }, [activeRegistry, workbook, spreadsheetContext, activeSheetName]);
+  }, [activeRegistry, workbook, activeSheetName]);
 
   // Controlled AI Action Execution
   const handleApplyAIAction = (action) => {
