@@ -14,7 +14,7 @@ export default function Footer() {
       </div>
 
       <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">
-        LearnExcel © {new Date().getFullYear()}
+        LearnExcelAI © {new Date().getFullYear()}
       </p>
     </footer>
   );
