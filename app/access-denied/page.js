@@ -79,7 +79,7 @@ export default function AccessDeniedPage() {
       </div>
 
       <p className="text-center text-slate-600 text-[10px] mt-10 px-10 leading-relaxed font-bold uppercase tracking-wider relative z-10">
-        LEARNEXCEL PREMIUM ACCESS CONTROL
+        LEARNEXCELAI PREMIUM ACCESS CONTROL
       </p>
     </div>
   );
